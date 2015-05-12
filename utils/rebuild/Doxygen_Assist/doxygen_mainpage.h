@@ -48,9 +48,9 @@ Or even more easier, please just take a look at <a href="http://www.stack.nl/~di
 which will show up in <a href="http://www.stack.nl/~dimitri/doxygen/manual/examples/qtstyle/html/class_test.html">Doxygen page like this</a>. 
 You are also welcome to let <a href="mailto:jhuang@bnl.gov">Jin Huang</a> know, if there is any question or suggestions.
 
-\section OWiki offline Wiki
+\section OWiki sPHENIX Wiki
 
-<a href = "https://www.phenix.bnl.gov/WWW/offline/wikioff/index.php/Main_Page">PHENIX offline Wiki</a> provides an up-to-date documentation source written by PHENIX analyzers for PHENIX analyzers. 
+<a href = "https://wiki.bnl.gov/sPHENIX/index.php/Main_Page">sPHENIX Wiki</a> provides an up-to-date documentation for sPHENIX construction and analyzers. 
 
 \section REBUILD Rebuild Info
 
