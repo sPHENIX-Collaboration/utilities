@@ -24,6 +24,7 @@ print "git clone https://github.com/sPHENIX-Collaboration/coresoftware.git\n";
 print "#################################\n";        
 
 system("git clone https://github.com/sPHENIX-Collaboration/coresoftware.git");
+system("mv coresoftware/* ./")
 
 print "###################################################################\n";
 print "WARNING: please check the local path in Doxyfile is consistent with\n";
@@ -32,7 +33,7 @@ print "###################################################################\n";
 
 # exit;
 
-system("doxygen Doxyfile");
+system("/opt/phenix/bin/doxygen Doxyfile");
 system("cp doxy.log html/");
 
 my $realpath = realpath($installsymlink);
