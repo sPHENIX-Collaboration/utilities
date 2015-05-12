@@ -7,7 +7,7 @@ use File::Copy;
 use Cwd qw(getcwd realpath);
 
 my $MAXDEPTH       = 5;
-my $installsymlink = "/phenix/WWW/offline/doxygen_sPPHENIX/html";
+my $installsymlink = "/phenix/WWW/offline/doxygen_sPHENIX/html";
 
 # clean up old checkout if exists and check out phuniverse
 my @cleanup = ( "offline", "simulation" );
@@ -24,7 +24,7 @@ print "git clone https://github.com/sPHENIX-Collaboration/coresoftware.git\n";
 print "#################################\n";        
 
 system("git clone https://github.com/sPHENIX-Collaboration/coresoftware.git");
-system("mv coresoftware/* ./")
+system("mv coresoftware/* ./");
 
 print "###################################################################\n";
 print "WARNING: please check the local path in Doxyfile is consistent with\n";
