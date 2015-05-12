@@ -142,7 +142,7 @@ STRIP_FROM_PATH        = ./
 STRIP_FROM_INC_PATH    = ./
 
 CVS_LINK_ENABLE        = YES
-CVS_STRIP_FROM_PATH    = /home/phnxbld/doxygen/utils/rebuild_sPHENIX/
+CVS_STRIP_FROM_PATH    = /home/phnxbld/doxygen_sPHENIX/utils/rebuild/
 CVS_URL_PREFIX         = "https://github.com/sPHENIX-Collaboration/coresoftware/blob/master/"
 CVS_URL_SUFIX          = ""
 
