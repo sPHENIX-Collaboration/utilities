@@ -23,3 +23,5 @@ simulation/g4simulation/g4hough|mccumber@bnl.gov
 simulation/g4simulation/g4eval|pinkenburg@bnl.gov
 simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 simulation/g4simulation/g4picoDst|lxue4@gsu.edu
+#the dumping needs all objects and comes last
+offline/packages/NodeDump|pinkenburg@bnl.gov
