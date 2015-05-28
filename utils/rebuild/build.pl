@@ -39,7 +39,7 @@ if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
 }
 $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
-my $CC = "pinkenburg\@bnl.gov,achim\@bnl.gov,bathe\@bnl.gov,amaresh\@unm.edu";
+my $CC = "pinkenburg\@bnl.gov";
 my @externalPackages = ("CGAL", "fastjet", "gsl", "boost", "HepMC", "Eigen");
 my $externalPackagesDir = "$OPT_SPHENIX";
 
