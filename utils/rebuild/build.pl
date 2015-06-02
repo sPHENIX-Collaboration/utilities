@@ -70,7 +70,6 @@ $opt_cvstag = '';
 $opt_version = 'new';
 $opt_stage = 0;
 $opt_db = 0;
-$opt_64 = 0;
 $opt_scanbuild = 0;
 $opt_coverity = 0;
 
@@ -101,7 +100,6 @@ printhelp:
     print "--coverity         Making a coverity build\n";
     print "--covpasswd='string'  the coverity password for the integrity manager\n";
     print "--notify           Contact responsibles in case of failure.\n";
-    print "--64               Build 64 Bit libraries/executables\n";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
     exit(0);
   }
@@ -264,14 +262,7 @@ elsif (-f "/usr/bin/fs")
 my $linktg;
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-    if ($opt_64)
-    {
-	$place = '/afs/rhic.bnl.gov/sphenix/64/'.$opt_version;
-    }
-    else
-    {
-	$place = '/afs/rhic.bnl.gov/sphenix/'.$opt_version;
-    }
+    $place = '/afs/rhic.bnl.gov/sphenix/'.$opt_version;
     die "$place doesn't exist" unless -e $place;
     my $realpath = realpath($place);
     $realpath =~ s/\@sys/$afs_sysname/g; 
@@ -426,12 +417,6 @@ print LOG "===========================================\n";
 	print LOG "configuring package $m                                  \n";
 	print LOG "at $date                                                \n";
 	print LOG "========================================================\n";
-	if ($m =~ /lzo/ && !$opt_64)
-	{
-	    $arg = "env FFLAGS='-m32 -O2 -g' CFLAGS='-m32 -O2 -g' CXXFLAGS='-m32 -O2 -g -fno-inline' $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir";
-	}
-	else
-	{
 	    if ( $opt_scanbuild && exists $scanbuildignore{$m})
 	    {
 		$arg = "env $compileFlags $sdir/autogen.sh --prefix=$installDir";
@@ -440,7 +425,6 @@ print LOG "===========================================\n";
 	    {
 		$arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
 	    }
-	}
 
 	if (&doSystemFail($arg))
 	  {
@@ -931,8 +915,8 @@ sub install_coverity_reports
 	    print LOG "$line";
 	}
 	close(F2);
-	my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream offline --user admin --dir %s --password %s",$covdir,$opt_covpasswd);
-	print LOG "executing cov-commit-defects --host coverity.rcf.bnl.gov --stream offline --user admin\n";
+	my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user admin --dir %s --password %s",$covdir,$opt_covpasswd);
+	print LOG "executing cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user admin\n";
 	open(F2,"$covcmd 2>&1 |");
 	while(my $line = <F2>)
 	{
@@ -942,7 +926,7 @@ sub install_coverity_reports
     }
     else
     {
-	my $installroot = "/phenix/WWW/p/draft/phnxbld/coverity/report";
+	my $installroot = "/phenix/WWW/p/draft/phnxbld/sphenix/coverity/report";
 	my $realpath = realpath($installroot);
 	(my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
 	my $newnumber = ($number % 2) + 1;
