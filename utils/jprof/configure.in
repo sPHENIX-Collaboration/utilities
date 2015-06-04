@@ -1,0 +1,9 @@
+AC_INIT(configure.in)
+
+AM_INIT_AUTOMAKE(jprof, 1.0)
+AC_PROG_CXX
+AC_ENABLE_STATIC(no)
+AC_PROG_LIBTOOL
+
+AC_OUTPUT(Makefile)
+
