@@ -1,0 +1,32 @@
+insure++.summarize bugs
+insure++.report_overwrite false
+# report all errors in single  line
+insure++.report_limit -1
+insure++.leak_combine none
+insure++.leak_sort size
+insure++.leak_sweep off
+insure++.leak_trace on
+insure++.summarize leaks outstanding
+# return line numbers
+insure++.stack_internal on
+#
+# Specifies the directory where Insure++ will store its cache files 
+# containing symbolic debugging information, $GUSDIR set by build script
+insure++.GusCacheDir $GUSDIR
+#
+# specifies whether the default C or C++ compiler should be called to link 
+# when there are no source files on the link line
+insure++.compiler_default cpp
+#
+# TString.h contains a function Zero() which baffles insure
+# not instrumenting this gets it to compile
+insure++.function_ignore Zero
+#
+# error output suppression
+insure++.unsuppress all
+insure++.suppress * in configure
+insure++.suppress * in conftest.c
+insure++.suppress * in conftest.cc
+#
+#insure++.inuse on
+insure++.runtime off
