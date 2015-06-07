@@ -30,3 +30,17 @@ insure++.suppress * in conftest.cc
 #
 #insure++.inuse on
 insure++.runtime off
+# hough transform parse errors
+insure++.suppress * in mmintrin.h
+insure++.suppress * in xmmintrin.h
+# c++11 parse errors
+insure++.suppress * in cpp_type_traits.h
+insure++.suppress * in exception_ptr.h
+insure++.suppress * in move.h
+insure++.suppress * in new
+insure++.suppress * in new_allocator.h
+insure++.suppress * in stl_algobase.h
+insure++.suppress * in stl_iterator.h
+insure++.suppress * in stl_pair.h
+insure++.suppress * in stringfwd.h
+insure++.suppress * in type_traits
