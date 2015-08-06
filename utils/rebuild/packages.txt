@@ -20,7 +20,9 @@ simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 #cemc needs g4detectors
 simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
 simulation/g4simulation/g4hough|mccumber@bnl.gov
+simulation/g4simulation/g4jets|mccumber@bnl.gov
 simulation/g4simulation/g4eval|mccumber@bnl.gov
+simulation/g4simulation/g4dst|mccumber@bnl.gov
 simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 simulation/g4simulation/g4picoDst|lxue4@gsu.edu
 #the dumping needs all objects and comes last
