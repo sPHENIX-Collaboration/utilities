@@ -621,7 +621,10 @@ if ($opt_stage < 4)
           }
           # DONE REMOVING POINTLESS LA FILES
       }
-}
+    my $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/calibrations $OFFLINE_MAIN/share/calibrations";
+    print LOG $gitcommand, "\n";
+    goto END if &doSystemFail($gitcommand);
+  }
 # all done adjust libdir in remaining *.la files to point
 # to /afs/rhic.bnl.gov/
 $repl = "libdir='" . $linkTarget . "/lib'"; 
