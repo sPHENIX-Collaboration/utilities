@@ -66,7 +66,7 @@ while (<IN>)
 close(IN);
 
 # Set up some defaults for script options
-$opt_cvstag = '';
+$opt_gittag = '';
 $opt_version = 'new';
 $opt_stage = 0;
 $opt_db = 0;
@@ -74,7 +74,7 @@ $opt_scanbuild = 0;
 $opt_coverity = 0;
 
 GetOptions('help', 'stage=i',
-	   'version:s', 'tinderbox', 'cvstag:s',
+	   'version:s', 'tinderbox', 'gittag:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
 	   'coverity','covpasswd:s','notify','64', 'db:i');
 
@@ -92,7 +92,7 @@ printhelp:
     print "                     the source from CVS (i.e., skip stage 0)\n";
     print "--version='string' Prefix for installation area. Default: new\n";
     print "--tinderbox        Send build information to tinderbox.\n";
-    print "--cvstag='string'  CVS flags for source checkout. \n";
+    print "--gittag='string'  CVS flags for source checkout. \n";
     print "--phenixinstall    Install in the official AFS area. \n";
     print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
     print "--insure           Rebuild using the Insure++\n";
@@ -281,7 +281,7 @@ else
     #($number) = $realpath =~ m/.*\.(\d+)$/;
   }
 
-$newnumber = ($number % $MAXDEPTH) + 1;
+my $newnumber = ($number % $MAXDEPTH) + 1;
 $installDir = $inst.".".$newnumber;
 
 my $linkTarget = $linktg.".".$newnumber;
@@ -307,7 +307,12 @@ else
     $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/coresoftware.git ./";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
-
+    if($opt_gittag ne '')
+      {
+	my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
+        print LOG $gittagcmd, "\n";
+        goto END if &doSystemFail($gittagcmd);
+      }
     # Get rid of the old installDir, if it exists.  If the source area
     # already exists, assume we are re-trying a failed build.  Don't
     # delete the installDir then.
@@ -766,8 +771,8 @@ print INFO " build dir:".$Link{'build'}."\n ";
 print INFO " install dir:".$Link{'install'}."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
 print INFO " http://www.phenix.bnl.gov/software/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
-print INFO " CVS tag: \n".$opt_cvstag."\n";
-print INFO " CVS command used: \n".$cvscommand."\n";
+print INFO " git tag: \n".$opt_gittag."\n";
+print INFO " git command used: \n".$gitcommand."\n";
 %month=('Jan',0,'Feb',1,'Mar',2,'Apr',3,'May',4,'Jun',5,'Jul',6,'Aug',7,'Sep',8,'Oct',9,'Nov',10,'Dec',11);
 close (LOG);
 open(LOG,"$logfile");
