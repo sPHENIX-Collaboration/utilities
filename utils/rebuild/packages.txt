@@ -7,6 +7,8 @@ offline/packages/vararray|Pinkenburg@bnl.gov
 offline/framework/frog|irina@bnl.gov
 offline/framework/ffaobjects|Pinkenburg@bnl.gov
 offline/framework/fun4all|pinkenburg@bnl.gov
+generators/hijing|dave@bnl.gov
+generators/sHijing|dave@bnl.gov
 generators/flowAfterburner|dave@bnl.gov
 offline/packages/HelixHough|alan.dion@gmail.com
 #
