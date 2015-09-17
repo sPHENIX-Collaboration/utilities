@@ -10,12 +10,13 @@ offline/framework/fun4all|pinkenburg@bnl.gov
 generators/hijing|dave@bnl.gov
 generators/sHijing|dave@bnl.gov
 generators/flowAfterburner|dave@bnl.gov
-generators/PHPythia8|mccumber@bnl.gov
 offline/packages/HelixHough|alan.dion@gmail.com
 #
 # simulations
 #
 simulation/g4simulation/phhepmc|pinkenburg@bnl.gov
+#PHPythia8 needs phhepmc
+generators/PHPythia8|mccumber@bnl.gov
 simulation/g4simulation/g4field|pinkenburg@bnl.gov
 simulation/g4simulation/g4decayer|mccumber@bnl.gov
 simulation/g4simulation/g4main|pinkenburg@bnl.gov
