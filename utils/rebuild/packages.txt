@@ -10,6 +10,7 @@ offline/framework/fun4all|pinkenburg@bnl.gov
 generators/hijing|dave@bnl.gov
 generators/sHijing|dave@bnl.gov
 generators/flowAfterburner|dave@bnl.gov
+generators/PHPythia8|mccumber@bnl.gov
 offline/packages/HelixHough|alan.dion@gmail.com
 #
 # simulations
