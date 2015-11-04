@@ -3,6 +3,8 @@
 offline/packages/Half|pinkenburg@bnl.gov
 online_distribution/newbasic|purschke@bnl.gov
 offline/framework/phool|dave@bnl.gov
+offline/database/pdbcal/base|Pinkenburg@bnl.gov
+offline/database/pdbcal/pg|Pinkenburg@bnl.gov
 offline/packages/vararray|Pinkenburg@bnl.gov
 offline/framework/frog|irina@bnl.gov
 offline/framework/ffaobjects|Pinkenburg@bnl.gov
