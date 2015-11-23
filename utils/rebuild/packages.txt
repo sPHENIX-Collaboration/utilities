@@ -31,6 +31,6 @@ simulation/g4simulation/g4jets|mccumber@bnl.gov
 simulation/g4simulation/g4eval|mccumber@bnl.gov
 simulation/g4simulation/g4dst|mccumber@bnl.gov
 simulation/g4simulation/g4histos|pinkenburg@bnl.gov
-simulation/g4simulation/g4picoDst|lxue4@gsu.edu
+#simulation/g4simulation/g4picoDst|lxue4@gsu.edu
 #the dumping needs all objects and comes last
 offline/packages/NodeDump|pinkenburg@bnl.gov
