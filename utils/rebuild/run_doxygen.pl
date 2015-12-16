@@ -20,11 +20,31 @@ foreach my $cdir (@cleanup) {
 
                                                      
 print "#################################\n";                                               
-print "git clone https://github.com/sPHENIX-Collaboration/coresoftware.git\n";                                                              
+print "git clones \n";                                                              
 print "#################################\n";        
 
 system("git clone https://github.com/sPHENIX-Collaboration/coresoftware.git");
-system("mv coresoftware/* ./");
+system("mv coresoftware master");
+system("mkdir -pv coresoftware/blob/");
+system("mv master coresoftware/blob/");
+
+
+system("git clone https://github.com/sPHENIX-Collaboration/macros.git");
+system("mv macros master");
+system("mkdir -pv macros/blob/");
+system("mv master macros/blob/");
+
+
+system("git clone https://github.com/sPHENIX-Collaboration/analysis.git");
+system("mv analysis master");
+system("mkdir -pv analysis/blob/");
+system("mv master analysis/blob/");
+
+
+system("git clone https://github.com/sPHENIX-Collaboration/tutorials.git");
+system("mv tutorials master");
+system("mkdir -pv tutorials/blob/");
+system("mv master tutorials/blob/");
 
 print "###################################################################\n";
 print "WARNING: please check the local path in Doxyfile is consistent with\n";
@@ -33,7 +53,7 @@ print "###################################################################\n";
 
 # exit;
 
-system("/opt/phenix/bin/doxygen Doxyfile");
+system("/opt/sphenix/utils/bin/doxygen Doxyfile");
 system("cp doxy.log html/");
 
 my $realpath = realpath($installsymlink);

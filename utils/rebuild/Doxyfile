@@ -38,7 +38,7 @@ PROJECT_NUMBER         =
 # for a project that appears at the top of each page and should give viewer
 # a quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Documentation for <a href="https://wiki.bnl.gov/sPHENIX/index.php/Main_Page">PHENIX</a> <a href="https://github.com/sPHENIX-Collaboration/coresoftware">simulation software</a>"
+PROJECT_BRIEF          = "Documentation for <a href="https://wiki.bnl.gov/sPHENIX/index.php/Main_Page">sPHENIX</a> <a href="https://github.com/sPHENIX-Collaboration/coresoftware">simulation software</a>"
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is
 # included in the documentation. The maximum height of the logo should not
@@ -142,8 +142,8 @@ STRIP_FROM_PATH        = ./
 STRIP_FROM_INC_PATH    = ./
 
 CVS_LINK_ENABLE        = YES
-CVS_STRIP_FROM_PATH    = /home/phnxbld/doxygen_sPHENIX/utils/rebuild/
-CVS_URL_PREFIX         = "https://github.com/sPHENIX-Collaboration/coresoftware/blob/master/"
+CVS_STRIP_FROM_PATH    = /home/phnxbld/doxygen_sPHENIX/utilities/utils/rebuild
+CVS_URL_PREFIX         = "https://github.com/sPHENIX-Collaboration/"
 CVS_URL_SUFIX          = ""
 
 
@@ -679,10 +679,10 @@ WARN_LOGFILE           =
 # with spaces.
 
 INPUT                  = Doxygen_Assist \
-  ./generators \
-  ./online_distribution/newbasic \
-  ./offline \
-  ./simulation
+  ./coresoftware \
+  ./macros \
+  ./analysis \
+  ./tutorials
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is
