@@ -52,10 +52,5 @@ You are also welcome to let <a href="mailto:jhuang@bnl.gov">Jin Huang</a> know, 
 
 <a href = "https://wiki.bnl.gov/sPHENIX/index.php/Main_Page">sPHENIX Wiki</a> provides an up-to-date documentation for sPHENIX construction and analyzers. 
 
-\section REBUILD Rebuild Info
-
-\li Check out the <a href="https://www.phenix.bnl.gov/WWW/offline//software/tinderbox">rebuild</a> system for PHENIX.  It shows the state of attempts to rebuild all of our code from scratch.
-\li Full <a href="https://www.phenix.bnl.gov/WWW/publish/hpereira/index_rebuild.php">list of rebuilds</a>.
-
 <!-- ================================================================ -->
  */
