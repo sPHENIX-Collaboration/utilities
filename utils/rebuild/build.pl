@@ -339,7 +339,7 @@ if ($opt_insure)
         mkpath($gusDir, 0, 0775);
         $ENV{GUSDIR} = $gusDir;
       }
-   $insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++"';
+   $insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
   }
 $oldOfflineMain = $OFFLINE_MAIN;
 $OFFLINE_MAIN = $installDir;
