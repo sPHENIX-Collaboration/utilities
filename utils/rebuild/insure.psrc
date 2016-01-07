@@ -33,6 +33,10 @@ insure++.runtime off
 # hough transform parse errors
 insure++.suppress * in mmintrin.h
 insure++.suppress * in xmmintrin.h
+# boost 1.60
+insure++.suppress * in type_traits.hpp
+# gcc 4.8.2 errors
+insure++.suppress * in ia32intrin.h
 # c++11 parse errors
 insure++.suppress * in cpp_type_traits.h
 insure++.suppress * in exception_ptr.h
