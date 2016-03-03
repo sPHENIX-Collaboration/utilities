@@ -923,8 +923,8 @@ sub install_coverity_reports
 	    print LOG "$line";
 	}
 	close(F2);
-	my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user admin --dir %s --password %s",$covdir,$opt_covpasswd);
-	print LOG "executing cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user admin\n";
+	my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user pinkenbu --dir %s --password %s",$covdir,$opt_covpasswd);
+	print LOG "executing cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user pinkenbu\n";
 	open(F2,"$covcmd 2>&1 |");
 	while(my $line = <F2>)
 	{
