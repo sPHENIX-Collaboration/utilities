@@ -2,7 +2,7 @@
 # modules in CVS
 offline/packages/Half|pinkenburg@bnl.gov
 online_distribution/newbasic|purschke@bnl.gov
-offline/framework/phool|dave@bnl.gov
+offline/framework/phool|Pinkenburg@bnl.gov
 offline/database/pdbcal/base|Pinkenburg@bnl.gov
 offline/database/pdbcal/pg|Pinkenburg@bnl.gov
 offline/packages/vararray|Pinkenburg@bnl.gov
