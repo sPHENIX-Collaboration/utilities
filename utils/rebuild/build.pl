@@ -72,11 +72,12 @@ $opt_stage = 0;
 $opt_db = 0;
 $opt_scanbuild = 0;
 $opt_coverity = 0;
+$opt_root6 = 0;
 
 GetOptions('help', 'stage=i',
 	   'version:s', 'tinderbox', 'gittag:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6');
 
 if ($opt_help)
   {
@@ -101,6 +102,7 @@ printhelp:
     print "--covpasswd='string'  the coverity password for the integrity manager\n";
     print "--notify           Contact responsibles in case of failure.\n";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
+    print "--root6            do whatever is needed to use root 6\n";
     exit(0);
   }
 
@@ -652,6 +654,13 @@ while ($lafile = <F>)
     close(F2);
 }
 close(F);
+
+if ($opt_root6)
+{
+    print LOG "copying pcm files with\n";
+    print LOG "find $buildDir -name '*.pcm' -exec cp {} $installDir/lib  \\;\n";
+    system("find $buildDir -name '*.pcm' -exec cp {} $installDir/lib  \\;");
+}
 
 INSTALLONLY:
 
