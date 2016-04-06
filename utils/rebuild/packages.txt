@@ -32,5 +32,7 @@ simulation/g4simulation/g4eval|mccumber@bnl.gov
 simulation/g4simulation/g4dst|mccumber@bnl.gov
 simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 #simulation/g4simulation/g4picoDst|lxue4@gsu.edu
+#QA modules that use both simulation and offline libs
+offline/QA/modules|jhuang@bnl.gov
 #the dumping needs all objects and comes last
 offline/packages/NodeDump|pinkenburg@bnl.gov
