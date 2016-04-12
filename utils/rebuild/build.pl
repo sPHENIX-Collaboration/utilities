@@ -374,6 +374,13 @@ print LOG "===========================================\n";
 	    chdir $dir;
 	    system("tar -c *| tar -x -C $installDir");
 	}
+        # patch for GenFit to install includes in subdir
+        $dir = $externalPackagesDir."/"."genfit2";
+        chdir $dir;
+	system("tar -c lib| tar -x -C $installDir");
+	chdir "include";
+	mkpath($installDir."/include/GenFit", 0, 0775) unless -e $installDir."/include/GenFit";
+ 	system("tar -c *| tar -x -C $installDir/include/GenFit");
 # modify all *.la files of external packages to point to this OFFLINE_MAIN, if someone can figure
 # out how to do the following one liner that would be enough:
 #    system("perl -e \"s/libdir=.*/libdir='$OFFLINE_MAIN\/lib'/g\" -p -i.old $OFFLINE_MAIN/lib/*.la");
