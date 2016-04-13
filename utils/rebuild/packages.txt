@@ -24,6 +24,7 @@ simulation/g4simulation/g4decayer|mccumber@bnl.gov
 simulation/g4simulation/g4main|pinkenburg@bnl.gov
 simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 #cemc needs g4detectors
+simulation/g4simulation/g4bbc|mccumber@bnl.gov
 simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
 simulation/g4simulation/g4hough|mccumber@bnl.gov
 simulation/g4simulation/g4vertex|mccumber@bnl.gov
