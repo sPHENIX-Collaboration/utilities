@@ -38,3 +38,6 @@ offline/packages/Prototype2|jhuang@bnl.gov
 offline/QA/modules|jhuang@bnl.gov
 #the dumping needs all objects and comes last
 offline/packages/NodeDump|pinkenburg@bnl.gov
+#genfit stuff
+offline/packages/PHGenFitPkg/GenFitExp|yuhw.pku@gmail.com
+offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
