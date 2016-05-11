@@ -825,8 +825,8 @@ if ($opt_insure && $buildSucceeded==1)
 #if ($buildSucceeded==1 && $opt_version =~ /ana/ && $opt_version =~ /insure/)
 if ($buildSucceeded==1 && $opt_version =~ /ana/)
 {
-  check_expiration_date();
-  create_afs_taxi_dir();
+#  check_expiration_date();
+#  create_afs_taxi_dir();
 }
 
 if ( defined($dbh)) { $dbh->disconnect; }
