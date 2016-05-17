@@ -123,12 +123,6 @@ if ( $opt_db && $opt_version !~ /pro/)
 }
 
 
-# add CGAL and fastjet only for non pro builds
-if ($opt_version !~ /pro/)
-{
-    push(@externalPackages,"pythia8");
-    push(@externalPackages,"fastjet");
-}
 my $MAXDEPTH = ($opt_version =~ m/pro/ || $opt_version =~ /ana/ ) ? 9999999 : 4;
 $opt_version .= '+insure' if $opt_insure;
 # number of parallel builds with insure
