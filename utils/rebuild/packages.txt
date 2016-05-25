@@ -19,6 +19,7 @@ offline/packages/HelixHough|alan.dion@gmail.com
 simulation/g4simulation/phhepmc|pinkenburg@bnl.gov
 #PHPythia8 needs phhepmc
 generators/PHPythia8|mccumber@bnl.gov
+generators/PHPythia6|nils.feege@stonybrook.edu
 simulation/g4simulation/g4field|pinkenburg@bnl.gov
 simulation/g4simulation/g4decayer|mccumber@bnl.gov
 simulation/g4simulation/g4main|pinkenburg@bnl.gov
