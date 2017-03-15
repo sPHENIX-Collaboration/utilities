@@ -1,49 +1,49 @@
 # This list must be kept up-to-date with respect to the list of
 # modules in CVS
-offline/packages/Half|pinkenburg@bnl.gov
+coresoftware/offline/packages/Half|pinkenburg@bnl.gov
 online_distribution/newbasic|purschke@bnl.gov
 online_distribution/pmonitor|purschke@bnl.gov
-offline/framework/phool|Pinkenburg@bnl.gov
-offline/database/pdbcal/base|Pinkenburg@bnl.gov
-offline/database/pdbcal/pg|Pinkenburg@bnl.gov
-offline/packages/vararray|Pinkenburg@bnl.gov
-offline/framework/frog|irina@bnl.gov
-offline/framework/ffaobjects|Pinkenburg@bnl.gov
-offline/framework/fun4all|pinkenburg@bnl.gov
-generators/hijing|dave@bnl.gov
-generators/sHijing|dave@bnl.gov
-generators/flowAfterburner|dave@bnl.gov
-offline/packages/HelixHough|alan.dion@gmail.com
-offline/packages/PHGeometry|jhuang@bnl.gov
+coresoftware/offline/framework/phool|Pinkenburg@bnl.gov
+coresoftware/offline/database/pdbcal/base|Pinkenburg@bnl.gov
+coresoftware/offline/database/pdbcal/pg|Pinkenburg@bnl.gov
+coresoftware/offline/packages/vararray|Pinkenburg@bnl.gov
+coresoftware/offline/framework/frog|irina@bnl.gov
+coresoftware/offline/framework/ffaobjects|Pinkenburg@bnl.gov
+coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
+coresoftware/generators/hijing|dave@bnl.gov
+coresoftware/generators/sHijing|dave@bnl.gov
+coresoftware/generators/flowAfterburner|dave@bnl.gov
+coresoftware/offline/packages/HelixHough|alan.dion@gmail.com
+coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 #
 # simulations
 #
-simulation/g4simulation/phhepmc|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/phhepmc|pinkenburg@bnl.gov
 #PHPythia8 needs phhepmc
-generators/PHPythia8|mccumber@bnl.gov
-generators/PHPythia6|nils.feege@stonybrook.edu
-simulation/g4simulation/g4field|pinkenburg@bnl.gov
-simulation/g4simulation/g4decayer|mccumber@bnl.gov
-simulation/g4simulation/g4main|pinkenburg@bnl.gov
-simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
+coresoftware/generators/PHPythia8|mccumber@bnl.gov
+coresoftware/generators/PHPythia6|nils.feege@stonybrook.edu
+coresoftware/simulation/g4simulation/g4field|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4decayer|mccumber@bnl.gov
+coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 #cemc needs g4detectors
-simulation/g4simulation/g4bbc|mccumber@bnl.gov
-simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4bbc|mccumber@bnl.gov
+coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
 #genfit stuff
-offline/packages/PHGenFitPkg/GenFitExp|yuhw.pku@gmail.com
-offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
+coresoftware/offline/packages/PHGenFitPkg/GenFitExp|yuhw.pku@gmail.com
+coresoftware/offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
 # g4hough needs genfit
-simulation/g4simulation/g4hough|mccumber@bnl.gov
-simulation/g4simulation/g4vertex|mccumber@bnl.gov
-simulation/g4simulation/g4jets|mccumber@bnl.gov
-simulation/g4simulation/g4eval|mccumber@bnl.gov
-simulation/g4simulation/g4dst|mccumber@bnl.gov
-simulation/g4simulation/g4histos|pinkenburg@bnl.gov
-#simulation/g4simulation/g4picoDst|lxue4@gsu.edu
+coresoftware/simulation/g4simulation/g4hough|mccumber@bnl.gov
+coresoftware/simulation/g4simulation/g4vertex|mccumber@bnl.gov
+coresoftware/simulation/g4simulation/g4jets|mccumber@bnl.gov
+coresoftware/simulation/g4simulation/g4eval|mccumber@bnl.gov
+coresoftware/simulation/g4simulation/g4dst|mccumber@bnl.gov
+coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
+#coresoftware/simulation/g4simulation/g4picoDst|lxue4@gsu.edu
 #T1044 prodcution software
-offline/packages/Prototype2|jhuang@bnl.gov
-offline/packages/Prototype3|jhuang@bnl.gov
+coresoftware/offline/packages/Prototype2|jhuang@bnl.gov
+coresoftware/offline/packages/Prototype3|jhuang@bnl.gov
 #QA modules that use both simulation and offline libs
-offline/QA/modules|jhuang@bnl.gov
+coresoftware/offline/QA/modules|jhuang@bnl.gov
 #the dumping needs all objects and comes last
-offline/packages/NodeDump|pinkenburg@bnl.gov
+coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
