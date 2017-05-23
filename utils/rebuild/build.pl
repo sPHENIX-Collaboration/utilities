@@ -73,11 +73,12 @@ $opt_db = 0;
 $opt_scanbuild = 0;
 $opt_coverity = 0;
 $opt_root6 = 0;
+$opt_sl7 = 0;
 
 GetOptions('help', 'stage=i',
 	   'version:s', 'tinderbox', 'gittag:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'sl7');
 
 if ($opt_help)
   {
@@ -103,6 +104,7 @@ printhelp:
     print "--notify           Contact responsibles in case of failure.\n";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
     print "--root6            do whatever is needed to use root 6\n";
+    print "--sl7              Build under SL7.\n";
     exit(0);
   }
 
@@ -606,31 +608,34 @@ if ($opt_stage < 4)
 	    goto END;
 	  }
 
-          # GET RID OF INSTALLED POINTLESS LA FILES
-          # Get rid of this package's installed la_files if we didn't build
-          # static archives. For dynamic libraries they are pointless.
+	  if (! $opt_sl7)
+	  {
+	      # GET RID OF INSTALLED POINTLESS LA FILES
+	      # Get rid of this package's installed la_files if we didn't build
+	      # static archives. For dynamic libraries they are pointless.
 
-          # find all la files in current build directory's .libs directory
-          use File::Find;
-          my @la_files;
-          find(
-            sub {
-              my $fname = $File::Find::name;
-              push @la_files, $fname if $fname =~ /\.libs\/.+\.la$/;
-            },
-            "."
-          );
+	      # find all la files in current build directory's .libs directory
+	      use File::Find;
+	      my @la_files;
+	      find(
+		  sub {
+		      my $fname = $File::Find::name;
+		      push @la_files, $fname if $fname =~ /\.libs\/.+\.la$/;
+		  },
+		  "."
+		  );
 
-          # find la files without associated static archive here and remove them from PREFIX
-          use File::Basename;
-          foreach my $la_f (@la_files) {
-            my $dir  = dirname($la_f);
-            my $base = basename($la_f);
-            my $stem = basename($la_f, "la");
-            my $a_f  = $dir . "/" . $stem . "a"; # name of the static archive in build dir
-            (-e $a_f) or unlink $installDir . "/lib/" . $base;
-          }
-          # DONE REMOVING POINTLESS LA FILES
+	      # find la files without associated static archive here and remove them from PREFIX
+	      use File::Basename;
+	      foreach my $la_f (@la_files) {
+		  my $dir  = dirname($la_f);
+		  my $base = basename($la_f);
+		  my $stem = basename($la_f, "la");
+		  my $a_f  = $dir . "/" . $stem . "a"; # name of the static archive in build dir
+		  (-e $a_f) or unlink $installDir . "/lib/" . $base;
+	      }
+	      # DONE REMOVING POINTLESS LA FILES
+	  }
       }
     my $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/calibrations $OFFLINE_MAIN/share/calibrations";
     print LOG $gitcommand, "\n";
