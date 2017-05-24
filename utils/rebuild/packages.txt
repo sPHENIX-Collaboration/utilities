@@ -30,6 +30,7 @@ coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 #cemc needs g4detectors
 coresoftware/simulation/g4simulation/g4bbc|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
+coresoftware/offline/packages/trigger|dvp@bnl.gov
 #genfit stuff
 coresoftware/offline/packages/PHGenFitPkg/GenFitExp|yuhw.pku@gmail.com
 coresoftware/offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
