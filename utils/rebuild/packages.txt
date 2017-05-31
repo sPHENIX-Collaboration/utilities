@@ -38,6 +38,7 @@ coresoftware/offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
 coresoftware/simulation/g4simulation/g4hough|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4vertex|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4jets|mccumber@bnl.gov
+coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4eval|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4dst|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
