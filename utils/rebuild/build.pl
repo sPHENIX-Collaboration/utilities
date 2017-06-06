@@ -383,7 +383,7 @@ print LOG "===========================================\n";
 	    if (! -d $dir)
 	    {
 		print LOG "cannot find dir $dir for package $m\n";
-		#if ($opt_notify)
+		if ($opt_notify)
 		{
 		    print LOG "\nsending external package failure mail to $buildmanager\n";
 		    open( MAIL, "|$SENDMAIL" );
@@ -403,12 +403,17 @@ print LOG "===========================================\n";
 	    system("rsync -a . $installDir");
 	}
         # patch for GenFit to install includes in subdir
-        $dir = $externalPackagesDir."/"."genfit2";
+        $dir = sprintf("%s/genfit2_root-%s",$externalPackagesDir,$rootversion);
+	if (! -d $dir)
+	{
+	    print LOG "cannot find dir $dir for genfit2\n";
+	    goto END;
+	}
         chdir $dir;
-	system("tar -c lib| tar -x -C $installDir");
+	system("rsync -a lib  $installDir");
 	chdir "include";
 	mkpath($installDir."/include/GenFit", 0, 0775) unless -e $installDir."/include/GenFit";
- 	system("tar -c *| tar -x -C $installDir/include/GenFit");
+ 	system("rsync -a . $installDir/include/GenFit");
 # modify all *.la files of external packages to point to this OFFLINE_MAIN, if someone can figure
 # out how to do the following one liner that would be enough:
 #    system("perl -e \"s/libdir=.*/libdir='$OFFLINE_MAIN\/lib'/g\" -p -i.old $OFFLINE_MAIN/lib/*.la");
