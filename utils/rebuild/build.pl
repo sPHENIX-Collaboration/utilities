@@ -39,10 +39,14 @@ if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
 }
 $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
-my $CC = "pinkenburg\@bnl.gov";
+my $buildmanager = "pinkenburg\@bnl.gov";
+my $CC = $buildmanager;
 my @externalPackages = ("boost", "CGAL", "CLHEP", "Eigen", "EvtGen", "fastjet", "gsl", "HepMC", "PHOTOS", "pythia8", "rave", "TAUOLA");
 my $externalPackagesDir = "$OPT_SPHENIX";
-
+my @externalRootPackages = ("eic-smear");
+my $rootversion = `root-config --version`;
+chomp $rootversion;
+$rootversion =~ s/\//\./g;
 # Keep track of where we were and when it was that we got underway
 my $starttime = time;
 my $date = `date`;
@@ -210,6 +214,12 @@ print LOG "Welcome to the PHENIX $sysname rebuild \n started at ",$date,"\n";
 # print how we were called
 print LOG "How this script was called:\n";
 print LOG "$cmdline\n\n";
+foreach my $pkg (sort @externalRootPackages)
+{
+    my $pkgname = sprintf("%s_root-%s",$pkg,$rootversion);
+    print LOG "Adding $pkgname to external packages\n";
+    push(@externalPackages,$pkgname);
+}
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
@@ -367,11 +377,30 @@ print LOG "===========================================\n";
         $G4_MAIN_NOAFS =~ s/\@sys/$afs_sysname/;
         symlink $G4_MAIN_NOAFS, $installDir."/geant4";
         $ENV{G4_MAIN} = $installDir."/geant4"; #to get G4_MAIN for configure
-	foreach $m (@externalPackages)
+	foreach my $m (@externalPackages)
 	{
-	    $dir = $externalPackagesDir."/".$m;
+	    my $dir = $externalPackagesDir."/".$m;
+	    if (! -d $dir)
+	    {
+		print LOG "cannot find dir $dir for package $m\n";
+		#if ($opt_notify)
+		{
+		    print LOG "\nsending external package failure mail to $buildmanager\n";
+		    open( MAIL, "|$SENDMAIL" );
+		    print MAIL "To: $buildmanager\n";
+		    print MAIL "From: The Phenix rebuild daemon\n";
+		    print MAIL "Subject: external package $dir does not exist\n\n";
+		    print MAIL "\n";
+		    print MAIL "Hello,\n";
+		    print MAIL "The rebuild could not find the external package dir $dir of package $m at $date.\n";
+		    print MAIL "Yours, The Rebuild Daemon \n";
+		    close(MAIL);
+		}
+		goto END;
+	    }
 	    chdir $dir;
-	    system("tar -c *| tar -x -C $installDir");
+	    print LOG "rsyncing $dir\n";
+	    system("rsync -a . $installDir");
 	}
         # patch for GenFit to install includes in subdir
         $dir = $externalPackagesDir."/"."genfit2";
@@ -404,10 +433,10 @@ print LOG "===========================================\n";
 	}
 	close(F);
 
-    foreach $m (@package)
+    foreach my $m (@package)
       {
-	$sdir = realpath($sourceDir)."/".$m;
-	$bdir = realpath($buildDir)."/".$m;
+	my $sdir = realpath($sourceDir)."/".$m;
+	my $bdir = realpath($buildDir)."/".$m;
 	mkpath($bdir,0,0775);
 	chdir $bdir;
 
