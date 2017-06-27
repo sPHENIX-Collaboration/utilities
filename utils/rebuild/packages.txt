@@ -13,7 +13,6 @@ coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
 coresoftware/generators/hijing|dave@bnl.gov
 coresoftware/generators/sHijing|dave@bnl.gov
 coresoftware/generators/flowAfterburner|dave@bnl.gov
-coresoftware/generators/PHSartre|lajoie@iastate.edu
 coresoftware/offline/packages/HelixHough|alan.dion@gmail.com
 coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 #
@@ -23,6 +22,8 @@ coresoftware/simulation/g4simulation/phhepmc|pinkenburg@bnl.gov
 #PHPythia8 needs phhepmc
 coresoftware/generators/PHPythia8|mccumber@bnl.gov
 coresoftware/generators/PHPythia6|nils.feege@stonybrook.edu
+#PHSartre needs phhepmc
+coresoftware/generators/PHSartre|lajoie@iastate.edu
 coresoftware/simulation/g4simulation/g4field|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4decayer|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
