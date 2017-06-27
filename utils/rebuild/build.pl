@@ -43,7 +43,7 @@ my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
 my @externalPackages = ("boost", "CGAL", "CLHEP", "Eigen", "EvtGen", "fastjet", "gsl", "HepMC", "PHOTOS", "pythia8", "rave", "TAUOLA");
 my $externalPackagesDir = "$OPT_SPHENIX";
-my @externalRootPackages = ("eic-smear");
+my @externalRootPackages = ("eic-smear", "sartre-1.20");
 my $rootversion = `root-config --version`;
 chomp $rootversion;
 $rootversion =~ s/\//\./g;
