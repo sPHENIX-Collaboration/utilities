@@ -48,3 +48,4 @@ insure++.suppress * in stl_iterator.h
 insure++.suppress * in stl_pair.h
 insure++.suppress * in stringfwd.h
 insure++.suppress * in type_traits
+insure++.suppress BAD_INTERFACE at string.h:321
