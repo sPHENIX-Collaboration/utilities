@@ -38,7 +38,7 @@ $extrastylesheet
 								<!--END PROJECT_NUMBER-->
 							</div> <!--BEGIN PROJECT_BRIEF-->
 							<div id="projectbrief">
-								Documention for <a href="https://wiki.bnl.gov/sPHENIX/index.php/Main_Page">sPHENIX</a> simulation software
+								Documentation for <a href="https://wiki.bnl.gov/sPHENIX/index.php/Main_Page">sPHENIX</a> simulation software
 							</div> <!--END PROJECT_BRIEF-->
 						</td>
 						<!--END PROJECT_NAME-->
