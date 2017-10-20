@@ -19,7 +19,7 @@ coresoftware/offline/packages/PHField|jhuang@bnl.gov
 #
 # simulations
 #
-coresoftware/simulation/g4simulation/phhepmc|pinkenburg@bnl.gov
+coresoftware/generators/phhepmc|pinkenburg@bnl.gov
 #PHPythia8 needs phhepmc
 coresoftware/generators/PHPythia8|mccumber@bnl.gov
 coresoftware/generators/PHPythia6|nils.feege@stonybrook.edu
