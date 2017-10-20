@@ -223,16 +223,21 @@ foreach my $pkg (sort @externalRootPackages)
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
-if ($opt_version =~ /playtest/) 
+if ($opt_version =~ /play/) 
 {
     @externalPackages = ();
+    push(@externalPackages,"boost");
+    push(@externalPackages,"CGAL");
+    push(@externalPackages,"clhep-2.3.4.3");
+    push(@externalPackages,"Eigen");
+    push(@externalPackages,"EvtGen");
+    push(@externalPackages,"fastjet");
     push(@externalPackages,"gsl");
-    push(@externalPackages,"boost-1.57.0");
     push(@externalPackages,"HepMC");
-    push(@externalPackages,"eigen-eigen-3.2.4");
+    push(@externalPackages,"PHOTOS");
     push(@externalPackages,"pythia8");
-    push(@externalPackages,"CGAL-4.5.2");
-    push(@externalPackages,"fastjet-3.1.2");
+    push(@externalPackages,"rave");
+    push(@externalPackages,"TAUOLA");
     print LOG "play build: replacing external packages with customized versions\n";
     foreach my $i (@externalPackages)
     {
