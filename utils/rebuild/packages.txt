@@ -10,6 +10,7 @@ coresoftware/offline/packages/vararray|Pinkenburg@bnl.gov
 coresoftware/offline/framework/frog|irina@bnl.gov
 coresoftware/offline/framework/ffaobjects|Pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
+coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
 coresoftware/generators/hijing|dave@bnl.gov
 coresoftware/generators/sHijing|dave@bnl.gov
 coresoftware/generators/flowAfterburner|dave@bnl.gov
