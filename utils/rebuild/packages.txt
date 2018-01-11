@@ -17,27 +17,30 @@ coresoftware/generators/flowAfterburner|dave@bnl.gov
 coresoftware/offline/packages/HelixHough|alan.dion@gmail.com
 coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 coresoftware/offline/packages/PHField|jhuang@bnl.gov
+coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 #
 # simulations
-#
+# simulations/generator
 coresoftware/generators/phhepmc|pinkenburg@bnl.gov
 #PHPythia8 needs phhepmc
 coresoftware/generators/PHPythia8|mccumber@bnl.gov
 coresoftware/generators/PHPythia6|nils.feege@stonybrook.edu
 #PHSartre needs phhepmc
 coresoftware/generators/PHSartre|lajoie@iastate.edu
+# simulations/Geant4
 # coresoftware/simulation/g4simulation/g4field|pinkenburg@bnl.gov -- removed since https://github.com/sPHENIX-Collaboration/coresoftware/pull/349
 coresoftware/simulation/g4simulation/g4decayer|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
-#g4tpc needs g4detectors
+# g4tpc needs g4detectors
 coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
-#cemc needs g4detectors
+# cemc needs g4detectors
 coresoftware/simulation/g4simulation/g4bbc|mccumber@bnl.gov
-coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
+# coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4calo|jhuang@bnl.gov
 coresoftware/offline/packages/trigger|dvp@bnl.gov
-#genfit stuff
+# genfit stuff
 coresoftware/offline/packages/PHGenFitPkg/GenFitExp|yuhw.pku@gmail.com
 coresoftware/offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
 # g4hough needs genfit
@@ -45,15 +48,18 @@ coresoftware/simulation/g4simulation/g4hough|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4vertex|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4jets|mccumber@bnl.gov
 coresoftware/offline/packages/jetbackground|dvp@bnl.gov
+# simulations/Geant4/ convenience library to load all necessary libs to read DST content
+coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
+# simulations/Geant4/ evals
 coresoftware/simulation/g4simulation/g4eval|mccumber@bnl.gov
 coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 #coresoftware/simulation/g4simulation/g4picoDst|lxue4@gsu.edu
-#T1044 prodcution software
+# Offline software
+coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
+# Offline software/T1044 prodcution software
 coresoftware/offline/packages/Prototype2|jhuang@bnl.gov
 coresoftware/offline/packages/Prototype3|jhuang@bnl.gov
-#QA modules that use both simulation and offline libs
+# QA modules that use both simulation and offline libs
 coresoftware/offline/QA/modules|jhuang@bnl.gov
-#the dumping needs all objects and comes last
+# the dumping needs all objects and comes last
 coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
-# convenience library to load all necessary libs to read DST content
-coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
