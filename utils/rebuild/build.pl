@@ -144,7 +144,6 @@ $insureCompileFlags = " ";
 
 # An area for reports visible via the web
 $workNFS = $WORKNFS ? $WORKNFS : '/phenix/WWW/offline';
-$tinderbox = $TINDERBOX ? $TINDERBOX : 'phnxtin@rcf2.rhic.bnl.gov';
 $CVSROOT = $CVSROOT ? $CVSROOT :  '/afs/rhic.bnl.gov/phenix/PHENIX_CVS';
 
 $workdir .= "/$opt_version";
@@ -223,35 +222,46 @@ foreach my $pkg (sort @externalRootPackages)
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
-if ($opt_version =~ /playtest/) 
+if ($opt_version =~ /play/) 
 {
     @externalPackages = ();
+    push(@externalPackages,"boost");
+    push(@externalPackages,"CGAL");
+    push(@externalPackages,"clhep-2.3.4.3");
+    push(@externalPackages,"Eigen");
+    push(@externalPackages,"EvtGen");
+    push(@externalPackages,"fastjet");
     push(@externalPackages,"gsl");
-    push(@externalPackages,"boost-1.57.0");
     push(@externalPackages,"HepMC");
-    push(@externalPackages,"eigen-eigen-3.2.4");
+    push(@externalPackages,"PHOTOS");
     push(@externalPackages,"pythia8");
-    push(@externalPackages,"CGAL-4.5.2");
-    push(@externalPackages,"fastjet-3.1.2");
+    push(@externalPackages,"rave-0.6.25-clhep-2.3.4.3");
+    push(@externalPackages,"TAUOLA");
     print LOG "play build: replacing external packages with customized versions\n";
     foreach my $i (@externalPackages)
     {
 	print LOG "$i\n";
+    }
+    foreach my $pkg (sort @externalRootPackages)
+    {
+	my $pkgname = sprintf("%s_root-%s",$pkg,$rootversion);
+	print LOG "Adding $pkgname to external packages\n";
+	push(@externalPackages,$pkgname);
     }
 }
 
 if ($opt_tinderbox)
   {
     # Let tinderbox know we've started
-    open( MAIL, "|$MAIL $tinderbox" );
-    print MAIL "\n";
-    print MAIL "tinderbox: tree: default\n";
-    print MAIL "tinderbox: builddate: ".$startTime."\n";
-    print MAIL "tinderbox: status: building\n";
-    print MAIL "tinderbox: build: ".$sysname."\n";
-    print MAIL "tinderbox: errorparser: unix\n";
-    print MAIL "tinderbox: END\n";
-    close(MAIL);
+    open(TIND,"| /phenix/WWW/offline/sPHENIX/tinderbox/handlemail.pl /phenix/WWW/offline/sPHENIX/tinderbox");
+    print TIND "\n";
+    print TIND "tinderbox: tree: default\n";
+    print TIND "tinderbox: builddate: ".$startTime."\n";
+    print TIND "tinderbox: status: building\n";
+    print TIND "tinderbox: build: ".$sysname."\n";
+    print TIND "tinderbox: errorparser: unix\n";
+    print TIND "tinderbox: END\n";
+    close(TIND);
   }
 
 # If we're doing a real PHENIX install, then there is an official
@@ -488,7 +498,7 @@ print LOG "===========================================\n";
 		print MAIL "The rebuild crashed in module $m at $date.\n";
 		print MAIL "\"$arg\" failed: $? \n";
 		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
 		print MAIL "Yours, The Rebuild Daemon \n";
 		close(MAIL);
 	      }
@@ -542,7 +552,7 @@ if ($opt_stage < 3)
 		print MAIL "The rebuild crashed in $m.\n";
 		print MAIL "\"$arg\" failed: $? \n";
 		print MAIL "Please look at the rebuild log: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
 		print MAIL "Yours, The Rebuild Daemon\n";
 		close(MAIL);
 	      }
@@ -606,7 +616,7 @@ if ($opt_stage < 4)
 		print MAIL "The rebuild crashed in $m on $date:\n";
 		print MAIL "\"$arg\" reason: $? \n";
 		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
 		print MAIL "Sincerely, the rebuild daemon \n";
 		close(MAIL);
 	    }
@@ -635,7 +645,7 @@ if ($opt_stage < 4)
 		print MAIL "The rebuild crashed in $m on $date:\n";
 		print MAIL "\"$arg\" reason: $? \n";
 		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
 		print MAIL "Sincerely, the rebuild daemon \n";
 		close(MAIL);
 	      }
@@ -803,8 +813,8 @@ if ($opt_tinderbox)
     print LOG "tinderbox: build: ".$sysname."\n";
     print LOG "tinderbox: errorparser: unix\n";
     print LOG "tinderbox: END\n";
-    $arg = "$MAIL $tinderbox < $logfile";
-    system($arg);
+    my $cmd = sprintf("cat %s | /phenix/WWW/offline/sPHENIX/tinderbox/handlemail.pl /phenix/WWW/offline/sPHENIX/tinderbox",$logfile);
+    system($cmd);
   }
 
 $rebuildInfo=$OFFLINE_MAIN.'/rebuild.info';
@@ -822,7 +832,7 @@ print INFO " source dir:".$Link{'source'}."\n ";
 print INFO " build dir:".$Link{'build'}."\n ";
 print INFO " install dir:".$Link{'install'}."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
-print INFO " http://www.phenix.bnl.gov/software/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
+print INFO " http://www.phenix.bnl.gov/software/sPHENIX/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
 print INFO " git tag: \n".$opt_gittag."\n";
 print INFO " git command used: \n".$gitcommand."\n";
 %month=('Jan',0,'Feb',1,'Mar',2,'Apr',3,'May',4,'Jun',5,'Jul',6,'Aug',7,'Sep',8,'Oct',9,'Nov',10,'Dec',11);
