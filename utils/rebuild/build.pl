@@ -322,10 +322,10 @@ else
   {
     mkpath($sourceDir, 0, 0775) unless -e $sourceDir;
     chdir $sourceDir;
-    $gitcommand = "git clone git@github.com:sPHENIX-Collaboration/coresoftware.git";
+    $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/coresoftware.git";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
-    $gitcommand = "git clone git@github.com:sPHENIX-Collaboration/online_distribution.git";
+    $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/online_distribution.git";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
     if($opt_gittag ne '')
@@ -681,7 +681,7 @@ if ($opt_stage < 4)
 	      # DONE REMOVING POINTLESS LA FILES
 	  }
       }
-    my $gitcommand = "git clone git@github.com:sPHENIX-Collaboration/calibrations $OFFLINE_MAIN/share/calibrations";
+    my $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/calibrations $OFFLINE_MAIN/share/calibrations";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
   }
