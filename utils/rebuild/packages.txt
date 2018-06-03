@@ -19,6 +19,8 @@ coresoftware/offline/packages/HelixHough|alan.dion@gmail.com
 coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 coresoftware/offline/packages/PHField|jhuang@bnl.gov
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
+coresoftware/offline/packages/trackbase|dmcglinchey@lanl.gov
+coresoftware/offline/packages/mvtx|dmcglinchey@lanl.gov
 #
 # simulations
 # simulations/generator
