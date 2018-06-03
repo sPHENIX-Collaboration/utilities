@@ -20,6 +20,7 @@ coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 coresoftware/offline/packages/PHField|jhuang@bnl.gov
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 coresoftware/offline/packages/trackbase|dmcglinchey@lanl.gov
+# mvtx needs trackbase
 coresoftware/offline/packages/mvtx|dmcglinchey@lanl.gov
 #
 # simulations
