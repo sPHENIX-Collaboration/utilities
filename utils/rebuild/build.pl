@@ -685,29 +685,11 @@ if ($opt_stage < 4)
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
   }
-# all done adjust libdir in remaining *.la files to point
-# to /afs/rhic.bnl.gov/
-$repl = "libdir='" . $linkTarget . "/lib'"; 
-print LOG "adjusting la files, replacing libdir=$OFFLINE_MAIN/lib by $repl\n";
-open(F,"find $OFFLINE_MAIN/lib -name '*.la' -print |");
-while ($lafile = <F>)
-{
-    chomp $lafile;
-    $bckfile = $lafile . ".bck";
-    move($lafile,$bckfile);
-    open(F1,$bckfile);
-    open(F2,">$lafile");
-    while ($line = <F1>)
-    {
-	$line =~ s/libdir=.*/$repl/g;
-	print F2 $line;
-    }
-    close(F1);
-    unlink $bckfile;
-    close(F2);
-}
-close(F);
-
+# all done adjust remaining *.la files to point to /afs/rhic.bnl.gov/ instead 
+# of /afs/.rhic.bnl.gov/
+my $cmd = sprintf("find %s/lib -name '*.la' -print | xargs sed -i 's/\\.rhic/rhic/g'",$OFFLINE_MAIN);
+print LOG "adjusting la files, replacing /afs/.rhic.bnl.gov by /afs/rhic.bnl.gov\n";
+system($cmd);
 if ($opt_root6)
 {
     print LOG "copying pcm files with\n";
