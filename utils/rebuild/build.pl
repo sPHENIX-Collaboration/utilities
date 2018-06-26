@@ -77,12 +77,12 @@ $opt_db = 0;
 $opt_scanbuild = 0;
 $opt_coverity = 0;
 $opt_root6 = 0;
-$opt_sl7 = 0;
+$opt_lafiles = 0;
 
 GetOptions('help', 'stage=i',
 	   'version:s', 'tinderbox', 'gittag:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'sl7');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'lafiles');
 
 if ($opt_help)
   {
@@ -108,7 +108,7 @@ printhelp:
     print "--notify           Contact responsibles in case of failure.\n";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
     print "--root6            do whatever is needed to use root 6\n";
-    print "--sl7              Build under SL7.\n";
+    print "--lafiles          build keeping libtool *.la files.\n";
     exit(0);
   }
 
@@ -473,7 +473,6 @@ print LOG "===========================================\n";
 	print LOG "========================================================\n";
 	print LOG "configuring package $m                                  \n";
 	print LOG "at $date                                                \n";
-	print LOG "========================================================\n";
 	    if ( $opt_scanbuild && exists $scanbuildignore{$m})
 	    {
 		$arg = "env $compileFlags $sdir/autogen.sh --prefix=$installDir";
@@ -482,6 +481,8 @@ print LOG "===========================================\n";
 	    {
 		$arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
 	    }
+	print LOG "Running $arg\n";
+	print LOG "========================================================\n";
 
 	if (&doSystemFail($arg))
 	  {
@@ -584,7 +585,6 @@ if ($opt_stage < 4)
 	print LOG "=================================\n";
 	print LOG "building $m                      \n";
 	print LOG "at $date                         \n";
-	print LOG "=================================\n";
 
 # MuTrigLL1Emulator does not compile with insure
 	if ($m =~ /MuTrigLL1Emulator/ && $opt_insure)
@@ -602,6 +602,8 @@ if ($opt_stage < 4)
 	       $arg = "$covbuild make $insureCompileFlags $JOBS ";
 	    }
 	}
+	print LOG "Running $arg\n";
+	print LOG "=================================\n";
 	if (&doSystemFail($arg))
 	{
 	    if ($opt_notify)
@@ -622,6 +624,11 @@ if ($opt_stage < 4)
 	    }
 	    goto END;
 	}
+        chomp ($date = `date`);
+
+	print LOG "=================================\n";
+	print LOG "installing $m                    \n";
+	print LOG "at $date                         \n";
 
 	if ($m =~ /MuTrigLL1Emulator/ && $opt_insure)
 	{
@@ -631,6 +638,8 @@ if ($opt_stage < 4)
 	{
 	    $arg = "$covbuild make $insureCompileFlags $JOBS install ";
 	}
+	print LOG "Running $arg\n";
+	print LOG "=================================\n";
 	if (&doSystemFail($arg))
 	  {
 	    if ($opt_notify)
@@ -652,7 +661,7 @@ if ($opt_stage < 4)
 	    goto END;
 	  }
 
-	  if (! $opt_sl7)
+	  if (! $opt_lafiles)
 	  {
 	      # GET RID OF INSTALLED POINTLESS LA FILES
 	      # Get rid of this package's installed la_files if we didn't build
