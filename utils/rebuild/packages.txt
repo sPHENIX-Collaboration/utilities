@@ -52,6 +52,7 @@ coresoftware/simulation/g4simulation/g4hough|yuhw.pku@gmail.com
 coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
 coresoftware/offline/packages/jetbackground|dvp@bnl.gov
+coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
 # simulations/Geant4/ convenience library to load all necessary libs to read DST content
 coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
 # simulations/Geant4/ evals
