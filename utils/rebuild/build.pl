@@ -32,10 +32,10 @@ for (my $arg = 0; $arg <= $#ARGV; $arg++)
 umask 002;
 # only run 32 parallel build jobs if
 # distcc is in the path, otherwise run 6 (our build machine has 6 cpus)
-my $JOBS = "-j 6";
+my $JOBS = "-l 8.0 -j 6";
 if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
 {
-  $JOBS = "-l 8.0 -j 120";
+  $JOBS = "-j 120";
 }
 $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
