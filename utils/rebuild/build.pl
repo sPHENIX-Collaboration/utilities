@@ -32,7 +32,7 @@ for (my $arg = 0; $arg <= $#ARGV; $arg++)
 umask 002;
 # only run 32 parallel build jobs if
 # distcc is in the path, otherwise run 6 (our build machine has 6 cpus)
-my $JOBS = "-l 8.0 -j 6";
+my $JOBS = "-l 8.0 -j 40";
 if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
 {
   $JOBS = "-j 120";
@@ -132,7 +132,7 @@ if ( $opt_db && $opt_version !~ /pro/)
 my $MAXDEPTH = ($opt_version =~ m/pro/ || $opt_version =~ /ana/ ) ? 9999999 : 4;
 $opt_version .= '+insure' if $opt_insure;
 # number of parallel builds with insure
-$JOBS = "-j 2 " if $opt_insure;
+$JOBS = "-j 20 " if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
 $workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/sPHENIX';
@@ -144,7 +144,6 @@ $insureCompileFlags = " ";
 
 # An area for reports visible via the web
 $workNFS = $WORKNFS ? $WORKNFS : '/phenix/WWW/offline';
-$CVSROOT = $CVSROOT ? $CVSROOT :  '/afs/rhic.bnl.gov/phenix/PHENIX_CVS';
 
 $workdir .= "/$opt_version";
 
@@ -280,15 +279,12 @@ elsif (-f "/usr/bin/fs")
 my $linktg;
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-    $place = '/afs/rhic.bnl.gov/sphenix/'.$opt_version;
+    $place = '/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/'.$opt_version;
     die "$place doesn't exist" unless -e $place;
     my $realpath = realpath($place);
-    $realpath =~ s/\@sys/$afs_sysname/g; 
-    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-    # rhic.bnl.gov is the read only volume, we need to
-    # change rhic.bnl.gov to .rhic.bnl.gov to install to read/write volume
-    $realpath =~ s/\/afs\/rhic.bnl.gov/\/afs\/.rhic.bnl.gov/;
+#    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
     ($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+    $linktg = $inst;
   }
 else
   {
@@ -696,9 +692,9 @@ if ($opt_stage < 4)
   }
 # all done adjust remaining *.la files to point to /afs/rhic.bnl.gov/ instead 
 # of /afs/.rhic.bnl.gov/
-my $cmd = sprintf("find %s/lib -name '*.la' -print | xargs sed -i 's/\\.rhic/rhic/g'",$OFFLINE_MAIN);
-print LOG "adjusting la files, replacing /afs/.rhic.bnl.gov by /afs/rhic.bnl.gov\n";
-system($cmd);
+#my $cmd = sprintf("find %s/lib -name '*.la' -print | xargs sed -i 's/\\.rhic/rhic/g'",$OFFLINE_MAIN);
+#print LOG "adjusting la files, replacing /afs/.rhic.bnl.gov by /afs/rhic.bnl.gov\n";
+#system($cmd);
 if ($opt_root6)
 {
     print LOG "copying pcm files with\n";
@@ -716,14 +712,17 @@ symlink $linkTarget, $inst;
 # install for scan and coverity build means copying reports which are not in afs
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-    my $releasedir = sprintf("/afs/rhic.bnl.gov/sphenix/sys/%s/log",$afs_sysname);
+# add 
+    my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
+    system("touch $cvmfscatalognestfile");
+    my $releasedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release/release_%s",$afs_sysname,$opt_version);
 # if we don't have to release the afs volume we are done here
     if (! -d $releasedir)
     {
 	$buildSucceeded=1;
 	goto END;
     }
-    my $releasefile = sprintf("%s/afs.release",$releasedir);
+    my $releasefile = sprintf("%s/CVMFSRELEASE",$releasedir);
     chomp (my $date = `date`);
     print LOG "$date checking for existing $releasefile\n";
     if (-f $releasefile)
