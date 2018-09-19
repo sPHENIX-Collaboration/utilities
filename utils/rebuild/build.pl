@@ -132,7 +132,7 @@ if ( $opt_db && $opt_version !~ /pro/)
 my $MAXDEPTH = ($opt_version =~ m/pro/ || $opt_version =~ /ana/ ) ? 9999999 : 4;
 $opt_version .= '+insure' if $opt_insure;
 # number of parallel builds with insure
-$JOBS = "-j 2 " if $opt_insure;
+$JOBS = "-j 20 " if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
 $workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/sPHENIX';
