@@ -3,7 +3,7 @@
 # This script rebuilds the PHENIX code base.  It checks out code from CVS,
 # compiles it, and installs it in the appropriate directories in AFS.  In
 # order for this script to work, you need an AFS token (for installation).
-
+use warnings;
 use FindBin qw($Bin);	
 use File::Basename;
 use File::Path;
@@ -20,7 +20,7 @@ Env::import();
 
 if ($#ARGV < 0)
 {
-    goto printhelp;
+    printhelp();
 }
 # save cmd args for echoing into logfile
 my $cmdline = "build.pl";
@@ -41,9 +41,26 @@ $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
 my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
-my @externalPackages = ("boost", "CGAL", "CLHEP", "Eigen", "EvtGen", "fastjet", "gsl", "HepMC", "PHOTOS", "pythia8", "rave", "TAUOLA");
+my %externalPackages = (
+    "boost" => "boost",
+    "CGAL" => "CGAL",
+    "CLHEP" => "CLHEP",
+    "Eigen" => "Eigen",
+    "EvtGen" => "EvtGen",
+    "fastjet" => "fastjet",
+    "gsl" => "gsl",
+    "HepMC" => "HepMC",
+    "PHOTOS" => "PHOTOS",
+    "pythia8" => "pythia8",
+    "rave" => "rave",
+    "TAUOLA" => "TAUOLA"
+    );
 my $externalPackagesDir = "$OPT_SPHENIX";
-my @externalRootPackages = ("eic-smear", "pythiaeRHIC", "sartre-1.20");
+my %externalRootPackages = (
+    "eic-smear" => "eic-smear",
+    "pythiaeRHIC" => "pythiaeRHIC",
+    "sartre-1.20" => "sartre-1.20"
+    );
 my $rootversion = `root-config --version`;
 chomp $rootversion;
 $rootversion =~ s/\//\./g;
@@ -78,6 +95,7 @@ $opt_scanbuild = 0;
 $opt_coverity = 0;
 $opt_root6 = 0;
 $opt_lafiles = 0;
+$opt_help = 0;
 
 GetOptions('help', 'stage=i',
 	   'version:s', 'tinderbox', 'gittag:s',
@@ -86,30 +104,7 @@ GetOptions('help', 'stage=i',
 
 if ($opt_help)
   {
-printhelp:
-    print "--stage            Skip to stage N of the build process. \n";
-    print "                     0 = CVS checkout (default) \n";
-    print "                     1 = configure\n";
-    print "                     2 = install headers \n";
-    print "                     3 = compile and install \n";
-    print "                     4 = run tests \n";
-    print "                     5 = install only (scan-build) \n";
-    print "--source='string'  Use the specified source directory. Don't get\n";
-    print "                     the source from CVS (i.e., skip stage 0)\n";
-    print "--version='string' Prefix for installation area. Default: new\n";
-    print "--tinderbox        Send build information to tinderbox.\n";
-    print "--gittag='string'  CVS flags for source checkout. \n";
-    print "--phenixinstall    Install in the official AFS area. \n";
-    print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
-    print "--insure           Rebuild using the Insure++\n";
-    print "--scanbuild        Making a scan-build with clang\n";
-    print "--coverity         Making a coverity build\n";
-    print "--covpasswd='string'  the coverity password for the integrity manager\n";
-    print "--notify           Contact responsibles in case of failure.\n";
-    print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
-    print "--root6            do whatever is needed to use root 6\n";
-    print "--lafiles          build keeping libtool *.la files.\n";
-    exit(0);
+      printhelp();
   }
 
 my $dbh;
@@ -141,9 +136,6 @@ $startTime = time;
 $sysname = $USER.'@'.$HOST.'#'.$Config{osname}.':'.$opt_version;
 $compileFlags = ($sysname =~ m/linux/) ? ' INSTALL="/usr/bin/install -D -p" install_sh="/usr/bin/install -D -p"' : "";
 $insureCompileFlags = " ";
-
-# An area for reports visible via the web
-$workNFS = $WORKNFS ? $WORKNFS : '/phenix/WWW/offline';
 
 $workdir .= "/$opt_version";
 
@@ -212,43 +204,27 @@ print LOG "Welcome to the PHENIX $sysname rebuild \n started at ",$date,"\n";
 # print how we were called
 print LOG "How this script was called:\n";
 print LOG "$cmdline\n\n";
-foreach my $pkg (sort @externalRootPackages)
-{
-    my $pkgname = sprintf("%s_root-%s",$pkg,$rootversion);
-    print LOG "Adding $pkgname to external packages\n";
-    push(@externalPackages,$pkgname);
-}
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/) 
 {
-    @externalPackages = ();
-    push(@externalPackages,"boost");
-    push(@externalPackages,"CGAL");
-    push(@externalPackages,"clhep-2.4.1.0");
-    push(@externalPackages,"Eigen");
-    push(@externalPackages,"EvtGen");
-    push(@externalPackages,"fastjet");
-    push(@externalPackages,"gsl");
-    push(@externalPackages,"HepMC");
-    push(@externalPackages,"PHOTOS");
-    push(@externalPackages,"pythia8");
-    push(@externalPackages,"rave-0.6.25_clhep-2.4.1.0");
-    push(@externalPackages,"TAUOLA");
-    print LOG "play build: replacing external packages with customized versions\n";
-    foreach my $i (@externalPackages)
-    {
-	print LOG "$i\n";
-    }
-    foreach my $pkg (sort @externalRootPackages)
-    {
-	my $pkgname = sprintf("%s_root-%s",$pkg,$rootversion);
-	print LOG "Adding $pkgname to external packages\n";
-	push(@externalPackages,$pkgname);
-    }
+    $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
 }
-
+foreach my $pkg (sort keys %externalRootPackages)
+{
+    my $pkgname = sprintf("%s_root-%s",$externalRootPackages{$pkg},$rootversion);
+    $externalRootPackages{$pkg} = $pkgname;
+    print LOG "Adding $pkgname to external packages\n";
+    $externalPackages{$pkg} = $pkgname;
+}
+print LOG "List of external packages rsynced from $externalPackagesDir\n";
+foreach my $pack (sort keys %externalPackages)
+{
+    print LOG "$externalPackages{$pack}\n";
+}
+die;
 if ($opt_tinderbox)
   {
     # Let tinderbox know we've started
@@ -384,9 +360,9 @@ print LOG "===========================================\n";
         $G4_MAIN_NOAFS =~ s/\@sys/$afs_sysname/;
         symlink $G4_MAIN_NOAFS, $installDir."/geant4";
         $ENV{G4_MAIN} = $installDir."/geant4"; #to get G4_MAIN for configure
-	foreach my $m (@externalPackages)
+	foreach my $m (sort keys %externalPackages)
 	{
-	    my $dir = $externalPackagesDir."/".$m;
+	    my $dir = $externalPackagesDir."/".$externalPackages{$m};
 	    if (! -d $dir)
 	    {
 		print LOG "cannot find dir $dir for package $m\n";
@@ -753,7 +729,7 @@ else
 	}
 	chomp (my $date = `date`);
 	print LOG "$date $releasefile still exist, build fails!\n";
-	$buildSucceeded==0;
+	$buildSucceeded=0;
 	goto END;
     }
 NORELEASEFILE:
@@ -781,7 +757,7 @@ NORELEASEFILE:
 	print LOG "$date $releasefile still exists, counter: $n\n";
 	$n--;
     }
-    chomp (my $date = `date`);
+    chomp ($date = `date`);
     print LOG "$date $releasefile still exists, giving up and failing build $n\n";
     $buildSucceeded=0;
     goto END;
@@ -1158,3 +1134,29 @@ sub install_scanbuild_reports
     }
 }
 
+sub printhelp
+{
+    print "--stage            Skip to stage N of the build process. \n";
+    print "                     0 = CVS checkout (default) \n";
+    print "                     1 = configure\n";
+    print "                     2 = install headers \n";
+    print "                     3 = compile and install \n";
+    print "                     4 = run tests \n";
+    print "                     5 = install only (scan-build) \n";
+    print "--source='string'  Use the specified source directory. Don't get\n";
+    print "                     the source from CVS (i.e., skip stage 0)\n";
+    print "--version='string' Prefix for installation area. Default: new\n";
+    print "--tinderbox        Send build information to tinderbox.\n";
+    print "--gittag='string'  CVS flags for source checkout. \n";
+    print "--phenixinstall    Install in the official AFS area. \n";
+    print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
+    print "--insure           Rebuild using the Insure++\n";
+    print "--scanbuild        Making a scan-build with clang\n";
+    print "--coverity         Making a coverity build\n";
+    print "--covpasswd='string'  the coverity password for the integrity manager\n";
+    print "--notify           Contact responsibles in case of failure.\n";
+    print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
+    print "--root6            do whatever is needed to use root 6\n";
+    print "--lafiles          build keeping libtool *.la files.\n";
+    exit(0);
+  }
