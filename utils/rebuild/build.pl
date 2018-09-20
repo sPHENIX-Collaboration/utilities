@@ -279,7 +279,7 @@ elsif (-f "/usr/bin/fs")
 my $linktg;
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-    $place = '/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/'.$opt_version;
+    my $place = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/release_%s/%s",$opt_version,$opt_version);
     die "$place doesn't exist" unless -e $place;
     my $realpath = realpath($place);
 #    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
@@ -296,6 +296,7 @@ else
   }
 
 my $newnumber = ($number % $MAXDEPTH) + 1;
+my $releasenumber = $newnumber;
 $installDir = $inst.".".$newnumber;
 
 my $linkTarget = $linktg.".".$newnumber;
@@ -686,7 +687,8 @@ if ($opt_stage < 4)
 	      # DONE REMOVING POINTLESS LA FILES
 	  }
       }
-    my $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/calibrations $OFFLINE_MAIN/share/calibrations";
+# git clone -q --> no progress report to stdout
+    my $gitcommand = "git clone -q https://github.com/sPHENIX-Collaboration/calibrations.git $OFFLINE_MAIN/share/calibrations";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
   }
@@ -715,7 +717,19 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 # add 
     my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
     system("touch $cvmfscatalognestfile");
-    my $releasedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release/release_%s",$afs_sysname,$opt_version);
+    my $releasedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release",$afs_sysname);
+if ($opt_version =~ /ana/ || $opt_version =~ /pro/)
+{
+    my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
+    my $symlinktarget = sprintf("%s/%s.%d",$releasedir,$opt_version,$releasenumber);
+    symlink $symlinksource, $symlinktarget;
+    print LOG "creating symlink source: $symlinksource target: $symlinktarget\n";
+}
+else
+{
+    $releasedir = sprintf("%s/release_%s",$releasedir,$opt_version);
+}
+
 # if we don't have to release the afs volume we are done here
     if (! -d $releasedir)
     {
@@ -743,12 +757,12 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 	goto END;
     }
 NORELEASEFILE:
-    if ($opt_version =~ /ana/)
-      {
-        chomp ($date = `date`);
-	print LOG "$date creating taxi afs dirs\n";
-        create_afs_taxi_dir();
-      }
+#    if ($opt_version =~ /ana/)
+#      {
+#        chomp ($date = `date`);
+#	print LOG "$date creating taxi afs dirs\n";
+#        create_afs_taxi_dir();
+#      }
     chomp ($date = `date`);
     print LOG "$date initiating release, touching $releasefile\n";
     system("touch $releasefile");
