@@ -212,6 +212,10 @@ if ($opt_version =~ /play/)
     $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
     $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
 }
+elsif ($opt_version =~ /hepmc3/) 
+{
+    $externalPackages{"HepMC"} = "HepMC-3.0.0";
+}
 foreach my $pkg (sort keys %externalRootPackages)
 {
     my $pkgname = sprintf("%s_root-%s",$externalRootPackages{$pkg},$rootversion);
@@ -224,7 +228,7 @@ foreach my $pack (sort keys %externalPackages)
 {
     print LOG "$externalPackages{$pack}\n";
 }
-die;
+
 if ($opt_tinderbox)
   {
     # Let tinderbox know we've started
