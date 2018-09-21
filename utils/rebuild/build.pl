@@ -41,6 +41,9 @@ $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
 my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
+
+my @gitrepos = ("coresoftware", "online_distribution");
+
 my %externalPackages = (
     "boost" => "boost",
     "CGAL" => "CGAL",
@@ -88,6 +91,7 @@ close(IN);
 
 # Set up some defaults for script options
 $opt_gittag = '';
+$opt_gitbranch = '';
 $opt_version = 'new';
 $opt_stage = 0;
 $opt_db = 0;
@@ -98,7 +102,7 @@ $opt_lafiles = 0;
 $opt_help = 0;
 
 GetOptions('help', 'stage=i',
-	   'version:s', 'tinderbox', 'gittag:s',
+	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
 	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'lafiles');
 
@@ -299,12 +303,33 @@ else
   {
     mkpath($sourceDir, 0, 0775) unless -e $sourceDir;
     chdir $sourceDir;
-    $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/coresoftware.git";
-    print LOG $gitcommand, "\n";
-    goto END if &doSystemFail($gitcommand);
-    $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/online_distribution.git";
-    print LOG $gitcommand, "\n";
-    goto END if &doSystemFail($gitcommand);
+    foreach my $repo (@gitrepos)
+    {
+	$gitcommand = sprintf("git clone https://github.com/sPHENIX-Collaboration/%s.git",$repo);
+	print LOG $gitcommand, "\n";
+	goto END if &doSystemFail($gitcommand);
+    }
+    if ($opt_gitbranch ne '')
+    {
+	my $branchcount = 0;
+	foreach my $repo (@gitrepos)
+	{
+	    my $repodir = sprintf("%s/%s",$sourceDir,$repo);
+	    chdir $repodir;
+	    if (check_git_branch($repo))
+	    {
+		$branchcount++;
+		my $gitbranchcmd = sprintf("git checkout %s",$opt_gitbranch);
+		print LOG $gitbranchcmd, "\n";
+		goto END if &doSystemFail($gitbranchcmd);
+	    }
+	}
+	if ($branchcount == 0)
+	{
+	    my $errstr = sprintf("branch %s does not exist in git repos",$opt_gitbranch);
+	    goto END if &doSystemFail($errstr);
+	}
+    }
     if($opt_gittag ne '')
       {
 	my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
@@ -812,13 +837,14 @@ print INFO " status: ".$buildStatus."\n";
 print INFO " build: ".$sysname."\n";
 print INFO " at system: ".$sysInfo."\n";
 print INFO " elapsed time: ".$elapsedtime." seconds\n";
-print INFO " source dir:".$Link{'source'}."\n ";
-print INFO " build dir:".$Link{'build'}."\n ";
-print INFO " install dir:".$Link{'install'}."\n ";
+print INFO " source dir:".$sourceDir."\n ";
+print INFO " build dir:".$buildDir."\n ";
+print INFO " install dir:".$installDir."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
 print INFO " http://www.phenix.bnl.gov/software/sPHENIX/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
 print INFO " git tag: \n".$opt_gittag."\n";
-print INFO " git command used: \n".$gitcommand."\n";
+print INFO " git branch: \n".$opt_gitbranch."\n";
+#print INFO " git command used: \n".$gitcommand."\n";
 %month=('Jan',0,'Feb',1,'Mar',2,'Apr',3,'May',4,'Jun',5,'Jul',6,'Aug',7,'Sep',8,'Oct',9,'Nov',10,'Dec',11);
 close (LOG);
 open(LOG,"$logfile");
@@ -1164,3 +1190,29 @@ sub printhelp
     print "--lafiles          build keeping libtool *.la files.\n";
     exit(0);
   }
+
+
+# check if we have a remote branch in git
+sub check_git_branch
+{
+    my $branchname = shift;
+    open(F,"git ls-remote --heads | awk \'{print \$2}\' |");
+    while (my $line = <F>)
+    {
+	if ($line !~ /refs/)
+	{
+	    next;
+	}
+	chomp $line;
+	print "$line\n";
+	my @sp1 = split("/",$line);
+	print "$sp1[$#sp1]\n";
+	if ($sp1[$#sp1] eq $branchname )
+	{
+	    close(F);
+	    return 1;
+	}
+    }
+    close(F);
+    return 0;
+}
