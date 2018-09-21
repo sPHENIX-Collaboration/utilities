@@ -316,7 +316,7 @@ else
 	{
 	    my $repodir = sprintf("%s/%s",$sourceDir,$repo);
 	    chdir $repodir;
-	    if (check_git_branch($repo))
+	    if (check_git_branch($opt_gitbranch))
 	    {
 		$branchcount++;
 		my $gitbranchcmd = sprintf("git checkout %s",$opt_gitbranch);
@@ -327,7 +327,8 @@ else
 	if ($branchcount == 0)
 	{
 	    my $errstr = sprintf("branch %s does not exist in git repos",$opt_gitbranch);
-	    goto END if &doSystemFail($errstr);
+	    print LOG $errstr, "\n";
+	    goto END;
 	}
     }
     if($opt_gittag ne '')
@@ -1204,9 +1205,7 @@ sub check_git_branch
 	    next;
 	}
 	chomp $line;
-	print "$line\n";
 	my @sp1 = split("/",$line);
-	print "$sp1[$#sp1]\n";
 	if ($sp1[$#sp1] eq $branchname )
 	{
 	    close(F);
