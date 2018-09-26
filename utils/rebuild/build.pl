@@ -219,6 +219,7 @@ if ($opt_version =~ /play/)
 elsif ($opt_version =~ /hepmc3/) 
 {
     $externalPackages{"HepMC"} = "HepMC-3.0.0";
+    $externalPackages{"pythia8"} = "pythia8235-hepmc3";
 }
 foreach my $pkg (sort keys %externalRootPackages)
 {
@@ -305,7 +306,7 @@ else
     chdir $sourceDir;
     foreach my $repo (@gitrepos)
     {
-	$gitcommand = sprintf("git clone https://github.com/sPHENIX-Collaboration/%s.git",$repo);
+	$gitcommand = sprintf("git clone -q https://github.com/sPHENIX-Collaboration/%s.git",$repo);
 	print LOG $gitcommand, "\n";
 	goto END if &doSystemFail($gitcommand);
     }
