@@ -100,8 +100,8 @@ $opt_coverity = 0;
 $opt_root6 = 0;
 $opt_lafiles = 0;
 $opt_help = 0;
-
-GetOptions('help', 'stage=i',
+$opt_afs = 0;
+GetOptions('help', 'stage=i', 'afs',
 	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
 	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'lafiles');
@@ -264,13 +264,28 @@ elsif (-f "/usr/bin/fs")
 my $linktg;
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-    my $place = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/release_%s/%s",$opt_version,$opt_version);
-    die "$place doesn't exist" unless -e $place;
-    my $realpath = realpath($place);
+    if ($opt_afs)
+    {
+	my $place = sprintf("/afs/rhic.bnl.gov/sphenix/%s",$opt_version);
+	die "$place doesn't exist" unless -e $place;
+	my $realpath = realpath($place);
+	$realpath =~ s/\@sys/$afs_sysname/g; 
+	($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+	# rhic.bnl.gov is the read only volume, we need to
+	# change rhic.bnl.gov to .rhic.bnl.gov to install to read/write volume
+	$realpath =~ s/\/afs\/rhic.bnl.gov/\/afs\/.rhic.bnl.gov/;
+	($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+    }
+    else
+    {
+	my $place = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/release_%s/%s",$opt_version,$opt_version);
+	die "$place doesn't exist" unless -e $place;
+	my $realpath = realpath($place);
 #    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-    ($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-    $linktg = $inst;
-  }
+	($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+	$linktg = $inst;
+    }
+}
 else
   {
     $inst = $workdir.'/install';
@@ -721,29 +736,44 @@ symlink $linkTarget, $inst;
 # install for scan and coverity build means copying reports which are not in afs
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-# add 
-    my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
-    system("touch $cvmfscatalognestfile");
-    my $releasedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release",$afs_sysname);
-if ($opt_version =~ /ana/ || $opt_version =~ /pro/)
-{
-    my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
-    my $symlinktarget = sprintf("%s/%s.%d",$releasedir,$opt_version,$releasenumber);
-    symlink $symlinksource, $symlinktarget;
-    print LOG "creating symlink source: $symlinksource target: $symlinktarget\n";
-}
-else
-{
-    $releasedir = sprintf("%s/release_%s",$releasedir,$opt_version);
-}
+    my $releasefile;
+    if ($opt_afs)
+    {
+	my $releasedir = sprintf("/afs/rhic.bnl.gov/sphenix/sys/%s/log",$afs_sysname);
+# if we don't have to release the afs volume we are done here
+	if (! -d $releasedir)
+	{
+	    $buildSucceeded=1;
+	    goto END;
+	}
+	$releasefile = sprintf("%s/afs.release",$releasedir);
+    }
+    else
+    {
+# tell cvmfs DB to keep builds separately to reduce amount of loaded lookups
+	my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
+	system("touch $cvmfscatalognestfile");
+	my $releasedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release",$afs_sysname);
+	if ($opt_version =~ /ana/ || $opt_version =~ /pro/)
+	{
+	    my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
+	    my $symlinktarget = sprintf("%s/%s.%d",$releasedir,$opt_version,$releasenumber);
+	    symlink $symlinksource, $symlinktarget;
+	    print LOG "creating symlink source: $symlinksource target: $symlinktarget\n";
+	}
+	else
+	{
+	    $releasedir = sprintf("%s/release_%s",$releasedir,$opt_version);
+	}
 
 # if we don't have to release the afs volume we are done here
-    if (! -d $releasedir)
-    {
-	$buildSucceeded=1;
-	goto END;
+	if (! -d $releasedir)
+	{
+	    $buildSucceeded=1;
+	    goto END;
+	}
+	$releasefile = sprintf("%s/CVMFSRELEASE",$releasedir);
     }
-    my $releasefile = sprintf("%s/CVMFSRELEASE",$releasedir);
     chomp (my $date = `date`);
     print LOG "$date checking for existing $releasefile\n";
     if (-f $releasefile)
@@ -1175,6 +1205,7 @@ sub printhelp
     print "                     3 = compile and install \n";
     print "                     4 = run tests \n";
     print "                     5 = install only (scan-build) \n";
+    print "--afs              install in afs (cvmfs is default)\n";
     print "--source='string'  Use the specified source directory. Don't get\n";
     print "                     the source from CVS (i.e., skip stage 0)\n";
     print "--version='string' Prefix for installation area. Default: new\n";
