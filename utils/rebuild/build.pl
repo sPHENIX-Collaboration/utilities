@@ -900,14 +900,14 @@ while (<LOG>)
 	$time=$newtime;
       }
   }
-close(LOG);
-close(INFO);
 
 if ($opt_insure && $buildSucceeded==1)
 {
     &check_insure_reports();
 }
 
+close(LOG);
+close(INFO);
 
 # only expire modules if the ana build was successful
 #if ($buildSucceeded==1 && $opt_version =~ /ana/ && $opt_version =~ /insure/)
