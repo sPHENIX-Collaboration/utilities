@@ -901,13 +901,14 @@ while (<LOG>)
       }
   }
 
+close(LOG);
+close(INFO);
+
 if ($opt_insure && $buildSucceeded==1)
 {
     &check_insure_reports();
 }
 
-close(LOG);
-close(INFO);
 
 # only expire modules if the ana build was successful
 #if ($buildSucceeded==1 && $opt_version =~ /ana/ && $opt_version =~ /insure/)
@@ -920,21 +921,22 @@ if ($buildSucceeded==1 && $opt_version =~ /ana/)
 if ( defined($dbh)) { $dbh->disconnect; }
 
 sub doSystemFail
-  {
+{
     close(LOG);
     my $arg = shift(@_) . ">> $logfile 2>&1";
     my $status = system($arg);
     open(LOG, ">>$logfile");
     if ($status)
-      {
+    {
 	print LOG "system $arg failed: $?\n";
-      }
+    }
     return $status;
-  }
+}
 
 
 sub check_insure_reports
 {
+    open(LOG, ">>$logfile");
     open(INSREP,"find $insureDir -maxdepth 1 -type f -size +0 -print | sort |");
     while($insure_report = <INSREP>)
     {
@@ -976,6 +978,7 @@ sub check_insure_reports
 	}
     }
     close(INSREP);
+    close(LOG);
 }
 
 sub check_expiration_date
