@@ -30,13 +30,6 @@ for (my $arg = 0; $arg <= $#ARGV; $arg++)
 }
 
 umask 002;
-# only run 32 parallel build jobs if
-# distcc is in the path, otherwise run 6 (our build machine has 6 cpus)
-my $JOBS = "-l 8.0 -j 40";
-if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
-{
-  $JOBS = "-j 120";
-}
 $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
 my $buildmanager = "pinkenburg\@bnl.gov";
@@ -110,7 +103,6 @@ if ($opt_help)
   {
       printhelp();
   }
-
 my $dbh;
 if ( $opt_db && $opt_version !~ /pro/)
 {
@@ -127,11 +119,20 @@ if ( $opt_db && $opt_version !~ /pro/)
     $getpackages->finish();
 }
 
+# only run 32 parallel build jobs if
+# distcc is in the path, otherwise run 6 (our build machine has 6 cpus)
+my $numcores  = do { local @ARGV='/proc/cpuinfo'; grep /^processor\s+:/, <>;};
+my $JOBS = sprintf("-l 8.0 -j %d", $numcores);
+if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
+{
+  $JOBS = "-j 120";
+}
 
 my $MAXDEPTH = ($opt_version =~ m/pro/ || $opt_version =~ /ana/ ) ? 9999999 : 4;
 $opt_version .= '+insure' if $opt_insure;
 # number of parallel builds with insure
-$JOBS = "-j 20 " if $opt_insure;
+if ($numcores > 25) {$numcores=25;} # we have 50 insure licenses, only use 1/2 maximum
+$JOBS = sprintf("-j %d",$numcores) if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
 $workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/sPHENIX';
@@ -801,6 +802,11 @@ NORELEASEFILE:
 #        create_afs_taxi_dir();
 #      }
     chomp ($date = `date`);
+    print LOG "copying build log to install area before releasing\n";
+    print LOG "this is the last line you will see\n";
+    close LOG;
+    system("cp $logfile $installDir");
+    open(LOG, ">>$logfile");
     print LOG "$date initiating release, touching $releasefile\n";
     system("touch $releasefile");
     my $n=70;
