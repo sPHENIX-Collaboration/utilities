@@ -3,7 +3,7 @@
 # This script rebuilds the PHENIX code base.  It checks out code from CVS,
 # compiles it, and installs it in the appropriate directories in AFS.  In
 # order for this script to work, you need an AFS token (for installation).
-
+use warnings;
 use FindBin qw($Bin);	
 use File::Basename;
 use File::Path;
@@ -20,7 +20,7 @@ Env::import();
 
 if ($#ARGV < 0)
 {
-    goto printhelp;
+    printhelp();
 }
 # save cmd args for echoing into logfile
 my $cmdline = "build.pl";
@@ -30,20 +30,33 @@ for (my $arg = 0; $arg <= $#ARGV; $arg++)
 }
 
 umask 002;
-# only run 32 parallel build jobs if
-# distcc is in the path, otherwise run 6 (our build machine has 6 cpus)
-my $JOBS = "-l 8.0 -j 6";
-if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
-{
-  $JOBS = "-j 120";
-}
 $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
 my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
-my @externalPackages = ("boost", "CGAL", "CLHEP", "Eigen", "EvtGen", "fastjet", "gsl", "HepMC", "PHOTOS", "pythia8", "rave", "TAUOLA");
+
+my @gitrepos = ("coresoftware", "online_distribution");
+
+my %externalPackages = (
+    "boost" => "boost",
+    "CGAL" => "CGAL",
+    "CLHEP" => "CLHEP",
+    "Eigen" => "Eigen",
+    "EvtGen" => "EvtGen",
+    "fastjet" => "fastjet",
+    "gsl" => "gsl",
+    "HepMC" => "HepMC",
+    "PHOTOS" => "PHOTOS",
+    "pythia8" => "pythia8",
+    "rave" => "rave",
+    "TAUOLA" => "TAUOLA"
+    );
 my $externalPackagesDir = "$OPT_SPHENIX";
-my @externalRootPackages = ("eic-smear", "pythiaeRHIC", "sartre-1.20");
+my %externalRootPackages = (
+    "eic-smear" => "eic-smear",
+    "pythiaeRHIC" => "pythiaeRHIC",
+    "sartre-1.20" => "sartre-1.20"
+    );
 my $rootversion = `root-config --version`;
 chomp $rootversion;
 $rootversion =~ s/\//\./g;
@@ -71,6 +84,7 @@ close(IN);
 
 # Set up some defaults for script options
 $opt_gittag = '';
+$opt_gitbranch = '';
 $opt_version = 'new';
 $opt_stage = 0;
 $opt_db = 0;
@@ -78,40 +92,17 @@ $opt_scanbuild = 0;
 $opt_coverity = 0;
 $opt_root6 = 0;
 $opt_lafiles = 0;
-
-GetOptions('help', 'stage=i',
-	   'version:s', 'tinderbox', 'gittag:s',
+$opt_help = 0;
+$opt_afs = 0;
+GetOptions('help', 'stage=i', 'afs',
+	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
 	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'lafiles');
 
 if ($opt_help)
   {
-printhelp:
-    print "--stage            Skip to stage N of the build process. \n";
-    print "                     0 = CVS checkout (default) \n";
-    print "                     1 = configure\n";
-    print "                     2 = install headers \n";
-    print "                     3 = compile and install \n";
-    print "                     4 = run tests \n";
-    print "                     5 = install only (scan-build) \n";
-    print "--source='string'  Use the specified source directory. Don't get\n";
-    print "                     the source from CVS (i.e., skip stage 0)\n";
-    print "--version='string' Prefix for installation area. Default: new\n";
-    print "--tinderbox        Send build information to tinderbox.\n";
-    print "--gittag='string'  CVS flags for source checkout. \n";
-    print "--phenixinstall    Install in the official AFS area. \n";
-    print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
-    print "--insure           Rebuild using the Insure++\n";
-    print "--scanbuild        Making a scan-build with clang\n";
-    print "--coverity         Making a coverity build\n";
-    print "--covpasswd='string'  the coverity password for the integrity manager\n";
-    print "--notify           Contact responsibles in case of failure.\n";
-    print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
-    print "--root6            do whatever is needed to use root 6\n";
-    print "--lafiles          build keeping libtool *.la files.\n";
-    exit(0);
+      printhelp();
   }
-
 my $dbh;
 if ( $opt_db && $opt_version !~ /pro/)
 {
@@ -128,11 +119,20 @@ if ( $opt_db && $opt_version !~ /pro/)
     $getpackages->finish();
 }
 
+# only run 32 parallel build jobs if
+# distcc is in the path, otherwise run 6 (our build machine has 6 cpus)
+my $numcores  = do { local @ARGV='/proc/cpuinfo'; grep /^processor\s+:/, <>;};
+my $JOBS = sprintf("-l 8.0 -j %d", $numcores);
+if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
+{
+  $JOBS = "-j 120";
+}
 
 my $MAXDEPTH = ($opt_version =~ m/pro/ || $opt_version =~ /ana/ ) ? 9999999 : 4;
 $opt_version .= '+insure' if $opt_insure;
 # number of parallel builds with insure
-$JOBS = "-j 2 " if $opt_insure;
+if ($numcores > 25) {$numcores=25;} # we have 50 insure licenses, only use 1/2 maximum
+$JOBS = sprintf("-j %d",$numcores) if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
 $workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/sPHENIX';
@@ -141,10 +141,6 @@ $startTime = time;
 $sysname = $USER.'@'.$HOST.'#'.$Config{osname}.':'.$opt_version;
 $compileFlags = ($sysname =~ m/linux/) ? ' INSTALL="/usr/bin/install -D -p" install_sh="/usr/bin/install -D -p"' : "";
 $insureCompileFlags = " ";
-
-# An area for reports visible via the web
-$workNFS = $WORKNFS ? $WORKNFS : '/phenix/WWW/offline';
-$CVSROOT = $CVSROOT ? $CVSROOT :  '/afs/rhic.bnl.gov/phenix/PHENIX_CVS';
 
 $workdir .= "/$opt_version";
 
@@ -213,41 +209,30 @@ print LOG "Welcome to the PHENIX $sysname rebuild \n started at ",$date,"\n";
 # print how we were called
 print LOG "How this script was called:\n";
 print LOG "$cmdline\n\n";
-foreach my $pkg (sort @externalRootPackages)
-{
-    my $pkgname = sprintf("%s_root-%s",$pkg,$rootversion);
-    print LOG "Adding $pkgname to external packages\n";
-    push(@externalPackages,$pkgname);
-}
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/) 
 {
-    @externalPackages = ();
-    push(@externalPackages,"boost");
-    push(@externalPackages,"CGAL");
-    push(@externalPackages,"clhep-2.4.1.0");
-    push(@externalPackages,"Eigen");
-    push(@externalPackages,"EvtGen");
-    push(@externalPackages,"fastjet");
-    push(@externalPackages,"gsl");
-    push(@externalPackages,"HepMC");
-    push(@externalPackages,"PHOTOS");
-    push(@externalPackages,"pythia8");
-    push(@externalPackages,"rave-0.6.25_clhep-2.4.1.0");
-    push(@externalPackages,"TAUOLA");
-    print LOG "play build: replacing external packages with customized versions\n";
-    foreach my $i (@externalPackages)
-    {
-	print LOG "$i\n";
-    }
-    foreach my $pkg (sort @externalRootPackages)
-    {
-	my $pkgname = sprintf("%s_root-%s",$pkg,$rootversion);
-	print LOG "Adding $pkgname to external packages\n";
-	push(@externalPackages,$pkgname);
-    }
+    $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
+}
+elsif ($opt_version =~ /hepmc3/) 
+{
+    $externalPackages{"HepMC"} = "HepMC-3.0.0";
+    $externalPackages{"pythia8"} = "pythia8235-hepmc3";
+}
+foreach my $pkg (sort keys %externalRootPackages)
+{
+    my $pkgname = sprintf("%s_root-%s",$externalRootPackages{$pkg},$rootversion);
+    $externalRootPackages{$pkg} = $pkgname;
+    print LOG "Adding $pkgname to external packages\n";
+    $externalPackages{$pkg} = $pkgname;
+}
+print LOG "List of external packages rsynced from $externalPackagesDir\n";
+foreach my $pack (sort keys %externalPackages)
+{
+    print LOG "$externalPackages{$pack}\n";
 }
 
 if ($opt_tinderbox)
@@ -280,16 +265,28 @@ elsif (-f "/usr/bin/fs")
 my $linktg;
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-    $place = '/afs/rhic.bnl.gov/sphenix/'.$opt_version;
-    die "$place doesn't exist" unless -e $place;
-    my $realpath = realpath($place);
-    $realpath =~ s/\@sys/$afs_sysname/g; 
-    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-    # rhic.bnl.gov is the read only volume, we need to
-    # change rhic.bnl.gov to .rhic.bnl.gov to install to read/write volume
-    $realpath =~ s/\/afs\/rhic.bnl.gov/\/afs\/.rhic.bnl.gov/;
-    ($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-  }
+    if ($opt_afs)
+    {
+	my $place = sprintf("/afs/rhic.bnl.gov/sphenix/%s",$opt_version);
+	die "$place doesn't exist" unless -e $place;
+	my $realpath = realpath($place);
+	$realpath =~ s/\@sys/$afs_sysname/g; 
+	($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+	# rhic.bnl.gov is the read only volume, we need to
+	# change rhic.bnl.gov to .rhic.bnl.gov to install to read/write volume
+	$realpath =~ s/\/afs\/rhic.bnl.gov/\/afs\/.rhic.bnl.gov/;
+	($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+    }
+    else
+    {
+	my $place = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/release_%s/%s",$opt_version,$opt_version);
+	die "$place doesn't exist" unless -e $place;
+	my $realpath = realpath($place);
+#    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+	($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+	$linktg = $inst;
+    }
+}
 else
   {
     $inst = $workdir.'/install';
@@ -300,6 +297,7 @@ else
   }
 
 my $newnumber = ($number % $MAXDEPTH) + 1;
+my $releasenumber = $newnumber;
 $installDir = $inst.".".$newnumber;
 
 my $linkTarget = $linktg.".".$newnumber;
@@ -322,12 +320,34 @@ else
   {
     mkpath($sourceDir, 0, 0775) unless -e $sourceDir;
     chdir $sourceDir;
-    $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/coresoftware.git";
-    print LOG $gitcommand, "\n";
-    goto END if &doSystemFail($gitcommand);
-    $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/online_distribution.git";
-    print LOG $gitcommand, "\n";
-    goto END if &doSystemFail($gitcommand);
+    foreach my $repo (@gitrepos)
+    {
+	$gitcommand = sprintf("git clone -q https://github.com/sPHENIX-Collaboration/%s.git",$repo);
+	print LOG $gitcommand, "\n";
+	goto END if &doSystemFail($gitcommand);
+    }
+    if ($opt_gitbranch ne '')
+    {
+	my $branchcount = 0;
+	foreach my $repo (@gitrepos)
+	{
+	    my $repodir = sprintf("%s/%s",$sourceDir,$repo);
+	    chdir $repodir;
+	    if (check_git_branch($opt_gitbranch))
+	    {
+		$branchcount++;
+		my $gitbranchcmd = sprintf("git checkout %s",$opt_gitbranch);
+		print LOG $gitbranchcmd, "\n";
+		goto END if &doSystemFail($gitbranchcmd);
+	    }
+	}
+	if ($branchcount == 0)
+	{
+	    my $errstr = sprintf("branch %s does not exist in git repos",$opt_gitbranch);
+	    print LOG $errstr, "\n";
+	    goto END;
+	}
+    }
     if($opt_gittag ne '')
       {
 	my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
@@ -387,9 +407,9 @@ print LOG "===========================================\n";
         $G4_MAIN_NOAFS =~ s/\@sys/$afs_sysname/;
         symlink $G4_MAIN_NOAFS, $installDir."/geant4";
         $ENV{G4_MAIN} = $installDir."/geant4"; #to get G4_MAIN for configure
-	foreach my $m (@externalPackages)
+	foreach my $m (sort keys %externalPackages)
 	{
-	    my $dir = $externalPackagesDir."/".$m;
+	    my $dir = $externalPackagesDir."/".$externalPackages{$m};
 	    if (! -d $dir)
 	    {
 		print LOG "cannot find dir $dir for package $m\n";
@@ -690,15 +710,16 @@ if ($opt_stage < 4)
 	      # DONE REMOVING POINTLESS LA FILES
 	  }
       }
-    my $gitcommand = "git clone https://github.com/sPHENIX-Collaboration/calibrations $OFFLINE_MAIN/share/calibrations";
+# git clone -q --> no progress report to stdout
+    my $gitcommand = "git clone -q https://github.com/sPHENIX-Collaboration/calibrations.git $OFFLINE_MAIN/share/calibrations";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
   }
 # all done adjust remaining *.la files to point to /afs/rhic.bnl.gov/ instead 
 # of /afs/.rhic.bnl.gov/
-my $cmd = sprintf("find %s/lib -name '*.la' -print | xargs sed -i 's/\\.rhic/rhic/g'",$OFFLINE_MAIN);
-print LOG "adjusting la files, replacing /afs/.rhic.bnl.gov by /afs/rhic.bnl.gov\n";
-system($cmd);
+#my $cmd = sprintf("find %s/lib -name '*.la' -print | xargs sed -i 's/\\.rhic/rhic/g'",$OFFLINE_MAIN);
+#print LOG "adjusting la files, replacing /afs/.rhic.bnl.gov by /afs/rhic.bnl.gov\n";
+#system($cmd);
 if ($opt_root6)
 {
     print LOG "copying pcm files with\n";
@@ -716,14 +737,44 @@ symlink $linkTarget, $inst;
 # install for scan and coverity build means copying reports which are not in afs
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
-    my $releasedir = sprintf("/afs/rhic.bnl.gov/sphenix/sys/%s/log",$afs_sysname);
-# if we don't have to release the afs volume we are done here
-    if (! -d $releasedir)
+    my $releasefile;
+    if ($opt_afs)
     {
-	$buildSucceeded=1;
-	goto END;
+	my $releasedir = sprintf("/afs/rhic.bnl.gov/sphenix/sys/%s/log",$afs_sysname);
+# if we don't have to release the afs volume we are done here
+	if (! -d $releasedir)
+	{
+	    $buildSucceeded=1;
+	    goto END;
+	}
+	$releasefile = sprintf("%s/afs.release",$releasedir);
     }
-    my $releasefile = sprintf("%s/afs.release",$releasedir);
+    else
+    {
+# tell cvmfs DB to keep builds separately to reduce amount of loaded lookups
+	my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
+	system("touch $cvmfscatalognestfile");
+	my $releasedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release",$afs_sysname);
+	if ($opt_version =~ /ana/ || $opt_version =~ /pro/)
+	{
+	    my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
+	    my $symlinktarget = sprintf("%s/%s.%d",$releasedir,$opt_version,$releasenumber);
+	    symlink $symlinksource, $symlinktarget;
+	    print LOG "creating symlink source: $symlinksource target: $symlinktarget\n";
+	}
+	else
+	{
+	    $releasedir = sprintf("%s/release_%s",$releasedir,$opt_version);
+	}
+
+# if we don't have to release the afs volume we are done here
+	if (! -d $releasedir)
+	{
+	    $buildSucceeded=1;
+	    goto END;
+	}
+	$releasefile = sprintf("%s/CVMFSRELEASE",$releasedir);
+    }
     chomp (my $date = `date`);
     print LOG "$date checking for existing $releasefile\n";
     if (-f $releasefile)
@@ -740,17 +791,22 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 	}
 	chomp (my $date = `date`);
 	print LOG "$date $releasefile still exist, build fails!\n";
-	$buildSucceeded==0;
+	$buildSucceeded=0;
 	goto END;
     }
 NORELEASEFILE:
-    if ($opt_version =~ /ana/)
-      {
-        chomp ($date = `date`);
-	print LOG "$date creating taxi afs dirs\n";
-        create_afs_taxi_dir();
-      }
+#    if ($opt_version =~ /ana/)
+#      {
+#        chomp ($date = `date`);
+#	print LOG "$date creating taxi afs dirs\n";
+#        create_afs_taxi_dir();
+#      }
     chomp ($date = `date`);
+    print LOG "copying build log to install area before releasing\n";
+    print LOG "this is the last line you will see\n";
+    close LOG;
+    system("cp $logfile $installDir");
+    open(LOG, ">>$logfile");
     print LOG "$date initiating release, touching $releasefile\n";
     system("touch $releasefile");
     my $n=70;
@@ -768,7 +824,7 @@ NORELEASEFILE:
 	print LOG "$date $releasefile still exists, counter: $n\n";
 	$n--;
     }
-    chomp (my $date = `date`);
+    chomp ($date = `date`);
     print LOG "$date $releasefile still exists, giving up and failing build $n\n";
     $buildSucceeded=0;
     goto END;
@@ -819,13 +875,14 @@ print INFO " status: ".$buildStatus."\n";
 print INFO " build: ".$sysname."\n";
 print INFO " at system: ".$sysInfo."\n";
 print INFO " elapsed time: ".$elapsedtime." seconds\n";
-print INFO " source dir:".$Link{'source'}."\n ";
-print INFO " build dir:".$Link{'build'}."\n ";
-print INFO " install dir:".$Link{'install'}."\n ";
+print INFO " source dir:".$sourceDir."\n ";
+print INFO " build dir:".$buildDir."\n ";
+print INFO " install dir:".$installDir."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
 print INFO " http://www.phenix.bnl.gov/software/sPHENIX/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
 print INFO " git tag: \n".$opt_gittag."\n";
-print INFO " git command used: \n".$gitcommand."\n";
+print INFO " git branch: \n".$opt_gitbranch."\n";
+#print INFO " git command used: \n".$gitcommand."\n";
 %month=('Jan',0,'Feb',1,'Mar',2,'Apr',3,'May',4,'Jun',5,'Jul',6,'Aug',7,'Sep',8,'Oct',9,'Nov',10,'Dec',11);
 close (LOG);
 open(LOG,"$logfile");
@@ -849,6 +906,7 @@ while (<LOG>)
 	$time=$newtime;
       }
   }
+
 close(LOG);
 close(INFO);
 
@@ -869,21 +927,22 @@ if ($buildSucceeded==1 && $opt_version =~ /ana/)
 if ( defined($dbh)) { $dbh->disconnect; }
 
 sub doSystemFail
-  {
+{
     close(LOG);
     my $arg = shift(@_) . ">> $logfile 2>&1";
     my $status = system($arg);
     open(LOG, ">>$logfile");
     if ($status)
-      {
+    {
 	print LOG "system $arg failed: $?\n";
-      }
+    }
     return $status;
-  }
+}
 
 
 sub check_insure_reports
 {
+    open(LOG, ">>$logfile");
     open(INSREP,"find $insureDir -maxdepth 1 -type f -size +0 -print | sort |");
     while($insure_report = <INSREP>)
     {
@@ -925,6 +984,7 @@ sub check_insure_reports
 	}
     }
     close(INSREP);
+    close(LOG);
 }
 
 sub check_expiration_date
@@ -1145,3 +1205,54 @@ sub install_scanbuild_reports
     }
 }
 
+sub printhelp
+{
+    print "--stage            Skip to stage N of the build process. \n";
+    print "                     0 = CVS checkout (default) \n";
+    print "                     1 = configure\n";
+    print "                     2 = install headers \n";
+    print "                     3 = compile and install \n";
+    print "                     4 = run tests \n";
+    print "                     5 = install only (scan-build) \n";
+    print "--afs              install in afs (cvmfs is default)\n";
+    print "--source='string'  Use the specified source directory. Don't get\n";
+    print "                     the source from CVS (i.e., skip stage 0)\n";
+    print "--version='string' Prefix for installation area. Default: new\n";
+    print "--tinderbox        Send build information to tinderbox.\n";
+    print "--gittag='string'  CVS flags for source checkout. \n";
+    print "--phenixinstall    Install in the official AFS area. \n";
+    print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
+    print "--insure           Rebuild using the Insure++\n";
+    print "--scanbuild        Making a scan-build with clang\n";
+    print "--coverity         Making a coverity build\n";
+    print "--covpasswd='string'  the coverity password for the integrity manager\n";
+    print "--notify           Contact responsibles in case of failure.\n";
+    print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
+    print "--root6            do whatever is needed to use root 6\n";
+    print "--lafiles          build keeping libtool *.la files.\n";
+    exit(0);
+  }
+
+
+# check if we have a remote branch in git
+sub check_git_branch
+{
+    my $branchname = shift;
+    open(F,"git ls-remote --heads | awk \'{print \$2}\' |");
+    while (my $line = <F>)
+    {
+	if ($line !~ /refs/)
+	{
+	    next;
+	}
+	chomp $line;
+	my @sp1 = split("/",$line);
+	if ($sp1[$#sp1] eq $branchname )
+	{
+	    close(F);
+	    return 1;
+	}
+    }
+    close(F);
+    return 0;
+}
