@@ -1100,7 +1100,7 @@ sub install_coverity_reports
 			if ($line =~ /Processing 0 errors/)
 			{
 			    $addfile = 0;
-			    print LOG "not adding html file $packages to summary, it is empty"
+			    print LOG "not adding html file $packages to summary, it is empty\n";
 			}
 		    }
 		    close(F2);
