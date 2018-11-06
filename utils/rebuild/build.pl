@@ -1093,14 +1093,23 @@ sub install_coverity_reports
 		    my $covcmd = sprintf("cov-format-errors --dir %s --html-output %s",$covdir,$htmldir);
 		    print LOG "$covcmd\n";
 		    open(F2,"$covcmd 2>&1 |");
+                    my $addfile = 1;
 		    while(my $line = <F2>)
 		    {
 			print LOG "$line";
+			if ($line =~ /Processing 0 errors/)
+			{
+			    $addfile = 0;
+			    print LOG "not adding html file $packages to summary, it is empty\n";
+			}
 		    }
 		    close(F2);
 		    my $packagename = $packages;
 		    $packagename =~  s/\./\//g;
-		    print F1 "<a href=\"$packages\">$packages</a> contact: $contact{$packagename} </br>\n";
+		    if ($addfile > 0)
+		    {
+			print F1 "<a href=\"$packages\">$packages</a> contact: $contact{$packagename} </br>\n";
+		    }
 		}
 		else
 		{
