@@ -1,6 +1,6 @@
 #! /usr/bin/perl
 
-# This script rebuilds the PHENIX code base.  It checks out code from CVS,
+# This script rebuilds the sPHENIX code base.  It checks out code from CVS,
 # compiles it, and installs it in the appropriate directories in AFS.  In
 # order for this script to work, you need an AFS token (for installation).
 use warnings;
@@ -205,7 +205,7 @@ $logfile = $workdir.'/rebuild.log';
 open(LOG, ">$logfile");
 select LOG;
 $| = 1;
-print LOG "Welcome to the PHENIX $sysname rebuild \n started at ",$date,"\n";
+print LOG "Welcome to the sPHENIX $sysname rebuild \n started at ",$date,"\n";
 # print how we were called
 print LOG "How this script was called:\n";
 print LOG "$cmdline\n\n";
@@ -249,7 +249,7 @@ if ($opt_tinderbox)
     close(TIND);
   }
 
-# If we're doing a real PHENIX install, then there is an official
+# If we're doing a real sPHENIX install, then there is an official
 # place where stuff is supposed to be installed.
 my $afs_sysname;
 if (-f "/usr/afsws/bin/fs")
@@ -418,7 +418,7 @@ print LOG "===========================================\n";
 		    print LOG "\nsending external package failure mail to $buildmanager\n";
 		    open( MAIL, "|$SENDMAIL" );
 		    print MAIL "To: $buildmanager\n";
-		    print MAIL "From: The Phenix rebuild daemon\n";
+		    print MAIL "From: The sPHENIX rebuild daemon\n";
 		    print MAIL "Subject: external package $dir does not exist\n\n";
 		    print MAIL "\n";
 		    print MAIL "Hello,\n";
@@ -511,7 +511,7 @@ print LOG "===========================================\n";
 		print LOG "\nsending configure failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The Phenix rebuild daemon\n";
+                print MAIL "From: The sPHENIX rebuild daemon\n";
                 print MAIL "Cc: $CC\n";	
                 print MAIL "Subject: your configure crashed the build\n\n";
 		print MAIL "\n";
@@ -565,7 +565,7 @@ if ($opt_stage < 3)
 		print LOG "\nsending install-data failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The Phenix rebuild daemon\n";
+                print MAIL "From: The sPHENIX rebuild daemon\n";
                 print MAIL "Cc: $CC\n";	
                 print MAIL "Subject: your install-data crashed the build\n\n";
 		print MAIL "\n";
@@ -631,7 +631,7 @@ if ($opt_stage < 4)
 		print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-		print MAIL "From: The Phenix rebuild daemon\n";
+		print MAIL "From: The sPHENIX rebuild daemon\n";
 		print MAIL "Cc: $CC\n";	
 		print MAIL "Subject: your code crashed the $opt_version build\n\n";
 		print MAIL "Hello,\n";
@@ -667,7 +667,7 @@ if ($opt_stage < 4)
 		print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The Phenix rebuild daemon\n";
+                print MAIL "From: The sPHENIX rebuild daemon\n";
                 print MAIL "Cc: $CC\n";	
                 print MAIL "Subject: your code crashed the build\n\n";
 		print MAIL "Hello,\n";
@@ -967,7 +967,7 @@ sub check_insure_reports
 	    print LOG "\nsending insure report mail to $contact{$m}, cc $CC\n";
 	    open( MAIL, "|$SENDMAIL" );
 	    print MAIL "To: $contact{$package}\n";
-	    print MAIL "From: The Phenix rebuild daemon\n";
+	    print MAIL "From: The sPHENIX rebuild daemon\n";
 	    print MAIL "Cc: $CC\n";	
 	    print MAIL "Subject: your code ticks off the insure compiler\n\n";
 	    print MAIL "Hello,\n";
@@ -999,7 +999,7 @@ sub check_expiration_date
 	$setexpired->execute($mods[0]);
 	open( MAIL, "|$SENDMAIL" );
 	print MAIL "To: $contact{$mods[0]}\n";
-	print MAIL "From: The Phenix rebuild daemon\n";
+	print MAIL "From: The sPHENIX rebuild daemon\n";
 	print MAIL "Cc: $CC\n";	
 	print MAIL "Subject: your module $mods[0] expired\n\n";
 	print MAIL "Hello,\n";
@@ -1195,7 +1195,7 @@ sub install_scanbuild_reports
 	    print LOG "\nsending scanbuild report mail to $contact{$package}, cc $scancc\n";
 	    open( MAIL, "|$SENDMAIL" );
 	    print MAIL "To: $contact{$package}\n";
-	    print MAIL "From: The Phenix rebuild daemon\n";
+	    print MAIL "From: The sPHENIX rebuild daemon\n";
 	    print MAIL "Cc: $scancc\n";	
 	    print MAIL "Subject: scan-build found issues in $package\n\n";
 	    print MAIL "Hello $contact{$package},\n";
@@ -1247,7 +1247,9 @@ sub printhelp
 sub check_git_branch
 {
     my $branchname = shift;
-    open(F,"git ls-remote --heads | awk \'{print \$2}\' |");
+# the redir of stderr is needed to prevent obnoxious "From https://..."
+# being send in a mail
+    open(F,"git ls-remote --heads 2>/dev/null | awk \'{print \$2}\' |");
     while (my $line = <F>)
     {
 	if ($line !~ /refs/)
