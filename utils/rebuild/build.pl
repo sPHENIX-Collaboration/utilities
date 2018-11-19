@@ -48,6 +48,7 @@ my %externalPackages = (
     "HepMC" => "HepMC",
     "PHOTOS" => "PHOTOS",
     "pythia8" => "pythia8",
+    "rapidjson" => "rapidjson",
     "rave" => "rave",
     "TAUOLA" => "TAUOLA"
     );
