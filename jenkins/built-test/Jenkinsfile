@@ -28,7 +28,7 @@ pipeline
 				}
 			}
 		}
-                   
+
 		stage('Git Checkout')
 		{
 			agent any
@@ -66,6 +66,8 @@ pipeline
 			agent any
 			steps 
 			{
+				sh('pwd')
+				
 			}
 		}
 		
