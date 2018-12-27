@@ -17,7 +17,7 @@ source /opt/sphenix/core/bin/sphenix_setup.csh -n;
 
 mkdir -v ${WORKSPACE}/build;
 
-cd utilities/utils/rebuild/
+cd ${WORKSPACE}/utilities/utils/rebuild/
 
 env;
 
