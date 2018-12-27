@@ -32,10 +32,10 @@ pipeline
 					ansiColor('xterm') {
 						
 						dir('coresoftware') {
-							git url: 'https://github.com/sPHENIX-Test/coresoftware.git'
+							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/coresoftware.git'
 						}
 						dir('online_distribution') {
-							git url: 'https://github.com/sPHENIX-Test/online_distribution.git'
+							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/online_distribution.git'
 						}
 						dir('macros')
 						{
@@ -43,11 +43,11 @@ pipeline
     				}	
 						dir('calibrations')
 						{
-							git branch: '${sha1}', credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/calibrations.git'
+							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/calibrations.git'
     				}	
 						dir('tutorials')
 						{
-							git branch: '${sha1}', credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/tutorials.git'
+							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/tutorials.git'
     				}	
 					}
 				}
