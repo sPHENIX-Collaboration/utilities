@@ -4,7 +4,7 @@ pipeline
     agent none
     
     environment { 
-#        JenkinsBase = 'jenkins/test/'
+//        JenkinsBase = 'jenkins/test/'
     }
     
     
