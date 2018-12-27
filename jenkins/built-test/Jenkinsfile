@@ -39,7 +39,7 @@ pipeline
 						}
 						dir('macros')
 						{
-							git branch: '*/master', credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/macros.git'
+							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/macros.git'
     				}	
 						dir('calibrations')
 						{
