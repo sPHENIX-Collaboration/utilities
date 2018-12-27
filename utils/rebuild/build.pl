@@ -96,7 +96,7 @@ $opt_lafiles = 0;
 $opt_help = 0;
 $opt_afs = 0;
 GetOptions('help', 'stage=i', 'afs',
-	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s',
+	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
 	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'lafiles');
 
