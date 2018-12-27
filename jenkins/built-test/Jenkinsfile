@@ -14,26 +14,22 @@ pipeline
 			steps {
 				timestamps {
 					ansiColor('xterm') {
-						echo 'Example - Entry'
 						sh('hostname')
 						sh('pwd')
 						sh ('env');
 						sh('ls -lvhc')
-						echo 'Example - Done'
 					}
 				}
 			}
 		}
                    
-		stage('SCM Checkout')
+		stage('Git Checkout')
 		{
 			agent any
 			steps 
 			{
 				timestamps { 
 					ansiColor('xterm') {
-						echo 'SCM Checkout - Entry'
-	                        
 						
 						dir('coresoftware') {
 							git url: 'https://github.com/sPHENIX-Test/coresoftware.git'
@@ -41,8 +37,18 @@ pipeline
 						dir('online_distribution') {
 							git url: 'https://github.com/sPHENIX-Test/online_distribution.git'
 						}
-	
-						echo 'SCM Checkout - Done'
+						dir('macros')
+						{
+							git branch: '${sha1}', credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/macros.git'
+    				}	
+						dir('calibrations')
+						{
+							git branch: '${sha1}', credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/calibrations.git'
+    				}	
+						dir('tutorials')
+						{
+							git branch: '${sha1}', credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/tutorials.git'
+    				}	
 					}
 				}
 			}
