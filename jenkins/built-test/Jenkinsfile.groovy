@@ -3,9 +3,9 @@ pipeline
 
     agent none
     
-    environment { 
+//    environment { 
 //        JenkinsBase = 'jenkins/test/'
-    }
+//    }
     
     
         stages { 
