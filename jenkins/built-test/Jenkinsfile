@@ -63,12 +63,24 @@ pipeline
 		 
 		stage('Build')
 		{
-			agent any
-			steps 
-			{
-				sh('pwd')
-				
-			}
+			parallel {
+			
+				stage('Full-Build')
+				{
+					steps 
+					{
+						sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f full-build.sh')
+						
+					}				
+				}
+				stage('cpp-check')
+				{
+					steps 
+					{
+						sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f cpp-check.sh')						
+					}				
+				}
+			}// parallel			
 		}
 		
 	}//stages
