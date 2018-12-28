@@ -18,7 +18,7 @@ echo "======================================================="
 echo "Start test";
 echo "======================================================="
 
-/usr/bin/time -v root -b -q root -b -q 'Fun4All_G4_sPHENIX.C(1,"e-",4)' | & tee -a Fun4All_G4_sPHENIX.log;
+/usr/bin/time -v root -b -q root -b -q 'Fun4All_G4_sPHENIX.C(10,"e-",4)' | & tee -a Fun4All_G4_sPHENIX.log;
 
 ls -lhcrt
 
