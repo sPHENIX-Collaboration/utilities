@@ -73,7 +73,7 @@ pipeline
 
     		build(job: 'cpp-check',
     			parameters:
-    			[string(name: 'coresoftware-src', value: "${WORKSPACE}/coresoftware")], 
+    			[string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware")], 
     			wait: false, propagate: false)
    		}
 		}
