@@ -105,6 +105,20 @@ pipeline
 		   											
 					}				
 				}
+			
+				stage('ttest-calo-single-qa')
+				{
+					agent any
+					steps 
+					{
+						
+		    		build(job: 'test-calo-single-qa',
+		    			parameters:
+		    			[string(name: 'build_src', value: "${WORKSPACE}")], 
+		    			wait: true, propagate: true)
+		   											
+					}				
+				}
 				
 				
 			}// parallel			
