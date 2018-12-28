@@ -106,7 +106,7 @@ pipeline
 					}				
 				}
 			
-				stage('ttest-calo-single-qa')
+				stage('test-calo-single-qa')
 				{
 					agent any
 					steps 
