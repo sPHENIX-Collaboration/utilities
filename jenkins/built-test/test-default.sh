@@ -3,9 +3,9 @@
 source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
 
 setenv workRootPath `pwd`;
-setenv PATH 		$workRootPath/install/bin:${PATH}
-setenv LD_LIBRARY_PATH 	$workRootPath/install/lib:${LD_LIBRARY_PATH}
-setenv CALIBRATIONROOT  $workRootPath/calibrations/
+setenv PATH 		$WORKSPACE/install/bin:${PATH}
+setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
+setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
 
 env;
 
