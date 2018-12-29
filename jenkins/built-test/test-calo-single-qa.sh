@@ -39,6 +39,8 @@ while ( $id_number <= $number_jobs )
 
 	/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(1,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log &;
    
+   sleep 1s;
+   
    @ id_number++
 end
 
@@ -57,9 +59,17 @@ if ($build_ret != 0) then
 	exit $build_ret;
 endif
 
-hadd -f -v 3 G4sPHENIX_${name}_qa.root G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
+echo "======================================================="
+echo "${name}: Merging output to G4sPHENIX_${name}_qa.root";
+echo "======================================================="
 
-sh QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
+hadd -f G4sPHENIX_${name}_qa.root G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
+
+echo "======================================================="
+echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
+echo "======================================================="
+
+./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
 
 
 
