@@ -10,7 +10,7 @@ pipeline
 	
 		stage('Prebuild-Cleanup') 
 		{
-			agent any
+			
             
 			steps {
 				timestamps {
@@ -54,7 +54,7 @@ pipeline
 	
 		stage('Initialize') 
 		{
-			agent any
+			
             
 			steps {
 				timestamps {
@@ -78,7 +78,7 @@ pipeline
 
 		stage('Git Checkout')
 		{
-			agent any
+			
 			steps 
 			{
 				timestamps { 
@@ -95,7 +95,7 @@ pipeline
 						
 						dir('macros/macros/g4simulations/reference')
 						{
-    					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful);
+    					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
 						}
 						
 					}
@@ -105,7 +105,7 @@ pipeline
 		
 		stage('Test-e-')
 		{
-			agent any
+			
 			
 			steps 
 			{
@@ -117,7 +117,7 @@ pipeline
 		}
 		stage('Test-pi+')
 		{
-			agent any
+			
 			
 			steps 
 			{
