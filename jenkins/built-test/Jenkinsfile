@@ -154,7 +154,7 @@ pipeline
 		    			[string(name: 'build_src', value: "${build_root_path}")], 
 		    			wait: true, propagate: true)
 		   			
-		   			copyArtifacts(projectName: 'test-default');
+		   			copyArtifacts(projectName: 'test-calo-single-qa');
 					}				
 				}
 				
