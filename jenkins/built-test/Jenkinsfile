@@ -107,12 +107,12 @@ pipeline
 					{
 						//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
 						
-		    		def built_test = build(job: 'test-default',
+		    		build(job: 'test-default',
 		    			parameters:
 		    			[string(name: 'build_src', value: "${build_root_path}")], 
 		    			wait: true, propagate: true)
 		   										
-		   			copyArtifacts(projectName: 'test-default', selector: specific("${built_test.number}"));
+		   			copyArtifacts(projectName: 'test-default');
 					}				
 				}
 			
@@ -122,12 +122,12 @@ pipeline
 					steps 
 					{
 						
-		    		def built_calo = build(job: 'test-calo-single-qa',
+		    		build(job: 'test-calo-single-qa',
 		    			parameters:
 		    			[string(name: 'build_src', value: "${build_root_path}")], 
 		    			wait: true, propagate: true)
 		   			
-		   			copyArtifacts(projectName: 'test-default', selector: specific("${built_calo.number}"));
+		   			copyArtifacts(projectName: 'test-default');
 					}				
 				}
 				
