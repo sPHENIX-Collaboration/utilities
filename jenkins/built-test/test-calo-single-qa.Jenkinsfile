@@ -29,7 +29,7 @@ pipeline
 						}
 						
     				
-						echo('link builds to ${build_src}')
+						echo("link builds to ${build_src}")
 						sh('ln -svfb ${build_src}/build ./build')
 						sh('ln -svfb ${build_src}/calibrations ./calibrations')
 
