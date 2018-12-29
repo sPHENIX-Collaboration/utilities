@@ -114,7 +114,7 @@ pipeline
 		}
 		
 	}//stages
-}
+
 	
 }//pipeline 
 
