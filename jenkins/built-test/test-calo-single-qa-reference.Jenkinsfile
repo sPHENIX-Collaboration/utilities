@@ -48,7 +48,7 @@ pipeline
 			steps 
 			{
 					
-		   	copyArtifacts(projectName: "${test-calo-single-qa}", selector: specific("${ref_build_id}"));
+		   	// copyArtifacts(projectName: "${test-calo-single-qa}", selector: specific("${ref_build_id}"));
 		   	
 		   	dir('macros/macros/g4simulations/')
 		   	{
