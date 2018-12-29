@@ -16,6 +16,7 @@ pipeline
 				timestamps {
 					ansiColor('xterm') {
 					
+						sh("env");
 						
 						script{
 							if(${ref_build_id} == null || ${ref_build_id}.length() == 0)
