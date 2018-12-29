@@ -24,7 +24,7 @@ env;
 
 cd macros/macros/g4simulations/
 
-ln -svfb $WORKSPACE//coresoftware/tree/master/offline/QA/macros/* ./
+ln -svfb $WORKSPACE//coresoftware/offline/QA/macros/* ./
 
 pwd;
 ls -lhc
@@ -57,10 +57,9 @@ if ($build_ret != 0) then
 	exit $build_ret;
 endif
 
-hadd -fv G4sPHENIX_${name}_qa.root G4sPHENIX_${particle_ID}_pT${pT_GeV}_qa.root
+hadd -f -v 3 G4sPHENIX_${name}_qa.root G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
 
-chmod +x QA_Draw_ALL.sh 
-QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
+sh QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
 
 
 

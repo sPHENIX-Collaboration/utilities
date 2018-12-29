@@ -44,6 +44,9 @@ pipeline
 						}
 
 						sh('ls -lvhc')
+						
+						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+						
 					}
 				}
 			}
@@ -106,9 +109,30 @@ pipeline
 			}				
 					
 		}
+		stage('Test-pi+')
+		{
+			agent any
+			
+			steps 
+			{
+					
+				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 10')
+														
+			}				
+					
+		}
 		
 	}//stages
 
 	
+	post {
+		success {
+			archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*Sum*_qa.*', fingerprint: true
+			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+		}
+		failure {
+			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+		}
+	}
 }//pipeline 
 
