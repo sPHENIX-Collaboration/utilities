@@ -1,6 +1,6 @@
 pipeline 
 {
-	agent none
+	agent any
     
 //    environment { 
 //        JenkinsBase = 'jenkins/test/'
@@ -126,8 +126,11 @@ pipeline
 
 	
 	post {
+		aways{
+			archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum10_qa.root*', onlyIfSuccessful: true		    
+		}
+
 		success {
-			archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*Sum*_qa.*', fingerprint: true
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		failure {
