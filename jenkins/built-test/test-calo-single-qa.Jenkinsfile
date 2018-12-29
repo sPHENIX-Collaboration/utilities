@@ -126,7 +126,7 @@ pipeline
 
 	
 	post {
-		aways{
+		always{
 			archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum10_qa.root*', onlyIfSuccessful: true		    
 		}
 
