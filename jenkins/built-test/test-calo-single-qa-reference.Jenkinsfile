@@ -73,7 +73,7 @@ pipeline
 		success {
 			script
 			{
-				currentBuild.displayName = "${env.BUILD_NUMBER} - ${ref_build_id} of ${build_src}"
+				currentBuild.displayName = "${env.BUILD_NUMBER} - ${build_src} / ${ref_build_id}"
 				
 				currentBuild.description = "Selected reference build ${ref_build_id} from ${build_src}"		         
 			}

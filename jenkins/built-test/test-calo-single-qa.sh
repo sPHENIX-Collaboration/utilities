@@ -69,7 +69,10 @@ echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
 echo "======================================================="
 
-./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
+echo "Reference file: "
+ls -lhvc reference/${particle_ID}_pT${pT_GeV}_Sum*_qa.root
+
+./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root reference/${particle_ID}_pT${pT_GeV}_Sum*_qa.root
 
 
 

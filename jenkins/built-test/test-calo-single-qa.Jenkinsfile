@@ -92,6 +92,12 @@ pipeline
 						dir('coresoftware') {
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
 						}
+						
+						dir('macros/macros/g4simulations/reference')
+						{
+    					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful);
+						}
+						
 					}
 				}
 			}
