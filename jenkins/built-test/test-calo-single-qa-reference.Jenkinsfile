@@ -26,7 +26,7 @@ pipeline
 							}
 						}
 					
-						echo("Build ref_build_id = (${ref_build_id})");
+						echo("Build ${build_src} ref_build_id = (${ref_build_id})");
 						slackSend (color: '#FFFF00', message: "STARTED: Job with reference build ${ref_build_id} '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 						
 						deleteDir()						
@@ -47,8 +47,9 @@ pipeline
 					
 			steps 
 			{
-				echo ("copyArtifacts(projectName: ${test-calo-single-qa}, selector: specific(${ref_build_id}))");
-		    copyArtifacts(projectName: "${test-calo-single-qa}", selector: specific("${ref_build_id}"));
+				echo ("copyArtifacts(projectName: ${build_src}, selector: specific(${ref_build_id}))");
+		   	copyArtifacts(projectName: "${build_src}", selector: specific("${ref_build_id}"));
+		    //copyArtifacts(projectName: "${test-calo-single-qa}");
 		   	
 		   	dir('macros/macros/g4simulations/')
 		   	{
