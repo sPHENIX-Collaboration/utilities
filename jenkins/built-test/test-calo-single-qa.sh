@@ -30,7 +30,7 @@ pwd;
 ls -lhc
 
 set id_number = 1
-while ( $id_number <= number_jobs )
+while ( $id_number <= $number_jobs )
    set job_name = ${particle_ID}_pT${pT_GeV}_${id_number}
    
    	echo "======================================================="
