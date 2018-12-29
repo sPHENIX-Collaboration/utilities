@@ -19,7 +19,8 @@ pipeline
 						script{
 							if(${ref_build_id} == null || ${ref_build_id}.length() == 0)
 							{
-								error("Build failed because of ref_build_id is empty")								
+								echo("Build failed because of ref_build_id is empty")								
+       				 	currentBuild.result = 'FAILURE'
 							}
 						}
 					
