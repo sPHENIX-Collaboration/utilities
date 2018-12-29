@@ -20,11 +20,6 @@ pipeline
 						sh('hostname')
 						sh('pwd')
 						sh('env')
-						
-						dir('build') {
-							deleteDir()
-						}
-						
 						sh('ls -lvhc')
 						
 						dir('utilities/jenkins/built-test/') {
@@ -86,13 +81,21 @@ pipeline
 			agent any
 			steps 
 			{
+				dir('build') {
+					deleteDir()
+				}
+				sh('hostname')
+				sh('pwd')
+				sh('env')
+				sh('ls -lvhc')
+						
 				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/full-build.sh')
 			
 			 	script {
 			  	build_root_path = pwd();
 			 	}
 						
-				slackSend (color: '#00FF00', message: "sPHENIX build available: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}). Buld available at ${build_root_path}")
+				slackSend (color: '#00F000', message: "sPHENIX build available: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}). Buld available at ${build_root_path}")
 			}										
 		}
 		
