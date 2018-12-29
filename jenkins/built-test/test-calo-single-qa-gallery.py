@@ -22,7 +22,7 @@ source = 'pictures'
 # Theme :
 # - colorbox (default), galleria, photoswipe, or the path to a custom theme
 # directory
-theme = 'galleria'
+theme = 'photoswipe'
 
 # Author. Used in the footer of the pages and in the author meta tag.
 # author = ''
@@ -31,14 +31,14 @@ theme = 'galleria'
 # processing steps (resize, auto-orient, recompress, and any plugin-specific
 # step).
 # Originals will be symlinked if orig_link = True, else they will be copied.
-# use_orig = False
+use_orig = True
 
 # ----------------
 # Image processing (ignored if use_orig = True)
 # ----------------
 
 # Size of resized image (default: (640, 480))
-img_size = (800, 600)
+# img_size = (2800, 600)
 
 # Show a map of the images where possible?
 # This option only has an effect on the galleria theme for the while.
@@ -62,7 +62,7 @@ img_size = (800, 600)
 # Warning: this setting is not compatible with `copy_exif_data` (see below),
 # because Sigal can't save the modified Orientation tag (currently Pillow can't
 # write EXIF).
-# autorotate_images = True
+autorotate_images = False
 
 # If True, EXIF data from the original image is copied to the resized image
 # copy_exif_data = False
@@ -81,7 +81,7 @@ img_size = (800, 600)
 # --------------------
 
 # Generate thumbnails
-# make_thumbs = True
+make_thumbs = True
 
 # Subdirectory of the thumbnails
 # thumb_dir = 'thumbnails'
