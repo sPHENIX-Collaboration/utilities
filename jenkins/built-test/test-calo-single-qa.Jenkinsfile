@@ -7,6 +7,48 @@ pipeline
 //    }
        
 	stages { 
+	
+		stage('Prebuild-Cleanup') 
+		{
+			agent any
+            
+			steps {
+				timestamps {
+					ansiColor('xterm') {
+					
+						script {
+							if (fileExists('./build'))
+							{
+								sh "rm -fv ./build"
+							}
+							if (fileExists('./calibrations'))
+							{
+								sh "rm -fv ./calibrations"
+							}
+						
+						}
+						
+    				
+						echo('link builds to ${build_src}')
+						sh('ln -svfb ${build_src}/build ./build')
+						sh('ln -svfb ${build_src}/calibrations ./calibrations')
+
+
+						dir('macros')
+						{
+							deleteDir()
+						}	
+
+						dir('coresoftware') {
+							deleteDir()
+						}
+
+						sh('ls -lvhc')
+					}
+				}
+			}
+		}
+	
 		stage('Initialize') 
 		{
 			agent any
@@ -18,10 +60,6 @@ pipeline
 						sh('hostname')
 						sh('pwd')
 						sh('env')
-						
-						echo('link builds to ${build_src}')
-						sh('ln -svfb ${build_src}/build ./build')
-						sh('ln -svfb ${build_src}/calibrations ./calibrations')
 						
 						sh('ls -lvhc')
     				
@@ -46,7 +84,7 @@ pipeline
 						dir('macros')
 						{
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/macros.git', branch:'calo-single-qa'
-    				}	
+    						}	
     				
 						dir('coresoftware') {
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
@@ -76,5 +114,7 @@ pipeline
 		}
 		
 	}//stages
+}
+	
 }//pipeline 
 
