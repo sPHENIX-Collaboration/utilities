@@ -136,13 +136,13 @@ pipeline
 				archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum*_qa.root*'
 			
 				script{
-			    def built = build(job: 'test-calo-single-qa-reference',
+			    def built = build(job: 'test-calo-single-qa-gallery',
 			    	parameters:
 			    	[string(name: 'build_src', value: "${env.JOB_NAME}"),
 			    	string(name: 'ref_build_id', value: "${env.BUILD_NUMBER}")], 
 			    	wait: true, propagate: true)	
 				  
-				  copyArtifacts(projectName: 'test-calo-single-qa-reference', selector: specific("${built.number}"));
+				  copyArtifacts(projectName: 'test-calo-single-qa-gallery', selector: specific("${built.number}"));
 				}
 				archiveArtifacts artifacts: 'qa_page.tar.gz'
 				
