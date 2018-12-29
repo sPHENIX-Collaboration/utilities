@@ -19,8 +19,19 @@ echo "Start test";
 echo "======================================================="
 
 /usr/bin/time -v root -b -q root -b -q 'Fun4All_G4_sPHENIX.C(10,"e-",4)' | & tee -a Fun4All_G4_sPHENIX.log;
+set build_ret = $?;
+
+echo "Build step - build - return $build_ret";
 
 ls -lhcrt
+
+if ($build_ret != 0) then
+	echo "======================================================="
+	echo "Failed build with return = ${build_ret}. ";
+	echo "======================================================="
+	exit $build_ret;
+endif
+
 
 echo "Build step - test - done";
 
