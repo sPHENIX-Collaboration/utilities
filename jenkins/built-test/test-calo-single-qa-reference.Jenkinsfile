@@ -71,7 +71,12 @@ pipeline
 	post {
 
 		success {
-			currentBuild.description = "Selected reference build ${ref_build_id} from ${build_src}"
+			script
+			{
+				currentBuild.displayName = "${env.BUILD_NUMBER} - ${ref_build_id} of ${build_src}"
+				
+				currentBuild.description = "Selected reference build ${ref_build_id} from ${build_src}"		         
+			}
 			
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
