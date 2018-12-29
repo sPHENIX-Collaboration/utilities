@@ -128,13 +128,45 @@ pipeline
 					
 		}
 		
+		stage('html-report')
+		{
+			steps 
+			{
+			
+				archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum*_qa.root*'
+			
+				script{
+			    def built = build(job: 'test-calo-single-qa-reference',
+			    	parameters:
+			    	[string(name: 'build_src', value: "${env.JOB_NAME}"),
+			    	string(name: 'ref_build_id', value: "${env.BUILD_NUMBER}")], 
+			    	wait: true, propagate: true)	
+				  
+				  copyArtifacts(projectName: 'test-calo-single-qa-reference', selector: specific("${built.number}"));
+				}
+				archiveArtifacts artifacts: 'qa_page.tar.gz'
+				
+				dir('qa_html')
+				{
+    			sh ("tar xzfv ../qa_page.tar.gz")
+				}
+
+				  publishHTML (target: [
+			      allowMissing: false,
+			      alwaysLinkToLastBuild: false,
+			      keepAll: true,
+			      reportDir: 'qa_html',
+			      reportFiles: 'index.html',
+			      reportName: "QA Report"
+			    ])
+			}			// steps	
+					
+		}
+		
 	}//stages
 
 	
 	post {
-		always{
-			archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum*_qa.root*', onlyIfSuccessful: true		    
-		}
 
 		success {
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
