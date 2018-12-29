@@ -16,16 +16,17 @@ pipeline
 				timestamps {
 					ansiColor('xterm') {
 					
+						
 						script{
 							if(${ref_build_id} == null || ${ref_build_id}.length() == 0)
 							{
-								echo("Build failed because of ref_build_id is empty")								
-       				 	currentBuild.result = 'FAILURE'
+								echo("Build failed because of ref_build_id is empty (${ref_build_id})");
+								error("Build failed because of ref_build_id is empty")				
 							}
 						}
 					
-						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-										
+						slackSend (color: '#FFFF00', message: "STARTED: Job with reference build ${ref_build_id} '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+						
 						deleteDir()						
 
 					}
