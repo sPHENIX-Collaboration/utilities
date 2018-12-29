@@ -34,7 +34,7 @@ echo "${job_name}: Start test";
 echo "======================================================="
 
 
-/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(10,\"${particle_ID}\",${pT_GeV},\"${job_name}\")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log;
+/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(10,"\"${particle_ID}\"",${pT_GeV},"\"${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log;
 set build_ret = $?;
 
 echo "Build step - build - return $build_ret";
