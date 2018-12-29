@@ -22,7 +22,7 @@ source = 'pictures'
 # Theme :
 # - colorbox (default), galleria, photoswipe, or the path to a custom theme
 # directory
-theme = 'photoswipe'
+theme = 'colorbox'
 
 # Author. Used in the footer of the pages and in the author meta tag.
 # author = ''
