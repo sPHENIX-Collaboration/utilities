@@ -70,10 +70,10 @@ pipeline
 						dir('online_distribution') {
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/online_distribution.git'
 						}
-						dir('macros')
-						{
-							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/macros.git'
-    				}	
+						//dir('macros')
+						//{
+						//	git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/macros.git'
+    				//}	
 						dir('calibrations')
 						{
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/calibrations.git'
@@ -140,6 +140,18 @@ pipeline
 		    			wait: true, propagate: true)
 		   										
 		   			copyArtifacts(projectName: 'test-default');
+		   			
+		   			dir('macros/macros/g4simulations/')
+		   			{
+		   				stash name: "test-default-stash", includes: "*"
+		   			}
+		   			
+		   			dir('test-default-output')
+		   			{
+		   				unstash "test-default-stash"
+		   				archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
+		   			}
+		   				    
 					}				
 				}
 			
@@ -155,6 +167,19 @@ pipeline
 		    			wait: true, propagate: true)
 		   			
 		   			copyArtifacts(projectName: 'test-calo-single-qa');
+		   			
+		   			
+		   			dir('macros/macros/g4simulations/')
+		   			{
+		   				stash name: "test-calo-single-qa-stash", includes: "*"
+		   			}
+		   			
+		   			dir('test-calo-single-qa-output')
+		   			{
+		   				unstash "test-calo-single-qa-stash"
+		   				archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
+		   			}    
+		   			
 					}				
 				}
 				

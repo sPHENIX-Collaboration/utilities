@@ -127,7 +127,7 @@ pipeline
 	
 	post {
 		always{
-			archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum10_qa.root*', onlyIfSuccessful: true		    
+			archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum*_qa.root*', onlyIfSuccessful: true		    
 		}
 
 		success {
