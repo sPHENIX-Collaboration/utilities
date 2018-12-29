@@ -5,7 +5,7 @@
 # Gallery title. Can be set here or as the '--title' option of the `sigal
 # build` command, or in the 'index.md' file of the source directory.
 # The priority order is: cli option > settings file > index.md file
-# title = "Sigal test gallery"
+title = "QA output gallery"
 
 # ---------------------
 # General configuration
@@ -25,7 +25,7 @@ source = 'pictures'
 theme = 'colorbox'
 
 # Author. Used in the footer of the pages and in the author meta tag.
-# author = ''
+# author = 'Jin Huang'
 
 # Use originals in gallery (default: False). If True, this will bypass all
 # processing steps (resize, auto-orient, recompress, and any plugin-specific
@@ -62,7 +62,7 @@ use_orig = True
 # Warning: this setting is not compatible with `copy_exif_data` (see below),
 # because Sigal can't save the modified Orientation tag (currently Pillow can't
 # write EXIF).
-autorotate_images = False
+# autorotate_images = False
 
 # If True, EXIF data from the original image is copied to the resized image
 # copy_exif_data = False
@@ -81,7 +81,7 @@ autorotate_images = False
 # --------------------
 
 # Generate thumbnails
-make_thumbs = True
+# make_thumbs = True
 
 # Subdirectory of the thumbnails
 # thumb_dir = 'thumbnails'
