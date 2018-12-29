@@ -16,6 +16,13 @@ pipeline
 				timestamps {
 					ansiColor('xterm') {
 					
+						script{
+							if(${ref_build_id} == null || ${ref_build_id}.length() == 0)
+							{
+								error("Build failed because of ref_build_id is empty")								
+							}
+						}
+					
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 										
 						deleteDir()						
@@ -27,12 +34,12 @@ pipeline
 		
 		stage('test-calo-single-qa')
 		{
-			input {
-				message "Pick a reference build in ${test-calo-single-qa}?"
-                parameters {
-                    string(name: 'ref_build_id', description: 'Reference build ID?')
-                }
-            }
+			//input {
+			//	message "Pick a reference build in ${test-calo-single-qa}?"
+      //          parameters {
+      //              string(name: 'ref_build_id', description: 'Reference build ID?')
+      //          }
+      //      }
 					
 			steps 
 			{
