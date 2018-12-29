@@ -69,10 +69,17 @@ echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
 echo "======================================================="
 
-echo "Reference file: "
-ls -lhvc reference/${particle_ID}_pT${pT_GeV}_Sum*_qa.root
+echo "Reference file: with reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root"
+ls -lhvc reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
 
-./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root reference/${particle_ID}_pT${pT_GeV}_Sum*_qa.root
+if ($? == 0) then
+	
+	./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
 
+else
+	
+	./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
+	
+endif
 
 
