@@ -26,6 +26,7 @@ pipeline
 							}
 						}
 					
+						echo("Build ref_build_id = (${ref_build_id})");
 						slackSend (color: '#FFFF00', message: "STARTED: Job with reference build ${ref_build_id} '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 						
 						deleteDir()						
