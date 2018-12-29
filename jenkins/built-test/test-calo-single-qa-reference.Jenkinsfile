@@ -19,10 +19,10 @@ pipeline
 						sh("env");
 						
 						script{
-							if ( ${ref_build_id} == null )
+							if ( "${ref_build_id}" == "" )
 							{
 								echo("Build failed because of ref_build_id is empty (${ref_build_id})");
-								//error("Build failed because of ref_build_id is empty")				
+								error("Build failed because of ref_build_id is empty")				
 							}
 						}
 					
