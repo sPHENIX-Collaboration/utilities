@@ -94,23 +94,17 @@ pipeline
 			}
 		}//stage('SCM Checkout')
 		
-		stage('Test')
+		stage('Test-e-')
 		{
-			parallel {
+			agent any
 			
-				stage('test-1')
-				{
-					agent any
-					steps 
-					{
+			steps 
+			{
 					
-						sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 1')
+				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 10')
 														
-					}				
-				}
-				
-				
-			}// parallel			
+			}				
+					
 		}
 		
 	}//stages

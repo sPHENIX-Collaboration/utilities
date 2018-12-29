@@ -2,20 +2,20 @@
 
 if ($#argv != 3) then
 	
-	echo "Usage $0 particle_name pT_GeV ID_Number"
+	echo "Usage $0 particle_name pT_GeV number_jobs"
 	exit 1;
 	
 endif
 
 set particle_ID = $1;
 set pT_GeV = $2;
-set id_number = $3; 
+set number_jobs = $3; 
 
-set job_name = ${particle_ID}_pT${pT_GeV}_${id_number}
+set name = ${particle_ID}_pT${pT_GeV}_Sum${number_jobs}
+
 
 source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
 
-setenv workRootPath `pwd`;
 setenv PATH 		$WORKSPACE/install/bin:${PATH}
 setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
 setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
@@ -24,17 +24,26 @@ env;
 
 cd macros/macros/g4simulations/
 
+ln -svfb $WORKSPACE//coresoftware/tree/master/offline/QA/macros/* ./
+
 pwd;
 ls -lhc
 
+set id_number = 1
+while ( $id_number <= number_jobs )
+   set job_name = ${particle_ID}_pT${pT_GeV}_${id_number}
+   
+   	echo "======================================================="
+	echo "${job_name}: Start test";
+	echo "======================================================="
 
+	/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(1,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log &;
+   
+   @ id_number++
+end
 
-echo "======================================================="
-echo "${job_name}: Start test";
-echo "======================================================="
+wait;
 
-
-/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(10,"\"${particle_ID}\"",${pT_GeV},"\"${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log;
 set build_ret = $?;
 
 echo "Build step - build - return $build_ret";
@@ -48,8 +57,10 @@ if ($build_ret != 0) then
 	exit $build_ret;
 endif
 
+hadd -fv G4sPHENIX_${name}_qa.root G4sPHENIX_${particle_ID}_pT${pT_GeV}_qa.root
 
-echo "${job_name}: Build step - test - done";
+chmod +x QA_Draw_ALL.sh 
+QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
 
 
 
