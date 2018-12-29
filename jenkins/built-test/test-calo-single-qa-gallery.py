@@ -22,10 +22,10 @@ source = 'pictures'
 # Theme :
 # - colorbox (default), galleria, photoswipe, or the path to a custom theme
 # directory
-theme = 'colorbox'
+theme = 'galleria'
 
 # Author. Used in the footer of the pages and in the author meta tag.
-# author = 'Jin Huang'
+author = 'Jin Huang'
 
 # Use originals in gallery (default: False). If True, this will bypass all
 # processing steps (resize, auto-orient, recompress, and any plugin-specific
@@ -62,7 +62,7 @@ use_orig = True
 # Warning: this setting is not compatible with `copy_exif_data` (see below),
 # because Sigal can't save the modified Orientation tag (currently Pillow can't
 # write EXIF).
-# autorotate_images = False
+autorotate_images = False
 
 # If True, EXIF data from the original image is copied to the resized image
 # copy_exif_data = False
@@ -96,7 +96,7 @@ use_orig = True
 thumb_size = (280, 210)
 
 # Crop the image to fill the box
-# thumb_fit = True
+thumb_fit = True
 
 # When using thumb_fit, specifies what we should crop
 # for usage see
