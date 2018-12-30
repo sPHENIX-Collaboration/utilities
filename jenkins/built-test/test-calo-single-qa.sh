@@ -37,7 +37,7 @@ while ( $id_number <= $number_jobs )
 	echo "${job_name}: Start test";
 	echo "======================================================="
 
-	/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(10,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log &;
+	/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(1,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log &;
    
    sleep 1s;
    
