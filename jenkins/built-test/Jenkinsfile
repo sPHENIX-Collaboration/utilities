@@ -105,8 +105,10 @@ pipeline
 		   		}
 				}// Stage - cpp check
 				 
-				stage('Build-Test') {
-					stages{
+				
+			// hold this until jenkins supports nested parallel 
+			//	stage('Build-Test') {
+			//		stages{
 					    
 						stage('sPHENIX-Build')
 						{
@@ -215,8 +217,8 @@ pipeline
 							}// parallel			
 						//}// stage - Test
 		
-					}				//stages("Build-Test")
-				}				 // stage("Build-Test")
+					//}				//stages("Build-Test")
+			//	}				 // stage("Build-Test")
 			//} // parallel {
 		//}//stage('Build')
 		
