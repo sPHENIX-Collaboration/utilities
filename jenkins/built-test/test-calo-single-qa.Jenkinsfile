@@ -144,11 +144,17 @@ pipeline
 				  
 				  copyArtifacts(projectName: 'test-calo-single-qa-gallery', selector: specific("${built.number}"));
 				}
-				archiveArtifacts artifacts: 'qa_page.tar.gz'
+				
 				
 				dir('qa_html')
 				{
-    			sh ("tar xzfv ../qa_page.tar.gz")
+					sh('ls -lhv')
+				
+					archiveArtifacts artifacts: 'qa_page.tar.gz'
+					
+    			sh ("tar xzfv ./qa_page.tar.gz")
+    			
+					sh('ls -lhv')
 				}
 
 				  publishHTML (target: [
