@@ -139,7 +139,7 @@ pipeline
 			    def built = build(job: 'test-calo-single-qa-gallery',
 			    	parameters:
 			    	[string(name: 'build_src', value: "${env.JOB_NAME}"),
-			    	string(name: 'ref_build_id', value: "${env.BUILD_NUMBER}")], 
+			    	string(name: 'src_build_id', value: "${env.BUILD_NUMBER}")], 
 			    	wait: true, propagate: true)	
 				  
 				  copyArtifacts(projectName: 'test-calo-single-qa-gallery', selector: specific("${built.number}"));
