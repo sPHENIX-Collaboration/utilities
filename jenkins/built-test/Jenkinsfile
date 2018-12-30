@@ -134,8 +134,8 @@ pipeline
 						} // 				stage('sPHENIX-Build')
 						
 						
-					//	stage('Test')
-					//	{
+						stage('Test')
+						{
 							parallel {
 							
 								stage('test-default')
@@ -215,7 +215,7 @@ pipeline
 								}// 				stage('test-calo-single-qa')
 								
 							}// parallel			
-						//}// stage - Test
+						}// stage - Test
 		
 					//}				//stages("Build-Test")
 			//	}				 // stage("Build-Test")
