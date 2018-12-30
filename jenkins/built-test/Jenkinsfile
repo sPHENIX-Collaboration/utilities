@@ -17,6 +17,13 @@ pipeline
 						
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 										
+						
+						script {
+						
+							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">${git_url_coresoftware}</a> # ${sha_coresoftware}" 
+							
+						}
+										
 						dir('build')
 						{
 							deleteDir()
@@ -65,7 +72,34 @@ pipeline
 					ansiColor('xterm') {
 						
 						dir('coresoftware') {
-							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
+							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
+							
+							checkout(
+								[
+						 			$class: 'GitSCM',
+						   		extensions: [               
+							   		[$class: 'CleanCheckout'],     
+							     	[
+							   			$class: 'PreBuildMerge',
+							    		options: [
+											mergeRemote: 'origin',
+							  			mergeTarget: 'master'
+							  			]
+							    	],
+						   		],
+							  	branches: [
+							    	[name: "${sha_coresoftware}"]
+							    ], 
+							  	userRemoteConfigs: 
+							  	[[
+							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/coresoftware.git'
+							     	credentialsId: 'sPHENIX-bot', 
+							     	url: '${git_url_coresoftware}',
+							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
+							    	branch: ('*')
+							  	]]
+								] //checkout
+							)//checkout
 						}
 						dir('online_distribution') {
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/online_distribution.git'
@@ -76,7 +110,35 @@ pipeline
     				//}	
 						dir('calibrations')
 						{
-							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/calibrations.git'
+							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/calibrations.git'
+							
+							checkout(
+								[
+						 			$class: 'GitSCM',
+						   		extensions: [               
+							   		[$class: 'CleanCheckout'],     
+							     	[
+							   			$class: 'PreBuildMerge',
+							    		options: [
+											mergeRemote: 'origin',
+							  			mergeTarget: 'master'
+							  			]
+							    	],
+						   		],
+							  	branches: [
+							    	[name: "${sha_calibrations}"]
+							    ], 
+							  	userRemoteConfigs: 
+							  	[[
+							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/coresoftware.git'
+							     	credentialsId: 'sPHENIX-bot', 
+							     	url: 'https://github.com/sPHENIX-Collaboration/calibrations.git',
+							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
+							    	branch: ('*')
+							  	]]
+								] //checkout
+							)//checkout
+							
     				}	
 						dir('tutorials')
 						{
@@ -94,13 +156,19 @@ pipeline
 			
 				stage('cpp-check')
 				{
-					
+					when {
+    				// case insensitive regular expression for truthy values
+						expression { return run_cppcheck ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+					}
 					steps 
 					{
 		
 		    		build(job: 'cpp-check',
 		    			parameters:
-		    			[string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware")], 
+		    			[
+		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
+			    			string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
+			    		],
 		    			wait: false, propagate: false)
 		   		}
 				}// Stage - cpp check
@@ -147,12 +215,16 @@ pipeline
 												    		
 										script
 										{
-				   						def built = build(job: 'test-default',
+				   						def built = build(job: 'test-default-pipeline',
 						    			parameters:
-						    			[string(name: 'build_src', value: "${build_root_path}")], 
+						    			[
+							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'sha_macros', value: "${sha_macros}"), 
+				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+			    						],
 						    			wait: true, propagate: true)
 						   										
-						   				copyArtifacts(projectName: 'test-default', selector: specific("${built.number}"));
+						   				copyArtifacts(projectName: 'test-default-pipeline', selector: specific("${built.number}"));
 										}
 						   			
 						   			dir('macros/macros/g4simulations/')
@@ -178,7 +250,11 @@ pipeline
 										{
 				   						def built = build(job: 'test-calo-single-qa',
 							    			parameters:
-							    			[string(name: 'build_src', value: "${build_root_path}")], 
+							    			[
+								    			string(name: 'build_src', value: "${build_root_path}"), 
+							    				string(name: 'sha_macros', value: "${sha_macros}"), 
+				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+			    							],
 							    			wait: true, propagate: true)
 						   			
 						   				copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
