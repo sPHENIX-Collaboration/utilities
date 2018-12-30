@@ -87,10 +87,10 @@ pipeline
 			}
 		}//stage('SCM Checkout')
 		
-		
-		stage('Build')
-		{
-			parallel {
+		// hold this until jenkins supports nested parallel
+		//stage('Build')
+		//{
+		//	parallel {
 			
 				stage('cpp-check')
 				{
@@ -132,8 +132,8 @@ pipeline
 						} // 				stage('sPHENIX-Build')
 						
 						
-						stage('Test')
-						{
+					//	stage('Test')
+					//	{
 							parallel {
 							
 								stage('test-default')
@@ -213,12 +213,12 @@ pipeline
 								}// 				stage('test-calo-single-qa')
 								
 							}// parallel			
-						}// stage - Test
+						//}// stage - Test
 		
 					}				//stages("Build-Test")
 				}				 // stage("Build-Test")
-			} // parallel {
-		}//stage('Build')
+			//} // parallel {
+		//}//stage('Build')
 		
 	}//stages
 		
