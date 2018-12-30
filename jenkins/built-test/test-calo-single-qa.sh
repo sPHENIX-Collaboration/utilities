@@ -72,7 +72,8 @@ echo "======================================================="
 echo "Reference file: with reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root"
 ls -lhvc reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
 
-if ($? == 0) then
+echo "use reference = ${use_reference}"
+if ($? == 0 && ${use_reference}) then
 	
 	./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
 
