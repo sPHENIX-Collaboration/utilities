@@ -259,6 +259,8 @@ pipeline
 						   			
 						   				copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
 										}
+										archiveArtifacts artifacts: 'qa_page.tar.gz'
+										
 						    		
 										sh('ls -lhv')
 						   			
