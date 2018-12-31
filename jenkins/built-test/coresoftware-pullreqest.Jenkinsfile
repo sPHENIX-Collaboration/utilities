@@ -112,7 +112,12 @@ pipeline
 		    			
 										script
 										{
-		    		build(job: 'cpp-check')
+		    		build(job: 'cpp-check' ,
+		    			parameters:
+		    		[
+		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
+			    			string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
+			    		])
 		    		}
 		   		}
 				}// Stage - cpp check
