@@ -94,31 +94,22 @@ pipeline
 			
 				stage('cpp-check')
 				{
-					//when {
-    			// 	// case insensitive regular expression for truthy values
-					//	expression { return run_cppcheck ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-					//}
+					when {
+    			 	// case insensitive regular expression for truthy values
+						expression { return run_cppcheck ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+					}
 					steps 
 					{
 						echo ("starting cpp-check with run_cppcheck = ${run_cppcheck}")
 		
-		    		//build(job: 'cpp-check',
-		    		//	parameters:
-		    		//	[
-		    		//		string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
-			    	//		string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
-			    	//	],
-		    		//	wait: true, propagate: false)
-		    			
-										script
-										{
-		    		build(job: 'cpp-check' ,
+		    		build(job: 'cpp-check',
 		    			parameters:
-		    		[
+		    			[
 		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
-			    			string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
-			    		])
-		    		}
+			    			string(name: 'upstream_build_description', value: "${currentBuild.description}")
+			    		],
+		    			wait: true, propagate: false)
+		    			
 		   		}
 				}// Stage - cpp check
 				 
