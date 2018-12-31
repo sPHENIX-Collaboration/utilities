@@ -110,13 +110,10 @@ pipeline
 			    	//	],
 		    		//	wait: true, propagate: false)
 		    			
-		    		build(job: 'cpp-check',
-						    			parameters:
-						    			[
-							    			string(name: 'coresoftware_src', "${WORKSPACE}/coresoftware"), 
-				    						string(name: 'upstream_build_description', value: "${currentBuild.description}")
-			    						],
-						    			wait: true, propagate: true)
+										script
+										{
+		    		build(job: 'cpp-check')
+		    		}
 		   		}
 				}// Stage - cpp check
 				 
