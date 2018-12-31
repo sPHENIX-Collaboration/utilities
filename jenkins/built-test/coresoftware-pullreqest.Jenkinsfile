@@ -94,12 +94,13 @@ pipeline
 			
 				stage('cpp-check')
 				{
-					when {
+					//when {
     				// case insensitive regular expression for truthy values
-						expression { return run_cppcheck ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-					}
+					//	expression { return run_cppcheck ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+					//}
 					steps 
 					{
+						echo ("starting cpp-check with run_cppcheck = ${run_cppcheck}")
 		
 		    		build(job: 'cpp-check',
 		    			parameters:
