@@ -102,13 +102,21 @@ pipeline
 					{
 						echo ("starting cpp-check with run_cppcheck = ${run_cppcheck}")
 		
+		    		//build(job: 'cpp-check',
+		    		//	parameters:
+		    		//	[
+		    		//		string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
+			    	//		string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
+			    	//	],
+		    		//	wait: true, propagate: false)
+		    			
 		    		build(job: 'cpp-check',
-		    			parameters:
-		    			[
-		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
-			    			string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
-			    		],
-		    			wait: true, propagate: false)
+						    			parameters:
+						    			[
+							    			string(name: 'coresoftware_src', "${WORKSPACE}/coresoftware"), 
+				    						string(name: 'upstream_build_description', value: "${currentBuild.description}")
+			    						],
+						    			wait: true, propagate: true)
 		   		}
 				}// Stage - cpp check
 				 
