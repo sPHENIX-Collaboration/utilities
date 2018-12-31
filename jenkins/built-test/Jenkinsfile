@@ -20,7 +20,7 @@ pipeline
 						
 						script {
 						
-							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">${git_url_coresoftware}</a> # ${sha_coresoftware}" 
+							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware}" 
 							
 						}
 										
