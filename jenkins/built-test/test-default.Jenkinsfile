@@ -20,9 +20,9 @@ pipeline
 						
 							currentBuild.description = "${upstream_build_description}" 
 						
-							if (fileExists('./build'))
+							if (fileExists('./install'))
 							{
-								sh "rm -fv ./build"
+								sh "rm -fv ./install"
 							}
 							if (fileExists('./calibrations'))
 							{
@@ -31,7 +31,7 @@ pipeline
 						}						
     				
 						echo("link builds to ${build_src}")
-						sh('ln -svfb ${build_src}/build ./build')
+						sh('ln -svfb ${build_src}/install ./install')
 						sh('ln -svfb ${build_src}/calibrations ./calibrations')
 
 						dir('macros')

@@ -4,7 +4,10 @@ source /opt/sphenix/core/bin/sphenix_setup.csh -n;
 
 env;
 
-mkdir test
+if (! -d ./test ) then
+	mkdir test
+end
+
 cd test
 
 echo '{int ret = gSystem->Load("libg4detectors"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);exit(0);}' > test.C

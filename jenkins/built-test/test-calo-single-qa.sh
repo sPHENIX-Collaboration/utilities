@@ -49,13 +49,12 @@ while ( $id_number <= $number_jobs )
    @ id_number++
 end
 
-wait;
+wait $!;
 
 set build_ret = $?;
 
 echo "Build step - build - return $build_ret";
 
-ls -lhcrt
 
 if ($build_ret != 0) then
 	echo "======================================================="
@@ -63,6 +62,10 @@ if ($build_ret != 0) then
 	echo "======================================================="
 	exit $build_ret;
 endif
+
+wait; # for the rest of processes to clear
+
+ls -lhcrt
 
 echo "======================================================="
 echo "${name}: Merging output to G4sPHENIX_${name}_qa.root";

@@ -20,9 +20,9 @@ pipeline
 						
 							currentBuild.description = "${upstream_build_description}" 
 						
-							if (fileExists('./build'))
+							if (fileExists('./install'))
 							{
-								sh "rm -fv ./build"
+								sh "rm -fv ./install"
 							}
 							if (fileExists('./calibrations'))
 							{
@@ -31,7 +31,7 @@ pipeline
 						}						
     				
 						echo("link builds to ${build_src}")
-						sh('ln -svfb ${build_src}/build ./build')
+						sh('ln -svfb ${build_src}/install ./install')
 						sh('ln -svfb ${build_src}/calibrations ./calibrations')
 
 						dir('macros')
@@ -70,6 +70,11 @@ pipeline
 							
 							sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f singularity-check.sh')
 						
+						}
+						
+						dir('macros/macros/g4simulations/reference')
+						{
+    					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
 						}
 					}
 				}
@@ -119,11 +124,6 @@ pipeline
     				
 						dir('coresoftware') {
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
-						}
-						
-						dir('macros/macros/g4simulations/reference')
-						{
-    					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
 						}
 						
 					}
