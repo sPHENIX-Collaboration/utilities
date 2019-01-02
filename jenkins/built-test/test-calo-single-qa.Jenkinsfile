@@ -72,10 +72,6 @@ pipeline
 						
 						}
 						
-						dir('macros/macros/g4simulations/reference')
-						{
-    					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
-						}
 					}
 				}
 			}
@@ -125,6 +121,26 @@ pipeline
 						dir('coresoftware') {
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
 						}
+						
+					}
+				}
+			}
+		}//stage('SCM Checkout')
+		
+		stage('Copy reference')
+		{
+			
+			steps 
+			{
+				timestamps { 
+					ansiColor('xterm') {
+						
+						dir('macros/macros/g4simulations/reference')
+						{
+    					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
+
+							sh('ls -lvhc')
+    				}
 						
 					}
 				}
