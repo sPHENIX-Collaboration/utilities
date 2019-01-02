@@ -49,7 +49,7 @@ while ( $id_number <= $number_jobs )
    @ id_number++
 end
 
-wait $!;
+wait;
 
 set build_ret = $?;
 
