@@ -12,6 +12,16 @@
 # && cd utils/rebuild 
 # && ./build.pl --phenixinstall --notify --afs
 
+if ($#argv != 1) then
+	
+	echo "Usage $0 build_type"
+	exit 1;
+	
+endif
+
+set build_type = $1;
+
+echo "Build type ${build_type}"
 
 source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
 
@@ -23,20 +33,20 @@ env;
 
 echo "Build step - build - start at " `pwd`;
 
-./build.pl --stage 1 --source=${WORKSPACE} --version='new' --workdir=${WORKSPACE}/build;
+./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --workdir=${WORKSPACE}/build;
 set build_ret = $?;
 
 echo "Build step - build - done";
 
 if ($build_ret != 0) then
 	echo "======================================================="
-	echo "Failed build with return = ${build_ret}. Print end of log:";
+	echo "Failed ${build_type} build with return = ${build_ret}. Print end of log:";
 	echo "======================================================="
     tail -n 100 ${WORKSPACE}/build/*/rebuild.log
 	exit $build_ret;
 endif
 
 cd ${WORKSPACE};
-ln -sbfv build/new/install
+ln -sbfv build/${build_type}/install ./
 
 ls -lhvc;

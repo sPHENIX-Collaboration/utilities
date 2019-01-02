@@ -20,7 +20,7 @@ pipeline
 						
 						script {
 						
-							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware}" 
+							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware} - ${build_type}" 
 							
 						}
 										
@@ -191,7 +191,7 @@ pipeline
 								sh('env')
 								sh('ls -lvhc')
 										
-								sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/full-build.sh')
+								sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/full-build.sh $build_type')
 							
 							 	script {
 							  	build_root_path = pwd();
@@ -209,6 +209,10 @@ pipeline
 								stage('test-default')
 								{
 									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
 									steps 
 									{
 										//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
@@ -244,6 +248,10 @@ pipeline
 								stage('test-calo-single-qa')
 								{
 									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
 									steps 
 									{
 										script
