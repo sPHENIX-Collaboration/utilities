@@ -13,13 +13,18 @@ set number_jobs = $3;
 
 set name = ${particle_ID}_pT${pT_GeV}_Sum${number_jobs}
 
+setenv OFFLINE_MAIN $WORKSPACE/install
+setenv ONLINE_MAIN $WORKSPACE/install
+setenv CALIBRATIONROOT  $WORKSPACE/calibrations
 
-source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
+source /opt/sphenix/core/bin/sphenix_setup.csh; 
 
-setenv PATH 		$WORKSPACE/install/bin:${PATH}
-setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
-setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
+# setenv PATH 		$WORKSPACE/install/bin:${PATH}
+# setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
 
+echo "======================================================="
+echo "${name}: Env check";
+echo "======================================================="
 env;
 
 cd macros/macros/g4simulations/

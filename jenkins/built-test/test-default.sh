@@ -1,11 +1,18 @@
 #! tcsh -f
 
-source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
+# source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
 
-setenv workRootPath `pwd`;
-setenv PATH 		$WORKSPACE/install/bin:${PATH}
-setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
-setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
+# setenv workRootPath `pwd`;
+# setenv PATH 		$WORKSPACE/install/bin:${PATH}
+# setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
+# setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
+
+# setenv OFFLINE_MAIN $WORKSPACE/install
+# setenv ONLINE_MAIN $WORKSPACE/install
+# setenv CALIBRATIONROOT  $WORKSPACE/calibrations
+
+source /opt/sphenix/core/bin/sphenix_setup.csh;
+
 
 env;
 
