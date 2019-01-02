@@ -42,7 +42,7 @@ while ( $id_number <= $number_jobs )
 	echo "${job_name}: Start test";
 	echo "======================================================="
 
-	/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(20,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log &;
+	(/usr/bin/time -v root -b -q root -b -q "Fun4All_G4_sPHENIX.C(20,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" | & tee -a Fun4All_G4_sPHENIX_${job_name}.log ; echo $? > exit_code_${id_number}.log ) &;
    
    sleep 1s;
    
@@ -51,19 +51,20 @@ end
 
 wait;
 
-set build_ret = $?;
+set id_number = 1
+while ( $id_number <= $number_jobs )
+	set build_ret = `cat exit_code_${id_number}.log`;
 
-echo "Build step - build - return $build_ret";
-
-
-if ($build_ret != 0) then
-	echo "======================================================="
-	echo "${job_name}: Failed build with return = ${build_ret}. ";
-	echo "======================================================="
-	exit $build_ret;
-endif
-
-wait; # for the rest of processes to clear
+	echo "Build step - build - return $build_ret";
+	
+	if ($build_ret != 0) then
+		echo "======================================================="
+		echo "Job index ${id_number}: Failed build with return = ${build_ret}. ";
+		echo "======================================================="
+		exit $build_ret;
+	endif
+   @ id_number++
+end
 
 ls -lhcrt
 
