@@ -6,7 +6,7 @@ env;
 
 if (! -d ./test ) then
 	mkdir test
-end
+endif
 
 cd test
 
