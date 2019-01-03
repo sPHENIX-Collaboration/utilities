@@ -60,7 +60,7 @@ echo "Start test";
 echo "======================================================="
 
 
-/usr/bin/time -v ${valgrind_prefix} root.exe -b -q "Fun4All_G4_sPHENIX.C(${number_event})" | & tee -a Fun4All_G4_sPHENIX.log;
+/usr/bin/time -v ${valgrind_prefix} root.exe -b -q # "Fun4All_G4_sPHENIX.C(${number_event})" | & tee -a Fun4All_G4_sPHENIX.log;
 
 set build_ret = $?;
 
