@@ -140,15 +140,30 @@ pipeline
 					
 		}
 		
-		//stage('report')
-		//{
-		//	steps 
-		//	{
+		stage('report')
+		{
+			steps 
+			{
 			
-				// archiveArtifacts artifacts: 'macros/macros/g4simulations/*.root'
+				archiveArtifacts artifacts: 'macros/macros/g4simulations/*.valgrind*'
+				
+				publishValgrind (
+          failBuildOnInvalidReports: true,
+          failBuildOnMissingReports: true,
+          failThresholdDefinitelyLost: '5',
+          failThresholdInvalidReadWrite: '1',
+          failThresholdTotal: '',
+          pattern: 'macros/macros/g4simulations/*.valgrind.xml',
+          publishResultsForAbortedBuilds: false,
+          publishResultsForFailedBuilds: false,
+          sourceSubstitutionPaths: '',
+          unstableThresholdDefinitelyLost: '1',
+          unstableThresholdInvalidReadWrite: '',
+          unstableThresholdTotal: ''
+        )
 			
-		//	}		
-		//}
+			}		
+		}
 		
 	}//stages
 
