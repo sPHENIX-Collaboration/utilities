@@ -84,7 +84,7 @@ pipeline
 							   			$class: 'PreBuildMerge',
 							    		options: [
 											mergeRemote: 'origin',
-							  			mergeTarget: 'master'
+							  			mergeTarget: "$mergeTarget_coresoftware"
 							  			]
 							    	],
 						   		],

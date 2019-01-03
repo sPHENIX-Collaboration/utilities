@@ -176,13 +176,14 @@ pipeline
 						    			[
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/sPHENIX-Test/coresoftware.git"), 
+							    			string(name: 'mergeTarget_coresoftware', value: "new-genfit"), 
 							    			string(name: 'build_type', value: "root6"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
 							    			booleanParam(name: 'run_default_test', value: false), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}")
 			    						],
-						    			wait: true, propagate: true)						   										
+						    			wait: true, propagate: false)						   										
 										}						   			
 						   				    
 									}				// steps
