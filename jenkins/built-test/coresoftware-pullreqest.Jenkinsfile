@@ -32,7 +32,10 @@ pipeline
 						
 						}
 												
-						currentBuild.displayName = "${env.BUILD_NUMBER} - ${sha1}"
+						script
+						{
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sha1}"
+						}
 					}
 				}
 			}
