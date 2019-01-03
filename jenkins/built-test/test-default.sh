@@ -48,7 +48,7 @@ if ($run_valgrind > 0) then
 	    set valgrind_sup = "--suppressions=$ROOTSYS/root.supp";
 	endif	
 	
-	set valgrind_prefix = "valgrind -v --xml=yes --num-callers=30 --leak-check=full --error-limit=no --log-file=Fun4All_G4_sPHENIX.valgrind $valgrind_sup --leak-resolution=high"
+	set valgrind_prefix = "valgrind -v  --num-callers=30 --leak-check=full --error-limit=no --log-file=Fun4All_G4_sPHENIX.valgrind $valgrind_sup --xml=yes --xml-file=Fun4All_G4_sPHENIX.valgrind.xml --leak-resolution=high"
 	
 	which valgrind
 	echo "valgrind_prefix = ${valgrind_prefix}"
