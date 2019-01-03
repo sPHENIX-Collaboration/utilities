@@ -134,7 +134,8 @@ pipeline
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/sPHENIX-Test/coresoftware.git"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
-				    						string(name: 'upstream_build_description', value: "${currentBuild.description}")
+				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
+				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
 						    			wait: true, propagate: true)
 						   										
@@ -181,7 +182,8 @@ pipeline
 							    			booleanParam(name: 'run_cppcheck', value: false), 
 							    			booleanParam(name: 'run_default_test', value: false), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 
-				    						string(name: 'upstream_build_description', value: "${currentBuild.description}")
+				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
+				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
 						    			wait: true, propagate: false)						   										
 										}						   			
