@@ -31,6 +31,8 @@ pipeline
 							sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f singularity-check.sh')
 						
 						}
+												
+						currentBuild.displayName = "${env.BUILD_NUMBER} - ${sha1}"
 					}
 				}
 			}

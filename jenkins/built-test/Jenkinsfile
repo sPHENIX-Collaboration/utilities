@@ -20,6 +20,7 @@ pipeline
 						
 						script {
 						
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${build_type} - ${sha_coresoftware}"
 							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware} - ${build_type}" 
 							
 						}
