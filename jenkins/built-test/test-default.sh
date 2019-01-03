@@ -1,5 +1,17 @@
 #! tcsh -f
 
+if ($#argv != 2) then
+	
+	echo "Usage $0 number_event run_valgrind"
+	exit 1;
+	
+endif
+
+set number_event = $1;
+set run_valgrind = $2;
+
+
+
 # source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
 
 # setenv workRootPath `pwd`;
@@ -25,11 +37,29 @@ cd macros/macros/g4simulations/
 pwd;
 ls -lhc
 
+
+set valgrind_prefix = "";
+
+if ($run_valgrind > 0) then
+	
+	set valgrind_sup = '';
+
+	if (-e $ROOTSYS/root.supp) then
+	    set valgrind_sup = "--suppressions=$ROOTSYS/root.supp";
+	endif	
+	
+	set valgrind_prefix = "valgrind -v --num-callers=30 --leak-check=full --error-limit=no --log-file=Fun4All_G4_sPHENIX.valgrind $valgrind_sup --leak-resolution=high"
+	
+	echo "valgrind_prefix = ${valgrind_prefix}"
+	
+endif
+
 echo "======================================================="
 echo "Start test";
 echo "======================================================="
 
-/usr/bin/time -v root -b -q root -b -q 'Fun4All_G4_sPHENIX.C(20)' | & tee -a Fun4All_G4_sPHENIX.log;
+
+/usr/bin/time -v ${valgrind_prefix} root.exe -b -q "Fun4All_G4_sPHENIX.C(${number_event})" | & tee -a Fun4All_G4_sPHENIX.log;
 
 set build_ret = $?;
 
