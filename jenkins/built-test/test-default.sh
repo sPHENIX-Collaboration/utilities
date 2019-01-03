@@ -59,7 +59,7 @@ echo "======================================================="
 echo "Start test";
 echo "======================================================="
 
-echo '{int ret = gSystem->Load("libg4detectors"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
+echo '{int ret = gSystem->Load("libg4bbc.so"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
 
 /usr/bin/time -v ${valgrind_prefix} root.exe -b -q test.C # "Fun4All_G4_sPHENIX.C(${number_event})" | & tee -a Fun4All_G4_sPHENIX.log;
 
