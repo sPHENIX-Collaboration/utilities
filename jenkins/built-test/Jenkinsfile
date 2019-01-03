@@ -269,7 +269,7 @@ pipeline
 			    						],
 						    			wait: true, propagate: true)
 						   										
-						   				copyArtifacts(projectName: 'test-default-pipeline', selector: specific("${built.number}"));
+						   				copyArtifacts(projectName: 'test-default-valgrind-pipeline', selector: specific("${built.number}"));
 						   				
 										}
 						   			
@@ -284,7 +284,7 @@ pipeline
 						   				archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
 						   										   				
 											publishValgrind (
-							          failBuildOnInvalidReports: true,
+							          failBuildOnInvalidReports: false,
 							          failBuildOnMissingReports: true,
 							          failThresholdDefinitelyLost: '5',
 							          failThresholdInvalidReadWrite: '1',
