@@ -59,7 +59,7 @@ echo "======================================================="
 echo "Start test";
 echo "======================================================="
 
-echo '{int ret = gSystem->Load("libg4detectors"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);Fun4AllServer * f = new Fun4AllServer();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
+echo '{int ret = gSystem->Load("libg4detectors"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
 
 /usr/bin/time -v ${valgrind_prefix} root.exe -b -q test.C # "Fun4All_G4_sPHENIX.C(${number_event})" | & tee -a Fun4All_G4_sPHENIX.log;
 
@@ -73,9 +73,12 @@ ls -lhcrt
 
 if ($build_ret != 0) then
 	echo "======================================================="
-	echo "Failed build with return = ${build_ret}. ";
+	echo "Failed run with return = ${build_ret}. ";
 	echo "======================================================="
-	exit $build_ret;
+	
+	if ($run_valgrind == 0) then
+		exit $build_ret;
+	endif
 endif
 
 echo "Build step - test - done";
