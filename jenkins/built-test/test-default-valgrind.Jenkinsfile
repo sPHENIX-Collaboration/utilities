@@ -143,8 +143,7 @@ pipeline
 		stage('report')
 		{
 			steps 
-			{
-			
+			{			
 				archiveArtifacts artifacts: 'macros/macros/g4simulations/*.valgrind*'
 				
 				publishValgrind (
