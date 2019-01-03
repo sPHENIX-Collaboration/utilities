@@ -23,7 +23,7 @@ set build_type = $1;
 
 echo "Build type ${build_type}"
 
-source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
+source /opt/sphenix/core/bin/sphenix_setup.csh -n ${build_type}; 
 
 mkdir -v ${WORKSPACE}/build;
 
