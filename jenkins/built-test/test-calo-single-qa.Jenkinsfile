@@ -28,6 +28,10 @@ pipeline
 							{
 								sh "rm -fv ./calibrations"
 							}						
+							if (fileExists('./build'))
+							{
+								sh "rm -fv ./build"
+							}						
 						}						
     				
 						echo("link builds to ${build_src}")
