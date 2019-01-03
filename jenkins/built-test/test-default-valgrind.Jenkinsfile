@@ -147,16 +147,16 @@ pipeline
 				archiveArtifacts artifacts: 'macros/macros/g4simulations/*.valgrind*'
 				
 				publishValgrind (
-          failBuildOnInvalidReports: false,
+          failBuildOnInvalidReports: true,
           failBuildOnMissingReports: true,
-          failThresholdDefinitelyLost: '5',
+          failThresholdDefinitelyLost: '',
           failThresholdInvalidReadWrite: '1',
           failThresholdTotal: '',
           pattern: 'macros/macros/g4simulations/*.valgrind.xml',
           publishResultsForAbortedBuilds: false,
           publishResultsForFailedBuilds: false,
           sourceSubstitutionPaths: '',
-          unstableThresholdDefinitelyLost: '1',
+          unstableThresholdDefinitelyLost: '',
           unstableThresholdInvalidReadWrite: '',
           unstableThresholdTotal: ''
         )

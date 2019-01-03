@@ -286,14 +286,14 @@ pipeline
 											publishValgrind (
 							          failBuildOnInvalidReports: false,
 							          failBuildOnMissingReports: true,
-							          failThresholdDefinitelyLost: '5',
+							          failThresholdDefinitelyLost: '',
 							          failThresholdInvalidReadWrite: '1',
 							          failThresholdTotal: '',
 							          pattern: '*.valgrind.xml',
 							          publishResultsForAbortedBuilds: false,
 							          publishResultsForFailedBuilds: false,
 							          sourceSubstitutionPaths: '',
-							          unstableThresholdDefinitelyLost: '1',
+							          unstableThresholdDefinitelyLost: '',
 							          unstableThresholdInvalidReadWrite: '',
 							          unstableThresholdTotal: ''
 							        )
