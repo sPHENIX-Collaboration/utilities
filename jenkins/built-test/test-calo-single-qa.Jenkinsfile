@@ -16,10 +16,20 @@ pipeline
 				timestamps {
 					ansiColor('xterm') {
 					
+					
+						build(job: 'github-comment-label',
+		    			parameters:
+		    			[
+		    				string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+			    			string(name: 'LabelCategory', value: "calo-QA"),
+			    			string(name: 'LabelStatus', value: "PENDING")
+			    		],
+		    			wait: false, propagate: false)
+					
 						script {
 						
 							currentBuild.description = "${upstream_build_description}" 
-						
+			
 							if (fileExists('./install'))
 							{
 								sh "rm -fv ./install"
@@ -226,12 +236,38 @@ pipeline
 	post {
 
 		success {
+		
+			build(job: 'github-comment-label',
+			  parameters:
+			  [
+					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+					string(name: 'LabelCategory', value: "calo-QA"),
+					string(name: 'LabelStatus', value: "PASS")
+				],
+				wait: false, propagate: false)
+				
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		failure {
+			build(job: 'github-comment-label',
+			  parameters:
+			  [
+					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+					string(name: 'LabelCategory', value: "calo-QA"),
+					string(name: 'LabelStatus', value: "FAIL")
+				],
+				wait: false, propagate: false)
 			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
+			build(job: 'github-comment-label',
+			  parameters:
+			  [
+					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+					string(name: 'LabelCategory', value: "calo-QA"),
+					string(name: 'LabelStatus', value: "PASS")
+				],
+				wait: false, propagate: false)
 			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
