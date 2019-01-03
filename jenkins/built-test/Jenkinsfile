@@ -312,7 +312,7 @@ pipeline
 		
 	post {
 		always{
-			archiveArtifacts artifacts: 'build/new/rebuild.log'
+			archiveArtifacts artifacts: 'build/${build_type}/rebuild.log'
 		}
 	
 		success {
