@@ -216,13 +216,12 @@ pipeline
 * [pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL}).
 """
 				
-    			String files = findFiles(glob: '*.md')
+    			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");
-    			def testFileNames = files.split('\n')
+    			// def testFileNames = files.split('\n')
+    			for (def file : files) {
     			
-    			for (int i=0; i<testFileNames.size(); i++) {
-    			
-    				String file = testFileNames[i];    				
+    				String file = file.path;    				
     				
     				String fileContent = readFile(file).trim();    				
     				
