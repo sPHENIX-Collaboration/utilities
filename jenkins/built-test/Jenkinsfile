@@ -382,6 +382,14 @@ pipeline
 		
 	post {
 		always{
+		  
+			dir('report')
+			{
+			  writeFile file: "build-${build_type}.md", text: "* Build with configuration of `${build_type}` is ${currentBuild.currentResult}](${env.BUILD_URL})"				
+			}
+		  		  
+			archiveArtifacts artifacts: 'report/*.md'
+		
 			archiveArtifacts artifacts: 'build/${build_type}/rebuild.log'
 		}
 	

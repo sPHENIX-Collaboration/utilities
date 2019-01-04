@@ -178,6 +178,15 @@ pipeline
 	
 	post {
 
+		always{
+		  
+			dir('report')
+			{
+			  writeFile file: "valgrind.md", text: "* Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [valgrind report](${env.BUILD_URL}/valgrindResult/) "				
+			}
+		  		  
+			archiveArtifacts artifacts: 'report/*.md'
+		}
 		success {
 			build(job: 'github-comment-label',
 			  parameters:

@@ -234,6 +234,16 @@ pipeline
 
 	
 	post {
+	
+		always{
+		  
+			dir('report')
+			{
+			  writeFile file: "calo-QA.md", text: "* Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [QA report](${env.BUILD_URL}/QA_20Report/) "				
+			}
+		  		  
+			archiveArtifacts artifacts: 'report/*.md'
+		}
 
 		success {
 		
