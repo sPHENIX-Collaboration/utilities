@@ -19,6 +19,12 @@ pipeline
 															
 						dir('coresoftware') {
 							deleteDir()
+						}			
+						dir('qa_html') {
+							deleteDir()
+						}			
+						dir('report') {
+							// deleteDir()
 						}
 					
 						sh('hostname')
@@ -211,7 +217,10 @@ pipeline
 			{
 				script
 				{
-					String report_content = """
+					
+    			echo("start report building ...");
+				
+					def report_content = """
 ## Pull request test report
 * [pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL}).
 """
@@ -219,11 +228,11 @@ pipeline
     			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");
     			// def testFileNames = files.split('\n')
-    			for (def fileEntry : files) {
-    			
+    			for (def fileEntry : files) 
+    			{    			
     				String file = fileEntry.path;    				
     				
-    				String fileContent = readFile(file).trim();    				
+    				String fileContent = readFile(file).trim();
     				
     				echo("$file  -> ${fileContent}");
     				
