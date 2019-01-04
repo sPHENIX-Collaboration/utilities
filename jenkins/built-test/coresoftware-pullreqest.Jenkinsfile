@@ -141,6 +141,7 @@ pipeline
 						    			wait: true, propagate: true)
 						   										
 						   				copyArtifacts(projectName: 'Build-Master', filter: 'qa_page.tar.gz', selector: specific("${built.number}"));
+						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));
 										}
 						   			
 										dir('qa_html')
@@ -186,7 +187,8 @@ pipeline
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
-						    			wait: true, propagate: false)						   										
+						    			wait: true, propagate: true)						 
+						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));  										
 										}						   			
 						   				    
 									}				// steps
