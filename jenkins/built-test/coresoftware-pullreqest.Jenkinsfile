@@ -221,7 +221,8 @@ pipeline
     			echo("start report building ...");
 				
 					def report_content = """
-## Pull request test report for commit ${ghprbActualCommit}
+## Pull request test report 
+Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualCommit}):
 * [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL})[pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL})."""
 				
     			def files = findFiles(glob: '*.md')
