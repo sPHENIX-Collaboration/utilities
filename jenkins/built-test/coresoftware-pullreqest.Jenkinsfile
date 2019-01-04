@@ -219,9 +219,9 @@ pipeline
     			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");
     			// def testFileNames = files.split('\n')
-    			for (def file : files) {
+    			for (def fileEntry : files) {
     			
-    				String file = file.path;    				
+    				String file = fileEntry.path;    				
     				
     				String fileContent = readFile(file).trim();    				
     				
