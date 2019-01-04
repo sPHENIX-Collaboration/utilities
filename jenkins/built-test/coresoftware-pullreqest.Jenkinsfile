@@ -111,7 +111,8 @@ pipeline
 		    			parameters:
 		    			[
 		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
-			    			string(name: 'upstream_build_description', value: "${currentBuild.description}")
+			    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
+				    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    		],
 		    			wait: true, propagate: false)
 		    			
