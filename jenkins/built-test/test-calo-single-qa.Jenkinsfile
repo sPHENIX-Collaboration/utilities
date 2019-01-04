@@ -242,7 +242,7 @@ pipeline
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 					string(name: 'LabelCategory', value: "calo-QA"),
-					string(name: 'LabelStatus', value: "PASS")
+					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
 				wait: false, propagate: false)
 				
@@ -265,7 +265,7 @@ pipeline
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 					string(name: 'LabelCategory', value: "calo-QA"),
-					string(name: 'LabelStatus', value: "PASS")
+					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
 				wait: false, propagate: false)
 			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")

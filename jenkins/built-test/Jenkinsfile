@@ -175,7 +175,8 @@ pipeline
 		    		build(job: 'cpp-check',
 		    			parameters:
 		    			[
-		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
+		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 		    				
+								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 			    			string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
 			    		],
 		    			wait: false, propagate: false)
@@ -233,6 +234,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
+		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 			    						],
 						    			wait: true, propagate: true)
@@ -273,6 +275,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
+		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 			    						],
 						    			wait: true, propagate: true)

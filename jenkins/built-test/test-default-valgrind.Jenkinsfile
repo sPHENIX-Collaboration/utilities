@@ -16,6 +16,15 @@ pipeline
 				timestamps {
 					ansiColor('xterm') {
 					
+						build(job: 'github-comment-label',
+						  parameters:
+						  [
+								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+								string(name: 'LabelCategory', value: "valgrind"),
+								string(name: 'LabelStatus', value: "PENDING")
+							],
+							wait: false, propagate: false)
+							
 						script {
 						
 							currentBuild.description = "${upstream_build_description}" 
@@ -134,7 +143,7 @@ pipeline
 			steps 
 			{
 					
-				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh  1 1')
+				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh  2 1')
 														
 			}				
 					
@@ -170,12 +179,36 @@ pipeline
 	post {
 
 		success {
+			build(job: 'github-comment-label',
+			  parameters:
+			  [
+					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+					string(name: 'LabelCategory', value: "valgrind"),
+					string(name: 'LabelStatus', value: "AVAILABLE")
+				],
+				wait: false, propagate: false)
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		failure {
+			build(job: 'github-comment-label',
+			  parameters:
+			  [
+					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+					string(name: 'LabelCategory', value: "valgrind"),
+					string(name: 'LabelStatus', value: "FAIL")
+				],
+				wait: false, propagate: false)
 			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
+			build(job: 'github-comment-label',
+			  parameters:
+			  [
+					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+					string(name: 'LabelCategory', value: "valgrind"),
+					string(name: 'LabelStatus', value: "AVAILABLE")
+				],
+				wait: false, propagate: false)
 			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
