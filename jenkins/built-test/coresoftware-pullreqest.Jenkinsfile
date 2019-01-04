@@ -24,7 +24,7 @@ pipeline
 							deleteDir()
 						}			
 						dir('report') {
-							// deleteDir()
+						 	deleteDir()
 						}
 					
 						sh('hostname')
