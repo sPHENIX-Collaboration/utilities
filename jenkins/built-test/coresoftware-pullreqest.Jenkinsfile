@@ -122,7 +122,7 @@ pipeline
 				    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
 					    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 				    		],
-			    			wait: true, propagate: false)
+			    			wait: true, propagate: true)
 			    			
 						   copyArtifacts(projectName: 'cpp-check', filter: 'report/*', selector: specific("${built.number}"));
 		    		}
@@ -223,7 +223,7 @@ pipeline
 					def report_content = """
 ## Pull request test report 
 Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualCommit}):
-* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL})[pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL})."""
+* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) [pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL})."""
 				
     			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");

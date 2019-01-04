@@ -385,7 +385,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "build-${build_type}.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL})Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})"				
+			  writeFile file: "build-${build_type}.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})"				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
