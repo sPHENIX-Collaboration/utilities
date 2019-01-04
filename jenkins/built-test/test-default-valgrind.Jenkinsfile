@@ -182,7 +182,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "valgrind.md", text: "* Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [valgrind report](${env.BUILD_URL}/valgrindResult/) "				
+			  writeFile file: "valgrind.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL})Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [valgrind report](${env.BUILD_URL}/valgrindResult/) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'

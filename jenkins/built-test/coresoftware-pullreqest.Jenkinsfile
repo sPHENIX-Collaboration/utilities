@@ -222,8 +222,7 @@ pipeline
 				
 					def report_content = """
 ## Pull request test report
-* [pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL}).
-"""
+* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL})[pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL})."""
 				
     			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");
@@ -237,25 +236,25 @@ pipeline
     				echo("$file  -> ${fileContent}");
     				
     				report_content = "${report_content}\n${fileContent}"		
-    			}
+    			}    			
     			
+			  	writeFile file: "summary.md", text: "${report_content}"		
+			  	
+					build(job: 'github-comment-label',
+					  parameters:
+					  [
+							string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+							string(name: 'LabelCategory', value: ""),
+							string(name: 'githubComment', value: "${report_content}")
+						],
+						wait: false, propagate: false)
+			  	
 				}// script
 				
-		
-				
-			  writeFile file: "summary.md", text: "$report_content"		
 			}
 			
 			archiveArtifacts artifacts: 'report/*.md'
 			
-			build(job: 'github-comment-label',
-				  parameters:
-				  [
-						string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-						string(name: 'LabelCategory', value: ""),
-						string(name: 'githubComment', value: "${report_content}")
-					],
-					wait: false, propagate: false)
 		}
 	
 		success {
