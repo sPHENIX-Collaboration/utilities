@@ -107,15 +107,19 @@ pipeline
 					{
 						echo ("starting cpp-check with run_cppcheck = ${run_cppcheck}")
 		
-		    		build(job: 'cpp-check',
-		    			parameters:
-		    			[
-		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
-			    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
-				    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
-			    		],
-		    			wait: true, propagate: false)
-		    			
+						script
+						{
+				   		def built = build(job: 'cpp-check',
+			    			parameters:
+			    			[
+			    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
+				    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
+					    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
+				    		],
+			    			wait: true, propagate: false)
+			    			
+						   copyArtifacts(projectName: 'cpp-check', filter: 'report/*', selector: specific("${built.number}"));
+		    		}
 		   		}
 				}// Stage - cpp check
 				 
@@ -200,9 +204,51 @@ pipeline
 	}//stages
 		
 	post {
-		//always{
+		always{
 			// archiveArtifacts artifacts: 'build/new/rebuild.log'
-		//}
+			
+			dir('report')
+			{
+				script
+				{
+					String report_content = """
+## Pull request test report
+* [pull request build overall is ${currentBuild.currentResult}](${env.BUILD_URL}).
+"""
+				
+    			String files = findFiles(glob: '*.md')
+    			echo("all reports: $files");
+    			def testFileNames = files.split('\n')
+    			
+    			for (int i=0; i<testFileNames.size(); i++) {
+    			
+    				String file = testFileNames[i];    				
+    				
+    				String fileContent = readFile(file).trim();    				
+    				
+    				echo("$file  -> ${fileContent}");
+    				
+    				report_content = "${report_content}\n${fileContent}"		
+    			}
+    			
+				}// script
+				
+		
+				
+			  writeFile file: "summary.md", text: "$report_content"		
+			}
+			
+			archiveArtifacts artifacts: 'report/*.md'
+			
+			build(job: 'github-comment-label',
+				  parameters:
+				  [
+						string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+						string(name: 'LabelCategory', value: ""),
+						string(name: 'githubComment', value: "${report_content}")
+					],
+					wait: false, propagate: false)
+		}
 	
 		success {
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
