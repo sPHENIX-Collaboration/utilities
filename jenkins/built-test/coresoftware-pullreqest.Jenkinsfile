@@ -77,7 +77,6 @@ pipeline
 				            ], 
 				            userRemoteConfigs: 
 				            [[
-				                //credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/coresoftware.git'
 				                credentialsId: 'sPHENIX-bot', 
 				                url: '${ghprbAuthorRepoGitUrl}',
 				                refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
