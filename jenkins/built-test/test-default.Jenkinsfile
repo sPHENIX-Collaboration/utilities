@@ -93,8 +93,7 @@ pipeline
 					ansiColor('xterm') {
 						
 						dir('macros')
-						{
-							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/macros.git', branch:'calo-single-qa'							
+						{					
 							
 							checkout(
 								[
@@ -114,7 +113,6 @@ pipeline
 							    ], 
 							  	userRemoteConfigs: 
 							  	[[
-							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/coresoftware.git'
 							     	credentialsId: 'sPHENIX-bot', 
 							     	url: '${git_url_macros}',
 							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
