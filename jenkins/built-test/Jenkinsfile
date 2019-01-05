@@ -105,7 +105,7 @@ pipeline
 							    ], 
 							  	userRemoteConfigs: 
 							  	[[
-							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/coresoftware.git'
+							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
 							     	credentialsId: 'sPHENIX-bot', 
 							     	url: '${git_url_coresoftware}',
 							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
@@ -143,7 +143,7 @@ pipeline
 							    ], 
 							  	userRemoteConfigs: 
 							  	[[
-							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/coresoftware.git'
+							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
 							     	credentialsId: 'sPHENIX-bot', 
 							     	url: 'https://github.com/sPHENIX-Collaboration/calibrations.git',
 							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
