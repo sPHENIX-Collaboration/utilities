@@ -157,6 +157,15 @@ pipeline
 	
 	post {
 
+		always{
+		  
+			dir('report')
+			{
+			  writeFile file: "test-default.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) run the default sPHENIX macro: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:file_folder:output files](${env.BUILD_URL}) "				
+			}
+		  		  
+			archiveArtifacts artifacts: 'report/*.md'
+		}
 		success {
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
