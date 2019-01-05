@@ -118,6 +118,13 @@ pipeline
 											mergeRemote: 'origin',
 							  			mergeTarget: 'calo-single-qa'
 							  			]
+							    	],   
+							     	[
+							   			$class: 'PreBuildMerge',
+							    		options: [
+											mergeRemote: 'origin',
+							  			mergeTarget: 'master'
+							  			]
 							    	],
 						   		],
 							  	branches: [
