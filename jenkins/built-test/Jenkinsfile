@@ -56,6 +56,10 @@ pipeline
 						{
 							deleteDir()
     				}
+						dir('report')
+						{
+							deleteDir()
+    				}
 					
 						sh('hostname')
 						sh('pwd')
