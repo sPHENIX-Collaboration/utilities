@@ -38,7 +38,7 @@ pipeline
 						{
 							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sha1}"
 							
-							if ($upstream_build_description)
+							if ($env.upstream_build_description)
 							{
     						currentBuild.description = $upstream_build_description
 							}
