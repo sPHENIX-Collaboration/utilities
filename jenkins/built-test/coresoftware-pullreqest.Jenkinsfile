@@ -38,10 +38,10 @@ pipeline
 						{
 							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sha1}"
 							
-							if (${env.upstream_build_description})
+							if (params.upstream_build_description)
 							{
-								echo ("Override build descriiption with ${env.upstream_build_description}");
-    						currentBuild.description = ${env.upstream_build_description}
+								echo ("Override build descriiption with ${upstream_build_description}");
+    						currentBuild.description = "${upstream_build_description}"
 							}
 						}
 					}
