@@ -40,7 +40,8 @@ pipeline
 							
 							if ($env.upstream_build_description)
 							{
-    						currentBuild.description = $upstream_build_description
+								echo ("Override build descriiption with $env.upstream_build_description");
+    						currentBuild.description = $env.upstream_build_description
 							}
 						}
 					}
