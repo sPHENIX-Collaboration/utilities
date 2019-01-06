@@ -7,6 +7,7 @@ pipeline
 //    }
        
 	stages { 
+	
 		stage('Initialize') 
 		{
 			
@@ -32,15 +33,33 @@ pipeline
 						sh('env')
 						sh('ls -lvhc')
 
-						dir('utilities/jenkins/built-test/') {
-							
-							sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f singularity-check.sh')
-						
-						}
 												
 						script
 						{
 							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sha1}"
+							
+							if ($upstream_build_description)
+							{
+    						currentBuild.description = $upstream_build_description
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		stage('ContainerCheck') 
+		{
+			
+            
+			steps {
+				timestamps {
+					ansiColor('xterm') {
+						
+						dir('utilities/jenkins/built-test/') {
+							
+							sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f singularity-check.sh')
+						
 						}
 					}
 				}
