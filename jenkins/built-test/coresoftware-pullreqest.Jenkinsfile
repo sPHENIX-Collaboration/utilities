@@ -210,7 +210,8 @@ pipeline
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
 							    			string(name: 'build_type', value: "root6"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
-							    			booleanParam(name: 'run_default_test', value: false), 
+							    			booleanParam(name: 'run_default_test', value: true), 
+				    						string(name: 'sha_macros', value: "*/ModularizedTrackReco"),
 							    			booleanParam(name: 'run_calo_qa', value: false), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
