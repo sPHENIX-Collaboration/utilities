@@ -220,6 +220,20 @@ pipeline
 						{
 							parallel {
 							
+					    
+								stage('Build-Analysis')
+								{
+									
+									steps 
+									{
+										dir('build') {
+										 	def buildana = scanForIssues tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
+        							publishIssues issues: [buildana]
+										}
+									}										
+								} // 				stage('sPHENIX-Build')
+									
+							
 								stage('test-default')
 								{
 									
