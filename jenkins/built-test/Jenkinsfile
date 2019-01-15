@@ -226,10 +226,9 @@ pipeline
 									
 									steps 
 									{
-										dir('build') {
-										 	def buildana = scanForIssues tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
-        							publishIssues issues: [buildana]
-										}
+										// 	def buildana = scanForIssues tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
+        						//	publishIssues issues: [buildana]
+        						recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
 									}										
 								} // 				stage('sPHENIX-Build')
 									
