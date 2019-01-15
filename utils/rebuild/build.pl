@@ -6,7 +6,7 @@
 use warnings;
 use FindBin qw($Bin);	
 use File::Basename;
-use File::Path;
+use File::Path qw(make_path remove_tree);
 use File::Copy;
 use File::Find;
 use Getopt::Long;
@@ -146,7 +146,7 @@ $insureCompileFlags = " ";
 $workdir .= "/$opt_version";
 
 # Set up the working area: directories for source, build and install.
-mkpath($workdir, 0, 0775) unless -e $workdir;
+make_path($workdir, {mode => 0775}) unless -e $workdir;
 
 # everything we need to do the scan build
 # scan-build just goes in front of autogen.sh and make
@@ -160,7 +160,7 @@ if ($opt_scanbuild)
 {
     $scanlogdir = $workdir . "/scanlog";
     $scanbuild = sprintf("scan-build -disable-checker deadcode.DeadStores -disable-checker core.NullDereference -k -o %s",$scanlogdir);
-    mkpath($scanlogdir, 0, 0775) unless -e $scanlogdir;
+    make_path($scanlogdir, {mode => 0775}) unless -e $scanlogdir;
     my $ignorefile = $Bin . "/scanbuild_ignore.txt";
     if (-f  $ignorefile)
     { 
@@ -319,7 +319,7 @@ if (-e $sourceDir)
   }
 else
   {
-    mkpath($sourceDir, 0, 0775) unless -e $sourceDir;
+    make_path($sourceDir, {mode => 0775}) unless -e $sourceDir;
     chdir $sourceDir;
     foreach my $repo (@gitrepos)
     {
@@ -358,13 +358,45 @@ else
     # Get rid of the old installDir, if it exists.  If the source area
     # already exists, assume we are re-trying a failed build.  Don't
     # delete the installDir then.
-    rmtree $installDir;
-
+  remove_tree($installDir, {error => \my $err} );
+  if (@$err)
+    {
+      for my $diag (@$err)
+        {
+          my ($file, $message) = %$diag;
+          if ($file eq '')
+            {
+              print LOG "general error: $message\n";
+            }
+          else
+            {
+              print LOG "problem unlinking $file: $message\n";
+            }
+        }
+      print LOG "sleeping 10s\n";
+      sleep(10);
+      remove_tree($installDir, {error => \my $err2} );
+      if (@$err)
+        {
+          for my $diag2 (@$err2)
+            {
+               my ($file2, $message2) = %$diag2;
+               if ($file2 eq '')
+                 {
+                   print LOG "general error: $message2\n";
+                 }
+               else
+                 {
+                   print LOG "problem unlinking $file2: $message2\n";
+                 }
+            }
+        }
+    }
   }
 
 # Make the build area.
 $buildDir = $workdir."/build";
-mkpath($buildDir,0,0775) unless -e $buildDir;
+make_path($buildDir, {mode=> 0775}) unless -e $buildDir;
 
 # We no longer try to install the insure reports directly in a web
 # accessible area - if you want to put the reports on the web, copy
@@ -374,11 +406,11 @@ if ($opt_insure)
     $insureDir = $workdir.'/reports';
     if ($opt_stage == 0)
       {
-        rmtree $insureDir;
-        mkpath($insureDir, 0, 0775);
+        remove_tree($insureDir);
+        make_path($insureDir, {mode => 0775});
         $gusDir = $workdir.'/gus';
-        rmtree $gusDir;
-        mkpath($gusDir, 0, 0775);
+        remove_tree($gusDir);
+        make_path($gusDir, {mode => 0775});
         $ENV{GUSDIR} = $gusDir;
       }
    $insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
@@ -390,7 +422,7 @@ $ENV{ONLINE_MAIN} = $installDir;
 $oldOfflineMain =~ s/\+/\\\+/;
 $LD_LIBRARY_PATH =~ s/$oldOfflineMain/$OFFLINE_MAIN/ge;
 $PATH =~ s/$oldOfflineMain/$OFFLINE_MAIN/ge;
-mkpath($installDir."/share", 0, 0775) unless -e $installDir."/share";
+make_path($installDir."/share", {mode => 0775}) unless -e $installDir."/share";
 
 print LOG "===========================================\n";
 print LOG "Here we can see if the environment is sane.\n";
@@ -443,7 +475,7 @@ print LOG "===========================================\n";
         chdir $dir;
 	system("rsync -a lib  $installDir");
 	chdir "include";
-	mkpath($installDir."/include/GenFit", 0, 0775) unless -e $installDir."/include/GenFit";
+	make_path($installDir."/include/GenFit", {mode => 0775}) unless -e $installDir."/include/GenFit";
  	system("rsync -a . $installDir/include/GenFit");
 # modify all *.la files of external packages to point to this OFFLINE_MAIN, if someone can figure
 # out how to do the following one liner that would be enough:
@@ -473,7 +505,7 @@ print LOG "===========================================\n";
       {
 	my $sdir = realpath($sourceDir)."/".$m;
 	my $bdir = realpath($buildDir)."/".$m;
-	mkpath($bdir,0,0775);
+	make_path($bdir, {verbose=>1, mode => 0775});
 	chdir $bdir;
 
 	# Populate top-level directories with their own copy of .psrc
@@ -1019,7 +1051,7 @@ sub create_afs_taxi_dir
     my $afstaxipath = sprintf("%s/lib/taxi",$installDir);
     my $sharedir = sprintf("%s/share",$installDir);
     print LOG "creating $afstaxipath\n";
-    mkpath($afstaxipath, 0, 0775) unless -e $afstaxipath;
+    make_path($afstaxipath, {mode => 0775}) unless -e $afstaxipath;
     system("fs setacl $afstaxipath anatrain id");
     system("fs setacl $sharedir anatrain id");
 }
@@ -1054,8 +1086,8 @@ sub install_coverity_reports
 	(my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
 	my $newnumber = ($number % 2) + 1;
 	my $installdir = sprintf("%s.%d",$inst,$newnumber);
-	rmtree $installdir;
-	mkpath($installdir, 0, 0775);
+	remove_tree($installdir);
+	make_path($installdir, {mode => 0775});
 	my $indexfile = sprintf("%s/index.html",$installdir);
 	print LOG "indexfile: $indexfile\n";
 	open(F1,">$indexfile");
@@ -1131,8 +1163,8 @@ sub install_scanbuild_reports
     (my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
     my $newnumber = ($number % 2) + 1;
     my $installdir = sprintf("%s.%d",$inst,$newnumber);
-    rmtree $installdir;
-    mkpath($installdir, 0, 0775);
+    remove_tree($installdir);
+    make_path($installdir, {mode => 0775});
 # copy all reports to WWW accessible place
     system("cp -rp $scanlogdir/* $installdir");
 # make all files group readable (actual build errors are owner read only)
