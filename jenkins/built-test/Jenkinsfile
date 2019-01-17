@@ -176,10 +176,12 @@ pipeline
 					steps 
 					{
 		
-		    		build(job: 'cpp-check',
+		    		build(job: 'cpp-check-pipeline',
 		    			parameters:
 		    			[
-		    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 		    				
+		    				string(name: 'sha_coresoftware', value: "${sha_coresoftware}"), 		    				
+		    				string(name: 'git_url_coresoftware', value: "${git_url_coresoftware}"), 		    
+		    				string(name: 'mergeTarget_coresoftware', value: "${mergeTarget_coresoftware}"), 		    				
 								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 			    			string(name: 'upstream_build_description', value: "${upstream_build_description} / ${env.JOB_NAME}.#${env.BUILD_NUMBER}")
 			    		],

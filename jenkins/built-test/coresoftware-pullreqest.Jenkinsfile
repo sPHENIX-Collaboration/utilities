@@ -134,10 +134,11 @@ pipeline
 		
 						script
 						{
-				   		def built = build(job: 'cpp-check',
+				   		def built = build(job: 'cpp-check-pipeline',
 			    			parameters:
 			    			[
-			    				string(name: 'coresoftware_src', value: "${WORKSPACE}/coresoftware"), 
+							    string(name: 'sha_coresoftware', value: "${sha1}"), 
+							    string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
 				    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
 					    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 				    		],
