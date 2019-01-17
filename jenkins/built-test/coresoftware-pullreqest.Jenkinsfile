@@ -144,7 +144,7 @@ pipeline
 				    		],
 			    			wait: true, propagate: true)
 			    			
-						   copyArtifacts(projectName: 'cpp-check', filter: 'report/*', selector: specific("${built.number}"));
+						   copyArtifacts(projectName: 'cpp-check-pipeline', filter: 'report/*', selector: specific("${built.number}"));
 		    		}
 		   		}
 				}// Stage - cpp check
