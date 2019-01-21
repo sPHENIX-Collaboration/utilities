@@ -182,6 +182,7 @@ pipeline
 						    			
 											sh('ls -lhv')
 										}
+										sh('rm -fv qa_page.tar.gz')
 						
 									  publishHTML (target: [
 								      allowMissing: false,
