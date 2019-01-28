@@ -6,7 +6,7 @@ pipeline
 //        JenkinsBase = 'jenkins/test/'
 //    }
     options {
-        timeout(time: 1, unit: 'HOURS') 
+        timeout(time: 1.5, unit: 'HOURS') 
     }
        
 	stages { 
