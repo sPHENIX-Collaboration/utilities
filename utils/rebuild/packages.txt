@@ -18,7 +18,6 @@ coresoftware/generators/flowAfterburner|dave@bnl.gov
 coresoftware/offline/packages/HelixHough|alan.dion@gmail.com
 coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 coresoftware/offline/packages/PHField|jhuang@bnl.gov
-coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 coresoftware/offline/packages/trackbase|dmcglinchey@lanl.gov
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 #
@@ -36,6 +35,8 @@ coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
+# calobase needs g4celldefs
+coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 # tracking needs g4detectors
 coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
