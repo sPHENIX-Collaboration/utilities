@@ -91,14 +91,13 @@ $opt_stage = 0;
 $opt_db = 0;
 $opt_scanbuild = 0;
 $opt_coverity = 0;
-$opt_root6 = 0;
 $opt_lafiles = 0;
 $opt_help = 0;
 $opt_afs = 0;
 GetOptions('help', 'stage=i', 'afs',
 	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'root6', 'lafiles');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles');
 
 if ($opt_help)
   {
@@ -753,12 +752,6 @@ if ($opt_stage < 4)
 #my $cmd = sprintf("find %s/lib -name '*.la' -print | xargs sed -i 's/\\.rhic/rhic/g'",$OFFLINE_MAIN);
 #print LOG "adjusting la files, replacing /afs/.rhic.bnl.gov by /afs/rhic.bnl.gov\n";
 #system($cmd);
-if ($opt_root6)
-{
-    print LOG "copying pcm files with\n";
-    print LOG "find $buildDir -name '*.pcm' -exec cp {} $installDir/lib  \\;\n";
-    system("find $buildDir -name '*.pcm' -exec cp {} $installDir/lib  \\;");
-}
 
 INSTALLONLY:
 
@@ -1270,7 +1263,6 @@ sub printhelp
     print "--covpasswd='string'  the coverity password for the integrity manager\n";
     print "--notify           Contact responsibles in case of failure.\n";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
-    print "--root6            do whatever is needed to use root 6\n";
     print "--lafiles          build keeping libtool *.la files.\n";
     exit(0);
   }
