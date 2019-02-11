@@ -1256,6 +1256,7 @@ sub printhelp
     print "--version='string' Prefix for installation area. Default: new\n";
     print "--tinderbox        Send build information to tinderbox.\n";
     print "--gittag='string'  CVS flags for source checkout. \n";
+    print "--repoowner='string'  repository owner (default: sPHENIX--Collaboration). \n";
     print "--phenixinstall    Install in the official AFS area. \n";
     print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
     print "--insure           Rebuild using the Insure++\n";
