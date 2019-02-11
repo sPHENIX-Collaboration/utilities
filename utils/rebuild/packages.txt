@@ -71,9 +71,9 @@ coresoftware/offline/packages/trackreco|yuhw.pku@gmail.com
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
 # Offline software/T1044 prodcution software
-coresoftware/offline/packages/Prototype2|jhuang@bnl.gov
-coresoftware/offline/packages/Prototype3|jhuang@bnl.gov
-coresoftware/offline/packages/Prototype4|jhuang@bnl.gov
+prototype/offline/packages/Prototype2|jhuang@bnl.gov
+prototype/offline/packages/Prototype3|jhuang@bnl.gov
+prototype/offline/packages/Prototype4|jhuang@bnl.gov
 # QA modules that use both simulation and offline libs
 coresoftware/offline/QA/modules|jhuang@bnl.gov
 # the dumping needs all objects and comes last

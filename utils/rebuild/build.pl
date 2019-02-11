@@ -35,7 +35,7 @@ my $SENDMAIL = "/usr/sbin/sendmail -t -v";
 my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
 
-my @gitrepos = ("coresoftware", "online_distribution");
+my @gitrepos = ("coresoftware", "online_distribution", "prototype");
 
 my %externalPackages = (
     "boost" => "boost",
@@ -94,10 +94,11 @@ $opt_coverity = 0;
 $opt_lafiles = 0;
 $opt_help = 0;
 $opt_afs = 0;
+$opt_repoowner = 'sPHENIX-Collaboration';
 GetOptions('help', 'stage=i', 'afs',
 	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s');
 
 if ($opt_help)
   {
@@ -322,7 +323,7 @@ else
     chdir $sourceDir;
     foreach my $repo (@gitrepos)
     {
-	$gitcommand = sprintf("git clone -q https://github.com/sPHENIX-Collaboration/%s.git",$repo);
+	$gitcommand = sprintf("git clone -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
 	print LOG $gitcommand, "\n";
 	goto END if &doSystemFail($gitcommand);
     }
