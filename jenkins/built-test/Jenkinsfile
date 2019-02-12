@@ -56,6 +56,10 @@ pipeline
 						{
 							deleteDir()
     				}
+						dir('prototype')
+						{
+							deleteDir()
+    				}
 						dir('report')
 						{
 							deleteDir()
@@ -153,6 +157,10 @@ pipeline
 							)//checkout
 							
     				}	
+						dir('prototype')
+						{
+							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/prototype.git'
+    				}
 						dir('tutorials')
 						{
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/tutorials.git'
