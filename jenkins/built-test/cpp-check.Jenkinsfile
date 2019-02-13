@@ -145,7 +145,7 @@ pipeline
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 					string(name: 'LabelCategory', value: "cpp-check"),
-					string(name: 'LabelStatus', value: "PASS")
+					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
 				wait: false, propagate: false)
 		
@@ -171,7 +171,7 @@ pipeline
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 					string(name: 'LabelCategory', value: "cpp-check"),
-					string(name: 'LabelStatus', value: "PASS")
+					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
 				wait: false, propagate: false)
 				
