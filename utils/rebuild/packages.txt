@@ -29,6 +29,7 @@ coresoftware/generators/PHPythia6|nils.feege@stonybrook.edu
 coresoftware/generators/PHSartre|lajoie@iastate.edu
 # simulations/Geant4
 # coresoftware/simulation/g4simulation/g4field|pinkenburg@bnl.gov -- removed since https://github.com/sPHENIX-Collaboration/coresoftware/pull/349
+coresoftware/simulation/g4simulation/EICPhysicsList|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
