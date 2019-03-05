@@ -1252,11 +1252,12 @@ sub printhelp
     print "                     5 = install only (scan-build) \n";
     print "--afs              install in afs (cvmfs is default)\n";
     print "--source='string'  Use the specified source directory. Don't get\n";
-    print "                     the source from CVS (i.e., skip stage 0)\n";
+    print "                   the source from CVS (i.e., skip stage 0)\n";
     print "--version='string' Prefix for installation area. Default: new\n";
     print "--tinderbox        Send build information to tinderbox.\n";
-    print "--gittag='string'  CVS flags for source checkout. \n";
-    print "--repoowner='string'  repository owner (default: sPHENIX--Collaboration). \n";
+    print "--gittag='string'  git tag for source checkout.\n";
+    print "--gitbranch='string' git branch to be used for build\n";
+    print "--repoowner='string' repository owner (default: sPHENIX--Collaboration). \n";
     print "--phenixinstall    Install in the official AFS area. \n";
     print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
     print "--insure           Rebuild using the Insure++\n";
