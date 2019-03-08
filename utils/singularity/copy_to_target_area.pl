@@ -185,9 +185,3 @@ if ($opt_offline > 0 || $opt_all > 0)
     }
 }
 
-# finally copy the html page over
-print "copying index.html to $targetdir\n";
-if (!$opt_test)
-{
-  copy("index.html",$targetdir);
-}
