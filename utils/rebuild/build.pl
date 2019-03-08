@@ -35,8 +35,6 @@ my $SENDMAIL = "/usr/sbin/sendmail -t -v";
 my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
 
-my @gitrepos = ("coresoftware", "online_distribution", "prototype");
-
 my %externalPackages = (
     "boost" => "boost",
     "CGAL" => "CGAL",
@@ -68,6 +66,17 @@ chomp $date;
 my $cwd = getcwd;
 
 my $buildSucceeded = 0;
+# Read in list of repositories
+my @gitrepos = ();
+die unless open(IN,"$Bin/repositories.txt");
+while (<IN>)
+  {
+    next if (/^#/);
+    push @gitrepos, $_;
+  }
+close(IN);
+print @gitrepos;
+die;
 # Read in list of packages and contacts
 my @package = ();
 my %contact = ();
