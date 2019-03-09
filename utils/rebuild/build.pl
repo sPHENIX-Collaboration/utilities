@@ -72,6 +72,7 @@ die unless open(IN,"$Bin/repositories.txt");
 while (<IN>)
   {
     next if (/^#/);
+    chomp $_;
     push @gitrepos, $_;
   }
 close(IN);
