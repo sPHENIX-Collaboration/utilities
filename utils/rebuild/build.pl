@@ -75,8 +75,6 @@ while (<IN>)
     push @gitrepos, $_;
   }
 close(IN);
-print @gitrepos;
-die;
 # Read in list of packages and contacts
 my @package = ();
 my %contact = ();
