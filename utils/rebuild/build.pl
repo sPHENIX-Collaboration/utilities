@@ -65,6 +65,8 @@ my $date = `date`;
 chomp $date;
 my $cwd = getcwd;
 
+my %repotags = ();
+
 my $buildSucceeded = 0;
 # Read in list of repositories
 my @gitrepos = ();
@@ -326,7 +328,7 @@ if (-e $sourceDir)
     $opt_stage = ($opt_stage == 0) ? 1 : $opt_stage;
   }
 else
-  {
+{
     make_path($sourceDir, {mode => 0775}) unless -e $sourceDir;
     chdir $sourceDir;
     foreach my $repo (@gitrepos)
@@ -358,11 +360,26 @@ else
 	}
     }
     if($opt_gittag ne '')
-      {
-	my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
-        print LOG $gittagcmd, "\n";
-        goto END if &doSystemFail($gittagcmd);
-      }
+    {
+	foreach my $repo (@gitrepos)
+	{
+	    my $repodir = sprintf("%s/%s",$sourceDir,$repo);
+	    chdir $repodir;
+	    my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
+	    print LOG $gittagcmd, "\n";
+	    goto END if &doSystemFail($gittagcmd);
+        }
+    }
+# save the latest commit id of the checkouts
+    foreach my $repo (@gitrepos)
+    {
+	my $repodir = sprintf("%s/%s",$sourceDir,$repo);
+	chdir $repodir;
+        my $fullrepo = sprintf("%s/%s",$opt_repoowner, $repo);
+        my $gittag = `git show | head -1 | awk '{print \$2}'`;
+        chomp $gittag;
+	$repotags{$fullrepo} = $gittag;
+    }
     # Get rid of the old installDir, if it exists.  If the source area
     # already exists, assume we are re-trying a failed build.  Don't
     # delete the installDir then.
@@ -915,8 +932,22 @@ print INFO " build dir:".$buildDir."\n ";
 print INFO " install dir:".$installDir."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
 print INFO " http://www.phenix.bnl.gov/software/sPHENIX/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
-print INFO " git tag: \n".$opt_gittag."\n";
-print INFO " git branch: \n".$opt_gitbranch."\n";
+if ($opt_gittag ne '')
+{
+  print INFO " git tag: ".$opt_gittag."\n";
+}
+if ($opt_gitbranch ne '')
+{
+ print INFO " git branch: ".$opt_gitbranch."\n";
+}
+else
+{
+    print INFO " git branch: master\n";
+}
+foreach my $key (keys %repotags)
+{
+    print INFO " git repo $key, tag: $repotags{$key}\n";
+}
 #print INFO " git command used: \n".$gitcommand."\n";
 %month=('Jan',0,'Feb',1,'Mar',2,'Apr',3,'May',4,'Jun',5,'Jul',6,'Aug',7,'Sep',8,'Oct',9,'Nov',10,'Dec',11);
 close (LOG);
