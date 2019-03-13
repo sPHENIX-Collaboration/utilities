@@ -331,6 +331,23 @@ else
 {
     make_path($sourceDir, {mode => 0775}) unless -e $sourceDir;
     chdir $sourceDir;
+    my $statret = 0;
+    $ENV{'GIT_ASKPASS'} = 'true';
+    foreach my $repo (@gitrepos)
+    {
+	$gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$opt_repoowner, $repo);
+        my $iret = system($gitcommand);
+	if ($iret)
+	{
+	    print LOG "repository https://github.com/$opt_repoowner/$repo.git does not exist\n";
+	}
+        $statret += $iret;
+    }
+    if ($statret)
+    {
+        close(LOG);
+	exit 1;
+    }
     foreach my $repo (@gitrepos)
     {
 	$gitcommand = sprintf("git clone -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
@@ -440,6 +457,8 @@ if ($opt_insure)
       }
    $insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
   }
+
+# switch OFFLINE_MAIN to new install area and create it
 $oldOfflineMain = $OFFLINE_MAIN;
 $OFFLINE_MAIN = $installDir;
 $ENV{OFFLINE_MAIN} = $installDir;
@@ -1303,7 +1322,7 @@ sub printhelp
     print "--tinderbox        Send build information to tinderbox.\n";
     print "--gittag='string'  git tag for source checkout.\n";
     print "--gitbranch='string' git branch to be used for build\n";
-    print "--repoowner='string' repository owner (default: sPHENIX--Collaboration). \n";
+    print "--repoowner='string' repository owner (default: sPHENIX-Collaboration). \n";
     print "--phenixinstall    Install in the official AFS area. \n";
     print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
     print "--insure           Rebuild using the Insure++\n";
