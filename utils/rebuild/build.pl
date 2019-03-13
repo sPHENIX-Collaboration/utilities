@@ -375,7 +375,7 @@ else
     {
 	my $repodir = sprintf("%s/%s",$sourceDir,$repo);
 	chdir $repodir;
-        my $fullrepo = sprintf("%s/%s",$opt_repoowner, $repo);
+        my $fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
         my $gittag = `git show | head -1 | awk '{print \$2}'`;
         chomp $gittag;
 	$repotags{$fullrepo} = $gittag;
@@ -772,6 +772,13 @@ if ($opt_stage < 4)
     my $gitcommand = "git clone -q https://github.com/sPHENIX-Collaboration/calibrations.git $OFFLINE_MAIN/share/calibrations";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
+
+    my $fullrepo = sprintf("sPHENIX-Collaboration/calibrations.git");
+    my $repodir = sprintf("%s/share/calibrations",$OFFLINE_MAIN);
+    chdir $repodir;
+    my $gittag = `git show | head -1 | awk '{print \$2}'`;
+    chomp $gittag;
+    $repotags{$fullrepo} = $gittag;
   }
 # all done adjust remaining *.la files to point to /afs/rhic.bnl.gov/ instead 
 # of /afs/.rhic.bnl.gov/
