@@ -16,6 +16,14 @@ use Cwd qw(getcwd realpath);
 use Env;
 #use strict;
 
+sub SaveGitTagsToDB;
+sub check_git_branch;
+sub printhelp;
+sub install_scanbuild_reports;
+sub create_afs_taxi_dir;
+sub check_expiration_date;
+sub doSystemFail;
+
 Env::import();
 
 if ($#ARGV < 0)
@@ -64,8 +72,6 @@ my $starttime = time;
 my $date = `date`;
 chomp $date;
 my $cwd = getcwd;
-
-my %repotags = ();
 
 my $buildSucceeded = 0;
 # Read in list of repositories
@@ -312,13 +318,13 @@ my $releasenumber = $newnumber;
 $installDir = $inst.".".$newnumber;
 
 my $linkTarget = $linktg.".".$newnumber;
+
+# Make the source directory and (maybe) populate it from CVS.
+$sourceDir = $opt_source ? $opt_source : $workdir."/source";
 if ($opt_stage == 5)
 {
   goto INSTALLONLY;
 }
-
-# Make the source directory and (maybe) populate it from CVS.
-$sourceDir = $opt_source ? $opt_source : $workdir."/source";
 if (-e $sourceDir)
   {
     # Assume the source area is already here because the user knows
@@ -386,16 +392,6 @@ else
 	    print LOG $gittagcmd, "\n";
 	    goto END if &doSystemFail($gittagcmd);
         }
-    }
-# save the latest commit id of the checkouts
-    foreach my $repo (@gitrepos)
-    {
-	my $repodir = sprintf("%s/%s",$sourceDir,$repo);
-	chdir $repodir;
-        my $fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
-        my $gittag = `git show | head -1 | awk '{print \$2}'`;
-        chomp $gittag;
-	$repotags{$fullrepo} = $gittag;
     }
     # Get rid of the old installDir, if it exists.  If the source area
     # already exists, assume we are re-trying a failed build.  Don't
@@ -792,12 +788,6 @@ if ($opt_stage < 4)
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
 
-    my $fullrepo = sprintf("sPHENIX-Collaboration/calibrations.git");
-    my $repodir = sprintf("%s/share/calibrations",$OFFLINE_MAIN);
-    chdir $repodir;
-    my $gittag = `git show | head -1 | awk '{print \$2}'`;
-    chomp $gittag;
-    $repotags{$fullrepo} = $gittag;
   }
 # all done adjust remaining *.la files to point to /afs/rhic.bnl.gov/ instead 
 # of /afs/.rhic.bnl.gov/
@@ -929,6 +919,32 @@ END:{
   $buildSucceeded==0 && ($buildStatus='busted', last END);
 }
 
+# save the latest commit id of the checkouts
+my %repotags = ();
+# first the calibrations
+my $fullrepo = sprintf("sPHENIX-Collaboration/calibrations.git");
+my $repodir = sprintf("%s/share/calibrations",$OFFLINE_MAIN);
+if (-d $repodir)
+{
+    chdir $repodir;
+    my $gittag = `git show | head -1 | awk '{print \$2}'`;
+    chomp $gittag;
+    $repotags{$fullrepo} = $gittag;
+}
+# then the repos from repositories.txt
+foreach my $repo (@gitrepos)
+{
+    $repodir = sprintf("%s/%s",$sourceDir,$repo);
+    if (-d $repodir)
+    {
+	chdir $repodir;
+	$fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
+	my $gittag = `git show | head -1 | awk '{print \$2}'`;
+	chomp $gittag;
+	$repotags{$fullrepo} = $gittag;
+    }
+}
+
 if ($opt_tinderbox) 
   {
     print LOG "\n";
@@ -1005,6 +1021,12 @@ close(INFO);
 if ($opt_insure && $buildSucceeded==1)
 {
     &check_insure_reports();
+}
+# save the git tags in DB only for the build account
+my $username = getlogin;
+if ($username eq "phnxbld")
+{
+  SaveGitTagsToDB();
 }
 
 
@@ -1359,4 +1381,31 @@ sub check_git_branch
     }
     close(F);
     return 0;
+}
+
+sub SaveGitTagsToDB()
+{
+    use DBI;
+    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
+    my $chkbuild = $dbh->prepare("select build from buildtags where build=?");
+    my $delbuild = $dbh->prepare("delete from buildtags where build=?");
+    my $buildname = sprintf("%s.%d",$opt_version,$releasenumber);
+    $chkbuild->execute($buildname);
+    if ($chkbuild->rows > 0)
+    {
+	$delbuild->execute($buildname);
+    }
+    $chkbuild->finish();
+    $delbuild->finish();
+
+    my $insertbuild = $dbh->prepare("insert into buildtags (build, date, unixdate, reponame, tag) values (?, ?, ?, ?, ?)");
+    my $unixdate = `date +%s`;
+    chomp $unixdate;
+    my $humandate = `date`;
+
+    foreach my $key (keys %repotags)
+    {
+	$insertbuild->execute($buildname,$humandate,$unixdate,$key,$repotags{$key});
+    }
+    $insertbuild->finish();
 }
