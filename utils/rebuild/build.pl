@@ -16,6 +16,14 @@ use Cwd qw(getcwd realpath);
 use Env;
 #use strict;
 
+sub SaveGitTagsToDB;
+sub check_git_branch;
+sub printhelp;
+sub install_scanbuild_reports;
+sub create_afs_taxi_dir;
+sub check_expiration_date;
+sub doSystemFail;
+
 Env::import();
 
 if ($#ARGV < 0)
@@ -34,8 +42,6 @@ $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t -v";
 my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
-
-my @gitrepos = ("coresoftware", "online_distribution", "prototype");
 
 my %externalPackages = (
     "boost" => "boost",
@@ -68,6 +74,16 @@ chomp $date;
 my $cwd = getcwd;
 
 my $buildSucceeded = 0;
+# Read in list of repositories
+my @gitrepos = ();
+die unless open(IN,"$Bin/repositories.txt");
+while (<IN>)
+  {
+    next if (/^#/);
+    chomp $_;
+    push @gitrepos, $_;
+  }
+close(IN);
 # Read in list of packages and contacts
 my @package = ();
 my %contact = ();
@@ -302,13 +318,13 @@ my $releasenumber = $newnumber;
 $installDir = $inst.".".$newnumber;
 
 my $linkTarget = $linktg.".".$newnumber;
+
+# Make the source directory and (maybe) populate it from CVS.
+$sourceDir = $opt_source ? $opt_source : $workdir."/source";
 if ($opt_stage == 5)
 {
   goto INSTALLONLY;
 }
-
-# Make the source directory and (maybe) populate it from CVS.
-$sourceDir = $opt_source ? $opt_source : $workdir."/source";
 if (-e $sourceDir)
   {
     # Assume the source area is already here because the user knows
@@ -318,9 +334,26 @@ if (-e $sourceDir)
     $opt_stage = ($opt_stage == 0) ? 1 : $opt_stage;
   }
 else
-  {
+{
     make_path($sourceDir, {mode => 0775}) unless -e $sourceDir;
     chdir $sourceDir;
+    my $statret = 0;
+    $ENV{'GIT_ASKPASS'} = 'true';
+    foreach my $repo (@gitrepos)
+    {
+	$gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$opt_repoowner, $repo);
+        my $iret = system($gitcommand);
+	if ($iret)
+	{
+	    print LOG "repository https://github.com/$opt_repoowner/$repo.git does not exist\n";
+	}
+        $statret += $iret;
+    }
+    if ($statret)
+    {
+        close(LOG);
+	exit 1;
+    }
     foreach my $repo (@gitrepos)
     {
 	$gitcommand = sprintf("git clone -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
@@ -350,11 +383,16 @@ else
 	}
     }
     if($opt_gittag ne '')
-      {
-	my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
-        print LOG $gittagcmd, "\n";
-        goto END if &doSystemFail($gittagcmd);
-      }
+    {
+	foreach my $repo (@gitrepos)
+	{
+	    my $repodir = sprintf("%s/%s",$sourceDir,$repo);
+	    chdir $repodir;
+	    my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
+	    print LOG $gittagcmd, "\n";
+	    goto END if &doSystemFail($gittagcmd);
+        }
+    }
     # Get rid of the old installDir, if it exists.  If the source area
     # already exists, assume we are re-trying a failed build.  Don't
     # delete the installDir then.
@@ -415,6 +453,8 @@ if ($opt_insure)
       }
    $insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
   }
+
+# switch OFFLINE_MAIN to new install area and create it
 $oldOfflineMain = $OFFLINE_MAIN;
 $OFFLINE_MAIN = $installDir;
 $ENV{OFFLINE_MAIN} = $installDir;
@@ -747,6 +787,7 @@ if ($opt_stage < 4)
     my $gitcommand = "git clone -q https://github.com/sPHENIX-Collaboration/calibrations.git $OFFLINE_MAIN/share/calibrations";
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
+
   }
 # all done adjust remaining *.la files to point to /afs/rhic.bnl.gov/ instead 
 # of /afs/.rhic.bnl.gov/
@@ -878,6 +919,32 @@ END:{
   $buildSucceeded==0 && ($buildStatus='busted', last END);
 }
 
+# save the latest commit id of the checkouts
+my %repotags = ();
+# first the calibrations
+my $fullrepo = sprintf("sPHENIX-Collaboration/calibrations.git");
+my $repodir = sprintf("%s/share/calibrations",$OFFLINE_MAIN);
+if (-d $repodir)
+{
+    chdir $repodir;
+    my $gittag = `git show | head -1 | awk '{print \$2}'`;
+    chomp $gittag;
+    $repotags{$fullrepo} = $gittag;
+}
+# then the repos from repositories.txt
+foreach my $repo (@gitrepos)
+{
+    $repodir = sprintf("%s/%s",$sourceDir,$repo);
+    if (-d $repodir)
+    {
+	chdir $repodir;
+	$fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
+	my $gittag = `git show | head -1 | awk '{print \$2}'`;
+	chomp $gittag;
+	$repotags{$fullrepo} = $gittag;
+    }
+}
+
 if ($opt_tinderbox) 
   {
     print LOG "\n";
@@ -907,8 +974,22 @@ print INFO " build dir:".$buildDir."\n ";
 print INFO " install dir:".$installDir."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
 print INFO " http://www.phenix.bnl.gov/software/sPHENIX/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
-print INFO " git tag: \n".$opt_gittag."\n";
-print INFO " git branch: \n".$opt_gitbranch."\n";
+if ($opt_gittag ne '')
+{
+  print INFO " git tag: ".$opt_gittag."\n";
+}
+if ($opt_gitbranch ne '')
+{
+ print INFO " git branch: ".$opt_gitbranch."\n";
+}
+else
+{
+    print INFO " git branch: master\n";
+}
+foreach my $key (keys %repotags)
+{
+    print INFO " git repo $key, tag: $repotags{$key}\n";
+}
 #print INFO " git command used: \n".$gitcommand."\n";
 %month=('Jan',0,'Feb',1,'Mar',2,'Apr',3,'May',4,'Jun',5,'Jul',6,'Aug',7,'Sep',8,'Oct',9,'Nov',10,'Dec',11);
 close (LOG);
@@ -940,6 +1021,12 @@ close(INFO);
 if ($opt_insure && $buildSucceeded==1)
 {
     &check_insure_reports();
+}
+# save the git tags in DB only for the build account
+my $username = getlogin;
+if ($username eq "phnxbld")
+{
+  SaveGitTagsToDB();
 }
 
 
@@ -1252,11 +1339,12 @@ sub printhelp
     print "                     5 = install only (scan-build) \n";
     print "--afs              install in afs (cvmfs is default)\n";
     print "--source='string'  Use the specified source directory. Don't get\n";
-    print "                     the source from CVS (i.e., skip stage 0)\n";
+    print "                   the source from CVS (i.e., skip stage 0)\n";
     print "--version='string' Prefix for installation area. Default: new\n";
     print "--tinderbox        Send build information to tinderbox.\n";
-    print "--gittag='string'  CVS flags for source checkout. \n";
-    print "--repoowner='string'  repository owner (default: sPHENIX--Collaboration). \n";
+    print "--gittag='string'  git tag for source checkout.\n";
+    print "--gitbranch='string' git branch to be used for build\n";
+    print "--repoowner='string' repository owner (default: sPHENIX-Collaboration). \n";
     print "--phenixinstall    Install in the official AFS area. \n";
     print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
     print "--insure           Rebuild using the Insure++\n";
@@ -1293,4 +1381,31 @@ sub check_git_branch
     }
     close(F);
     return 0;
+}
+
+sub SaveGitTagsToDB()
+{
+    use DBI;
+    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
+    my $chkbuild = $dbh->prepare("select build from buildtags where build=?");
+    my $delbuild = $dbh->prepare("delete from buildtags where build=?");
+    my $buildname = sprintf("%s.%d",$opt_version,$releasenumber);
+    $chkbuild->execute($buildname);
+    if ($chkbuild->rows > 0)
+    {
+	$delbuild->execute($buildname);
+    }
+    $chkbuild->finish();
+    $delbuild->finish();
+
+    my $insertbuild = $dbh->prepare("insert into buildtags (build, date, unixdate, reponame, tag) values (?, ?, ?, ?, ?)");
+    my $unixdate = `date +%s`;
+    chomp $unixdate;
+    my $humandate = `date`;
+
+    foreach my $key (keys %repotags)
+    {
+	$insertbuild->execute($buildname,$humandate,$unixdate,$key,$repotags{$key});
+    }
+    $insertbuild->finish();
 }
