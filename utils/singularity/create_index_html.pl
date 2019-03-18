@@ -14,6 +14,7 @@ $rootversion{"root6"} = "Root6";
 my %tarball = ();
 $tarball{"opt.tar.bz2"} = "coresoftware tarball";
 $tarball{"offline_main.tar.bz2"} = "OFFLINE_MAIN tarball";
+$tarball{"utils.tar.bz2"} = "utilities tarball";
 
 my $opt_help = 0;
 
