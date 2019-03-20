@@ -165,33 +165,34 @@ pipeline
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
+							    			booleanParam(name: 'run_calo_qa', value: false), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
 						    			wait: true, propagate: true)
 						   										
-						   				copyArtifacts(projectName: 'Build-Master', filter: 'qa_page.tar.gz', selector: specific("${built.number}"));
+						   				// copyArtifacts(projectName: 'Build-Master', filter: 'qa_page.tar.gz', selector: specific("${built.number}"));
 						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));
 										}
 						   			
-										dir('qa_html')
-										{
-											sh('ls -lhv')
+										//dir('qa_html')
+										//{
+										//	sh('ls -lhv')
 																					
-						    			sh ("tar xzfv ../qa_page.tar.gz")
+						    		//	sh ("tar xzfv ../qa_page.tar.gz")
 						    			
-											sh('ls -lhv')
-										}
-										sh('rm -fv qa_page.tar.gz')
+										//	sh('ls -lhv')
+										//}
+										//sh('rm -fv qa_page.tar.gz')
 						
-									  publishHTML (target: [
-								      allowMissing: false,
-								      alwaysLinkToLastBuild: false,
-								      keepAll: true,
-								      reportDir: 'qa_html',
-								      reportFiles: 'index.html',
-								      reportName: "Calorimeter QA Report"
-								    ])
+									  //publishHTML (target: [
+								    //  allowMissing: false,
+								    //  alwaysLinkToLastBuild: false,
+								    //  keepAll: true,
+								    //  reportDir: 'qa_html',
+								    //  reportFiles: 'index.html',
+								    //  reportName: "Calorimeter QA Report"
+								    //])
 						   				    
 									}				// steps
 				}//stage('Build-Test')
