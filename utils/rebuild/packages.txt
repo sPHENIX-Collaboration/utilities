@@ -40,9 +40,9 @@ coresoftware/offline/packages/trackbase|dmcglinchey@lanl.gov
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 # mvtx needs trackbase, tracking also needs trackbase_historic for now
 # tracking needs g4 modules for geometry classes
-coresoftware/offline/packages/mvtx|dmcglinchey@lanl.gov
 coresoftware/offline/packages/intt|afrawley@fsu.edu
 coresoftware/offline/packages/tpc|afrawley@fsu.edu
+coresoftware/offline/packages/mvtx|dmcglinchey@lanl.gov
 # tracking needs g4detectors
 coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
