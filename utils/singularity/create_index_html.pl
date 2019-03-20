@@ -14,6 +14,7 @@ $rootversion{"root6"} = "Root6";
 my %tarball = ();
 $tarball{"opt.tar.bz2"} = "coresoftware tarball";
 $tarball{"offline_main.tar.bz2"} = "OFFLINE_MAIN tarball";
+$tarball{"utils.tar.bz2"} = "utilities tarball";
 
 my $opt_help = 0;
 
@@ -49,8 +50,13 @@ my $fullcontainer = sprintf("%s/%s",$targetdir,$containername);
 if (-f $fullcontainer)
 {
     print F "<h3>\n";
-    print F "<a href=\"./$containername\">rcf Singularity Container image</a><p>\n";
-    print F "</h3>\n";
+    print F "<a href=\"./$containername\">rcf Singularity Container image</a>\n";
+    my $md5file = sprintf("%s.md5",$fullcontainer);
+    if (-f $md5file)
+    {
+	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+    }
+    print F "<p></h3>\n";
 }
 
 opendir (my $dh, $targetdir);
@@ -71,7 +77,13 @@ foreach my $subdir (@dirs)
 	my $fullfile = sprintf("%s/%s/%s",$targetdir,$subdir,$tb);
 	if (-f $fullfile)
 	{
-	    print F "<h3> <a href=\"$fullfile\">$tarball{$tb}</a></h3></br>\n";
+	    print F "<h3> <a href=\"$fullfile\">$tarball{$tb}</a>\n"; 
+	    my $md5file = sprintf("%s.md5",$fullfile);
+	    if (-f $md5file)
+	    {
+		print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+	    }
+       print F"</h3></br>\n";
 	}
     }
 }

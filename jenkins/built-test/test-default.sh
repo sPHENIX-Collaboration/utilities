@@ -1,15 +1,15 @@
 #! tcsh -f
 
-if ($#argv != 2) then
+if ($#argv != 3) then
 	
-	echo "Usage $0 number_event run_valgrind"
+	echo "Usage $0 Fun4All_G4_sPHENIX number_event run_valgrind"
 	exit 1;
 	
 endif
 
-set number_event = $1;
-set run_valgrind = $2;
-
+set macro_name = $1;
+set number_event = $2;
+set run_valgrind = $3;
 
 
 # source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
@@ -48,7 +48,7 @@ if ($run_valgrind > 0) then
 	    set valgrind_sup = "--suppressions=$ROOTSYS/root.supp";
 	endif	
 	
-	set valgrind_prefix = "valgrind -v  --num-callers=30 --leak-check=full --error-limit=no --log-file=Fun4All_G4_sPHENIX.valgrind $valgrind_sup --xml=yes --xml-file=Fun4All_G4_sPHENIX.valgrind.xml --leak-resolution=high"
+	set valgrind_prefix = "valgrind -v  --num-callers=30 --leak-check=full --error-limit=no --log-file=${macro_name}.valgrind $valgrind_sup --xml=yes --xml-file=${macro_name}.valgrind.xml --leak-resolution=high"
 	
 	which valgrind
 	echo "valgrind_prefix = ${valgrind_prefix}"
@@ -62,7 +62,7 @@ echo "======================================================="
 # Test case to produce memory error
 # echo '{int ret = gSystem->Load("libg4bbc.so"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
 
-/usr/bin/time -v ${valgrind_prefix} root.exe -b -q "Fun4All_G4_sPHENIX.C(${number_event})" | & tee -a Fun4All_G4_sPHENIX.log;
+/usr/bin/time -v ${valgrind_prefix} root.exe -b -q "${macro_name}.C(${number_event})" | & tee -a ${macro_name}.log;
 
 set build_ret = $?;
 

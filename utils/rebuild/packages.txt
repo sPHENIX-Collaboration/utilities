@@ -64,6 +64,7 @@ coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
 # simulations/Geant4/ evals
 coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 #coresoftware/simulation/g4simulation/g4picoDst|lxue4@gsu.edu
 # Offline tracking software

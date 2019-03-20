@@ -20,7 +20,7 @@ pipeline
 					ansiColor('xterm') {
 					
 						script {
-						
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${macro_name}"
 							currentBuild.description = "${upstream_build_description}" 
 						
 							if (fileExists('./install'))
@@ -34,7 +34,9 @@ pipeline
 							if (fileExists('./build'))
 							{
 								sh "rm -fv ./build"
-							}						
+							}	
+							
+							sh('rm -fv *.*')					
 						}						
     				
 						echo("link builds to ${build_src}")
@@ -139,7 +141,7 @@ pipeline
 			steps 
 			{
 					
-				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh  30 0')
+				sh("/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh ${macro_name} 30 0")
 														
 			}				
 					
@@ -164,7 +166,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "test-default.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) run the default sPHENIX macro: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:file_folder:output files](${env.BUILD_URL}) "				
+			  writeFile file: "test-default-${macro_name}.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) run the default ${macro_name}.C macro: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:file_folder:output files](${env.BUILD_URL}) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
