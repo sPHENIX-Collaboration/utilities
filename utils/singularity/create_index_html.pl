@@ -8,8 +8,8 @@ use Getopt::Long;
 my $containername = "rhic_sl7_ext.simg";
 
 my %rootversion = ();
-$rootversion{"new"} = "Root5";
-$rootversion{"root6"} = "Root6";
+$rootversion{"new"} = "Root6";
+$rootversion{"root5"} = "Root5";
 
 my %tarball = ();
 $tarball{"opt.tar.bz2"} = "coresoftware tarball";
