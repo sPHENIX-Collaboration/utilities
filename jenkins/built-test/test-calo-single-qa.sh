@@ -18,6 +18,7 @@ setenv ONLINE_MAIN $WORKSPACE/install
 setenv CALIBRATIONROOT  $WORKSPACE/calibrations
 
 source /opt/sphenix/core/bin/sphenix_setup.csh; 
+source /opt/sphenix/core/bin/setup_root6.csh ${WORKSPACE}/install/
 
 # setenv PATH 		$WORKSPACE/install/bin:${PATH}
 # setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
@@ -29,7 +30,7 @@ env;
 
 cd macros/macros/g4simulations/
 
-ln -svfb $WORKSPACE//coresoftware/offline/QA/macros/* ./
+#ln -svfb $WORKSPACE//coresoftware/offline/QA/macros/* ./
 
 pwd;
 ls -lhc
@@ -68,11 +69,19 @@ end
 
 ls -lhcrt
 
+
+echo "======================================================="
+echo "${name}: go to QA directory";
+echo "======================================================="
+cd ../QA/calorimeter/
+pwd
+ls -lhv
+
 echo "======================================================="
 echo "${name}: Merging output to G4sPHENIX_${name}_qa.root";
 echo "======================================================="
 
-hadd -f G4sPHENIX_${name}_qa.root G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
+hadd -f G4sPHENIX_${name}_qa.root $WORKSPACE/macros/macros/g4simulations/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
 
 echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";

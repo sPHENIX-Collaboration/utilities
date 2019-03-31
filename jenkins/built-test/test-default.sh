@@ -24,7 +24,7 @@ setenv ONLINE_MAIN $WORKSPACE/install
 setenv CALIBRATIONROOT  $WORKSPACE/calibrations
 
 source /opt/sphenix/core/bin/sphenix_setup.csh;
-
+source /opt/sphenix/core/bin/setup_root6.csh ${WORKSPACE}/install/
 
 echo "======================================================="
 echo "env check";
