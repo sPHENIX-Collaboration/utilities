@@ -142,8 +142,11 @@ pipeline
 
 source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type}
 
+env;
+
 cd ../macros/macros/g4simulations/
 ls -lhvc
+
 
 root -b -q Fun4All_G4_sPHENIX.C
 
@@ -154,7 +157,7 @@ exit \$?
 														
 							sh('ls -lvhc')
 							
-							sh("singularity exec -B cvmfs:/cvmfs cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg test.sh");
+							sh("singularity exec -B cvmfs:/cvmfs cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg ./test.sh");
 							
 							sh('ls -lvhc')
 						}
