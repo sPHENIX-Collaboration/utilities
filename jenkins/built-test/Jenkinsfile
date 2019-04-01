@@ -412,37 +412,37 @@ pipeline
 			    							],
 							    			wait: true, propagate: true)
 						   			
-						   				copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
+						   				// copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
 										}
-										archiveArtifacts artifacts: 'qa_page.tar.gz'
+										// archiveArtifacts artifacts: 'qa_page.tar.gz'
 										
 						    		
 										sh('ls -lhv')
 						   			
-						   			dir('macros/macros/g4simulations/')
-						   			{
-						   				stash name: "test-calo-single-qa-stash", includes: "*"
-						   			}
+						   			//dir('macros/macros/g4simulations/')
+						   			//{
+						   			//	stash name: "test-calo-single-qa-stash", includes: "*"
+						   			//}
 						   			
-						   			dir('test-calo-single-qa-output')
-						   			{
-						   				unstash "test-calo-single-qa-stash"
-						   				archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
-						   			}    		   			
+						   			//dir('test-calo-single-qa-output')
+						   			//{
+						   			//	unstash "test-calo-single-qa-stash"
+						   			//	archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
+						   			//}    		   			
 						   			
-										dir('qa_html')
-										{
-						    			sh ("tar xzfv ../qa_page.tar.gz")
-										}
+										//dir('qa_html')
+										//{
+						    		//	sh ("tar xzfv ../qa_page.tar.gz")
+										//}
 				
-									  publishHTML (target: [
-								      allowMissing: false,
-								      alwaysLinkToLastBuild: false,
-								      keepAll: true,
-								      reportDir: 'qa_html',
-								      reportFiles: 'index.html',
-								      reportName: "Calorimeter QA Report"
-								    ])
+									  //publishHTML (target: [
+								    //  allowMissing: false,
+								    //  alwaysLinkToLastBuild: false,
+								    //  keepAll: true,
+								    //  reportDir: 'qa_html',
+								    //  reportFiles: 'index.html',
+								    //  reportName: "Calorimeter QA Report"
+								    //])
 							   			
 									}				
 								}// 				stage('test-calo-single-qa')
