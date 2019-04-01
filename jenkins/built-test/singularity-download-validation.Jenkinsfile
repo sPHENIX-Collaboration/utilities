@@ -17,19 +17,9 @@ pipeline
 						
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 										
-						build(job: 'github-comment-label',
-		    			parameters:
-		    			[
-		    				string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-			    			string(name: 'LabelCategory', value: "cpp-check"),
-			    			string(name: 'LabelStatus', value: "PENDING")
-			    		],
-		    			wait: false, propagate: false)
-						
 						script {
 						
-							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sha_coresoftware}"
-							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware}" 
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${build_type}"
 							
 						}
 										
@@ -151,17 +141,12 @@ pipeline
 
 
 		success {
-		
-		
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-			
-			
 		}
 		failure {
 			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
-		
 			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
