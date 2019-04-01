@@ -114,6 +114,7 @@ pipeline
 						dir('Singularity') {
 							sh('pwd')
 							sh('ls -lvhc')
+							
 							sh("./updatebuild.sh -b=${build_type}");
 							
 							sh('ls -lvhc')
@@ -125,6 +126,41 @@ pipeline
 				}// Stage download
 				 
 				
+				stage('test')
+				{
+					steps 
+					{
+						
+						//dir('macros/macros/g4simulations/') {
+												
+						dir('Singularity') {
+						
+							sh('pwd')
+							
+							writeFile file: "test.sh", text: """
+#! /bin/bash
+
+source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type}
+
+cd ../macros/macros/g4simulations/
+ls -lhvc
+
+root -b -q Fun4All_G4_sPHENIX.C
+
+exit \$\?
+							"""				
+							
+							sh('chmod +x test.sh')
+														
+							sh('ls -lvhc')
+							
+							sh("singularity exec -B cvmfs:/cvmfs cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg test.sh");
+							
+							sh('ls -lvhc')
+						}
+
+		   		}
+				}// Stage download
 
 	}//stages
 		
