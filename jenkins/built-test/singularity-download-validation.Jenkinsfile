@@ -147,7 +147,7 @@ ls -lhvc
 
 root -b -q Fun4All_G4_sPHENIX.C
 
-exit \$\?
+exit \$?
 							"""				
 							
 							sh('chmod +x test.sh')
