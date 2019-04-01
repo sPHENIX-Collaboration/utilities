@@ -165,39 +165,67 @@ pipeline
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
+							    			booleanParam(name: 'run_calo_qa', value: true), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
 						    			wait: true, propagate: true)
 						   										
-						   				copyArtifacts(projectName: 'Build-Master', filter: 'qa_page.tar.gz', selector: specific("${built.number}"));
+						   				// copyArtifacts(projectName: 'Build-Master', filter: 'qa_page.tar.gz', selector: specific("${built.number}"));
 						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));
 										}
 						   			
-										dir('qa_html')
-										{
-											sh('ls -lhv')
+										//dir('qa_html')
+										//{
+										//	sh('ls -lhv')
 																					
-						    			sh ("tar xzfv ../qa_page.tar.gz")
+						    		//	sh ("tar xzfv ../qa_page.tar.gz")
 						    			
-											sh('ls -lhv')
-										}
-										sh('rm -fv qa_page.tar.gz')
+										//	sh('ls -lhv')
+										//}
+										//sh('rm -fv qa_page.tar.gz')
 						
-									  publishHTML (target: [
-								      allowMissing: false,
-								      alwaysLinkToLastBuild: false,
-								      keepAll: true,
-								      reportDir: 'qa_html',
-								      reportFiles: 'index.html',
-								      reportName: "Calorimeter QA Report"
-								    ])
+									  //publishHTML (target: [
+								    //  allowMissing: false,
+								    //  alwaysLinkToLastBuild: false,
+								    //  keepAll: true,
+								    //  reportDir: 'qa_html',
+								    //  reportFiles: 'index.html',
+								    //  reportName: "Calorimeter QA Report"
+								    //])
 						   				    
 									}				// steps
 				}//stage('Build-Test')
 				
 			// hold this until jenkins supports nested parallel 
-			stage('Build-Test-ROOT6') {
+			//stage('Build-Test-ROOT6') {
+			//
+			//						steps 
+			//						{
+			//							//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
+			//									    		
+			//							script
+			//							{
+			//	   						def built = build(job: 'Build-Master',
+			//			    			parameters:
+			//			    			[
+			//				    			string(name: 'sha_coresoftware', value: "${sha1}"), 
+			//				    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
+			//				    			string(name: 'build_type', value: "root6"), 
+			//				    			booleanParam(name: 'run_cppcheck', value: false), 
+			//				    			booleanParam(name: 'run_default_test', value: true), 
+			//				    			booleanParam(name: 'run_calo_qa', value: false), 
+			//	    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
+			//	    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
+			//    						],
+			//			    			wait: true, propagate: true)						 
+			//			   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));  										
+			//							}						   			
+			//			   				    
+			//						}				// steps
+			//	}//stage('Build-Test')
+			// hold this until jenkins supports nested parallel 
+			stage('Build-Test-ROOT5') {
 			
 									steps 
 									{
@@ -210,7 +238,7 @@ pipeline
 						    			[
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
-							    			string(name: 'build_type', value: "root6"), 
+							    			string(name: 'build_type', value: "root5"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
 							    			booleanParam(name: 'run_default_test', value: true), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 

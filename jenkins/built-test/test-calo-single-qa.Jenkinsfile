@@ -163,7 +163,7 @@ pipeline
 				timestamps { 
 					ansiColor('xterm') {
 						
-						dir('macros/macros/g4simulations/reference')
+						dir('macros/macros/QA/calorimeter/reference')
 						{
     					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
 
@@ -205,7 +205,7 @@ pipeline
 			steps 
 			{
 			
-				archiveArtifacts artifacts: 'macros/macros/g4simulations/G4sPHENIX_*_Sum*_qa.root*'
+				archiveArtifacts artifacts: 'macros/macros/QA/calorimeter/G4sPHENIX_*_Sum*_qa.root*'
 			
 				script{
 			    def built = build(job: 'test-calo-single-qa-gallery',
