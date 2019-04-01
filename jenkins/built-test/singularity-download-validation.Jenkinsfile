@@ -167,6 +167,32 @@ exit \$?
 	post {
 		always{
 		    
+        emailext (
+            subject: "always: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+            body: """<html>
+<body>
+Hi there $DOTCI_PUSHER
+<br>
+<br>
+You are receiving this email because Build $BUILD_NUMBER has been set to: $BUILD_STATUS
+<br>
+<br>
+<u>Execution Results :</u><br>
+Avg : ${BUILD_LOG_REGEX, regex="Avg:", showTruncatedLines=false}<br>
+Min : ${BUILD_LOG_REGEX, regex="Min:", showTruncatedLines=false}<br>
+Max : ${BUILD_LOG_REGEX, regex="Max:", showTruncatedLines=false}<br>
+Errors : ${BUILD_LOG_REGEX, regex="Err:", showTruncatedLines=false}<br>
+<br>
+Build URL : $BUILD_URL
+<br>
+<br>
+Console Output: <br>
+<pre>${BUILD_LOG, maxLines=20}</pre>
+</body>
+</html>""",
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
+          )
+          
 		}
 
 
@@ -176,18 +202,57 @@ exit \$?
 		failure {
         emailext (
             subject: "failure: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-            body: """<p>failure: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-              <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            body: """<html>
+<body>
+Hi there $DOTCI_PUSHER
+<br>
+<br>
+You are receiving this email because Build $BUILD_NUMBER has been set to: $BUILD_STATUS
+<br>
+<br>
+<u>Execution Results :</u><br>
+Avg : ${BUILD_LOG_REGEX, regex="Avg:", showTruncatedLines=false}<br>
+Min : ${BUILD_LOG_REGEX, regex="Min:", showTruncatedLines=false}<br>
+Max : ${BUILD_LOG_REGEX, regex="Max:", showTruncatedLines=false}<br>
+Errors : ${BUILD_LOG_REGEX, regex="Err:", showTruncatedLines=false}<br>
+<br>
+Build URL : $BUILD_URL
+<br>
+<br>
+Console Output: <br>
+<pre>${BUILD_LOG, maxLines=20}</pre>
+</body>
+</html>""",
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
           )
+          
 			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
         emailext (
             subject: "unstable: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-            body: """<p>unstable: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-              <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            body: """<html>
+<body>
+Hi there $DOTCI_PUSHER
+<br>
+<br>
+You are receiving this email because Build $BUILD_NUMBER has been set to: $BUILD_STATUS
+<br>
+<br>
+<u>Execution Results :</u><br>
+Avg : ${BUILD_LOG_REGEX, regex="Avg:", showTruncatedLines=false}<br>
+Min : ${BUILD_LOG_REGEX, regex="Min:", showTruncatedLines=false}<br>
+Max : ${BUILD_LOG_REGEX, regex="Max:", showTruncatedLines=false}<br>
+Errors : ${BUILD_LOG_REGEX, regex="Err:", showTruncatedLines=false}<br>
+<br>
+Build URL : $BUILD_URL
+<br>
+<br>
+Console Output: <br>
+<pre>${BUILD_LOG, maxLines=20}</pre>
+</body>
+</html>""",
+            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
           )
 			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
