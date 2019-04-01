@@ -171,8 +171,8 @@ exit \$?
 		always{
 		    
         emailext (
-            subject: "always: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      			body: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at '${env.BUILD_URL}' [${env.BUILD_NUMBER}]",
+            subject: "always: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}] - ${currentBuild.currentResult}",
+      			body: "Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]: ${currentBuild.currentResult}, Check console output at ${env.BUILD_URL}",
             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
           )
           
