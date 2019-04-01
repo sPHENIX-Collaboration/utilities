@@ -167,12 +167,6 @@ exit \$?
 	post {
 		always{
 		    
-        emailext (
-            subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-            body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-              <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-          )
 		}
 
 
@@ -180,9 +174,21 @@ exit \$?
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		failure {
+        emailext (
+            subject: "failure: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+            body: """<p>failure: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+              <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+          )
 			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
+        emailext (
+            subject: "unstable: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+            body: """<p>unstable: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+              <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+          )
 			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
