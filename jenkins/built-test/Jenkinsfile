@@ -412,7 +412,7 @@ pipeline
 			    							],
 							    			wait: true, propagate: true)
 						   			
-						   				// copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
+						   				  copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
 										}
 										// archiveArtifacts artifacts: 'qa_page.tar.gz'
 										
