@@ -163,7 +163,7 @@ pipeline
 				timestamps { 
 					ansiColor('xterm') {
 						
-						dir('macros/macros/g4simulations/reference')
+						dir('macros/QA/calorimeter/reference')
 						{
     					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
 
