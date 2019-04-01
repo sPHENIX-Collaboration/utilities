@@ -172,7 +172,6 @@ exit \$?
 		    
         emailext (
             subject: "always: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-             body: '''${SCRIPT, template="build-report.groovy"}''',
             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
           )
           
