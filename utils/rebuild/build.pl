@@ -1023,7 +1023,7 @@ if ($opt_insure && $buildSucceeded==1)
     &check_insure_reports();
 }
 # save the git tags in DB only for the build account
-my $username = getlogin;
+my $username = getlogin || "jenkins";
 if ($username eq "phnxbld")
 {
   SaveGitTagsToDB();
