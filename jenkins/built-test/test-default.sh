@@ -81,6 +81,36 @@ if ($build_ret != 0) then
 	endif
 endif
 
+
+
+# readback test, only in non-valgrind mode
+if ($run_valgrind == 0) then
+
+	# set DSTfile = `/bin/ls -1 G4*.root`;
+	set DSTfile = `/bin/ls -1 G4*.root | head -n 1` ;
+	
+	echo "======================================================="
+	echo "Readback DST file ${DSTfile}. ";
+	echo "======================================================="
+	
+	set quote = '"';
+	/usr/bin/time -v  root.exe -b -q "Fun4All_ReadBack.C(0, ${quote}${DSTfile}${quote})" | & tee -a Fun4All_ReadBack.log;
+	set build_ret = $?;
+	
+	ls -lhcrt
+
+	echo "Readback step - build - return $build_ret";
+	
+	if ($build_ret != 0) then
+		
+		echo "======================================================="
+		echo "Readback run with return = ${build_ret}. ";
+		echo "======================================================="
+		exit $build_ret;
+		
+	endif
+endif
+
 echo "Build step - test - done";
 
 
