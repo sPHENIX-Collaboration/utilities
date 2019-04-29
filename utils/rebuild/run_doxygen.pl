@@ -46,6 +46,11 @@ system("mv tutorials master");
 system("mkdir -pv tutorials/blob/");
 system("mv master tutorials/blob/");
 
+system("git clone https://github.com/sPHENIX-Collaboration/prototype.git");
+system("mv prototype master");
+system("mkdir -pv prototype/blob/");
+system("mv master prototype/blob/");
+
 print "###################################################################\n";
 print "WARNING: please check the local path in Doxyfile is consistent with\n";
 print "this directory = " . getcwd() . "\n";
