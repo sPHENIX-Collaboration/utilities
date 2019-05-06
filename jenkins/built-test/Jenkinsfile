@@ -339,7 +339,7 @@ pipeline
 									
 									when {
 				    				// case insensitive regular expression for truthy values
-										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
 									}
 									steps 
 									{
