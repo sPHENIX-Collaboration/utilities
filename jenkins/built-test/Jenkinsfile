@@ -360,33 +360,6 @@ pipeline
 						   				copyArtifacts(projectName: 'test-default-valgrind-pipeline', selector: specific("${built.number}"));
 						   				
 										}
-						   			
-						   			dir('macros/macros/g4simulations/')
-						   			{
-						   				stash name: "test-default-valgrind-stash", includes: "*"
-						   			}
-						   			
-						   			dir('test-default-valgrind-output')
-						   			{
-						   				unstash "test-default-valgrind-stash"
-						   				archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
-						   										   				
-											publishValgrind (
-							          failBuildOnInvalidReports: false,
-							          failBuildOnMissingReports: true,
-							          failThresholdDefinitelyLost: '',
-							          failThresholdInvalidReadWrite: '1',
-							          failThresholdTotal: '',
-							          pattern: '*.valgrind.xml',
-							          publishResultsForAbortedBuilds: false,
-							          publishResultsForFailedBuilds: false,
-							          sourceSubstitutionPaths: '',
-							          unstableThresholdDefinitelyLost: '',
-							          unstableThresholdInvalidReadWrite: '',
-							          unstableThresholdTotal: ''
-							        )
-						   				
-						   			}
 						   				    
 									}				
 								}
