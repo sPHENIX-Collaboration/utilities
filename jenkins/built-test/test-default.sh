@@ -1,15 +1,16 @@
 #! tcsh -f
 
-if ($#argv != 3) then
+if ($#argv != 4) then
 	
-	echo "Usage $0 Fun4All_G4_sPHENIX number_event run_valgrind"
+	echo "Usage $0 root5 Fun4All_G4_sPHENIX number_event run_valgrind"
 	exit 1;
 	
 endif
 
-set macro_name = $1;
-set number_event = $2;
-set run_valgrind = $3;
+set build_type = $1;
+set macro_name = $2;
+set number_event = $3;
+set run_valgrind = $4;
 
 
 # source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
@@ -23,7 +24,8 @@ setenv OFFLINE_MAIN $WORKSPACE/install
 setenv ONLINE_MAIN $WORKSPACE/install
 setenv CALIBRATIONROOT  $WORKSPACE/calibrations
 
-source /opt/sphenix/core/bin/sphenix_setup.csh;
+echo "source /opt/sphenix/core/bin/sphenix_setup.csh build_type;"
+source /opt/sphenix/core/bin/sphenix_setup.csh $build_type;
 source /opt/sphenix/core/bin/setup_root6.csh ${WORKSPACE}/install/
 
 echo "======================================================="
