@@ -150,7 +150,7 @@ pipeline
 			steps 
 			{
 					
-				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh Fun4All_G4_sPHENIX 2 1')
+				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh $build_type Fun4All_G4_sPHENIX 2 1')
 														
 			}				
 					
@@ -162,20 +162,20 @@ pipeline
 			{			
 				archiveArtifacts artifacts: 'macros/macros/g4simulations/*.valgrind*'
 				
-				//publishValgrind (
-        //  failBuildOnInvalidReports: true,
-        //  failBuildOnMissingReports: true,
-        //  failThresholdDefinitelyLost: '',
-        //  failThresholdInvalidReadWrite: '1',
-        //  failThresholdTotal: '',
-        //  pattern: 'macros/macros/g4simulations/*.valgrind.xml',
-        //  publishResultsForAbortedBuilds: false,
-        //  publishResultsForFailedBuilds: false,
-        //  sourceSubstitutionPaths: '',
-        //  unstableThresholdDefinitelyLost: '',
-        //  unstableThresholdInvalidReadWrite: '',
-        //  unstableThresholdTotal: ''
-        //)
+				publishValgrind (
+          failBuildOnInvalidReports: true,
+          failBuildOnMissingReports: true,
+          failThresholdDefinitelyLost: '',
+          failThresholdInvalidReadWrite: '1',
+          failThresholdTotal: '',
+          pattern: 'macros/macros/g4simulations/*.valgrind.xml',
+          publishResultsForAbortedBuilds: false,
+          publishResultsForFailedBuilds: false,
+          sourceSubstitutionPaths: '',
+          unstableThresholdDefinitelyLost: '1',
+          unstableThresholdInvalidReadWrite: '',
+          unstableThresholdTotal: ''
+        )
 			
 			}		
 		}
@@ -189,7 +189,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "valgrind.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/) "				
+			  writeFile file: "valgrind.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
