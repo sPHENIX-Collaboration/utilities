@@ -348,19 +348,24 @@ pipeline
 												    		
 										script
 										{
-				   						def built = build(job: 'test-default-valgrind-pipeline',
-						    			parameters:
-						    			[
-							    			string(name: 'build_src', value: "${build_root_path}"), 
-							    			string(name: 'build_type', value: "${build_type}"), 
-							    			string(name: 'sha_macros', value: "${sha_macros}"), 
-		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-			    						],
-						    			wait: true, propagate: false)
-						   										
-						   				copyArtifacts(projectName: 'test-default-valgrind-pipeline', selector: specific("${built.number}"));
-						   				
+											def built = build(job: 'test-default-valgrind-pipeline',
+												parameters:
+												[
+													string(name: 'build_src', value: "${build_root_path}"), 
+													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'sha_macros', value: "${sha_macros}"), 
+													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+												],
+												wait: true, propagate: false)
+
+											copyArtifacts(projectName: 'test-default-valgrind-pipeline', selector: specific("${built.number}"));
+
+											if ("${built.getResult()}" == 'FAILURE')
+											{
+												currentBuild.result = "${built.getResult()}"
+												error("test-default-valgrind-pipeline #${built.number} ${built.getResult()}");
+											}
 										}
 						   				    
 									}				
