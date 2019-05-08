@@ -165,16 +165,16 @@ pipeline
 				publishValgrind (
           failBuildOnInvalidReports: true,
           failBuildOnMissingReports: true,
-          failThresholdDefinitelyLost: '',
+          failThresholdDefinitelyLost: '1',
           failThresholdInvalidReadWrite: '1',
           failThresholdTotal: '',
           pattern: 'macros/macros/g4simulations/*.valgrind.xml',
           publishResultsForAbortedBuilds: false,
           publishResultsForFailedBuilds: false,
           sourceSubstitutionPaths: '',
-          unstableThresholdDefinitelyLost: '1',
+          unstableThresholdDefinitelyLost: '',
           unstableThresholdInvalidReadWrite: '',
-          unstableThresholdTotal: ''
+          unstableThresholdTotal: '1'
         )
 			
 			}		
