@@ -156,7 +156,7 @@ pipeline
 			steps 
 			{
 					
-				sh("/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh $build_type Fun4All_G4_sPHENIX 2")
+				sh("/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-DST-readback.sh $build_type Fun4All_G4_sPHENIX 2")
 														
 			}				
 					
@@ -168,7 +168,7 @@ pipeline
 			steps 
 			{
 					
-				sh("/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh $build_type Fun4All_ReadBack 0")
+				sh("/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-DST-readback.sh $build_type Fun4All_ReadBack 0")
 														
 			}				
 					
@@ -184,7 +184,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "DST-readback.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Generating DST and readback: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report](${env.BUILD_URL}/QA_20Report/) "				
+			  writeFile file: "DST-readback.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Generating DST and readback: [build is ${currentBuild.currentResult}](${env.BUILD_URL}) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
