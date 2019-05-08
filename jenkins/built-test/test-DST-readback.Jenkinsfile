@@ -24,7 +24,7 @@ pipeline
 		    			parameters:
 		    			[
 		    				string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-			    			string(name: 'LabelCategory', value: "calo-QA"),
+			    			string(name: 'LabelCategory', value: "DST-readback"),
 			    			string(name: 'LabelStatus', value: "PENDING")
 			    		],
 		    			wait: false, propagate: false)
@@ -196,7 +196,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "calo-QA"),
+					string(name: 'LabelCategory', value: "DST-readback"),
 					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
 				wait: false, propagate: false)
@@ -208,7 +208,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "calo-QA"),
+					string(name: 'LabelCategory', value: "DST-readback"),
 					string(name: 'LabelStatus', value: "FAIL")
 				],
 				wait: false, propagate: false)
@@ -219,7 +219,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "calo-QA"),
+					string(name: 'LabelCategory', value: "DST-readback"),
 					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
 				wait: false, propagate: false)
