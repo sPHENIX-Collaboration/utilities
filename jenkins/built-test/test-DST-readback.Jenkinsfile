@@ -114,7 +114,14 @@ pipeline
 								[
 						 			$class: 'GitSCM',
 						   		extensions: [               
-							   		[$class: 'CleanCheckout'],     
+							   		[$class: 'CleanCheckout'],       
+							     	[
+							   			$class: 'PreBuildMerge',
+							    		options: [
+											mergeRemote: 'origin',
+							  			mergeTarget: 'readback_check'
+							  			]
+							    	],   
 							     	[
 							   			$class: 'PreBuildMerge',
 							    		options: [
