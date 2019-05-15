@@ -150,7 +150,7 @@ pipeline
 			steps 
 			{
 					
-				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh $build_type Fun4All_G4_sPHENIX 2 1')
+				sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh $build_type $macro_name 2 1')
 														
 			}				
 					
@@ -165,8 +165,8 @@ pipeline
 				publishValgrind (
           failBuildOnInvalidReports: true,
           failBuildOnMissingReports: true,
-          failThresholdDefinitelyLost: '1',
-          failThresholdInvalidReadWrite: '1',
+          failThresholdDefinitelyLost: '0',
+          failThresholdInvalidReadWrite: '0',
           failThresholdTotal: '',
           pattern: 'macros/macros/g4simulations/*.valgrind.xml',
           publishResultsForAbortedBuilds: false,
