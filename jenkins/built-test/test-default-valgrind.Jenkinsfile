@@ -165,7 +165,7 @@ pipeline
 				publishValgrind (
           failBuildOnInvalidReports: true,
           failBuildOnMissingReports: true,
-          failThresholdDefinitelyLost: '1',
+          failThresholdDefinitelyLost: '0',
           failThresholdInvalidReadWrite: '0',
           failThresholdTotal: '',
           pattern: 'macros/macros/g4simulations/*.valgrind.xml',
