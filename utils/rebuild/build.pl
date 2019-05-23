@@ -111,15 +111,17 @@ $opt_lafiles = 0;
 $opt_help = 0;
 $opt_afs = 0;
 $opt_repoowner = 'sPHENIX-Collaboration';
+$opt_includecheck = 0;
 GetOptions('help', 'stage=i', 'afs',
 	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck');
 
 if ($opt_help)
   {
       printhelp();
   }
+
 my $dbh;
 if ( $opt_db && $opt_version !~ /pro/)
 {
@@ -692,7 +694,14 @@ if ($opt_stage < 4)
 	    }
 	    else
 	    {
-	       $arg = "$covbuild make $insureCompileFlags $JOBS ";
+		if ($opt_includecheck)
+		{
+		    $arg = "make -k CXX=/opt/sphenix/utils/bin/include-what-you-use "
+		}
+		else
+		{
+		    $arg = "$covbuild make $insureCompileFlags $JOBS ";
+		}
 	    }
 	}
 	print LOG "Running $arg\n";
@@ -1050,6 +1059,10 @@ sub doSystemFail
     {
 	print LOG "system $arg failed: $?\n";
     }
+    if ($opt_includecheck)
+    {
+	$status = 0;
+    }
     return $status;
 }
 
@@ -1354,6 +1367,7 @@ sub printhelp
     print "--notify           Contact responsibles in case of failure.\n";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
     print "--lafiles          build keeping libtool *.la files.\n";
+    print "--includecheck     run the clang based include file checker\n";
     exit(0);
   }
 
