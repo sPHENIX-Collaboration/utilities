@@ -20,12 +20,9 @@ set number_event = $3;
 # setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
 
 setenv OFFLINE_MAIN $WORKSPACE/install
-setenv ONLINE_MAIN $WORKSPACE/install
-setenv CALIBRATIONROOT  $WORKSPACE/calibrations
 
 echo "source /opt/sphenix/core/bin/sphenix_setup.csh build_type;"
 source /opt/sphenix/core/bin/sphenix_setup.csh $build_type;
-source /opt/sphenix/core/bin/setup_root6.csh ${WORKSPACE}/install/
 
 echo "======================================================="
 echo "env check";
