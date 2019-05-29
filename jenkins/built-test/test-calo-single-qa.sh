@@ -14,11 +14,7 @@ set number_jobs = $3;
 set name = ${particle_ID}_pT${pT_GeV}_Sum${number_jobs}
 
 setenv OFFLINE_MAIN $WORKSPACE/install
-setenv ONLINE_MAIN $WORKSPACE/install
-setenv CALIBRATIONROOT  $WORKSPACE/calibrations
-
 source /opt/sphenix/core/bin/sphenix_setup.csh; 
-source /opt/sphenix/core/bin/setup_root6.csh ${WORKSPACE}/install/
 
 # setenv PATH 		$WORKSPACE/install/bin:${PATH}
 # setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
