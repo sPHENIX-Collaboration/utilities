@@ -474,10 +474,42 @@ pipeline
 			dir('report')
 			{
 				sh('ls -lvhc')
-			  writeFile file: "build-${build_type}.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:Compiler report](${env.BUILD_URL}/gcc4/)"				
+			  //writeFile file: "build-${build_type}.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:Compiler report](${env.BUILD_URL}/gcc4/)"				
+			
+			
+				script
+				{
+					
+    			echo("start report building ...");
+    			sh ('pwd');						
+				
+					def report_content = """
+* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:Compiler report](${env.BUILD_URL}/gcc4/)"""
+				
+    			def files = findFiles(glob: '*.md')
+    			echo("all reports: $files");
+    			// def testFileNames = files.split('\n')
+    			for (def fileEntry : files) 
+    			{    			
+    				String file = fileEntry.path;    				
+    				
+    				String fileContent = readFile(file).trim();
+    				
+    				echo("$file  -> ${fileContent}");
+    				
+    				// update report summary
+    				report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
+    				
+    				// update build description
+    				currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+    			}    			
+    			    			
+			  	writeFile file: "build-${build_type}.md", text: "${report_content}"		
+			  	
+				}//script
 			}
 		  		  
-			archiveArtifacts artifacts: 'report/*.md'
+			archiveArtifacts artifacts: "report/build-${build_type}.md"
 		
 			archiveArtifacts artifacts: 'build/${build_type}/rebuild.log'
 		}
