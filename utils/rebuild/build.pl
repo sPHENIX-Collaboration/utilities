@@ -112,16 +112,16 @@ $opt_help = 0;
 $opt_afs = 0;
 $opt_repoowner = 'sPHENIX-Collaboration';
 $opt_includecheck = 0;
+$opt_clang = 0;
 GetOptions('help', 'stage=i', 'afs',
 	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang');
 
 if ($opt_help)
   {
       printhelp();
   }
-
 my $dbh;
 if ( $opt_db && $opt_version !~ /pro/)
 {
@@ -574,7 +574,14 @@ print LOG "===========================================\n";
 	    }
 	    else
 	    {
-		$arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
+		if ($opt_clang)
+		{
+		    $arg = "env CXX=clang++ CC=clang $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
+		}
+		else
+		{
+		    $arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
+		}
 	    }
 	print LOG "Running $arg\n";
 	print LOG "========================================================\n";
@@ -1368,6 +1375,7 @@ sub printhelp
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
     print "--lafiles          build keeping libtool *.la files.\n";
     print "--includecheck     run the clang based include file checker\n";
+    print "--clang            use clang instead of gcc\n";
     exit(0);
   }
 
