@@ -33,11 +33,11 @@ env;
 
 echo "Build step - build - start at " `pwd`;
 
-# if (${build_type} == 'root6') then
-# 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --${build_type} --workdir=${WORKSPACE}/build;
-# 	
-./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --workdir=${WORKSPACE}/build;
-
+if (${build_type} == 'clang') then
+ 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --${build_type} --workdir=${WORKSPACE}/build;
+else
+	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --workdir=${WORKSPACE}/build;
+endif
 
 set build_ret = $?;
 
