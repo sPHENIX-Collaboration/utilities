@@ -274,7 +274,7 @@ pipeline
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
 						    			wait: true, propagate: true)						 
-						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));  										
+						   				copyArtifacts(projectName: 'Build-Clang', filter: 'report/*', selector: specific("${built.number}"));  										
 										}						   			
 						   				    
 									}				// steps
