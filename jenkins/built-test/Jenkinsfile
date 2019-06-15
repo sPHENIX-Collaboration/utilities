@@ -239,7 +239,17 @@ pipeline
 									{
 										// 	def buildana = scanForIssues tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
         						//	publishIssues issues: [buildana]
-        						recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
+        						//  recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
+        						
+						        
+	                	script {			
+	                	
+							        if ("$build_type" == 'clang') {
+							            recordIssues enabledForFailure: true, tool: clang(pattern: 'build/${build_type}/rebuild.log')
+							        } else {
+							            recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
+							        }
+        						}
 									}										
 								} // 				stage('sPHENIX-Build')
 									
@@ -483,8 +493,14 @@ pipeline
     			echo("start report building ...");
     			sh ('pwd');						
 				
-					def report_content = """
-* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:Compiler report](${env.BUILD_URL}/gcc4/)"""
+					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+	        script {	
+						if ("$build_type" == 'clang') {
+							report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/)";
+						} else {
+							report_content = "${report_content}, [:bar_chart:Compiler report](${env.BUILD_URL}/gcc4/)";
+					}
+				
 				
     			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");
