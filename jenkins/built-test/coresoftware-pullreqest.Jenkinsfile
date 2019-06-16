@@ -276,7 +276,7 @@ pipeline
 						    			wait: true, propagate: false)						    									 
 						   				copyArtifacts(projectName: 'Build-Clang', filter: 'report/*', selector: specific("${built.number}"));  		
 						   				
-						   				if (${built.result} != 'SUCCESS')
+						   				if ("${built.result}" != 'SUCCESS')
 						   				{
 						   					error('Build-Clang FAIL')
     									}										
