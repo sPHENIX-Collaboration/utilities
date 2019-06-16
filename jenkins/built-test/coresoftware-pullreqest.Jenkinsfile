@@ -273,10 +273,16 @@ pipeline
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
-						    			wait: true, propagate: true)						 
-						   				copyArtifacts(projectName: 'Build-Clang', filter: 'report/*', selector: specific("${built.number}"));  										
-										}						   			
-						   				    
+						    			wait: true, propagate: false)						    									 
+						   				copyArtifacts(projectName: 'Build-Clang', filter: 'report/*', selector: specific("${built.number}"));  		
+						   				
+						   				if (${built.result} != 'SUCCESS')
+						   				{
+						   					error('Build-Clang FAIL')
+    									}										
+			
+										}//script						   			
+							   				    
 									}				// steps
 				}//stage('Build-Test-Clang')
 							
