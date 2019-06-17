@@ -43,10 +43,11 @@ which contains the index of thousands of software modules. In that case, to spee
 You are highly encouraged to put Doxygen-style comments in your code, which will then be automatically applied to the documentation pages on this website (refreshed from CVS every a few hours). 
 These features are easy to use, and helpful for readers to understand and use your developemnt.
 
-To start use the Doxygen-style comments, please read the <a href = "http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock">instruction page on the Doxygen website</a>. 
-Or even more easier, please just take a look at <a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#docexamples">this example</a>, 
-which will show up in <a href="http://www.stack.nl/~dimitri/doxygen/manual/examples/qtstyle/html/class_test.html">Doxygen page like this</a>. 
-You are also welcome to let <a href="mailto:jhuang@bnl.gov">Jin Huang</a> know, if there is any question or suggestions.
+To start use the Doxygen-style comments, please read the 
+<a href="http://www.doxygen.nl/manual/docblocks.html">instruction page on the Doxygen website</a>. 
+Or even more easier, please just take a look at 
+<a href="http://www.doxygen.nl/manual/docblocks.html#docexamples">this example</a>, 
+which will show up in <a href="http://www.doxygen.nl/manual/examples/qtstyle/html/class_q_tstyle___test.html">Doxygen page like this</a>. You are also welcome to let <a href="mailto:jhuang@bnl.gov">Jin Huang</a> know, if there is any question or suggestions.
 
 \section OWiki sPHENIX Wiki
 
