@@ -7,4 +7,4 @@ echo "build.pl --version='clang' --clang --phenixinstall" >> clang_build.csh
 chmod +x clang_build.csh
 
 set dir=$PWD
-singularity exec -B /cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/patches/hashtable_policy.h:/usr/include/c++/4.8.2/bits/hashtable_policy.h -B /home /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg $dir/clang_build.csh
+singularity exec -B /cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/patches/hashtable_policy.h:/usr/include/c++/4.8.2/bits/hashtable_policy.h -B /home -B /gpfs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg $dir/clang_build.csh
