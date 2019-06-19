@@ -276,9 +276,13 @@ pipeline
 		    								string(name: 'macro_name', value: "Fun4All_G4_sPHENIX"), 
 				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 			    						],
-						    			wait: true, propagate: true)
+						    			wait: true, propagate: false)
 						   										
 						   				copyArtifacts(projectName: 'test-default-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-default-sPHENIX FAIL')
+    									}							
 										}
 									}				
 								}
@@ -305,9 +309,13 @@ pipeline
 		    								string(name: 'macro_name', value: "Fun4All_G4_fsPHENIX"), 
 				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 			    						],
-						    			wait: true, propagate: true)
+						    			wait: true, propagate: false)
 						   										
 						   				copyArtifacts(projectName: 'test-default-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-default-fsPHENIX FAIL')
+    									}							
 										}
 						   			
 						   				    
@@ -337,9 +345,13 @@ pipeline
 		    								string(name: 'macro_name', value: "Fun4All_G4_EICDetector"), 
 				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 			    						],
-						    			wait: true, propagate: true)
+						    			wait: true, propagate: false)
 						   										
 						   				copyArtifacts(projectName: 'test-default-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-default-EICDetector FAIL')
+    									}							
 										}
 						   				    
 									}								
@@ -403,9 +415,13 @@ pipeline
 													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 												],
-												wait: true, propagate: true)
+												wait: true, propagate: false)
 
 											copyArtifacts(projectName: 'test-DST-readback', selector: specific("${built.number}"));
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-DST-readback FAIL')
+    									}								
 
 										}
 						   				    
@@ -431,9 +447,14 @@ pipeline
 		    									string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 			    							],
-							    			wait: true, propagate: true)
+							    			wait: true, propagate: false)
 						   			
 						   				  copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
+						   				  
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-calo-single-qa FAIL')
+    									}								
 										}
 										// archiveArtifacts artifacts: 'qa_page.tar.gz'
 										

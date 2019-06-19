@@ -171,10 +171,15 @@ pipeline
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
-						    			wait: true, propagate: true)
+						    			wait: true, propagate: false)
 						   										
 						   				// copyArtifacts(projectName: 'Build-Master', filter: 'qa_page.tar.gz', selector: specific("${built.number}"));
 						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));
+						   				
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('Build New FAIL')
+    									}								
 										}
 						   			
 										//dir('qa_html')
@@ -247,8 +252,12 @@ pipeline
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
-						    			wait: true, propagate: true)						 
-						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));  										
+						    			wait: true, propagate: false)						 
+						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));  							
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('Build ROOT5 FAIL')
+    									}								
 										}						   			
 						   				    
 									}				// steps
