@@ -56,7 +56,7 @@ coresoftware/offline/packages/trigger|dvp@bnl.gov
 coresoftware/offline/packages/PHGenFitPkg/GenFitExp|yuhw.pku@gmail.com
 coresoftware/offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
 # g4hough needs genfit
-coresoftware/simulation/g4simulation/g4hough|yuhw.pku@gmail.com
+#coresoftware/simulation/g4simulation/g4hough|yuhw.pku@gmail.com
 coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
 coresoftware/offline/packages/jetbackground|dvp@bnl.gov
