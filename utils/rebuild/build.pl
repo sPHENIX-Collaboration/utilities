@@ -233,8 +233,7 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/) 
 {
-    $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
-    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
+    $externalPackages{"fastjet"} = "fastjet-3.3.2";
 }
 elsif ($opt_version =~ /hepmc3/) 
 {
