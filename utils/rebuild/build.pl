@@ -56,11 +56,13 @@ my %externalPackages = (
     "pythia8" => "pythia8",
     "rapidjson" => "rapidjson",
     "rave" => "rave",
-    "TAUOLA" => "TAUOLA"
+    "TAUOLA" => "TAUOLA",
+    "Vc" => "Vc"
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
     "eic-smear" => "eic-smear",
+    "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
     "sartre-1.20" => "sartre-1.20"
     );
