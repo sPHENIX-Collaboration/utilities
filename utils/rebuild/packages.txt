@@ -67,7 +67,8 @@ coresoftware/offline/packages/trackreco|yuhw.pku@gmail.com
 # Offline calorimeter software
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
-# Offline software/T1044 prodcution software
+# Simulation and Offline software for calorimeter/T1044 
+prototype/simulation/g4simulation/g4caloprototype|jhuang@bnl.gov
 prototype/offline/packages/Prototype2|jhuang@bnl.gov
 prototype/offline/packages/Prototype3|jhuang@bnl.gov
 prototype/offline/packages/Prototype4|jhuang@bnl.gov
