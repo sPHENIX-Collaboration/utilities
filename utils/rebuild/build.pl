@@ -235,7 +235,13 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/) 
 {
+    $externalPackages{"boost"} = "boost-1.70.0";
     $externalPackages{"fastjet"} = "fastjet-3.3.2";
+    $externalPackages{"Eigen"} = "eigen-3.3.7";
+    $externalPackages{"CGAL"} = "CGAL-4.14.0";
+    $externalPackages{"pythia8"} = "pythia8243-debug";
+    $externalPackages{"rave"} = "rave-0.6.25_boost-1.70.0_clhep-2.3.2.2";
+    $externalPackages{"tbb"} = "tbb";
 }
 elsif ($opt_version =~ /hepmc3/) 
 {
