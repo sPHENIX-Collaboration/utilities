@@ -239,7 +239,7 @@ if ($opt_version =~ /play/)
     $externalPackages{"fastjet"} = "fastjet-3.3.2";
     $externalPackages{"Eigen"} = "eigen-3.3.7";
     $externalPackages{"CGAL"} = "CGAL-4.14.0";
-    $externalPackages{"pythia8"} = "pythia8243-debug";
+    $externalPackages{"pythia8"} = "pythia8243";
     $externalPackages{"rave"} = "rave-0.6.25_boost-1.70.0_clhep-2.3.2.2";
     $externalPackages{"tbb"} = "tbb";
 }
