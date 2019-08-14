@@ -163,6 +163,8 @@ sub checkadd
 	$include_line =~ /\"boost\/bimap\/detail\/bimap_core.hpp\"/ ||
 	$include_line =~ /\"boost\/bimap\/detail\/map_view_iterator.hpp\"/ ||
 	$include_line =~ /\"boost\/bimap\/relation\/structured_pair.hpp\"/ ||
+	$include_line =~ /\"boost\/core\/swap.hpp\"/ ||
+        $include_line =~ /boost\/filesystem\/operations.hpp/ ||
 	$include_line =~ /\"boost\/format\/alt_sstream.hpp\"/ ||
 	$include_line =~ /\"boost\/format\/format_class.hpp\"/ ||
 	$include_line =~ /\"boost\/format\/format_fwd.hpp\"/ ||
@@ -173,14 +175,24 @@ sub checkadd
 	$include_line =~ /\"boost\/graph\/detail\/edge.hpp\"/ ||
 	$include_line =~ /\"boost\/graph\/graph_selectors.hpp\"/ ||
         $include_line =~ /\"boost\/iterator\/iterator_facade.hpp\"/ ||
+	$include_line =~ /\"boost\/move\/utility_core.hpp\" / ||
 	$include_line =~ /\"boost\/multi_index\/detail\/bidir_node_iterator.hpp\"/ ||
 	$include_line =~ /\"boost\/optional\/optional.hpp\"/ ||
 	$include_line =~ /\"boost\/pending\/property.hpp\"/ ||
+	$include_line =~ /\"boost\/property_tree\/detail\/exception_implementation.hpp\"/ ||
+	$include_line =~ /\"boost\/property_tree\/detail\/ptree_implementation.hpp\"/ ||
+	$include_line =~ /\"boost\/property_tree\/detail\/rapidxml.hpp\"/ ||
+	$include_line =~ /\"boost\/property_tree\/ptree_fwd.hpp\"/ ||
+        $include_line =~ /\"boost\/token_functions.hpp\"/ ||
+	$include_line =~ /\"boost\/tuple\/detail\/tuple_basic.hpp\"/ ||
 	$include_line =~ /\"boost\/type_index\/type_index_facade.hpp\"/ ||
         $include_line =~ /CLHEP\/Units\/SystemOfUnits.h/ ||
         $include_line =~ /\"Core\"/ ||
         $include_line =~ /Eigen\/src/  ||
         $include_line =~ /Eigen\/Dense/ ||
+        $include_line =~ /Geant4\/G4ReferenceCountedHandle.hh/ ||
+        $include_line =~ /<gsl\/gsl_const_cgs.h>/ ||
+        $include_line =~ /<gsl\/gsl_vector_double.h>/ ||
         $include_line =~ /\.icc/ ||
         $include_line =~ /\"Rtypes.h\"/ ||
         $include_line =~ /<Rtypes.h>/ ||
@@ -205,13 +217,20 @@ sub checkremove
 	return 0;
     }
     if (
+	$include_line =~ /<boost\/accumulators\/accumulators.hpp>/ ||
+	$include_line =~ /<boost\/accumulators\/statistics.hpp>/ ||
 	$include_line =~ /<boost\/bimap.hpp>/ ||
 	$include_line =~ /<boost\/bind.hpp>/ ||
+        $include_line =~ /<boost\/filesystem.hpp>/ ||
         $include_line =~ /<boost\/format.hpp>/ ||
-        $include_line =~ /<Eigen\/Dense>/ ||
+        $include_line =~ /<boost\/tuple\/tuple.hpp>/ ||
+	$include_line =~ /<Eigen\/Dense>/ ||
         $include_line =~ /<Eigen\/LU>/ ||
-        $include_line =~ /ostream/ ||
         $include_line =~ /fstream/ ||
+        $include_line =~ /<gsl\/gsl_const.h> / ||
+        $include_line =~ /<gsl\/gsl_vector.h>/ ||
+        $include_line =~ /ostream/ ||
+        $include_line =~ /<Rtypes.h>/ ||
         $include_line =~ /sstream/
 	)
     {
@@ -224,7 +243,7 @@ sub checkinclude
 {
     my $include_line = shift(@_);
     if (
-         $include_line =~ /alloc_traits/
+	$include_line =~ /alloc_traits/
 	)
     {
 	return 0;
