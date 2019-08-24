@@ -140,10 +140,12 @@ if ( $opt_db && $opt_version !~ /pro/)
     $getpackages->finish();
 }
 
-# only run 32 parallel build jobs if
-# distcc is in the path, otherwise run 6 (our build machine has 6 cpus)
+# only run 120 parallel build jobs if distcc is in the path (it is not
+# right now), otherwise run numjobs = number of cores
+# the -l adjusts for load, if the load is number of cores all cores are busy
+# to first order (disk load goes into the load as well)
 my $numcores  = do { local @ARGV='/proc/cpuinfo'; grep /^processor\s+:/, <>;};
-my $JOBS = sprintf("-l 8.0 -j %d", $numcores);
+my $JOBS = sprintf("-l %d -j %d", $numcores, $numcores);
 if ($PATH =~ /\/phenix\/u\/phnxbld\/distcc/)
 {
   $JOBS = "-j 120";
