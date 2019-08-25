@@ -57,6 +57,7 @@ my %externalPackages = (
     "rapidjson" => "rapidjson",
     "rave" => "rave",
     "TAUOLA" => "TAUOLA",
+    "tbb" => "tbb",
     "Vc" => "Vc"
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
@@ -244,6 +245,15 @@ if ($opt_version =~ /play/)
     $externalPackages{"pythia8"} = "pythia8243";
     $externalPackages{"rave"} = "rave-0.6.25_boost-1.70.0_clhep-2.3.2.2";
     $externalPackages{"tbb"} = "tbb";
+}
+elsif ($opt_version =~ /old/) # build with previous versions 
+{
+    $externalPackages{"boost"} = "boost-1.67.0";
+    $externalPackages{"fastjet"} = "fastjet-3.3.1";
+    $externalPackages{"Eigen"} = "eigen-3.3.4";
+    $externalPackages{"CGAL"} = "CGAL-4.12";
+    $externalPackages{"pythia8"} = "pythia8235-hepmc2";
+    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.3.2.2";
 }
 elsif ($opt_version =~ /hepmc3/) 
 {
