@@ -12,7 +12,9 @@ endif
 # cppcheck --enable=all --inconclusive --xml --xml-version=2 ./coresoftware >& cppcheck.xml 
 # cppcheck -q --enable=warning --enable=style --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j16 -I $ROOTSYS/include/ ./coresoftware >& cppcheck.xml
 # cppcheck -q --enable=warning --enable=style --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j16 --std=c++11 ./coresoftware > & cppcheck.xml
-cppcheck -q --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./coresoftware > & cppcheck-result.xml
+# cppcheck -q --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./coresoftware > & cppcheck-result.xml
+cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./coresoftware > & cppcheck-result.xml
+
 
 ls -hvl $PWD/cppcheck-result.xml
 wc -l cppcheck-result.xml
