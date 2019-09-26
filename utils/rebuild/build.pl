@@ -238,13 +238,8 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/) 
 {
-    $externalPackages{"boost"} = "boost-1.70.0";
-    $externalPackages{"fastjet"} = "fastjet-3.3.2";
-    $externalPackages{"Eigen"} = "eigen-3.3.7";
-    $externalPackages{"CGAL"} = "CGAL-4.14.0";
-    $externalPackages{"pythia8"} = "pythia8243";
-    $externalPackages{"rave"} = "rave-0.6.25_boost-1.70.0_clhep-2.3.2.2";
-    $externalPackages{"tbb"} = "tbb";
+    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
+    $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
