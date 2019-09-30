@@ -33,6 +33,7 @@ coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4jleic|pinkenburg@bnl.gov
 # calobase and trackbase need g4celldefs include for root6
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 coresoftware/offline/packages/trackbase|dmcglinchey@lanl.gov
