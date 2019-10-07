@@ -139,28 +139,27 @@ foreach my $file (sort keys %FileWithAddIssue)
     }
     foreach my $include (sort @{$FileWithAddIssue{$file}})
     {
-#	chomp $include;
 	my @sp1 = split(/\"/,$include);
-#	print "$sp1[1]\n";
-if (defined($sp1[1]))
- {
-	my $foundrem = 0;
-	foreach my $remchk (keys  %remtmp)
+	if (defined($sp1[1]))
 	{
-#	    print "$remchk\n";
-	    if ($remchk =~ /$sp1[1]/)
+#	    print "$sp1[1]\n";
+	    my $foundrem = 0;
+	    foreach my $remchk (keys  %remtmp)
 	    {
+#	    print "$remchk\n";
+		if ($remchk =~ /$sp1[1]/)
+		{
 #		print "found $sp1[1]\n";
-		delete $remtmp{$remchk};
-		$foundrem = 1;
-		last;
+		    delete $remtmp{$remchk};
+		    $foundrem = 1;
+		    last;
+		}
+	    }
+	    if ($foundrem == 1)
+	    {
+		next;
 	    }
 	}
-	if ($foundrem == 1)
-	{
-	    next;
-	}
-}
 	push(@addlist,$include);
     }
     if (exists $FileWithRemoveIssue{$file})
@@ -242,6 +241,7 @@ sub checkadd # do not suggest to add these files
  	$include_line =~ /\"boost\/smart_ptr\/shared_ptr.hpp\" / ||
 	$include_line =~ /\"boost\/stacktrace\/stacktrace.hpp\"/ ||
         $include_line =~ /\"boost\/token_functions.hpp\"/ ||
+        $include_line =~ /\"boost\/token_iterator.hpp\"/ ||
 	$include_line =~ /\"boost\/tuple\/detail\/tuple_basic.hpp\"/ ||
 	$include_line =~ /\"boost\/type_index\/type_index_facade.hpp\"/ ||
         $include_line =~ /CLHEP\/Units\/SystemOfUnits.h/ ||
