@@ -116,10 +116,11 @@ $opt_afs = 0;
 $opt_repoowner = 'sPHENIX-Collaboration';
 $opt_includecheck = 0;
 $opt_clang = 0;
+$opt_sysname = 'default';
 GetOptions('help', 'stage=i', 'afs',
 	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s');
 
 if ($opt_help)
   {
@@ -295,6 +296,10 @@ elsif (-f "/usr/bin/fs")
     my $tmp = `/usr/bin/fs sysname`;
     ($afs_sysname) = $tmp =~ m/\'(.*)\'/;
 }
+if ($opt_sysname ne "default")
+{
+    $afs_sysname = $opt_sysname;
+}
 my $linktg;
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
@@ -312,7 +317,7 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
     }
     else
     {
-	my $place = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/release_%s/%s",$opt_version,$opt_version);
+	my $place = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release/release_%s/%s",$afs_sysname,$opt_version,$opt_version);
 	die "$place doesn't exist" unless -e $place;
 	my $realpath = realpath($place);
 #    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
@@ -1372,24 +1377,25 @@ sub printhelp
     print "                     4 = run tests \n";
     print "                     5 = install only (scan-build) \n";
     print "--afs              install in afs (cvmfs is default)\n";
-    print "--source='string'  Use the specified source directory. Don't get\n";
-    print "                   the source from CVS (i.e., skip stage 0)\n";
-    print "--version='string' Prefix for installation area. Default: new\n";
-    print "--tinderbox        Send build information to tinderbox.\n";
-    print "--gittag='string'  git tag for source checkout.\n";
-    print "--gitbranch='string' git branch to be used for build\n";
-    print "--repoowner='string' repository owner (default: sPHENIX-Collaboration). \n";
-    print "--phenixinstall    Install in the official AFS area. \n";
-    print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
-    print "--insure           Rebuild using the Insure++\n";
-    print "--scanbuild        Making a scan-build with clang\n";
+    print "--clang            use clang instead of gcc\n";
     print "--coverity         Making a coverity build\n";
     print "--covpasswd='string'  the coverity password for the integrity manager\n";
-    print "--notify           Contact responsibles in case of failure.\n";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
-    print "--lafiles          build keeping libtool *.la files.\n";
+    print "--gittag='string'  git tag for source checkout.\n";
+    print "--gitbranch='string' git branch to be used for build\n";
     print "--includecheck     run the clang based include file checker\n";
-    print "--clang            use clang instead of gcc\n";
+    print "--insure           Rebuild using the Insure++\n";
+    print "--lafiles          build keeping libtool *.la files.\n";
+    print "--notify           Contact responsibles in case of failure.\n";
+    print "--phenixinstall    Install in the official AFS area. \n";
+    print "--repoowner='string' repository owner (default: sPHENIX-Collaboration). \n";
+    print "--scanbuild        Making a scan-build with clang\n";
+    print "--source='string'  Use the specified source directory. Don't get\n";
+    print "                   the source from CVS (i.e., skip stage 0)\n";
+    print "--sysname          set system name for cvmfs/afs top dir\n";
+    print "--tinderbox        Send build information to tinderbox.\n";
+    print "--version='string' Prefix for installation area. Default: new\n";
+    print "--workdir='string'  Set \$workdir (default is /home/\$USER/).\n";
     exit(0);
   }
 
