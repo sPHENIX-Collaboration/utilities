@@ -132,6 +132,11 @@ for my $sdcclink (sort @sdcclinks)
     unlink $softlink if (-e $softlink);
     print LOG "softlink: $softlink\n";
     print LOG "slinklocation: $slinklocation\n";
+    if (! -d $slinklocation)
+    {
+	print "slinklocation $slinklocation not found\n";
+	exit(-1);
+    }
     symlink $slinklocation, $softlink;
 }
 
