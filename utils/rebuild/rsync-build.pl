@@ -18,6 +18,8 @@ if ($#ARGV < 2)
     print "--test:    dry run\n";
     exit(-1);
 }
+
+my @sdcclinks = ("geant4", "root");
 my $origdir = `pwd`;
 my $src = $ARGV[0];
 my $target = $ARGV[1];
@@ -117,6 +119,20 @@ else
 	print LOG "softlink $realtarget -> $tgtlink\n";
 	symlink $tgtlink, $realtarget;
     }
+}
+
+for my $sdcclink (sort @sdcclinks)
+{
+
+    print LOG "changing $sdcclink softlink\n";
+    my $softlink = sprintf("%s/%s/%s",$targetreleasedir,$realtarget, $sdcclink);
+    my $slinklocation = `readlink $softlink`;
+    chomp $slinklocation;
+    $slinklocation =~ s/$origvolume/$tgtvolume/g;
+    unlink $softlink if (-e $softlink);
+    print LOG "softlink: $softlink\n";
+    print LOG "slinklocation: $slinklocation\n";
+    symlink $slinklocation, $softlink;
 }
 
 my $libdir = sprintf("%s/%s/lib",$targetreleasedir,$realtarget);
