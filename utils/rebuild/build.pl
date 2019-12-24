@@ -239,8 +239,16 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/) 
 {
-    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
-    $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+    if ($opt_sysname =~ /gcc-8.3/)
+    {
+	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
+	$externalPackages{"CLHEP"} = "clhep-2.4.1.3";
+    }
+    else
+    {
+	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
+	$externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+    }
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
