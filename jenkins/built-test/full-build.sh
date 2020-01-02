@@ -28,6 +28,7 @@ source /opt/sphenix/core/bin/sphenix_setup.csh -n ${build_type};
 mkdir -v ${WORKSPACE}/build;
 
 cd ${WORKSPACE}/utilities/utils/rebuild/
+cat ${WORKSPACE}/utilities/jenkins/built-test/full-build.extra_packages.txt >> packages.txt
 
 env;
 
