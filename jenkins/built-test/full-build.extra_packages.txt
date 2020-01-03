@@ -1,2 +1,3 @@
 # tutorials
 tutorials/myjetanalysis/src|jhuang@bnl.gov
+tutorials/AnaTutorial/src/|jhuang@bnl.gov
