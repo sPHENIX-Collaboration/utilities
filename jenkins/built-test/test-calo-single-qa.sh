@@ -15,7 +15,7 @@ set number_jobs = $4;
 set name = ${particle_ID}_pT${pT_GeV}_Sum${number_jobs}
 
 setenv OFFLINE_MAIN $WORKSPACE/install
-source /opt/sphenix/core/bin/sphenix_setup.csh; 
+source /opt/sphenix/core/bin/sphenix_setup.csh $build_type; 
 
 # setenv PATH 		$WORKSPACE/install/bin:${PATH}
 # setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
