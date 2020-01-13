@@ -21,7 +21,7 @@ set run_valgrind = $4;
 # setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
 
 setenv OFFLINE_MAIN $WORKSPACE/install
-echo "source /opt/sphenix/core/bin/sphenix_setup.csh build_type;"
+echo "source /opt/sphenix/core/bin/sphenix_setup.csh $build_type;"
 source /opt/sphenix/core/bin/sphenix_setup.csh $build_type;
 
 echo "======================================================="
