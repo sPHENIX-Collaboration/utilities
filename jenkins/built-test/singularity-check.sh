@@ -1,6 +1,7 @@
 #!/bin/tcsh -f
 
-source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
+echo "source /opt/sphenix/core/bin/sphenix_setup.csh -n $*"
+source /opt/sphenix/core/bin/sphenix_setup.csh -n $*; 
 
 env;
 
