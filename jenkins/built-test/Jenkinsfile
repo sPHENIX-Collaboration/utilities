@@ -271,6 +271,7 @@ pipeline
 						    			parameters:
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'build_type', value: "${build_type}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_sPHENIX"), 
@@ -304,6 +305,7 @@ pipeline
 						    			parameters:
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'build_type', value: "${build_type}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_fsPHENIX"), 
@@ -443,6 +445,7 @@ pipeline
 							    			parameters:
 							    			[
 								    			string(name: 'build_src', value: "${build_root_path}"), 
+							    				string(name: 'build_type', value: "${build_type}"), 
 							    				string(name: 'sha_macros', value: "${sha_macros}"), 
 		    									string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
