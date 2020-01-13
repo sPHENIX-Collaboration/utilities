@@ -1,15 +1,16 @@
 #! tcsh -f
 
-if ($#argv != 3) then
+if ($#argv != 4) then
 	
-	echo "Usage $0 particle_name pT_GeV number_jobs"
+	echo "Usage $0 build_type particle_name pT_GeV number_jobs"
 	exit 1;
 	
 endif
 
-set particle_ID = $1;
-set pT_GeV = $2;
-set number_jobs = $3; 
+set build_type = $1;
+set particle_ID = $2;
+set pT_GeV = $3;
+set number_jobs = $4; 
 
 set name = ${particle_ID}_pT${pT_GeV}_Sum${number_jobs}
 
