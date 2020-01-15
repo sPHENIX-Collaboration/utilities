@@ -51,10 +51,20 @@ system("mv prototype master");
 system("mkdir -pv prototype/blob/");
 system("mv master prototype/blob/");
 
+system("git clone https://github.com/sPHENIX-Collaboration/GenFit.git");
+system("mv GenFit master");
+system("mkdir -pv GenFit/blob/");
+system("mv master GenFit/blob/");
+
 system("git clone https://github.com/sPHENIX-Collaboration/online_distribution.git");
 system("mv online_distribution master");
 system("mkdir -pv online_distribution/blob/");
 system("mv master online_distribution/blob/");
+
+system("git clone https://github.com/sPHENIX-Collaboration/KFParticle.git");
+system("mv KFParticle master");
+system("mkdir -pv KFParticle/blob/");
+system("mv master KFParticle/blob/");
 
 print "###################################################################\n";
 print "WARNING: please check the local path in Doxyfile is consistent with\n";
