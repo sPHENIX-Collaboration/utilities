@@ -684,8 +684,8 @@ INPUT                  = Doxygen_Assist \
   ./analysis \
   ./tutorials \
   ./prototype \
-  ./online_distribution\
-  ./GenFit\
+  ./online_distribution \
+  ./GenFit \
   ./KFParticle
 
 # This tag can be used to specify the character encoding of the source files
