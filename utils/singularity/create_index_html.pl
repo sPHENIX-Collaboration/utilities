@@ -89,7 +89,8 @@ foreach my $subdir (@dirs)
 }
 print F"</p>\n";
 print F "<h2>Virtualbox Image</h2>\n";
-print F "<p><a href=\"./Fun4AllSingularityDistribution.ova\">Virtualbox Ubuntu18.04LTS image</a> with sPHENIX CVMFS and Singularity installed, which provides a stable linux env for Windows Hosts.</p>\n";
+print F "<p><a href=\"./Fun4AllSingularityDistribution.ova\">Virtualbox Ubuntu18.04LTS image</a> with sPHENIX CVMFS and Singularity installed, which provides a stable linux env for Windows Hosts.</br>\n";
+print F "if prompted: username fun4all, password fun4all<p>\n";
 
 close($dh);
 print F "</BODY>\n";
