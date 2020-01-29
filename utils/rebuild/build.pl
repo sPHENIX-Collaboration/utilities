@@ -514,6 +514,11 @@ print LOG "===========================================\n";
 	    my $dir = $externalPackagesDir."/".$externalPackages{$m};
 	    if (! -d $dir)
 	    {
+		if ($dir =~ /acts/)
+		{
+		    print LOG "skipping $m\n";
+		    next;
+		}
 		print LOG "cannot find dir $dir for package $m\n";
 		if ($opt_notify)
 		{
