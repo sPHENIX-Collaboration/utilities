@@ -6,6 +6,7 @@ use warnings;
 use Getopt::Long;
 
 my $containername = "rhic_sl7_ext.simg";
+my $dockername = "rhic_sl7_ext_docker.tar.gz";
 
 my %rootversion = ();
 $rootversion{"new"} = "Root6";
@@ -52,6 +53,20 @@ if (-f $fullcontainer)
     print F "<h3>\n";
     print F "<a href=\"./$containername\">rcf Singularity Container image</a>\n";
     my $md5file = sprintf("%s.md5",$fullcontainer);
+    if (-f $md5file)
+    {
+	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+    }
+    print F "<p></h3>\n";
+}
+
+my $dockercontainer = sprintf("%s/%s",$targetdir,$dockername);
+
+if (-f $dockercontainer)
+{
+    print F "<h3>\n";
+    print F "<a href=\"./$dockername\">rcf Docker Container image</a>\n";
+    my $md5file = sprintf("%s.md5",$dockercontainer);
     if (-f $md5file)
     {
 	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
