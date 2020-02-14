@@ -386,7 +386,14 @@ else
     }
     foreach my $repo (@gitrepos)
     {
-	$gitcommand = sprintf("git clone --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+        if ($repo =~ /acts-framework/)
+	{
+	    $gitcommand = sprintf("git clone --branch sphenix-v0.13.00 --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+	}
+        else
+	{
+	    $gitcommand = sprintf("git clone --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+	}
 	print LOG $gitcommand, "\n";
 	goto END if &doSystemFail($gitcommand);
     }
