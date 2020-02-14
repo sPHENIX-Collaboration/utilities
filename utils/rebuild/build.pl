@@ -62,6 +62,7 @@ my %externalPackages = (
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
+    "acts-framework" => "acts-framework",
     "eic-smear" => "eic-smear",
     "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
@@ -385,7 +386,7 @@ else
     }
     foreach my $repo (@gitrepos)
     {
-	$gitcommand = sprintf("git clone -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+	$gitcommand = sprintf("git clone --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
 	print LOG $gitcommand, "\n";
 	goto END if &doSystemFail($gitcommand);
     }
