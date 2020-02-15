@@ -23,6 +23,7 @@ sub install_scanbuild_reports;
 sub create_afs_taxi_dir;
 sub check_expiration_date;
 sub doSystemFail;
+sub CreateCmakeCommand;
 
 Env::import();
 
@@ -62,7 +63,6 @@ my %externalPackages = (
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
-    "acts-framework" => "acts-framework",
     "eic-smear" => "eic-smear",
     "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
@@ -86,20 +86,6 @@ while (<IN>)
     next if (/^#/);
     chomp $_;
     push @gitrepos, $_;
-  }
-close(IN);
-# Read in list of packages and contacts
-my @package = ();
-my %contact = ();
-die unless open(IN, "$Bin/packages.txt");
-while (<IN>)
-  {
-    next if (/^#/);
-    (my $p, my $c) = split(/\|/, $_, 2);
-# remove \n at end of $c
-	     chomp $c;
-    push @package, $p;
-    $contact{$p} = $c;
   }
 close(IN);
 
@@ -127,6 +113,26 @@ if ($opt_help)
   {
       printhelp();
   }
+
+# Read in list of packages and contacts
+my @package = ();
+my %contact = ();
+die unless open(IN, "$Bin/packages.txt");
+while (<IN>)
+{
+    next if (/^#/);
+    if ($_ =~ /acts-framework/ && $opt_sysname !~ /gcc-8.3/)
+    {
+	next;
+    }
+    (my $p, my $c) = split(/\|/, $_, 2);
+# remove \n at end of $c
+	     chomp $c;
+    push @package, $p;
+    $contact{$p} = $c;
+  }
+close(IN);
+
 my $dbh;
 if ( $opt_db && $opt_version !~ /pro/)
 {
@@ -608,6 +614,12 @@ print LOG "===========================================\n";
 	print LOG "========================================================\n";
 	print LOG "configuring package $m                                  \n";
 	print LOG "at $date                                                \n";
+	if ($m =~ /acts-framework/)
+	{
+	    $arg = CreateCmakeCommand("acts-framework", $sdir);
+	}
+	else
+	{
 	    if ( $opt_scanbuild && exists $scanbuildignore{$m})
 	    {
 		$arg = "env $compileFlags $sdir/autogen.sh --prefix=$installDir";
@@ -623,6 +635,7 @@ print LOG "===========================================\n";
 		    $arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
 		}
 	    }
+	}
 	print LOG "Running $arg\n";
 	print LOG "========================================================\n";
 
@@ -667,8 +680,12 @@ $ENV{G4_MAIN} = $installDir."/geant4";
 
 if ($opt_stage < 3)
   {
-    foreach $m (@package)
+      foreach $m (@package)
       {
+        if ($m =~ /acts-framework/)
+        {
+	  next;
+        }
 	$sdir = realpath($sourceDir)."/".$m;
 	$bdir = realpath($buildDir)."/".$m;
 	chdir $bdir;
@@ -1471,4 +1488,19 @@ sub SaveGitTagsToDB()
 	$insertbuild->execute($buildname,$humandate,$unixdate,$key,$repotags{$key});
     }
     $insertbuild->finish();
+}
+
+sub CreateCmakeCommand
+{
+    my $packagename = shift;
+    my $cmakesourcedir = shift;
+    if ($packagename =~ /acts-framework/)
+    {
+	my $g4dir = `find $G4_MAIN/lib64/ -maxdepth 1 -type d | grep Geant4`;
+	chomp $g4dir;
+	my $cmakecmd = "cmake -DBOOST_ROOT=${OPT_SPHENIX}/boost -DTBB_ROOT_DIR=${OPT_SPHENIX}/tbb -DEigen3_DIR=${OPT_SPHENIX}/eigen -DROOT_DIR=${ROOTSYS}/cmake -DUSE_GEANT4=ON -DUSE_TGEO=ON -DUSE_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OPT_SPHENIX}/pythia8/include -DPythia8_LIBRARY=${OPT_SPHENIX}/pythia8/lib/libpythia8.so -DGeant4_DIR=$g4dir -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON -DCMAKE_VERBOSE_MAKEFILE=ON  -DCMAKE_INSTALL_PREFIX=$installDir  -Wno-dev $cmakesourcedir";
+	return $cmakecmd;
+    }
+    print LOG "CreateCmakeCommand not implemented for $packagename\n";
+    die;
 }
