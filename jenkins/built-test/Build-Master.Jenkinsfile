@@ -141,7 +141,7 @@ pipeline
 									[$class: 'CleanCheckout'] 
 						   		],
 							  	branches: [
-							    	[name: "${sha_acts-framework}"]
+							    	[name: "${sha_acts_framework}"]
 							    ], 
 							  	userRemoteConfigs: 
 							  	[[
