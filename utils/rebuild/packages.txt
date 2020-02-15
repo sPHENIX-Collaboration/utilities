@@ -1,5 +1,5 @@
-# This list must be kept up-to-date with respect to the list of
-# modules in CVS
+# This list gives the packages we build in the order in which they are build
+acts-framework|osbornjd@ornl.gov
 coresoftware/offline/packages/Half|pinkenburg@bnl.gov
 online_distribution/newbasic|purschke@bnl.gov
 online_distribution/pmonitor|purschke@bnl.gov
