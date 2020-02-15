@@ -117,7 +117,6 @@ pipeline
 							     	credentialsId: 'sPHENIX-bot', 
 							     	url: '${git_url_coresoftware}',
 							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
-							    	branch: ('*')
 							  	]]
 								] //checkout
 							)//checkout
@@ -130,27 +129,25 @@ pipeline
 							checkout(
 								[
 						 			$class: 'GitSCM',
-						   		extensions: [               
-							   		[$class: 'SubmoduleOption',
-									    disableSubmodules: false,
-									    parentCredentials: true,
-									    recursiveSubmodules: true,
-									    reference: '',
-									    trackingSubmodules: false],
-								 	[$class: 'CleanBeforeCheckout'], 
-									[$class: 'CleanCheckout'] 
-						   		],
-							  	branches: [
-							    	[name: "${sha_acts_framework}"]
-							    ], 
-							  	userRemoteConfigs: 
-							  	[[
-							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
-							     	credentialsId: 'sPHENIX-bot', 
-							     	url: '${git_url_coresoftware}',
-							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
-							    	branch: ('*')
-							  	]]
+									extensions: [               
+										[$class: 'SubmoduleOption',
+										    disableSubmodules: false,
+										    parentCredentials: true,
+										    recursiveSubmodules: true,
+										    reference: '',
+										    trackingSubmodules: false],
+										[$class: 'CleanBeforeCheckout'], 
+										[$class: 'CleanCheckout'] 
+									],
+									branches: [
+									[name: "${sha_acts_framework}"]
+							        	], 
+									userRemoteConfigs: 
+									[[
+									credentialsId: 'sPHENIX-bot', 
+									url: 'https://github.com/sPHENIX-Collaboration/acts-framework.git',
+									refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+									]]
 								] //checkout
 							)//checkout						
 						}//	dir('acts-framework') 
