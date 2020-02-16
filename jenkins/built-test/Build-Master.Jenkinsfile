@@ -21,15 +21,15 @@ pipeline
 		    			parameters:
 		    			[
 		    				string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-			    			string(name: 'LabelCategory', value: "build-${build_type}"),
+			    			string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
 			    			string(name: 'LabelStatus', value: "PENDING")
 			    		],
 		    			wait: false, propagate: false)
 						
 						script {
 						
-							currentBuild.displayName = "${env.BUILD_NUMBER} - ${build_type} - ${sha_coresoftware}"
-							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware} - ${build_type}" 
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sysname} - ${build_type} - ${sha_coresoftware}"
+							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware} - ${sysname} - ${build_type}" 
 							
 						}
 										
@@ -76,7 +76,7 @@ pipeline
 
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f singularity-check.sh ${build_type}')
+							sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg  tcsh -f singularity-check.sh ${build_type}')
 						
 						}
 					}
@@ -246,7 +246,7 @@ pipeline
 								sh('env')
 								sh('ls -lvhc')
 										
-								sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix -B /cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/patches/hashtable_policy.h:/usr/include/c++/4.8.2/bits/hashtable_policy.h   /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/full-build.sh $build_type')
+								sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix -B /cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/patches/hashtable_policy.h:/usr/include/c++/4.8.2/bits/hashtable_policy.h   /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/full-build.sh $sysname $build_type')
 							
 							 	script {
 							  	build_root_path = pwd();
@@ -302,6 +302,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
+							    			string(name: 'sysname', value: "${sysname}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_sPHENIX"), 
@@ -336,6 +337,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
+							    			string(name: 'sysname', value: "${sysname}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_fsPHENIX"), 
@@ -372,6 +374,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
+							    			string(name: 'sysname', value: "${sysname}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_EICDetector"), 
@@ -407,6 +410,7 @@ pipeline
 												[
 													string(name: 'build_src', value: "${build_root_path}"), 
 													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'sysname', value: "${sysname}"), 
 													string(name: 'sha_macros', value: "${sha_macros}"), 
 													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
@@ -443,6 +447,7 @@ pipeline
 												[
 													string(name: 'build_src', value: "${build_root_path}"), 
 													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'sysname', value: "${sysname}"), 
 													string(name: 'sha_macros', value: "${sha_macros}"), 
 													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
@@ -476,6 +481,7 @@ pipeline
 							    			[
 								    			string(name: 'build_src', value: "${build_root_path}"), 
 							    				string(name: 'build_type', value: "${build_type}"), 
+							    				string(name: 'sysname', value: "${sysname}"), 
 							    				string(name: 'sha_macros', value: "${sha_macros}"), 
 		    									string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
@@ -547,7 +553,7 @@ pipeline
     			echo("start report building ...");
     			sh ('pwd');						
 				
-					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${sysname}` / `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
 	        script {	
 						if ("$build_type" == 'clang') {
 							report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/)";
@@ -575,12 +581,12 @@ pipeline
     				currentBuild.description = "${currentBuild.description}\n${fileContent}"		
     			}    			
     			    			
-			  	writeFile file: "build-${build_type}.md", text: "${report_content}"		
+			  	writeFile file: "build-${sysname}-${build_type}.md", text: "${report_content}"		
 			  	
 				}//script
 			}
 		  		  
-			archiveArtifacts artifacts: "report/build-${build_type}.md"
+			archiveArtifacts artifacts: "report/build-${sysname}-${build_type}.md"
 		
 			archiveArtifacts artifacts: 'build/${build_type}/rebuild.log'
 		}
@@ -591,7 +597,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "build-${build_type}"),
+					string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
 					string(name: 'LabelStatus', value: "PASS")
 				],
 				wait: false, propagate: false)
@@ -604,7 +610,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "build-${build_type}"),
+					string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
 					string(name: 'LabelStatus', value: "FAIL")
 				],
 				wait: false, propagate: false)
@@ -617,7 +623,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "build-${build_type}"),
+					string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
 					string(name: 'LabelStatus', value: "PASS")
 				],
 				wait: false, propagate: false)

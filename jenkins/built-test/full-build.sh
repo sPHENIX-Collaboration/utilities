@@ -12,14 +12,15 @@
 # && cd utils/rebuild 
 # && ./build.pl --phenixinstall --notify --afs
 
-if ($#argv != 1) then
+if ($#argv != 2) then
 	
-	echo "Usage $0 build_type"
+	echo "Usage $0 sysname build_type"
 	exit 1;
 	
 endif
 
-set build_type = $1;
+set sysname = $1;
+set build_type = $2;
 
 echo "Build type ${build_type}"
 
@@ -35,9 +36,9 @@ env;
 echo "Build step - build - start at " `pwd`;
 
 if (${build_type} == 'clang') then
- 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --${build_type} --workdir=${WORKSPACE}/build;
+ 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --${build_type} --workdir=${WORKSPACE}/build;
 else
-	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --workdir=${WORKSPACE}/build;
+	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --workdir=${WORKSPACE}/build;
 endif
 
 set build_ret = $?;
