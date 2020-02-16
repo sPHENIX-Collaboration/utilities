@@ -36,7 +36,7 @@ ls -lhc
 
 valgrind_prefix="";
 
-if [$run_valgrind > 0]; then
+if (( $run_valgrind > 0 )); then
 	
 	valgrind_sup='';
 
@@ -69,7 +69,7 @@ ls -lhcrt
 
 echo "Build step - build - return $build_ret";
 
-if [$build_ret -ne 0]; then
+if (( $build_ret != 0 )); then
 	echo "======================================================="
 	echo "Failed run with return = ${build_ret}. ";
 	echo "======================================================="
