@@ -36,8 +36,10 @@ env;
 echo "Build step - build - start at " `pwd`;
 
 if (${build_type} == 'clang') then
+	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --${build_type} --workdir=${WORKSPACE}/build;"
  	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --${build_type} --workdir=${WORKSPACE}/build;
 else
+	echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --workdir=${WORKSPACE}/build;"
 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --workdir=${WORKSPACE}/build;
 endif
 
