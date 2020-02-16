@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -v
+#!/usr/bin/env bash
 
 if [ "$#" -ne 3 ]; then	
 	echo "Usage $0  Fun4All_G4_sPHENIX number_event run_valgrind"
