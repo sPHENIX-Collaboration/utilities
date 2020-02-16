@@ -141,7 +141,7 @@ pipeline
 			steps 
 			{
 					
-				sh("/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg bash -v utilities/jenkins/built-test/test-default.sh ${macro_name} 30 0")
+				sh("/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/test-default.sh ${macro_name} 30 0")
 														
 			}				
 					
