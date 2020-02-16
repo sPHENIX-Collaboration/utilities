@@ -40,8 +40,10 @@ if (( $run_valgrind > 0 )); then
 	
 	valgrind_sup='';
 
-	if [-f $ROOTSYS/root.supp]; then
+	if [ -f $ROOTSYS/root.supp ]; then
 	    valgrind_sup="--suppressions=$ROOTSYS/root.supp";
+		echo 'use valgrind suppression file:'
+		ls -lhv $ROOTSYS/root.supp
 	fi	
 	
 	# set valgrind_prefix = "valgrind -v  --num-callers=30 --leak-check=full --error-limit=no --log-file=${macro_name}.valgrind $valgrind_sup --xml=yes --xml-file=${macro_name}.valgrind.xml --leak-resolution=high"
