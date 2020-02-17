@@ -36,11 +36,11 @@ env;
 echo "Build step - build - start at " `pwd`;
 
 if [[ ${build_type} == 'clang' ]]; then
-	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --${build_type} --workdir=${WORKSPACE}/build;"
- 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --${build_type} --workdir=${WORKSPACE}/build;
+	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;"
+ 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;
 else
-	echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --workdir=${WORKSPACE}/build;"
-	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --workdir=${WORKSPACE}/build;
+	echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;"
+	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;
 fi
 
 build_ret=$?;
