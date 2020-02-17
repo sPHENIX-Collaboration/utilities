@@ -21,10 +21,10 @@ if [ -z "$build_type" ]; then
 	exit 1;
 fi
 
-echo "Build type ${build_type}"
+echo "Build type ${sysname} - ${build_type}"
 
-echo source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type}; 
-source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type}; 
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${sysname}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${sysname}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
 
 mkdir -v ${WORKSPACE}/build;
 
