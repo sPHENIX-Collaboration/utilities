@@ -31,6 +31,10 @@ mkdir -v ${WORKSPACE}/build;
 cd ${WORKSPACE}/utilities/utils/rebuild/
 cat ${WORKSPACE}/utilities/jenkins/built-test/full-build.extra_packages.txt >> packages.txt
 
+
+export HOST=`hostname`
+echo "env check";
+
 env;
 
 echo "Build step - build - start at " `pwd`;
