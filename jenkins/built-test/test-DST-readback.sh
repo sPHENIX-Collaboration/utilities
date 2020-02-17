@@ -4,8 +4,8 @@ if [ "$#" -ne 2 ]; then
 	echo "Usage $0  Fun4All_G4_sPHENIX number_event"
 	exit 1;
 fi
-if [ -z "${sysname}" ]; then
-	echo "Fatal error: Miss env sysname"
+if [ -z "${system_config}" ]; then
+	echo "Fatal error: Miss env system_config"
 	exit 1;
 fi
 if [ -z "$build_type" ]; then	
@@ -26,8 +26,8 @@ number_event=$2;
 # setenv CALIBRATIONROOT  $WORKSPACE/calibrations/
 
 setenv OFFLINE_MAIN $WORKSPACE/install
-echo source /cvmfs/sphenix.sdcc.bnl.gov/${sysname}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
-source /cvmfs/sphenix.sdcc.bnl.gov/${sysname}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 
 echo "======================================================="
 echo "env check";

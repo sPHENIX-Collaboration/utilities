@@ -277,7 +277,7 @@ pipeline
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
 							    			string(name: 'build_type', value: "new"), 
-							    			string(name: 'sysname', value: "gcc-8.3"), 
+							    			string(name: 'system_config', value: "gcc-8.3"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
 							    			booleanParam(name: 'run_default_test', value: false), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 

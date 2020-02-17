@@ -20,8 +20,8 @@ pipeline
 					ansiColor('xterm') {
 					
 						script {
-							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sysname} - ${build_type} - ${macro_name}"
-							currentBuild.description = "${upstream_build_description} - ${sysname} - ${build_type}" 
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${system_config} - ${build_type} - ${macro_name}"
+							currentBuild.description = "${upstream_build_description} - ${system_config} - ${build_type}" 
 						
 							if (fileExists('./install'))
 							{
@@ -166,7 +166,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "test-default-${sysname}-${build_type}-${macro_name}.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${sysname}`, build `${build_type}`: run the default `${macro_name}.C` macro: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:file_folder:output](${env.BUILD_URL}) "				
+			  writeFile file: "test-default-${system_config}-${build_type}-${macro_name}.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run the default `${macro_name}.C` macro: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:file_folder:output](${env.BUILD_URL}) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'

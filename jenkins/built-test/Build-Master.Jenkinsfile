@@ -21,15 +21,15 @@ pipeline
 		    			parameters:
 		    			[
 		    				string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-			    			string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
+			    			string(name: 'LabelCategory', value: "build-${system_config}-${build_type}"),
 			    			string(name: 'LabelStatus', value: "PENDING")
 			    		],
 		    			wait: false, propagate: false)
 						
 						script {
 						
-							currentBuild.displayName = "${env.BUILD_NUMBER} - ${sysname} - ${build_type} - ${sha_coresoftware}"
-							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware} - ${sysname} - ${build_type}" 
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${system_config} - ${build_type} - ${sha_coresoftware}"
+							currentBuild.description = "${upstream_build_description} / <a href=\"${git_url_coresoftware}\">coresoftware</a> # ${sha_coresoftware} - ${system_config} - ${build_type}" 
 							
 						}
 										
@@ -302,7 +302,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
-							    			string(name: 'sysname', value: "${sysname}"), 
+							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_sPHENIX"), 
@@ -337,7 +337,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
-							    			string(name: 'sysname', value: "${sysname}"), 
+							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_fsPHENIX"), 
@@ -374,7 +374,7 @@ pipeline
 						    			[
 							    			string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
-							    			string(name: 'sysname', value: "${sysname}"), 
+							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
 		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 		    								string(name: 'macro_name', value: "Fun4All_G4_EICDetector"), 
@@ -410,7 +410,7 @@ pipeline
 												[
 													string(name: 'build_src', value: "${build_root_path}"), 
 													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'sysname', value: "${sysname}"), 
+													string(name: 'system_config', value: "${system_config}"), 
 													string(name: 'sha_macros', value: "${sha_macros}"), 
 													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
@@ -447,7 +447,7 @@ pipeline
 												[
 													string(name: 'build_src', value: "${build_root_path}"), 
 													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'sysname', value: "${sysname}"), 
+													string(name: 'system_config', value: "${system_config}"), 
 													string(name: 'sha_macros', value: "${sha_macros}"), 
 													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
@@ -481,7 +481,7 @@ pipeline
 							    			[
 								    			string(name: 'build_src', value: "${build_root_path}"), 
 							    				string(name: 'build_type', value: "${build_type}"), 
-							    				string(name: 'sysname', value: "${sysname}"), 
+							    				string(name: 'system_config', value: "${system_config}"), 
 							    				string(name: 'sha_macros', value: "${sha_macros}"), 
 		    									string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
@@ -553,7 +553,7 @@ pipeline
     			echo("start report building ...");
     			sh ('pwd');						
 				
-					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${sysname}` / `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${system_config}` / `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
 	        script {	
 						if ("$build_type" == 'clang') {
 							report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/)";
@@ -581,12 +581,12 @@ pipeline
     				currentBuild.description = "${currentBuild.description}\n${fileContent}"		
     			}    			
     			    			
-			  	writeFile file: "build-${sysname}-${build_type}.md", text: "${report_content}"		
+			  	writeFile file: "build-${system_config}-${build_type}.md", text: "${report_content}"		
 			  	
 				}//script
 			}
 		  		  
-			archiveArtifacts artifacts: "report/build-${sysname}-${build_type}.md"
+			archiveArtifacts artifacts: "report/build-${system_config}-${build_type}.md"
 		
 			archiveArtifacts artifacts: 'build/${build_type}/rebuild.log'
 		}
@@ -597,7 +597,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
+					string(name: 'LabelCategory', value: "build-${system_config}-${build_type}"),
 					string(name: 'LabelStatus', value: "PASS")
 				],
 				wait: false, propagate: false)
@@ -610,7 +610,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
+					string(name: 'LabelCategory', value: "build-${system_config}-${build_type}"),
 					string(name: 'LabelStatus', value: "FAIL")
 				],
 				wait: false, propagate: false)
@@ -623,7 +623,7 @@ pipeline
 			  parameters:
 			  [
 					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "build-${sysname}-${build_type}"),
+					string(name: 'LabelCategory', value: "build-${system_config}-${build_type}"),
 					string(name: 'LabelStatus', value: "PASS")
 				],
 				wait: false, propagate: false)

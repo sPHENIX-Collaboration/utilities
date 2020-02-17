@@ -12,8 +12,8 @@
 # && cd utils/rebuild 
 # && ./build.pl --phenixinstall --notify --afs
 
-if [ -z "${sysname}" ]; then
-	echo "Fatal error: Miss env sysname"
+if [ -z "${system_config}" ]; then
+	echo "Fatal error: Miss env system_config"
 	exit 1;
 fi
 if [ -z "$build_type" ]; then	
@@ -21,10 +21,10 @@ if [ -z "$build_type" ]; then
 	exit 1;
 fi
 
-echo "Build type ${sysname} - ${build_type}"
+echo "Build type ${system_config} - ${build_type}"
 
-echo source /cvmfs/sphenix.sdcc.bnl.gov/${sysname}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
-source /cvmfs/sphenix.sdcc.bnl.gov/${sysname}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
 
 mkdir -v ${WORKSPACE}/build;
 
@@ -36,11 +36,11 @@ env;
 echo "Build step - build - start at " `pwd`;
 
 if [[ ${build_type} == 'clang' ]]; then
-	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --${build_type} --workdir=${WORKSPACE}/build;"
- 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --${build_type} --workdir=${WORKSPACE}/build;
+	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --${build_type} --workdir=${WORKSPACE}/build;"
+ 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --${build_type} --workdir=${WORKSPACE}/build;
 else
-	echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --workdir=${WORKSPACE}/build;"
-	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${sysname} --workdir=${WORKSPACE}/build;
+	echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --workdir=${WORKSPACE}/build;"
+	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --system_config=${system_config} --workdir=${WORKSPACE}/build;
 fi
 
 build_ret=$?;
