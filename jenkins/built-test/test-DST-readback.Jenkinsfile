@@ -163,7 +163,7 @@ pipeline
 			steps 
 			{
 					
-				sh("/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/test-default.sh Fun4All_G4_sPHENIX 2")
+				sh("/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/test-default.sh Fun4All_G4_sPHENIX 2 0")
 														
 			}				
 					
@@ -175,7 +175,7 @@ pipeline
 			steps 
 			{
 					
-				sh("/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/test-default.sh Fun4All_ReadBack 0")
+				sh("/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/test-default.sh Fun4All_ReadBack 0 0")
 														
 			}				
 					
