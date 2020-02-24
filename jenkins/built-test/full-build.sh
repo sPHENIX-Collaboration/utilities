@@ -25,6 +25,7 @@ echo "Build type ${system_config} - ${build_type}"
 
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
+export HOST=`hostname`; # as build macro seeks $HOST
 
 mkdir -v ${WORKSPACE}/build;
 
