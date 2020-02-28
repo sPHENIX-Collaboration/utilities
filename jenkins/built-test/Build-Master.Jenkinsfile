@@ -246,7 +246,7 @@ pipeline
 								sh('env')
 								sh('ls -lvhc')
 										
-								sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix -B /cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/patches/hashtable_policy.h:/usr/include/c++/4.8.2/bits/hashtable_policy.h   -B /var/lib/jenkins/singularity/libltdl.so:/usr/lib64/libltdl.so /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/full-build.sh')
+								sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix -B /cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/patches/hashtable_policy.h:/usr/include/c++/4.8.2/bits/hashtable_policy.h /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/full-build.sh')
 							
 							 	script {
 							  	build_root_path = pwd();
