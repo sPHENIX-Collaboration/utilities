@@ -989,7 +989,7 @@ else
 
 END:{
   $buildSucceeded==1 && ($buildStatus='success', last END);
-  $buildSucceeded==0 && ($buildStatus='busted', last END);
+  $buildSucceeded==0 && ($buildStatus='busted', exit(-1));
 }
 
 # save the latest commit id of the checkouts
