@@ -17,6 +17,10 @@ $tarball{"opt.tar.bz2"} = "coresoftware tarball";
 $tarball{"offline_main.tar.bz2"} = "OFFLINE_MAIN tarball";
 $tarball{"utils.tar.bz2"} = "utilities tarball";
 
+my %sysname = ();
+$sysname{"gcc-8.3"} = "SL7 build with gcc 8.3.1";
+$sysname{"x8664_sl7"} = "SL7 build with gcc 4.8.3";
+
 my $opt_help = 0;
 
 if ($#ARGV < 0 || $opt_help>0)
@@ -78,36 +82,51 @@ opendir (my $dh, $targetdir);
 my @dirs = grep {-d "$targetdir/$_" && ! /^\.{1,2}$/} readdir($dh);
 foreach my $subdir (@dirs)
 {
-    print F "<p>\n";
-    if (exists $rootversion{$subdir})
+    print F "<hr>\n";
+    print F "</br>\n";
+    if (exists $sysname{$subdir})
     {
-	print F "<h2>$rootversion{$subdir} build</h2>\n";
-    }
-    else
-    {
-	print F "<h2>$subdir build</h2>\n";
-    }
-    foreach my $tb (keys %tarball)
-    {
-	my $fullfile = sprintf("%s/%s/%s",$targetdir,$subdir,$tb);
-	if (-f $fullfile)
+	print F "<h2>$sysname{$subdir}</h2>\n";
+	my $subtargetdir = sprintf("%s/%s",$targetdir,$subdir);
+        opendir (my $blddh, $subtargetdir);
+	my @blddirs = grep {-d "$subtargetdir/$_" && ! /^\.{1,2}$/} readdir($blddh);
+	foreach my $bldsubdir (@blddirs)
 	{
-	    print F "<h3> <a href=\"$fullfile\">$tarball{$tb}</a>\n"; 
-	    my $md5file = sprintf("%s.md5",$fullfile);
-	    if (-f $md5file)
+	    if (exists $rootversion{$bldsubdir})
 	    {
-		print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+		print F "<h3>$rootversion{$bldsubdir} build</h3>\n";
 	    }
-	    print F"</h3></br>\n";
+	    print F "<h4>\n";
+	    foreach my $tb (keys %tarball)
+	    {
+		my $fullfile = sprintf("%s/%s/%s",$subtargetdir,$bldsubdir,$tb);
+		if (-f $fullfile)
+		{
+		    print F "<a href=\"$fullfile\">$tarball{$tb}</a>\n"; 
+		    my $md5file = sprintf("%s.md5",$fullfile);
+		    if (-f $md5file)
+		    {
+			print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+		    }
+		    print F"</br>\n";
+		}
+	    }
+	    print F"</h4>\n";
+	    print F"</br>\n";
+
 	}
+
+	closedir($blddh);
     }
 }
+close($dh);
+print F "<hr>\n";
+
 print F"</p>\n";
 print F "<h2>Virtualbox Image</h2>\n";
 print F "<p><a href=\"./Fun4AllSingularityDistribution.ova\">Virtualbox Ubuntu18.04LTS image</a> with sPHENIX CVMFS and Singularity installed, which provides a stable linux env for Windows Hosts.</br>\n";
 print F "if prompted: username fun4all, password fun4all<p>\n";
 
-close($dh);
 print F "</BODY>\n";
 print F "</HTML>\n";
 close(F);
