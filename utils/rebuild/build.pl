@@ -255,6 +255,7 @@ if ($opt_version =~ /play/)
     {
 	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
 	$externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+	$externalPackages{"gsl"} = "gsl-2.6";
     }
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
