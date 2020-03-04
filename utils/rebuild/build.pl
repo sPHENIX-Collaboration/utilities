@@ -66,7 +66,7 @@ my %externalRootPackages = (
     "eic-smear" => "eic-smear",
     "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
-    "sartre-1.20" => "sartre-1.20"
+    "sartre" => "sartre"
     );
 my $rootversion = `root-config --version`;
 chomp $rootversion;
@@ -250,6 +250,7 @@ if ($opt_version =~ /play/)
     {
 	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
 	$externalPackages{"CLHEP"} = "clhep-2.4.1.3";
+	$externalPackages{"gsl"} = "gsl-2.6";
     }
     else
     {
