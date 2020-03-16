@@ -15,9 +15,10 @@ my $opt_optsphenix = 0;
 my $opt_optutils = 0;
 my $opt_offline = 0;
 my $opt_help = 0;
+my $opt_sysname = 'x8664_sl7';
 my $opt_test = 0;
 my $opt_version = 'new';
-GetOptions('all' => \$opt_all, 'help' => \$opt_help, 'offline' => \$opt_offline, 'opt' => \$opt_optsphenix, 'utils' => \$opt_optutils, 'singularity' => \$opt_singularity, 'test' => \$opt_test, 'version:s' => \$opt_version);
+GetOptions('all' => \$opt_all, 'help' => \$opt_help, 'offline' => \$opt_offline, 'opt' => \$opt_optsphenix, 'utils' => \$opt_optutils, 'singularity' => \$opt_singularity, 'test' => \$opt_test, 'version:s' => \$opt_version, 'sysname:s' => \$opt_sysname);
 
 my $currdir = getcwd();
 
@@ -30,6 +31,7 @@ if ($#ARGV < 0 || $opt_help>0)
     print "--offline      : create and copy offline_main tar ball\n";
     print "--opt          : create and copy opt area tar ball\n";
     print "--singularity  : copy container\n";
+    print "--sysname      : system name (x8664_sl7 [default] or gcc 8.3)\n";
     print "--test         : dryrun, print commands but do not execute them\n";
     print "--utils        : create and copy utils area tar ball\n";
     exit 1;
@@ -47,7 +49,15 @@ if ($version ne $opt_version)
 {
     print "OFFLINE_MAIN version $version does not match requested version $opt_version\n";
     print "source the sphenix_setup script like:\n";
-    print "source /opt/sphenix/core/bin/sphenix_setup.csh -n $opt_version\n";
+    print "source /cvmfs/sphenix.sdcc.bnl.gov/$opt_sysname/opt/sphenix/core/bin/sphenix_setup.csh -n $opt_version\n";
+    print "and try again\n";
+    exit 1;
+}
+
+if ($OFFLINE_MAIN !~ /$opt_sysname/)
+{
+    print "OFFLINE_MAIN does not match requested sysname $opt_sysname\n";
+    print "source /cvmfs/sphenix.sdcc.bnl.gov/$opt_sysname/opt/sphenix/core/bin/sphenix_setup.csh -n $opt_version\n";
     print "and try again\n";
     exit 1;
 }
@@ -55,17 +65,22 @@ if ($version ne $opt_version)
 my $targetdir = $ARGV[0];
 my $sourcedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov");
 my $singularity_container = sprintf("%s/singularity/rhic_sl7_ext.simg",$sourcedir);
-my $opt_dir = sprintf("/opt/sphenix/core");
 my $opt_tmp_tarfile = sprintf("/tmp/opt.tar");
 my $utils_tmp_tarfile = sprintf("/tmp/utils.tar");
-my @opt_dir_list = ("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/bin",
-                    "/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/etc",
-                    "/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/include",
-                    "/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/lib",
-                    "/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/share",
-		    "/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/stow",
-		    "/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/lhapdf",
-		    "/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/lhapdf-5.9.1");
+my $core_basedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/opt/sphenix/core",$opt_sysname);
+my @opt_dir_list = (sprintf("%s/bin",$core_basedir),
+                    sprintf("%s/etc",$core_basedir),
+                    sprintf("%s/include",$core_basedir),
+                    sprintf("%s/lib",$core_basedir),
+                    sprintf("%s/share",$core_basedir),
+		    sprintf("%s/stow",$core_basedir),
+		    sprintf("%s/lhapdf",$core_basedir),
+		    sprintf("%s/lhapdf-5.9.1",$core_basedir));
+if ($opt_sysname =~ /gcc-8.3/)
+ {
+    push(@opt_dir_list,sprintf("%s/binutils",$core_basedir));
+    push(@opt_dir_list,sprintf("%s/gcc",$core_basedir));
+}
 my $offline_tmp_tarfile = sprintf("/tmp/offline_main.tar");
 if (! -d $targetdir)
 {
@@ -90,7 +105,7 @@ if ($opt_singularity > 0 || $opt_all > 0)
 my $curdir = getcwd();
 if ($opt_optsphenix > 0 || $opt_all > 0)
 {
-    my $opttargetdir = sprintf("%s/%s",$targetdir,$opt_version);
+    my $opttargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
     if (! $opt_test)
     {
 	mkpath($opttargetdir);
@@ -161,12 +176,12 @@ if ($opt_optsphenix > 0 || $opt_all > 0)
 }
 if ($opt_optutils > 0 || $opt_all > 0)
 {
-    my $opttargetdir = sprintf("%s/%s",$targetdir,$opt_version);
+    my $opttargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
     if (! $opt_test)
     {
 	mkpath($opttargetdir);
     }
-    my $utilsdir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/utils");
+    my $utilsdir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/opt/sphenix/utils",$opt_sysname);
     my $tarcmd = sprintf("tar  -cf %s %s",$utils_tmp_tarfile,$utilsdir);
     print "tarcmd: $tarcmd\n";
     if (! $opt_test)
@@ -201,19 +216,19 @@ if ($opt_optutils > 0 || $opt_all > 0)
 
 if ($opt_offline > 0 || $opt_all > 0)
 {
-    my $offtargetdir = sprintf("%s/%s",$targetdir,$opt_version);
+    my $offtargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
     if (! $opt_test)
     {
       mkpath($offtargetdir);
     }
-    my $offline_symlink = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/release_%s/%s",$opt_version,$opt_version);
+    my $offline_symlink = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release/release_%s/%s",$opt_sysname,$opt_version,$opt_version);
     my $tarcmd = sprintf("tar -cf %s %s",$offline_tmp_tarfile,$offline_symlink);
     print "executing $tarcmd\n";
     if (! $opt_test)
     {
 	system($tarcmd);
     }
-    $offline_symlink = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/release/%s",$opt_version);
+    $offline_symlink = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release/%s",$opt_sysname,$opt_version);
     $tarcmd = sprintf("tar -rf %s %s",$offline_tmp_tarfile,$offline_symlink);
     print "executing $tarcmd\n";
     if (! $opt_test)

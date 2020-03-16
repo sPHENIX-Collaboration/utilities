@@ -66,7 +66,7 @@ my %externalRootPackages = (
     "eic-smear" => "eic-smear",
     "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
-    "sartre-1.20" => "sartre-1.20"
+    "sartre" => "sartre"
     );
 my $rootversion = `root-config --version`;
 chomp $rootversion;
@@ -203,10 +203,10 @@ if ($opt_scanbuild)
 	}
 	close(F);
     }
-    else
-    {
-	print "could not find $ignorefile\n;"
-    }
+#    else
+#    {
+#	print "could not find $ignorefile\n;"
+#    }
 }
 
 my $covbuild = "";
@@ -250,11 +250,13 @@ if ($opt_version =~ /play/)
     {
 	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
 	$externalPackages{"CLHEP"} = "clhep-2.4.1.3";
+	$externalPackages{"gsl"} = "gsl-2.6";
     }
     else
     {
 	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
 	$externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+	$externalPackages{"gsl"} = "gsl-2.6";
     }
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
@@ -989,7 +991,7 @@ else
 
 END:{
   $buildSucceeded==1 && ($buildStatus='success', last END);
-  $buildSucceeded==0 && ($buildStatus='busted', last END);
+  $buildSucceeded==0 && ($buildStatus='busted', exit(-1));
 }
 
 # save the latest commit id of the checkouts
@@ -1316,7 +1318,7 @@ sub install_coverity_reports
 
 sub install_scanbuild_reports
 {
-    my $installroot = "/phenix/WWW/p/draft/phnxbld/scan-build/scan";
+    my $installroot = "/phenix/WWW/p/draft/phnxbld/sphenix/scan-build/scan";
     my $realpath = realpath($installroot);
     (my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
     my $newnumber = ($number % 2) + 1;
@@ -1362,7 +1364,7 @@ sub install_scanbuild_reports
 	print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
 	if (exists $contact{$packagename})
 	{
-	    $mailinglist{$packagename} = "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/scan-build/scan/$hrefentry";
+	    $mailinglist{$packagename} = "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan/$hrefentry";
 	}
 	else
 	{
@@ -1382,7 +1384,7 @@ sub install_scanbuild_reports
 		print LOG "Could not locate contact for package $package\n";
 		next;
 	    }
-	    my $scancc = "pinkenburg\@bnl.gov,bathe\@bnl.gov";
+	    my $scancc = "pinkenburg\@bnl.gov";
 	    print LOG "\nsending scanbuild report mail to $contact{$package}, cc $scancc\n";
 	    open( MAIL, "|$SENDMAIL" );
 	    print MAIL "To: $contact{$package}\n";
@@ -1395,7 +1397,7 @@ sub install_scanbuild_reports
 	    print MAIL "The report is under\n\n";
 	    print MAIL "$mailinglist{$package}\n\n";
             print MAIL "All reports are available under\n\n";
-            print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/scan-build/scan\n\n";
+            print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan\n\n";
 	    print MAIL "instructions how to run scan-build yourself are in our wiki\n\n";
 	    print MAIL "https://www.phenix.bnl.gov/WWW/offline/wikioff/index.php/Scan-build\n\n";
             print MAIL "Please look at the report and fix the issues found\n";

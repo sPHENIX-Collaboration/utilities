@@ -25,6 +25,7 @@ echo "Build type ${system_config} - ${build_type}"
 
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
+export HOST=`hostname`; # as build macro seeks $HOST
 
 mkdir -v ${WORKSPACE}/build;
 
@@ -39,15 +40,16 @@ env;
 
 echo "Build step - build - start at " `pwd`;
 
+build_ret=0;
 if [[ ${build_type} == 'clang' ]]; then
 	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;"
  	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;
+	build_ret=$?;
 else
 	echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;"
 	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;
+	build_ret=$?;
 fi
-
-build_ret=$?;
 
 echo "Build step - build - done";
 
