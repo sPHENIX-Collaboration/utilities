@@ -558,7 +558,7 @@ pipeline
 						if ("$build_type" == 'clang') {
 							report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/)";
 						} else {
-							report_content = "${report_content}, [:bar_chart:Compiler report](${env.BUILD_URL}/gcc4/)";
+							report_content = "${report_content}, [:bar_chart:Compiler report](${env.BUILD_URL}/gcc/)";
 						}
 					}
 				
