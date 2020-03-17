@@ -155,6 +155,29 @@ pipeline
 			}
 		}//stage('SCM Checkout')
 		
+		stage('Copy reference')
+		{
+			
+			when {
+    			// case insensitive regular expression for truthy values
+					expression { return use_reference ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+			}
+			steps 
+			{
+				timestamps { 
+					ansiColor('xterm') {
+						
+						dir('macros/macros/QA/tracking/reference')
+						{
+    					copyArtifacts(projectName: "test-tracking-low-occupancy-qa-reference", selector: lastSuccessful());
+
+							sh('ls -lvhc')
+    				}
+						
+					}
+				}
+			}
+		}//stage('SCM Checkout')
 		
 		stage('Test')
 		{
@@ -163,8 +186,9 @@ pipeline
 			steps 
 			{
 					
-				sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-tracking-low-occupancy-qa.sh $build_type 100 10')
-														
+				sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-tracking-low-occupancy-qa.sh $build_type $num_event $number_jobs')
+				
+				archiveArtifacts artifacts: 'macros/macros/QA/tracking/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
 					
 		}
