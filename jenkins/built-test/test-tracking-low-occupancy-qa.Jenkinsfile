@@ -194,6 +194,25 @@ pipeline
 		}
 		
 		
+		stage('html-report')
+		{
+			steps 
+			{
+			
+				sh('utilities/jenkins/built-test/test-tracking-qa-gallery.sh')
+			
+				  publishHTML (target: [
+			      allowMissing: false,
+			      alwaysLinkToLastBuild: false,
+			      keepAll: true,
+			      reportDir: 'qa_html/_build/',
+			      reportFiles: 'index.html',
+			      reportName: "QA Report"
+			    ])
+			}			// steps	
+					
+		}
+		
 	}//stages
 
 	
