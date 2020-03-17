@@ -528,6 +528,71 @@ pipeline
 									}				
 								}// 				stage('test-calo-single-qa')
 								
+								
+							
+								stage('test-tracking-low-occupancy-qa')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{
+										script
+										{
+				   						def built = build(job: 'test-tracking-low-occupancy-qa',
+							    			parameters:
+							    			[
+								    			string(name: 'build_src', value: "${build_root_path}"), 
+							    				string(name: 'build_type', value: "${build_type}"), 
+							    				string(name: 'system_config', value: "${system_config}"), 
+							    				string(name: 'sha_macros', value: "${sha_macros}"), 
+		    									string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+			    							],
+							    			wait: true, propagate: false)
+						   			
+						   				  copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
+						   				  
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-calo-single-qa FAIL')
+    									}								
+										}
+										// archiveArtifacts artifacts: 'qa_page.tar.gz'
+										
+						    		
+										sh('ls -lhv')
+						   			
+						   			//dir('macros/macros/g4simulations/')
+						   			//{
+						   			//	stash name: "test-calo-single-qa-stash", includes: "*"
+						   			//}
+						   			
+						   			//dir('test-calo-single-qa-output')
+						   			//{
+						   			//	unstash "test-calo-single-qa-stash"
+						   			//	archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
+						   			//}    		   			
+						   			
+										//dir('qa_html')
+										//{
+						    		//	sh ("tar xzfv ../qa_page.tar.gz")
+										//}
+				
+									  //publishHTML (target: [
+								    //  allowMissing: false,
+								    //  alwaysLinkToLastBuild: false,
+								    //  keepAll: true,
+								    //  reportDir: 'qa_html',
+								    //  reportFiles: 'index.html',
+								    //  reportName: "Calorimeter QA Report"
+								    //])
+							   			
+									}				
+								}// 				stage('test-calo-single-qa')
+								
 							}// parallel			
 						}// stage - Test
 		
