@@ -20,6 +20,8 @@ cd qa_html/
 
 mkdir src/
 rsync -avl macros/macros/g4simulations/*.png src/
+rsync -avl macros/macros/QA/tracking/*.png src/
+ls -lsv src/
 
 pwd;
 ls -lhv;
@@ -31,6 +33,9 @@ pwd;
 ls -lhv;
 
 cd _build/
+pwd
+ls -lhv;
+
 # tar czfv ../qa_page.tar.gz ./
 
 
