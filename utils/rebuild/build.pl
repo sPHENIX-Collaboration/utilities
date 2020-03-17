@@ -1326,7 +1326,7 @@ sub install_scanbuild_reports
     remove_tree($installdir);
     make_path($installdir, {mode => 0775});
 # copy all reports to WWW accessible place
-    system("cp -rp $scanlogdir/* $installdir");
+    system("rsync -a $scanlogdir/ $installdir");
 # make all files group readable (actual build errors are owner read only)
     system("find $installdir -type f -exec chmod 664 {} \\;");
 # scan through directories, extract package name and create html index file
@@ -1356,19 +1356,26 @@ sub install_scanbuild_reports
     my %mailinglist;
     my $indexfile = sprintf("%s/index.html",$installdir);
     open(F,">$indexfile");
-    for my $packages (sort keys %packets)
+    if (!keys %packets) # whoa - no scan build warnings!!!!
     {
-	my $hrefentry = basename($packets{$packages});
-        my $packagename = $packages;
-	$packagename =~  s/\./\//g;
-	print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
-	if (exists $contact{$packagename})
+	print F "<H1>Congratulations - No Scan Build Warnings</H1>\n:";
+    }
+    else
+    {
+	for my $packages (sort keys %packets)
 	{
-	    $mailinglist{$packagename} = "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan/$hrefentry";
-	}
-	else
-	{
-	    print LOG "Could not locate contact for package $packagename\n";
+	    my $hrefentry = basename($packets{$packages});
+	    my $packagename = $packages;
+	    $packagename =~  s/\./\//g;
+	    print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
+	    if (exists $contact{$packagename})
+	    {
+		$mailinglist{$packagename} = "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan/$hrefentry";
+	    }
+	    else
+	    {
+		print LOG "Could not locate contact for package $packagename\n";
+	    }
 	}
     }
     close(F);
