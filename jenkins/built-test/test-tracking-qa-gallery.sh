@@ -19,8 +19,8 @@ mkdir qa_html
 cd qa_html/
 
 mkdir src/
-rsync -avl macros/macros/g4simulations/*.png src/
-rsync -avl macros/macros/QA/tracking/*.png src/
+rsync -avl ${WORKSPACE}/macros/macros/g4simulations/*.png src/
+rsync -avl ${WORKSPACE}/macros/macros/QA/tracking/*.png src/
 ls -lsv src/
 
 pwd;
