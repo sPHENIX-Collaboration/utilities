@@ -45,6 +45,14 @@ pipeline
 							{
 								sh "rm -fv ./build"
 							}						
+							if (fileExists('./qa_html'))
+							{
+								sh "rm -fv ./qa_html"
+							}						
+							if (fileExists('./report'))
+							{
+								sh "rm -fv ./report"
+							}						
 						}						
     				
 						echo("link builds to ${build_src}")
