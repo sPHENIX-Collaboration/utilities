@@ -35,23 +35,23 @@ pipeline
 			
 							if (fileExists('./install'))
 							{
-								sh "rm -fv ./install"
+								sh "rm -frv ./install"
 							}
 							if (fileExists('./calibrations'))
 							{
-								sh "rm -fv ./calibrations"
+								sh "rm -frv ./calibrations"
 							}						
 							if (fileExists('./build'))
 							{
-								sh "rm -fv ./build"
+								sh "rm -frv ./build"
 							}						
 							if (fileExists('./qa_html'))
 							{
-								sh "rm -fv ./qa_html"
+								sh "rm -fvr ./qa_html"
 							}						
 							if (fileExists('./report'))
 							{
-								sh "rm -fv ./report"
+								sh "rm -frv ./report"
 							}						
 						}						
     				
