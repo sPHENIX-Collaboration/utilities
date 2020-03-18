@@ -553,11 +553,11 @@ pipeline
 			    							],
 							    			wait: true, propagate: false)
 						   			
-						   				  copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
+						   				  copyArtifacts(projectName: 'test-tracking-low-occupancy-qa', selector: specific("${built.number}"));
 						   				  
 						   				if ("${built.result}" != 'SUCCESS')
 						   				{
-						   					error('test-calo-single-qa FAIL')
+						   					error('test-tracking-low-occupancy-qa FAIL')
     									}								
 										}
 										// archiveArtifacts artifacts: 'qa_page.tar.gz'
