@@ -166,7 +166,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "test-default-${system_config}-${build_type}-${macro_name}.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run the default `${macro_name}.C` macro: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:file_folder:output](${env.BUILD_URL}) "				
+			  writeFile file: "test-default-${system_config}-${build_type}-${macro_name}.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run the default `${macro_name}.C` macro: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
