@@ -276,7 +276,7 @@ pipeline
 	                	
 							        if ("$build_type" == 'clang') {
 							            recordIssues enabledForFailure: true, tool: clang(pattern: 'build/${build_type}/rebuild.log')
-							        else if ("$build_type" == 'scan') {
+							        } else if ("$build_type" == 'scan') {
 							            recordIssues enabledForFailure: true, tool: clangAnalyzer(pattern: 'build/${build_type}/rebuild.log')
 							        } else {
 							            recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
