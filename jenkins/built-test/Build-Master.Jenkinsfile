@@ -276,6 +276,8 @@ pipeline
 	                	
 							        if ("$build_type" == 'clang') {
 							            recordIssues enabledForFailure: true, tool: clang(pattern: 'build/${build_type}/rebuild.log')
+							        else if ("$build_type" == 'scan') {
+							            recordIssues enabledForFailure: true, tool: clangAnalyzer(pattern: 'build/${build_type}/rebuild.log')
 							        } else {
 							            recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
 							        }
@@ -622,6 +624,8 @@ pipeline
 	        script {	
 						if ("$build_type" == 'clang') {
 							report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/)";
+						} else if ("$build_type" == 'scan') {
+							report_content = "${report_content}, [:bar_chart:scan-build report](${env.BUILD_URL}/clang-analyzer/)";
 						} else {
 							report_content = "${report_content}, [:bar_chart:Compiler report](${env.BUILD_URL}/gcc/)";
 						}
