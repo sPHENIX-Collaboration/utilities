@@ -46,7 +46,7 @@ if [[ ${build_type} == 'clang' ]]; then
  	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;
 	build_ret=$?;
 elif [[ ${build_type} == 'scan' ]]; then
-	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;"
+	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --scanbuild --workdir=${WORKSPACE}/build;"
  	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --scanbuild --workdir=${WORKSPACE}/build;
 	build_ret=$?;
 else
