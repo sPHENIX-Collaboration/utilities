@@ -90,7 +90,7 @@ echo "use reference = ${use_reference}"
 
 if (($? == 0) && (${use_reference} == "true")) then
 	
-	./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root G4sPHENIX_*Sum*_qa.root
+	./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root reference/G4sPHENIX_*Sum*_qa.root
 
 else
 	
