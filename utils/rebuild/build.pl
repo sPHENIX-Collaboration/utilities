@@ -190,7 +190,7 @@ my %scanbuildignore = ();
 if ($opt_scanbuild)
 {
     $scanlogdir = $workdir . "/scanlog";
-    $scanbuild = sprintf("scan-build -disable-checker deadcode.DeadStores -disable-checker core.NullDereference -k -o %s",$scanlogdir);
+    $scanbuild = sprintf("scan-build -plist-html -disable-checker deadcode.DeadStores -disable-checker core.NullDereference -k -o %s",$scanlogdir);
     make_path($scanlogdir, {mode => 0775}) unless -e $scanlogdir;
     my $ignorefile = $Bin . "/scanbuild_ignore.txt";
     if (-f  $ignorefile)
