@@ -53,6 +53,7 @@ my %externalPackages = (
     "fastjet" => "fastjet",
     "gsl" => "gsl",
     "HepMC" => "HepMC",
+    "log4cpp" => "log4cpp",
     "PHOTOS" => "PHOTOS",
     "pythia8" => "pythia8",
     "rapidjson" => "rapidjson",
