@@ -260,6 +260,10 @@ if ($opt_version =~ /play/)
 	$externalPackages{"gsl"} = "gsl-2.6";
     }
 }
+elsif ($opt_version =~ /test/) 
+{
+      $externalPackages{"gsl"} = "gsl-2.6";
+}
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
     $externalPackages{"boost"} = "boost-1.67.0";
