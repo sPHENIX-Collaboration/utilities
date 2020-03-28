@@ -1512,7 +1512,7 @@ sub CreateCmakeCommand
     {
 	my $g4dir = `find $G4_MAIN/lib64/ -maxdepth 1 -type d | grep Geant4`;
 	chomp $g4dir;
-	my $cmakecmd = "cmake -DBOOST_ROOT=${OPT_SPHENIX}/boost -DTBB_ROOT_DIR=${OPT_SPHENIX}/tbb -DEigen3_DIR=${OPT_SPHENIX}/eigen -DROOT_DIR=${ROOTSYS}/cmake -DUSE_GEANT4=ON -DUSE_TGEO=ON -DUSE_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OPT_SPHENIX}/pythia8/include -DPythia8_LIBRARY=${OPT_SPHENIX}/pythia8/lib/libpythia8.so -DGeant4_DIR=$g4dir -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON -DCMAKE_VERBOSE_MAKEFILE=ON  -DCMAKE_INSTALL_PREFIX=$installDir  -Wno-dev $cmakesourcedir";
+	my $cmakecmd = "cmake -DBOOST_ROOT=${OPT_SPHENIX}/boost -DTBB_ROOT_DIR=${OPT_SPHENIX}/tbb -DEigen3_DIR=${OPT_SPHENIX}/eigen -DROOT_DIR=${ROOTSYS}/cmake -DUSE_GEANT4=ON -DUSE_TGEO=ON -DUSE_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OPT_SPHENIX}/pythia8/include -DPythia8_LIBRARY=${OPT_SPHENIX}/pythia8/lib/libpythia8.so -DGeant4_DIR=$g4dir -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON -DCMAKE_VERBOSE_MAKEFILE=ON  -DCMAKE_INSTALL_PREFIX=$installDir  -Wno-dev";
         if ($opt_version =~ /debug/)
 	{
 	    $cmakecmd = sprintf("%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd);
