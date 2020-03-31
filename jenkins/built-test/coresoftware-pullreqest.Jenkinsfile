@@ -271,7 +271,7 @@ pipeline
 												    		
 										script
 										{
-				   						def built = build(job: 'Build-Master',
+				   						def built = build(job: 'Build-Master-gcc8',
 						    			parameters:
 						    			[
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
