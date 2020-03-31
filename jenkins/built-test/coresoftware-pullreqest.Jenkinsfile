@@ -285,7 +285,7 @@ pipeline
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
 						    			wait: true, propagate: false)						 
-						   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));  							
+						   				copyArtifacts(projectName: 'Build-Master-gcc8', filter: 'report/*', selector: specific("${built.number}"));  							
 						   				if ("${built.result}" != 'SUCCESS')
 						   				{
 						   					error('Build gcc-8.3 FAIL')
