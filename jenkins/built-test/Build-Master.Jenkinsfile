@@ -260,32 +260,6 @@ pipeline
 						stage('Test')
 						{
 							parallel {
-							
-					    
-								stage('Build-Analysis')
-								{
-									
-									steps 
-									{
-										// 	def buildana = scanForIssues tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
-        						//	publishIssues issues: [buildana]
-        						//  recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
-        						
-						        
-	                	script {			
-	                	
-							        if ("$build_type" == 'clang') {
-							            recordIssues enabledForFailure: true, tool: clang(pattern: 'build/${build_type}/rebuild.log')
-							        } else if ("$build_type" == 'scan') {
-							            recordIssues enabledForFailure: true, tool: clangAnalyzer(pattern: 'build/${build_type}/scanlog/*/*.plist')
-							        } else {
-							            recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
-							        }
-        						}
-									}										
-								} // 				stage('sPHENIX-Build')
-									
-							
 								stage('test-default-sPHENIX')
 								{
 									
@@ -611,54 +585,62 @@ pipeline
 			dir('report')
 			{
 				sh('ls -lvhc')
-			  //writeFile file: "build-${build_type}.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:Compiler report](${env.BUILD_URL}/gcc4/)"				
-			
-			
+			  	
 				script
-				{
-					
-    			echo("start report building ...");
-    			sh ('pwd');						
+				{					
+					echo("start report building ...");
+					sh ('pwd');						
 				
 					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${system_config}` / `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
-	        script {	
-						if ("$build_type" == 'clang') {
-							report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/)";
-						} else if ("$build_type" == 'scan') {
-							report_content = "${report_content}, [:bar_chart:scan-build report](${env.BUILD_URL}/clang-analyzer/)";
-						} else {
-							report_content = "${report_content}, [:bar_chart:Compiler report](${env.BUILD_URL}/gcc/)";
-						}
+	        				
+					if ("$build_type" == 'clang') {
+						report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/)";
+					} else if ("$build_type" == 'scan') {
+						report_content = "${report_content}, [:bar_chart:scan-build report](${env.BUILD_URL}/clang-analyzer/)";
+					} else {
+						report_content = "${report_content}, [:bar_chart:Compiler report](${env.BUILD_URL}/gcc/)";
 					}
-				
-				
-    			def files = findFiles(glob: '*.md')
-    			echo("all reports: $files");
-    			// def testFileNames = files.split('\n')
-    			for (def fileEntry : files) 
-    			{    			
-    				String file = fileEntry.path;    				
-    				
-    				String fileContent = readFile(file).trim();
-    				
-    				echo("$file  -> ${fileContent}");
-    				
-    				// update report summary
-    				report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
-    				
-    				// update build description
-    				currentBuild.description = "${currentBuild.description}\n${fileContent}"		
-    			}    			
-    			    			
-			  	writeFile file: "build-${system_config}-${build_type}.md", text: "${report_content}"		
-			  	
+					
+					report_content = "${report_content}, [build log](${env.BUILD_URL}/artifact/build/${build_type}/rebuild.log)"
+					
+					def files = findFiles(glob: '*.md')
+					echo("all reports: $files");
+					// def testFileNames = files.split('\n')
+					for (def fileEntry : files) 
+					{    			
+						String file = fileEntry.path;    				
+
+						String fileContent = readFile(file).trim();
+
+						echo("$file  -> ${fileContent}");
+
+						// update report summary
+						report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
+
+						// update build description
+						currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+					}    			
+
+					writeFile file: "build-${system_config}-${build_type}.md", text: "${report_content}"		
 				}//script
-			}
-		  		  
+		  	} //dir('report')
+			
 			archiveArtifacts artifacts: "report/build-${system_config}-${build_type}.md"
 		
 			archiveArtifacts artifacts: 'build/${build_type}/rebuild.log'
-		}
+			
+	                script {			
+	                	
+				if ("$build_type" == 'clang') {
+					recordIssues enabledForFailure: true, tool: clang(pattern: 'build/${build_type}/rebuild.log')
+				} else if ("$build_type" == 'scan') {
+					recordIssues enabledForFailure: true, tool: clangAnalyzer(pattern: 'build/${build_type}/scanlog/*/*.plist')
+				} else {
+					recordIssues enabledForFailure: true, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
+				}
+        		} // script 
+			
+		} // always
 	
 		success {
 		
