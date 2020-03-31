@@ -66,6 +66,7 @@ coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 #coresoftware/simulation/g4simulation/g4picoDst|lxue4@gsu.edu
 # Offline tracking software
 coresoftware/offline/packages/trackreco|yuhw.pku@gmail.com
+coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
