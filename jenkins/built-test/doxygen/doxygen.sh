@@ -45,6 +45,6 @@ git status
 git add .
 git commit -am "doxygen build at `date`"
 
-git remote add origin git@github.com:eic/doxygen.git
+git remote add origin git@github.com:sPHENIX-Collaboration/doxygen.git
 git push -f origin gh-pages
 

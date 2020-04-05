@@ -1,0 +1,461 @@
+pipeline 
+{
+	agent any
+    
+	stages { 
+		stage('Initialize') 
+		{
+			        
+			steps {
+				timestamps {
+					ansiColor('xterm') {
+						
+					
+						sh('hostname')
+						sh('pwd')
+						sh('env')
+						sh('ls -lvhc')
+
+						dir('work')
+						{
+							deleteDir()
+						}
+						
+							
+						sh('${singularity_cmd} lsb_release -a')
+						
+						
+					}
+				}
+			}
+		}
+
+		stage('Git Checkout')
+		{
+			
+			steps 
+			{
+				timestamps { 
+					ansiColor('xterm') {
+						
+						
+						
+						dir('utilities/jenkins/built-test/doxygen/')
+						{
+							sh ("rsync -avl ./ ${WORKSPACE}/work/")							
+						}
+						
+						dir('work')
+						{
+							
+						
+							dir('coresoftware')
+							{
+								
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [    
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout				
+							} // dir
+							
+							dir('tutorials')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/tutorials.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+						
+							
+							dir('macros')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/macros.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir 
+							
+							dir('online_distribution')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/online_distribution.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('acts-core')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/acts-core.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('acts-framework')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/acts-framework.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('prototype')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/prototype.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('g4exampledetector')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/g4exampledetector.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							
+							dir('acts-fatras')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/acts-fatras.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							
+							dir('pythia6')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/pythia6.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							
+							dir('rcdaq')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/rcdaq.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							
+							dir('analysis')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/analysis.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							
+							dir('RDBC')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/RDBC.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							
+							dir('GenFit')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/GenFit.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('KFParticle')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/KFParticle.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('OnlMon')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/OnlMon.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('JETSCAPE')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/JETSCAPE.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							dir('analysis_tpc_prototype')
+							{
+								checkout(
+									[
+										$class: 'GitSCM',
+										extensions: [               
+											[$class: 'CleanBeforeCheckout'], 
+											[$class: 'CleanCheckout'],
+											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/master/']										
+										],
+										userRemoteConfigs: 
+										[[
+										credentialsId: 'sPHENIX-bot', 
+										url: 'https://github.com/sPHENIX-Collaboration/analysis_tpc_prototype.git',
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+										]]
+									] //checkout
+								)//checkout			
+							} // dir
+							
+							
+						} // dir('work')
+					}
+				}
+			}
+		}//stage('SCM Checkout')
+		
+		stage('Doxygen-build')
+		{
+			
+			steps 
+			{
+				timestamps { 
+					ansiColor('xterm') {
+						
+						dir('work')
+						{
+							
+							sh ('pwd')
+							sh ('ls -lhv')
+							
+							sh ("${singularity_cmd} sh doxygen.sh")						
+							
+						}
+						
+					}
+				}
+			}
+		}//stage('SCM Checkout')
+		
+	}//stages
+		
+	
+	post {
+		always{
+		  	script {			
+	            recordIssues enabledForFailure: true, tool: doxygen(pattern: 'work/doxygen.log')    	
+			} // script 
+			
+		} // always
+	}//post
+}//pipeline 
