@@ -46,12 +46,7 @@ pipeline
 						}
 						
 						dir('work')
-						{
-							
-							// build 0_Doxygen_Assist first
-							sh ("mv -fv Doxygen_Assist 0_Doxygen_Assist")
-							
-						
+						{						
 							dir('coresoftware')
 							{
 								
