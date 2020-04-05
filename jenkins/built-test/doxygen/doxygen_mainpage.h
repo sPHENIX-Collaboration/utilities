@@ -27,8 +27,8 @@ There are many more features, which you are welcome to explore.
 Through a special build of Doxygen, <a href = "https://github.com/sPHENIX-Collaboration/coresoftware">
 sPHENIX Git Hub respostory</a> were automatically linked for
 Files, directories and member definitions.
-And users can choose between viewing the local copy of the source code (with more features) or the CVS one (most up-to-date).
-Check out links like <EM>View newest version in PHENIX CVS</EM>
+And users can choose between viewing the local copy of the source code (with more features) or the GitHub version (most up-to-date).
+Check out links like <EM>View newest version in sPHENIX GitHub</EM>
 in e.g. PHG4Reco::set_field .
  
 \subsection SlowQA Slow to load?
@@ -40,7 +40,7 @@ which contains the index of thousands of software modules. In that case, to spee
 
 \section Write_your_code Write your code with Doxygen documentation
 
-You are highly encouraged to put Doxygen-style comments in your code, which will then be automatically applied to the documentation pages on this website (refreshed from CVS every a few hours). 
+You are highly encouraged to put Doxygen-style comments in your code, which will then be automatically applied to the documentation pages on this website (refreshed from repository every a few hours). 
 These features are easy to use, and helpful for readers to understand and use your developemnt.
 
 To start use the Doxygen-style comments, please read the 
