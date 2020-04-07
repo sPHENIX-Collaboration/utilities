@@ -1,3 +1,6 @@
+// Define variable
+def perform_build = false
+
 pipeline 
 {
 	agent any
@@ -422,9 +425,53 @@ pipeline
 			}
 		}//stage('SCM Checkout')
 		
+		stage('ChangeSet-Check')
+		{
+			
+			steps 
+			{
+				timestamps { 
+					ansiColor('xterm') {
+						
+						script
+						{
+						
+							def changeLogSets = currentBuild.changeSets
+							for (int i = 0; i < changeLogSets.size(); i++) {
+								def entries = changeLogSets[i].items
+								for (int j = 0; j < entries.length; j++) {
+									def entry = entries[j]
+									echo "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}"
+									def files = new ArrayList(entry.affectedFiles)
+									for (int k = 0; k < files.size(); k++) {
+										def file = files[k]
+										echo "  ${file.editType.name} ${file.path}"
+									}
+								}
+							}//							for (int i = 0; i < changeLogSets.size(); i++) {
+
+							def changeLogSetSize = changeLogSets.size()
+							if (changeLogSetSize >0 )
+							{
+								echo "changeLogSets.size = ${changeLogSetSize}. Perform a doxygen build."
+								perform_build = true
+							}
+						
+						}//script
+						
+					}
+				}
+			}
+		}//		stage('ChangeSet-Check')
+		
 		stage('Doxygen-build')
 		{
 			
+            when {
+                expression {
+                    return $perform_build
+                }
+            }
 			steps 
 			{
 				timestamps { 
@@ -443,15 +490,19 @@ pipeline
 					}
 				}
 			}
-		}//stage('SCM Checkout')
+		}//		stage('Doxygen-build')
+
 		
 	}//stages
 		
 	
 	post {
 		always{
-		  	script {			
-	            recordIssues enabledForFailure: true, tool: doxygen(pattern: 'work/doxygen.log')    	
+		  	script {		
+				if ($perform_build)
+				{
+					recordIssues enabledForFailure: true, tool: doxygen(pattern: 'work/doxygen.log')    	
+				}
 			} // script 
 			
 		} // always
