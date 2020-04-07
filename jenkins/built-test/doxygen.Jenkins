@@ -499,7 +499,7 @@ pipeline
 	post {
 		always{
 		  	script {		
-				if ($perform_build)
+				if (perform_build)
 				{
 					recordIssues enabledForFailure: true, tool: doxygen(pattern: 'work/doxygen.log')    	
 				}
