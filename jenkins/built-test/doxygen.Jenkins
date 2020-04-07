@@ -469,7 +469,7 @@ pipeline
 			
             when {
                 expression {
-                    return $perform_build
+                    return perform_build
                 }
             }
 			steps 
