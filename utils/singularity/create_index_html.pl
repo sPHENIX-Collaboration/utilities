@@ -7,6 +7,7 @@ use Getopt::Long;
 
 my $containername = "rhic_sl7_ext.simg";
 my $dockername = "rhic_sl7_ext_docker.tar.gz";
+my $mcegname = "MCEG.tar.bz2";
 
 my %rootversion = ();
 $rootversion{"new"} = "Root6";
@@ -71,6 +72,20 @@ if (-f $dockercontainer)
     print F "<h3>\n";
     print F "<a href=\"./$dockername\">rcf Docker Container image</a>\n";
     my $md5file = sprintf("%s.md5",$dockercontainer);
+    if (-f $md5file)
+    {
+	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+    }
+    print F "<p></h3>\n";
+}
+
+my $mcegtar = sprintf("%s/%s",$targetdir,$mcegname);
+
+if (-f $mcegtar)
+{
+    print F "<h3>\n";
+    print F "<a href=\"./$mcegname\">EIC Monte Carlos</a>\n";
+    my $md5file = sprintf("%s.md5",$mcegtar);
     if (-f $md5file)
     {
 	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";

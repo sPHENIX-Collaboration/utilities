@@ -10,15 +10,16 @@ use Env;
 use File::Basename;
 
 my $opt_all = 0;
-my $opt_singularity = 0;
+my $opt_help = 0;
+my $opt_mceg = 0;
 my $opt_optsphenix = 0;
 my $opt_optutils = 0;
 my $opt_offline = 0;
-my $opt_help = 0;
+my $opt_singularity = 0;
 my $opt_sysname = 'x8664_sl7';
 my $opt_test = 0;
 my $opt_version = 'new';
-GetOptions('all' => \$opt_all, 'help' => \$opt_help, 'offline' => \$opt_offline, 'opt' => \$opt_optsphenix, 'utils' => \$opt_optutils, 'singularity' => \$opt_singularity, 'test' => \$opt_test, 'version:s' => \$opt_version, 'sysname:s' => \$opt_sysname);
+GetOptions('all' => \$opt_all, 'help' => \$opt_help, 'mceg' =>\$opt_mceg, 'offline' => \$opt_offline, 'opt' => \$opt_optsphenix, 'utils' => \$opt_optutils, 'singularity' => \$opt_singularity, 'test' => \$opt_test, 'version:s' => \$opt_version, 'sysname:s' => \$opt_sysname);
 
 my $currdir = getcwd();
 
@@ -36,9 +37,9 @@ if ($#ARGV < 0 || $opt_help>0)
     print "--utils        : create and copy utils area tar ball\n";
     exit 1;
 }
-if (!$opt_all && !$opt_singularity && !$opt_optsphenix && !$opt_offline && !$opt_optutils)
+if (!$opt_all && !$opt_singularity && !$opt_optsphenix && !$opt_offline && !$opt_optutils && !$opt_mceg)
 {
-    print "no tarball selected, select --all for all, --offline for offline, --opt for opt --utils for utils\n";
+    print "no tarball selected, select --all for all, --offline for offline, --opt for opt --utils for utils, --mceg for Monte Carlos\n";
     exit 1;
 }
 
@@ -65,7 +66,8 @@ if ($OFFLINE_MAIN !~ /$opt_sysname/)
 my $targetdir = $ARGV[0];
 my $sourcedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov");
 my $singularity_container = sprintf("%s/singularity/rhic_sl7_ext.simg",$sourcedir);
-my $opt_tmp_tarfile = sprintf("/tmp/opt.tar");
+my $opt_tmp_tarfile =sprintf("/tmp/opt.tar");
+my $mceg_tmp_tarfile = sprintf("/tmp/MCEG.tar");
 my $utils_tmp_tarfile = sprintf("/tmp/utils.tar");
 my $core_basedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/opt/sphenix/core",$opt_sysname);
 my @opt_dir_list = (sprintf("%s/bin",$core_basedir),
@@ -103,6 +105,47 @@ if ($opt_singularity > 0 || $opt_all > 0)
 }
 
 my $curdir = getcwd();
+
+if ($opt_mceg > 0 || $opt_all > 0)
+{
+    my $opttargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
+    if (! $opt_test)
+    {
+	mkpath($opttargetdir);
+    }
+    my $mcegdir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/MCEG",$opt_sysname);
+    my $tarcmd = sprintf("tar  -cf %s %s",$mceg_tmp_tarfile,$mcegdir);
+    print "tarcmd: $tarcmd\n";
+    if (! $opt_test)
+    {
+	system($tarcmd);
+    }
+    my $zipcmd = sprintf("bzip2 %s",$mceg_tmp_tarfile);
+    if (! $opt_test)
+    {
+	system($zipcmd);
+    }
+    my $zipfile = sprintf("%s.bz2",$mceg_tmp_tarfile);
+    print "moving $zipfile to $targetdir\n";
+    if (-f $zipfile)
+    {
+	move($zipfile, $targetdir);
+        chdir $targetdir;
+        my $zipfile_name = basename($zipfile);
+	my $make_md5 = sprintf("md5sum %s > %s.md5",$zipfile_name,$zipfile_name);
+	system($make_md5);
+	chdir $currdir;
+    }
+    else
+    {
+	if (! $opt_test)
+	{
+	    print "could not find $zipfile\n";
+	    exit 1;
+	}
+    }
+}
+
 if ($opt_optsphenix > 0 || $opt_all > 0)
 {
     my $opttargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
@@ -174,6 +217,7 @@ if ($opt_optsphenix > 0 || $opt_all > 0)
 	}
     }
 }
+
 if ($opt_optutils > 0 || $opt_all > 0)
 {
     my $opttargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
