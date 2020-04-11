@@ -45,6 +45,7 @@ my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
 
 my %externalPackages = (
+    "BeastMagneticField" => "BeastMagneticField",
     "boost" => "boost",
     "CGAL" => "CGAL",
     "CLHEP" => "CLHEP",
