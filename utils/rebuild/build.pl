@@ -80,16 +80,6 @@ chomp $date;
 my $cwd = getcwd;
 
 my $buildSucceeded = 0;
-# Read in list of repositories
-my @gitrepos = ();
-die unless open(IN,"$Bin/repositories.txt");
-while (<IN>)
-  {
-    next if (/^#/);
-    chomp $_;
-    push @gitrepos, $_;
-  }
-close(IN);
 
 # Set up some defaults for script options
 $opt_gittag = '';
@@ -106,20 +96,39 @@ $opt_repoowner = 'sPHENIX-Collaboration';
 $opt_includecheck = 0;
 $opt_clang = 0;
 $opt_sysname = 'default';
+$opt_cvmfsvol = 'sphenix.sdcc.bnl.gov';
+
 GetOptions('help', 'stage=i', 'afs',
 	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
 	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s');
+	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s', 'eic');
 
 if ($opt_help)
   {
       printhelp();
   }
 
+# Read in list of repositories
+my @gitrepos = ();
+my $repositoryfile = sprintf("%s/repositories.txt",$Bin);
+my $packagefile = sprintf("%s/packages.txt",$Bin);
+if ($opt_eic)
+{
+ $repositoryfile = sprintf("%s/eic-repositories.txt",$Bin);
+ $packagefile = sprintf("%s/eic-packages.txt",$Bin);
+}
+die unless open(IN,$repositoryfile);
+while (<IN>)
+  {
+    next if (/^#/);
+    chomp $_;
+    push @gitrepos, $_;
+  }
+close(IN);
 # Read in list of packages and contacts
 my @package = ();
 my %contact = ();
-die unless open(IN, "$Bin/packages.txt");
+die unless open(IN,$packagefile);
 while (<IN>)
 {
     next if (/^#/);
@@ -340,7 +349,7 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
     }
     else
     {
-	my $place = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release/release_%s/%s",$afs_sysname,$opt_version,$opt_version);
+	my $place = sprintf("/cvmfs/%s/%s/release/release_%s/%s",$opt_cvmfsvol,$afs_sysname,$opt_version,$opt_version);
 	die "$place doesn't exist" unless -e $place;
 	my $realpath = realpath($place);
 #    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
@@ -865,7 +874,11 @@ if ($opt_stage < 4)
 	  }
       }
 # git clone -q --> no progress report to stdout
-    my $gitcommand = "git clone -q https://github.com/sPHENIX-Collaboration/calibrations.git $OFFLINE_MAIN/share/calibrations";
+    my $gitcommand = sprintf("git clone -q https://github.com/%s/calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
+    if ($opt_eic)
+    {
+	$gitcommand = sprintf("git clone -q https://github.com/%s/fun4all_calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
+    }
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
 
@@ -903,7 +916,7 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 # tell cvmfs DB to keep builds separately to reduce amount of loaded lookups
 	my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
 	system("touch $cvmfscatalognestfile");
-	my $releasedir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/release",$afs_sysname);
+	my $releasedir = sprintf("/cvmfs/%s/%s/release",$opt_cvmfsvol,$afs_sysname);
 	if ($opt_version =~ /ana/ || $opt_version =~ /pro/)
 	{
 	    my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
@@ -1107,7 +1120,10 @@ if ($opt_insure && $buildSucceeded==1)
 my $username = getlogin || "jenkins";
 if ($username eq "phnxbld")
 {
-  SaveGitTagsToDB();
+    if ($opt_repoowner eq "sPHENIX-Collaboration")
+    {
+	SaveGitTagsToDB();
+    }
 }
 
 
@@ -1433,6 +1449,7 @@ sub printhelp
     print "--clang            use clang instead of gcc\n";
     print "--coverity         Making a coverity build\n";
     print "--covpasswd='string'  the coverity password for the integrity manager\n";
+    print "--cvmfsvol='string'  the target cvmfs volume";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
     print "--gittag='string'  git tag for source checkout.\n";
     print "--gitbranch='string' git branch to be used for build\n";
