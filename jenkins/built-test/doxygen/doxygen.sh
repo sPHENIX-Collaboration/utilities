@@ -34,6 +34,9 @@ fi
 
 echo "-------- publishing ---------"
 
+# publish README.md
+cp -fv README.md html/
+
 cd html/
 
 pwd
