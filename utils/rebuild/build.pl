@@ -1,8 +1,8 @@
 #! /usr/bin/perl
 
-# This script rebuilds the sPHENIX code base.  It checks out code from CVS,
-# compiles it, and installs it in the appropriate directories in AFS.  In
-# order for this script to work, you need an AFS token (for installation).
+# This script rebuilds the sPHENIX/EIC code base.  It checks out code from git,
+# compiles it, and installs it in the appropriate directories in cvmfs (or afs).
+#  In order for this script to work with afs, you need an AFS token (for installation).
 use warnings;
 use FindBin qw($Bin);	
 use File::Basename;
@@ -112,10 +112,12 @@ if ($opt_help)
 my @gitrepos = ();
 my $repositoryfile = sprintf("%s/repositories.txt",$Bin);
 my $packagefile = sprintf("%s/packages.txt",$Bin);
+my $collaboration = "sPHENIX";
 if ($opt_eic)
 {
  $repositoryfile = sprintf("%s/eic-repositories.txt",$Bin);
  $packagefile = sprintf("%s/eic-packages.txt",$Bin);
+ $collaboration = "EIC";
 }
 die unless open(IN,$repositoryfile);
 while (<IN>)
@@ -178,7 +180,7 @@ if ($numcores > 25) {$numcores=25;} # we have 50 insure licenses, only use 1/2 m
 $JOBS = sprintf("-j %d",$numcores) if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
-$workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/sPHENIX';
+$workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/' . $collaboration;
 
 $startTime = time;
 $sysname = $USER.'@'.$HOST.'#'.$Config{osname}.':'.$opt_version;
@@ -248,7 +250,7 @@ $logfile = $workdir.'/rebuild.log';
 open(LOG, ">$logfile");
 select LOG;
 $| = 1;
-print LOG "Welcome to the sPHENIX $sysname rebuild \n started at ",$date,"\n";
+print LOG "Welcome to the ",$collaboration," $sysname rebuild \n started at ",$date,"\n";
 # print how we were called
 print LOG "How this script was called:\n";
 print LOG "$cmdline\n\n";
@@ -304,7 +306,8 @@ foreach my $pack (sort keys %externalPackages)
 if ($opt_tinderbox)
   {
     # Let tinderbox know we've started
-    open(TIND,"| /phenix/WWW/offline/sPHENIX/tinderbox/handlemail.pl /phenix/WWW/offline/sPHENIX/tinderbox");
+    my $tinderboxstring = sprintf("/phenix/WWW/offline/%s/tinderbox/handlemail.pl /phenix/WWW/offline/%s/tinderbox",$collaboration,$collaboration);
+    open(TIND,"| $tinderboxstring");
     print TIND "\n";
     print TIND "tinderbox: tree: default\n";
     print TIND "tinderbox: builddate: ".$startTime."\n";
@@ -315,7 +318,7 @@ if ($opt_tinderbox)
     close(TIND);
   }
 
-# If we're doing a real sPHENIX install, then there is an official
+# If we're doing a real sPHENIX/EIC install, then there is an official
 # place where stuff is supposed to be installed.
 my $afs_sysname;
 if (-f "/usr/afsws/bin/fs")
@@ -556,7 +559,7 @@ print LOG "===========================================\n";
 		    print LOG "\nsending external package failure mail to $buildmanager\n";
 		    open( MAIL, "|$SENDMAIL" );
 		    print MAIL "To: $buildmanager\n";
-		    print MAIL "From: The sPHENIX rebuild daemon\n";
+		    print MAIL "From: The ",$collaboration," rebuild daemon\n";
 		    print MAIL "Subject: external package $dir does not exist\n\n";
 		    print MAIL "\n";
 		    print MAIL "Hello,\n";
@@ -663,7 +666,7 @@ print LOG "===========================================\n";
 		print LOG "\nsending configure failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The sPHENIX rebuild daemon\n";
+                print MAIL "From: The ",$collaboration," rebuild daemon\n";
                 print MAIL "Cc: $CC\n";	
                 print MAIL "Subject: your configure crashed the build\n\n";
 		print MAIL "\n";
@@ -671,7 +674,7 @@ print LOG "===========================================\n";
 		print MAIL "The rebuild crashed in module $m at $date.\n";
 		print MAIL "\"$arg\" failed: $? \n";
 		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
 		print MAIL "Yours, The Rebuild Daemon \n";
 		close(MAIL);
 	      }
@@ -721,7 +724,7 @@ if ($opt_stage < 3)
 		print LOG "\nsending install-data failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The sPHENIX rebuild daemon\n";
+                print MAIL "From: The ",$collaboration," rebuild daemon\n";
                 print MAIL "Cc: $CC\n";	
                 print MAIL "Subject: your install-data crashed the build\n\n";
 		print MAIL "\n";
@@ -729,7 +732,7 @@ if ($opt_stage < 3)
 		print MAIL "The rebuild crashed in $m.\n";
 		print MAIL "\"$arg\" failed: $? \n";
 		print MAIL "Please look at the rebuild log: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
 		print MAIL "Yours, The Rebuild Daemon\n";
 		close(MAIL);
 	      }
@@ -794,14 +797,14 @@ if ($opt_stage < 4)
 		print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-		print MAIL "From: The sPHENIX rebuild daemon\n";
+		print MAIL "From: The ",$collaboration," rebuild daemon\n";
 		print MAIL "Cc: $CC\n";	
 		print MAIL "Subject: your code crashed the $opt_version build\n\n";
 		print MAIL "Hello,\n";
 		print MAIL "The rebuild crashed in $m on $date:\n";
 		print MAIL "\"$arg\" reason: $? \n";
 		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
 		print MAIL "Sincerely, the rebuild daemon \n";
 		close(MAIL);
 	    }
@@ -830,14 +833,14 @@ if ($opt_stage < 4)
 		print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
 		open( MAIL, "|$SENDMAIL" );
 		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The sPHENIX rebuild daemon\n";
+                print MAIL "From: The ",$collaboration," rebuild daemon\n";
                 print MAIL "Cc: $CC\n";	
                 print MAIL "Subject: your code crashed the build\n\n";
 		print MAIL "Hello,\n";
 		print MAIL "The rebuild crashed in $m on $date:\n";
 		print MAIL "\"$arg\" reason: $? \n";
 		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
+		print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
 		print MAIL "Sincerely, the rebuild daemon \n";
 		close(MAIL);
 	      }
@@ -1048,7 +1051,7 @@ if ($opt_tinderbox)
     print LOG "tinderbox: build: ".$sysname."\n";
     print LOG "tinderbox: errorparser: unix\n";
     print LOG "tinderbox: END\n";
-    my $cmd = sprintf("cat %s | /phenix/WWW/offline/sPHENIX/tinderbox/handlemail.pl /phenix/WWW/offline/sPHENIX/tinderbox",$logfile);
+    my $cmd = sprintf("cat %s | /phenix/WWW/offline/%s/tinderbox/handlemail.pl /phenix/WWW/offline/%s/tinderbox",$logfile,$collaboration,$collaboration);
     system($cmd);
   }
 
@@ -1067,7 +1070,7 @@ print INFO " source dir:".$sourceDir."\n ";
 print INFO " build dir:".$buildDir."\n ";
 print INFO " install dir:".$installDir."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
-print INFO " http://www.phenix.bnl.gov/software/sPHENIX/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
+print INFO " http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
 if ($opt_gittag ne '')
 {
   print INFO " git tag: ".$opt_gittag."\n";
@@ -1182,7 +1185,7 @@ sub check_insure_reports
 	    print LOG "\nsending insure report mail to $contact{$m}, cc $CC\n";
 	    open( MAIL, "|$SENDMAIL" );
 	    print MAIL "To: $contact{$package}\n";
-	    print MAIL "From: The sPHENIX rebuild daemon\n";
+	    print MAIL "From: The ",$collaboration," rebuild daemon\n";
 	    print MAIL "Cc: $CC\n";	
 	    print MAIL "Subject: your code ticks off the insure compiler\n\n";
 	    print MAIL "Hello,\n";
@@ -1214,7 +1217,7 @@ sub check_expiration_date
 	$setexpired->execute($mods[0]);
 	open( MAIL, "|$SENDMAIL" );
 	print MAIL "To: $contact{$mods[0]}\n";
-	print MAIL "From: The sPHENIX rebuild daemon\n";
+	print MAIL "From: The ",$collaboration," rebuild daemon\n";
 	print MAIL "Cc: $CC\n";	
 	print MAIL "Subject: your module $mods[0] expired\n\n";
 	print MAIL "Hello,\n";
@@ -1263,7 +1266,7 @@ sub install_coverity_reports
     }
     else
     {
-	my $installroot = "/phenix/WWW/p/draft/phnxbld/sphenix/coverity/report";
+	my $installroot = sprintf("/phenix/WWW/p/draft/phnxbld/%s/coverity/report",$collaboration);
 	my $realpath = realpath($installroot);
 	(my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
 	my $newnumber = ($number % 2) + 1;
@@ -1340,7 +1343,7 @@ sub install_coverity_reports
 
 sub install_scanbuild_reports
 {
-    my $installroot = "/phenix/WWW/p/draft/phnxbld/sphenix/scan-build/scan";
+    my $installroot = sprintf("/phenix/WWW/p/draft/phnxbld/%s/scan-build/scan",$collaboration);
     my $realpath = realpath($installroot);
     (my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
     my $newnumber = ($number % 2) + 1;
@@ -1392,7 +1395,7 @@ sub install_scanbuild_reports
 	    print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
 	    if (exists $contact{$packagename})
 	    {
-		$mailinglist{$packagename} = "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan/$hrefentry";
+		$mailinglist{$packagename} = sprintf("https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/%s/scan-build/scan/%s",$collaboration,$hrefentry);
 	    }
 	    else
 	    {
@@ -1417,7 +1420,7 @@ sub install_scanbuild_reports
 	    print LOG "\nsending scanbuild report mail to $contact{$package}, cc $scancc\n";
 	    open( MAIL, "|$SENDMAIL" );
 	    print MAIL "To: $contact{$package}\n";
-	    print MAIL "From: The sPHENIX rebuild daemon\n";
+	    print MAIL "From: The ",$collaboration," rebuild daemon\n";
 	    print MAIL "Cc: $scancc\n";	
 	    print MAIL "Subject: scan-build found issues in $package\n\n";
 	    print MAIL "Hello $contact{$package},\n";
@@ -1426,7 +1429,7 @@ sub install_scanbuild_reports
 	    print MAIL "The report is under\n\n";
 	    print MAIL "$mailinglist{$package}\n\n";
             print MAIL "All reports are available under\n\n";
-            print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan\n\n";
+            print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/",$collaboration,"/scan-build/scan\n\n";
 	    print MAIL "instructions how to run scan-build yourself are in our wiki\n\n";
 	    print MAIL "https://www.phenix.bnl.gov/WWW/offline/wikioff/index.php/Scan-build\n\n";
             print MAIL "Please look at the report and fix the issues found\n";
