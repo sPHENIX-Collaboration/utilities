@@ -1,10 +1,11 @@
 #! /usr/bin/perl
 
-# This script rebuilds the sPHENIX code base.  It checks out code from CVS,
-# compiles it, and installs it in the appropriate directories in AFS.  In
-# order for this script to work, you need an AFS token (for installation).
+# This script rebuilds the sPHENIX/EIC code base.  It checks out code from git,
+# compiles it, and installs it in the appropriate directories in cvmfs (or AFS).
+# In order for this script to work with afs, you need an AFS token (for
+# installation).
 use warnings;
-use FindBin qw($Bin);	
+use FindBin qw($Bin);
 use File::Basename;
 use File::Path qw(make_path remove_tree);
 use File::Copy;
@@ -99,9 +100,9 @@ $opt_sysname = 'default';
 $opt_cvmfsvol = 'sphenix.sdcc.bnl.gov';
 
 GetOptions('help', 'stage=i', 'afs',
-	   'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
-	   'phenixinstall','workdir:s','insure','scanbuild',
-	   'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s', 'eic');
+           'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
+           'phenixinstall','workdir:s','insure','scanbuild',
+           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s', 'eic');
 
 if ($opt_help)
   {
@@ -112,10 +113,12 @@ if ($opt_help)
 my @gitrepos = ();
 my $repositoryfile = sprintf("%s/repositories.txt",$Bin);
 my $packagefile = sprintf("%s/packages.txt",$Bin);
+my $collaboration = "sPHENIX";
 if ($opt_eic)
 {
  $repositoryfile = sprintf("%s/eic-repositories.txt",$Bin);
  $packagefile = sprintf("%s/eic-packages.txt",$Bin);
+ $collaboration = "EIC";
 }
 die unless open(IN,$repositoryfile);
 while (<IN>)
@@ -134,11 +137,11 @@ while (<IN>)
     next if (/^#/);
     if ($_ =~ /acts-framework/ && $opt_sysname !~ /gcc-8.3/)
     {
-	next;
+        next;
     }
     (my $p, my $c) = split(/\|/, $_, 2);
 # remove \n at end of $c
-	     chomp $c;
+             chomp $c;
     push @package, $p;
     $contact{$p} = $c;
   }
@@ -153,8 +156,8 @@ if ( $opt_db && $opt_version !~ /pro/)
     $getpackages->execute() || die $DBI::error;
     while(my @pkts = $getpackages->fetchrow_array())
     {
-	push @package, $pkts[0];
-	$contact{$pkts[0]} = $pkts[1];
+        push @package, $pkts[0];
+        $contact{$pkts[0]} = $pkts[1];
     }
 
     $getpackages->finish();
@@ -178,7 +181,7 @@ if ($numcores > 25) {$numcores=25;} # we have 50 insure licenses, only use 1/2 m
 $JOBS = sprintf("-j %d",$numcores) if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
-$workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/sPHENIX';
+$workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/' . $collaboration;
 
 $startTime = time;
 $sysname = $USER.'@'.$HOST.'#'.$Config{osname}.':'.$opt_version;
@@ -206,17 +209,17 @@ if ($opt_scanbuild)
     my $ignorefile = $Bin . "/scanbuild_ignore.txt";
     if (-f  $ignorefile)
     { 
-	open(F,"$ignorefile");
-	while(my $line = <F>)
-	{
-	    chomp $line;
-	    $scanbuildignore{$line} = 1;
-	}
-	close(F);
+        open(F,"$ignorefile");
+        while(my $line = <F>)
+        {
+            chomp $line;
+            $scanbuildignore{$line} = 1;
+        }
+        close(F);
     }
 #    else
 #    {
-#	print "could not find $ignorefile\n;"
+#        print "could not find $ignorefile\n;"
 #    }
 }
 
@@ -229,17 +232,17 @@ if ($opt_coverity)
     my $ignorefile = $Bin . "/coverityhtml_ignore.txt";
     if (-f  $ignorefile)
     { 
-	open(F,"$ignorefile");
-	while(my $line = <F>)
-	{
-	    chomp $line;
-	    $coverityignore{$line} = 1;
-	}
-	close(F);
+        open(F,"$ignorefile");
+        while(my $line = <F>)
+        {
+            chomp $line;
+            $coverityignore{$line} = 1;
+        }
+        close(F);
     }
     else
     {
-	print "could not find $ignorefile\n;"
+        print "could not find $ignorefile\n;"
     }
    
 }
@@ -248,7 +251,7 @@ $logfile = $workdir.'/rebuild.log';
 open(LOG, ">$logfile");
 select LOG;
 $| = 1;
-print LOG "Welcome to the sPHENIX $sysname rebuild \n started at ",$date,"\n";
+print LOG "Welcome to the ",$collaboration," $sysname rebuild \n started at ",$date,"\n";
 # print how we were called
 print LOG "How this script was called:\n";
 print LOG "$cmdline\n\n";
@@ -259,15 +262,15 @@ if ($opt_version =~ /play/)
 {
     if ($opt_sysname =~ /gcc-8.3/)
     {
-	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
-	$externalPackages{"CLHEP"} = "clhep-2.4.1.3";
-	$externalPackages{"gsl"} = "gsl-2.6";
+        $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
+        $externalPackages{"CLHEP"} = "clhep-2.4.1.3";
+        $externalPackages{"gsl"} = "gsl-2.6";
     }
     else
     {
-	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
-	$externalPackages{"CLHEP"} = "clhep-2.4.1.0";
-	$externalPackages{"gsl"} = "gsl-2.6";
+        $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
+        $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+        $externalPackages{"gsl"} = "gsl-2.6";
     }
 }
 elsif ($opt_version =~ /test/) 
@@ -304,7 +307,8 @@ foreach my $pack (sort keys %externalPackages)
 if ($opt_tinderbox)
   {
     # Let tinderbox know we've started
-    open(TIND,"| /phenix/WWW/offline/sPHENIX/tinderbox/handlemail.pl /phenix/WWW/offline/sPHENIX/tinderbox");
+    my $tinderboxstring = sprintf("/phenix/WWW/offline/%s/tinderbox/handlemail.pl /phenix/WWW/offline/%s/tinderbox",$collaboration,$collaboration);
+    open(TIND,"| $tinderboxstring");
     print TIND "\n";
     print TIND "tinderbox: tree: default\n";
     print TIND "tinderbox: builddate: ".$startTime."\n";
@@ -315,7 +319,7 @@ if ($opt_tinderbox)
     close(TIND);
   }
 
-# If we're doing a real sPHENIX install, then there is an official
+# If we're doing a real sPHENIX/EIC install, then there is an official
 # place where stuff is supposed to be installed.
 my $afs_sysname;
 if (-f "/usr/afsws/bin/fs")
@@ -337,24 +341,24 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
     if ($opt_afs)
     {
-	my $place = sprintf("/afs/rhic.bnl.gov/sphenix/%s",$opt_version);
-	die "$place doesn't exist" unless -e $place;
-	my $realpath = realpath($place);
-	$realpath =~ s/\@sys/$afs_sysname/g; 
-	($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-	# rhic.bnl.gov is the read only volume, we need to
-	# change rhic.bnl.gov to .rhic.bnl.gov to install to read/write volume
-	$realpath =~ s/\/afs\/rhic.bnl.gov/\/afs\/.rhic.bnl.gov/;
-	($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+        my $place = sprintf("/afs/rhic.bnl.gov/sphenix/%s",$opt_version);
+        die "$place doesn't exist" unless -e $place;
+        my $realpath = realpath($place);
+        $realpath =~ s/\@sys/$afs_sysname/g;
+        ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+        # rhic.bnl.gov is the read only volume, we need to
+        # change rhic.bnl.gov to .rhic.bnl.gov to install to read/write volume
+        $realpath =~ s/\/afs\/rhic.bnl.gov/\/afs\/.rhic.bnl.gov/;
+        ($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
     }
     else
     {
-	my $place = sprintf("/cvmfs/%s/%s/release/release_%s/%s",$opt_cvmfsvol,$afs_sysname,$opt_version,$opt_version);
-	die "$place doesn't exist" unless -e $place;
-	my $realpath = realpath($place);
+        my $place = sprintf("/cvmfs/%s/%s/release/release_%s/%s",$opt_cvmfsvol,$afs_sysname,$opt_version,$opt_version);
+        die "$place doesn't exist" unless -e $place;
+        my $realpath = realpath($place);
 #    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-	($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
-	$linktg = $inst;
+        ($inst,$number) = $realpath =~ m/(.*)\.(\d+)$/;
+        $linktg = $inst;
     }
 }
 else
@@ -394,63 +398,63 @@ else
     $ENV{'GIT_ASKPASS'} = 'true';
     foreach my $repo (@gitrepos)
     {
-	$gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$opt_repoowner, $repo);
+        $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$opt_repoowner, $repo);
         my $iret = system($gitcommand);
-	if ($iret)
-	{
-	    print LOG "repository https://github.com/$opt_repoowner/$repo.git does not exist\n";
-	}
+        if ($iret)
+        {
+            print LOG "repository https://github.com/$opt_repoowner/$repo.git does not exist\n";
+        }
         $statret += $iret;
     }
     if ($statret)
     {
         close(LOG);
-	exit 1;
+        exit 1;
     }
     foreach my $repo (@gitrepos)
     {
         if ($repo =~ /acts-framework/)
-	{
-	    $gitcommand = sprintf("git clone --branch sphenix-v0.13.00 --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
-	}
+        {
+            $gitcommand = sprintf("git clone --branch sphenix-v0.13.00 --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+        }
         else
-	{
-	    $gitcommand = sprintf("git clone --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
-	}
-	print LOG $gitcommand, "\n";
-	goto END if &doSystemFail($gitcommand);
+        {
+            $gitcommand = sprintf("git clone --recursive -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+        }
+        print LOG $gitcommand, "\n";
+        goto END if &doSystemFail($gitcommand);
     }
     if ($opt_gitbranch ne '')
     {
-	my $branchcount = 0;
-	foreach my $repo (@gitrepos)
-	{
-	    my $repodir = sprintf("%s/%s",$sourceDir,$repo);
-	    chdir $repodir;
-	    if (check_git_branch($opt_gitbranch))
-	    {
-		$branchcount++;
-		my $gitbranchcmd = sprintf("git checkout %s",$opt_gitbranch);
-		print LOG $gitbranchcmd, "\n";
-		goto END if &doSystemFail($gitbranchcmd);
-	    }
-	}
-	if ($branchcount == 0)
-	{
-	    my $errstr = sprintf("branch %s does not exist in git repos",$opt_gitbranch);
-	    print LOG $errstr, "\n";
-	    goto END;
-	}
+        my $branchcount = 0;
+        foreach my $repo (@gitrepos)
+        {
+            my $repodir = sprintf("%s/%s",$sourceDir,$repo);
+            chdir $repodir;
+            if (check_git_branch($opt_gitbranch))
+            {
+                $branchcount++;
+                my $gitbranchcmd = sprintf("git checkout %s",$opt_gitbranch);
+                print LOG $gitbranchcmd, "\n";
+                goto END if &doSystemFail($gitbranchcmd);
+            }
+        }
+        if ($branchcount == 0)
+        {
+            my $errstr = sprintf("branch %s does not exist in git repos",$opt_gitbranch);
+            print LOG $errstr, "\n";
+            goto END;
+        }
     }
     if($opt_gittag ne '')
     {
-	foreach my $repo (@gitrepos)
-	{
-	    my $repodir = sprintf("%s/%s",$sourceDir,$repo);
-	    chdir $repodir;
-	    my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
-	    print LOG $gittagcmd, "\n";
-	    goto END if &doSystemFail($gittagcmd);
+        foreach my $repo (@gitrepos)
+        {
+            my $repodir = sprintf("%s/%s",$sourceDir,$repo);
+            chdir $repodir;
+            my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
+            print LOG $gittagcmd, "\n";
+            goto END if &doSystemFail($gittagcmd);
         }
     }
     # Get rid of the old installDir, if it exists.  If the source area
@@ -534,166 +538,166 @@ print LOG "===========================================\n";
     {
         my $ROOTSYS_NOAFSSYS = realpath($ROOTSYS);
         $ROOTSYS_NOAFSSYS =~ s/\@sys/$afs_sysname/;
-	symlink $ROOTSYS_NOAFSSYS, $installDir."/root";
-	$ENV{ROOTSYS} = $installDir."/root"; #to get ROOTSYS for configure
-	my $G4_MAIN_NOAFS = realpath($G4_MAIN);
+        symlink $ROOTSYS_NOAFSSYS, $installDir."/root";
+        $ENV{ROOTSYS} = $installDir."/root"; #to get ROOTSYS for configure
+        my $G4_MAIN_NOAFS = realpath($G4_MAIN);
         $G4_MAIN_NOAFS =~ s/\@sys/$afs_sysname/;
         symlink $G4_MAIN_NOAFS, $installDir."/geant4";
         $ENV{G4_MAIN} = $installDir."/geant4"; #to get G4_MAIN for configure
-	foreach my $m (sort keys %externalPackages)
-	{
-	    my $dir = $externalPackagesDir."/".$externalPackages{$m};
-	    if (! -d $dir)
-	    {
-		if ($dir =~ /acts/)
-		{
-		    print LOG "skipping $m\n";
-		    next;
-		}
-		print LOG "cannot find dir $dir for package $m\n";
-		if ($opt_notify)
-		{
-		    print LOG "\nsending external package failure mail to $buildmanager\n";
-		    open( MAIL, "|$SENDMAIL" );
-		    print MAIL "To: $buildmanager\n";
-		    print MAIL "From: The sPHENIX rebuild daemon\n";
-		    print MAIL "Subject: external package $dir does not exist\n\n";
-		    print MAIL "\n";
-		    print MAIL "Hello,\n";
-		    print MAIL "The rebuild could not find the external package dir $dir of package $m at $date.\n";
-		    print MAIL "Yours, The Rebuild Daemon \n";
-		    close(MAIL);
-		}
-		goto END;
-	    }
-	    chdir $dir;
-	    print LOG "rsyncing $dir\n";
-	    system("rsync -a . $installDir");
-	}
+        foreach my $m (sort keys %externalPackages)
+        {
+            my $dir = $externalPackagesDir."/".$externalPackages{$m};
+            if (! -d $dir)
+            {
+                if ($dir =~ /acts/)
+                {
+                    print LOG "skipping $m\n";
+                    next;
+                }
+                print LOG "cannot find dir $dir for package $m\n";
+                if ($opt_notify)
+                {
+                    print LOG "\nsending external package failure mail to $buildmanager\n";
+                    open( MAIL, "|$SENDMAIL" );
+                    print MAIL "To: $buildmanager\n";
+                    print MAIL "From: The ",$collaboration," rebuild daemon\n";
+                    print MAIL "Subject: external package $dir does not exist\n\n";
+                    print MAIL "\n";
+                    print MAIL "Hello,\n";
+                    print MAIL "The rebuild could not find the external package dir $dir of package $m at $date.\n";
+                    print MAIL "Yours, The Rebuild Daemon \n";
+                    close(MAIL);
+                }
+                goto END;
+            }
+            chdir $dir;
+            print LOG "rsyncing $dir\n";
+            system("rsync -a . $installDir");
+        }
         # patch for GenFit to install includes in subdir
         $dir = sprintf("%s/genfit2_root-%s",$externalPackagesDir,$rootversion);
-	if (! -d $dir)
-	{
-	    print LOG "cannot find dir $dir for genfit2\n";
-	    goto END;
-	}
+        if (! -d $dir)
+        {
+            print LOG "cannot find dir $dir for genfit2\n";
+            goto END;
+        }
         chdir $dir;
-	system("rsync -a lib  $installDir");
-	chdir "include";
-	make_path($installDir."/include/GenFit", {mode => 0775}) unless -e $installDir."/include/GenFit";
- 	system("rsync -a . $installDir/include/GenFit");
+        system("rsync -a lib  $installDir");
+        chdir "include";
+        make_path($installDir."/include/GenFit", {mode => 0775}) unless -e $installDir."/include/GenFit";
+         system("rsync -a . $installDir/include/GenFit");
 # modify all *.la files of external packages to point to this OFFLINE_MAIN, if someone can figure
 # out how to do the following one liner that would be enough:
 #    system("perl -e \"s/libdir=.*/libdir='$OFFLINE_MAIN\/lib'/g\" -p -i.old $OFFLINE_MAIN/lib/*.la");
 # Since I did not succeed with this here is the ugly by hand implementation:
-	$repl = "libdir='" . $OFFLINE_MAIN . "/lib'"; 
-	open(F,"find $OFFLINE_MAIN/lib -name '*.la' -print |");
-	while ($lafile = <F>)
-	{
-	    chomp $lafile;
-	    $bckfile = $lafile . ".bck";
-	    move($lafile,$bckfile);
-	    open(F1,$bckfile);
-	    open(F2,">$lafile");
-	    while ($line = <F1>)
-	    {
-		$line =~ s/libdir=.*/$repl/g;
-		print F2 $line;
-	    }
-	    close(F1);
-	    unlink $bckfile;
-	    close(F2);
-	}
-	close(F);
+        $repl = "libdir='" . $OFFLINE_MAIN . "/lib'";
+        open(F,"find $OFFLINE_MAIN/lib -name '*.la' -print |");
+        while ($lafile = <F>)
+        {
+            chomp $lafile;
+            $bckfile = $lafile . ".bck";
+            move($lafile,$bckfile);
+            open(F1,$bckfile);
+            open(F2,">$lafile");
+            while ($line = <F1>)
+            {
+                $line =~ s/libdir=.*/$repl/g;
+                print F2 $line;
+            }
+            close(F1);
+            unlink $bckfile;
+            close(F2);
+        }
+        close(F);
 
     foreach my $m (@package)
       {
-	my $sdir = realpath($sourceDir)."/".$m;
-	my $bdir = realpath($buildDir)."/".$m;
-	make_path($bdir, {verbose=>1, mode => 0775});
-	chdir $bdir;
+        my $sdir = realpath($sourceDir)."/".$m;
+        my $bdir = realpath($buildDir)."/".$m;
+        make_path($bdir, {verbose=>1, mode => 0775});
+        chdir $bdir;
 
-	# Populate top-level directories with their own copy of .psrc
-	# so that Insure++ will know where to send its output.  This
-	# keeps the little compilations done by autoconf from spewing
-	# Insure output to the screen.
-	if ($opt_insure)
-	  {
-	    ($base = $m) =~ s|/|.|g;
-	    copy("$Bin/insure.psrc", $bdir."/.psrc");
-	    open(OUT, ">>.psrc");
-	    print OUT "insure++.report_file $insureDir/$base.txt\n";
-	    print OUT "insure++.runtime off\n";
-	    close(OUT);
-	  }
+        # Populate top-level directories with their own copy of .psrc
+        # so that Insure++ will know where to send its output.  This
+        # keeps the little compilations done by autoconf from spewing
+        # Insure output to the screen.
+        if ($opt_insure)
+          {
+            ($base = $m) =~ s|/|.|g;
+            copy("$Bin/insure.psrc", $bdir."/.psrc");
+            open(OUT, ">>.psrc");
+            print OUT "insure++.report_file $insureDir/$base.txt\n";
+            print OUT "insure++.runtime off\n";
+            close(OUT);
+          }
 
         chomp ($date = `date`);
-	print LOG "========================================================\n";
-	print LOG "configuring package $m                                  \n";
-	print LOG "at $date                                                \n";
-	if ($m =~ /acts-framework/)
-	{
-	    $arg = CreateCmakeCommand("acts-framework", $sdir);
-	}
-	else
-	{
-	    if ( $opt_scanbuild && exists $scanbuildignore{$m})
-	    {
-		$arg = "env $compileFlags $sdir/autogen.sh --prefix=$installDir";
-	    }
-	    else
-	    {
-		if ($opt_clang)
-		{
-		    $arg = "env CXX=clang++ CC=clang $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
-		}
-		else
-		{
-		    $arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
-		}
-	    }
-	}
-	print LOG "Running $arg\n";
-	print LOG "========================================================\n";
+        print LOG "========================================================\n";
+        print LOG "configuring package $m                                  \n";
+        print LOG "at $date                                                \n";
+        if ($m =~ /acts-framework/)
+        {
+            $arg = CreateCmakeCommand("acts-framework", $sdir);
+        }
+        else
+        {
+            if ( $opt_scanbuild && exists $scanbuildignore{$m})
+            {
+                $arg = "env $compileFlags $sdir/autogen.sh --prefix=$installDir";
+            }
+            else
+            {
+                if ($opt_clang)
+                {
+                    $arg = "env CXX=clang++ CC=clang $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
+                }
+                else
+                {
+                    $arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
+                }
+            }
+        }
+        print LOG "Running $arg\n";
+        print LOG "========================================================\n";
 
-	if (&doSystemFail($arg))
-	  {
-	    if ($opt_notify)
-	      {
-		print LOG "\nsending configure failure mail to $contact{$m}, cc $CC\n";
-		open( MAIL, "|$SENDMAIL" );
-		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The sPHENIX rebuild daemon\n";
-                print MAIL "Cc: $CC\n";	
+        if (&doSystemFail($arg))
+          {
+            if ($opt_notify)
+              {
+                print LOG "\nsending configure failure mail to $contact{$m}, cc $CC\n";
+                open( MAIL, "|$SENDMAIL" );
+                print MAIL "To: $contact{$m}\n";
+                print MAIL "From: The ",$collaboration," rebuild daemon\n";
+                print MAIL "Cc: $CC\n";
                 print MAIL "Subject: your configure crashed the build\n\n";
-		print MAIL "\n";
-	        print MAIL "Hello,\n";
-		print MAIL "The rebuild crashed in module $m at $date.\n";
-		print MAIL "\"$arg\" failed: $? \n";
-		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
-		print MAIL "Yours, The Rebuild Daemon \n";
-		close(MAIL);
-	      }
-	    goto END;
-	  }
+                print MAIL "\n";
+                print MAIL "Hello,\n";
+                print MAIL "The rebuild crashed in module $m at $date.\n";
+                print MAIL "\"$arg\" failed: $? \n";
+                print MAIL "Please look at the rebuild log, found on: \n";
+                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+                print MAIL "Yours, The Rebuild Daemon \n";
+                close(MAIL);
+              }
+            goto END;
+          }
 
-	# Populate all subdirectories with their own copy of .psrc so
-	# that Insure++ will know where to send its output.
-	if ($opt_insure)
-	  {
-	    find sub { -d &&
-			 !(realpath($File::Find::name) eq realpath($bdir)) &&
-			   copy($bdir."/.psrc", $File::Find::name)}, $bdir;
-	  }
+        # Populate all subdirectories with their own copy of .psrc so
+        # that Insure++ will know where to send its output.
+        if ($opt_insure)
+          {
+            find sub { -d &&
+                         !(realpath($File::Find::name) eq realpath($bdir)) &&
+                           copy($bdir."/.psrc", $File::Find::name)}, $bdir;
+          }
       }
   }
 
 # set ROOTSYS to local root softlink if stage > 1 
 # otherwise we get ROOTSYS from phenix_setup.csh which 
 # points to previous successful install
-$ENV{ROOTSYS} = $installDir."/root"; 
-$ENV{G4_MAIN} = $installDir."/geant4"; 
+$ENV{ROOTSYS} = $installDir."/root";
+$ENV{G4_MAIN} = $installDir."/geant4";
 
 if ($opt_stage < 3)
   {
@@ -701,40 +705,40 @@ if ($opt_stage < 3)
       {
         if ($m =~ /acts-framework/)
         {
-	  next;
+          next;
         }
-	$sdir = realpath($sourceDir)."/".$m;
-	$bdir = realpath($buildDir)."/".$m;
-	chdir $bdir;
+        $sdir = realpath($sourceDir)."/".$m;
+        $bdir = realpath($buildDir)."/".$m;
+        chdir $bdir;
         chomp ($date = `date`);
 
-	print LOG "=======================================================\n";
-	print LOG "installing header files and scripts in  $m             \n";
-	print LOG "at $date                                               \n";
-	print LOG "=======================================================\n";
-	$arg = "make $JOBS install-data";
+        print LOG "=======================================================\n";
+        print LOG "installing header files and scripts in  $m             \n";
+        print LOG "at $date                                               \n";
+        print LOG "=======================================================\n";
+        $arg = "make $JOBS install-data";
 
-	if (&doSystemFail($arg))
-	  {
-	    if ($opt_notify)
-	      {
-		print LOG "\nsending install-data failure mail to $contact{$m}, cc $CC\n";
-		open( MAIL, "|$SENDMAIL" );
-		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The sPHENIX rebuild daemon\n";
-                print MAIL "Cc: $CC\n";	
+        if (&doSystemFail($arg))
+          {
+            if ($opt_notify)
+              {
+                print LOG "\nsending install-data failure mail to $contact{$m}, cc $CC\n";
+                open( MAIL, "|$SENDMAIL" );
+                print MAIL "To: $contact{$m}\n";
+                print MAIL "From: The ",$collaboration," rebuild daemon\n";
+                print MAIL "Cc: $CC\n";
                 print MAIL "Subject: your install-data crashed the build\n\n";
-		print MAIL "\n";
-		print MAIL "Hello,\n";
-		print MAIL "The rebuild crashed in $m.\n";
-		print MAIL "\"$arg\" failed: $? \n";
-		print MAIL "Please look at the rebuild log: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
-		print MAIL "Yours, The Rebuild Daemon\n";
-		close(MAIL);
-	      }
-	    goto END;
-	  }
+                print MAIL "\n";
+                print MAIL "Hello,\n";
+                print MAIL "The rebuild crashed in $m.\n";
+                print MAIL "\"$arg\" failed: $? \n";
+                print MAIL "Please look at the rebuild log: \n";
+                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+                print MAIL "Yours, The Rebuild Daemon\n";
+                close(MAIL);
+              }
+            goto END;
+          }
       }
   }
 
@@ -742,142 +746,142 @@ if ($opt_stage < 4)
   {
     foreach $m (@package)
       {
-	  if ($opt_coverity)
-	  {
-	      if (defined $opt_covpasswd)
-	      {
-		  $covbuild = sprintf("%s --dir %s/covtmp",$covcommonbuild,$workdir);
-	      }
-	      else
-	      {
-		  $covbuild = sprintf("%s --dir %s/covtmp/%s",$covcommonbuild,$workdir,$m);
-	      }
-	  }
-	$sdir = realpath($sourceDir)."/".$m;
-	$bdir = realpath($buildDir)."/".$m;
-	chdir $bdir;
+          if ($opt_coverity)
+          {
+              if (defined $opt_covpasswd)
+              {
+                  $covbuild = sprintf("%s --dir %s/covtmp",$covcommonbuild,$workdir);
+              }
+              else
+              {
+                  $covbuild = sprintf("%s --dir %s/covtmp/%s",$covcommonbuild,$workdir,$m);
+              }
+          }
+        $sdir = realpath($sourceDir)."/".$m;
+        $bdir = realpath($buildDir)."/".$m;
+        chdir $bdir;
         chomp ($date = `date`);
 
-	print LOG "=================================\n";
-	print LOG "building $m                      \n";
-	print LOG "at $date                         \n";
+        print LOG "=================================\n";
+        print LOG "building $m                      \n";
+        print LOG "at $date                         \n";
 
 # MuTrigLL1Emulator does not compile with insure
-	if ($m =~ /MuTrigLL1Emulator/ && $opt_insure)
-	{
-	    $arg = "make CCLD='insure g++' $JOBS ";
-	}
-	else
-	{
-	    if ( $opt_scanbuild && ! exists $scanbuildignore{$m})
-	    {
-	       $arg = "$scanbuild make $insureCompileFlags $JOBS ";
-	    }
-	    else
-	    {
-		if ($opt_includecheck)
-		{
-		    $arg = "make -k CXX=/opt/sphenix/utils/bin/include-what-you-use "
-		}
-		else
-		{
-		    $arg = "$covbuild make $insureCompileFlags $JOBS ";
-		}
-	    }
-	}
-	print LOG "Running $arg\n";
-	print LOG "=================================\n";
-	if (&doSystemFail($arg))
-	{
-	    if ($opt_notify)
-	    {
-		print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
-		open( MAIL, "|$SENDMAIL" );
-		print MAIL "To: $contact{$m}\n";
-		print MAIL "From: The sPHENIX rebuild daemon\n";
-		print MAIL "Cc: $CC\n";	
-		print MAIL "Subject: your code crashed the $opt_version build\n\n";
-		print MAIL "Hello,\n";
-		print MAIL "The rebuild crashed in $m on $date:\n";
-		print MAIL "\"$arg\" reason: $? \n";
-		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
-		print MAIL "Sincerely, the rebuild daemon \n";
-		close(MAIL);
-	    }
-	    goto END;
-	}
+        if ($m =~ /MuTrigLL1Emulator/ && $opt_insure)
+        {
+            $arg = "make CCLD='insure g++' $JOBS ";
+        }
+        else
+        {
+            if ( $opt_scanbuild && ! exists $scanbuildignore{$m})
+            {
+               $arg = "$scanbuild make $insureCompileFlags $JOBS ";
+            }
+            else
+            {
+                if ($opt_includecheck)
+                {
+                    $arg = "make -k CXX=/opt/sphenix/utils/bin/include-what-you-use "
+                }
+                else
+                {
+                    $arg = "$covbuild make $insureCompileFlags $JOBS ";
+                }
+            }
+        }
+        print LOG "Running $arg\n";
+        print LOG "=================================\n";
+        if (&doSystemFail($arg))
+        {
+            if ($opt_notify)
+            {
+                print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
+                open( MAIL, "|$SENDMAIL" );
+                print MAIL "To: $contact{$m}\n";
+                print MAIL "From: The ",$collaboration," rebuild daemon\n";
+                print MAIL "Cc: $CC\n"; 
+                print MAIL "Subject: your code crashed the $opt_version build\n\n";
+                print MAIL "Hello,\n";
+                print MAIL "The rebuild crashed in $m on $date:\n";
+                print MAIL "\"$arg\" reason: $? \n";
+                print MAIL "Please look at the rebuild log, found on: \n";
+                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+                print MAIL "Sincerely, the rebuild daemon \n";
+                close(MAIL);
+            }
+            goto END;
+        }
         chomp ($date = `date`);
 
-	print LOG "=================================\n";
-	print LOG "installing $m                    \n";
-	print LOG "at $date                         \n";
+        print LOG "=================================\n";
+        print LOG "installing $m                    \n";
+        print LOG "at $date                         \n";
 
-	if ($m =~ /MuTrigLL1Emulator/ && $opt_insure)
-	{
-	    $arg = "make CCLD='insure g++' $JOBS install ";
-	}
-	else
-	{
-	    $arg = "$covbuild make $insureCompileFlags $JOBS install ";
-	}
-	print LOG "Running $arg\n";
-	print LOG "=================================\n";
-	if (&doSystemFail($arg))
-	  {
-	    if ($opt_notify)
-	      {
-		print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
-		open( MAIL, "|$SENDMAIL" );
-		print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The sPHENIX rebuild daemon\n";
-                print MAIL "Cc: $CC\n";	
+        if ($m =~ /MuTrigLL1Emulator/ && $opt_insure)
+        {
+            $arg = "make CCLD='insure g++' $JOBS install ";
+        }
+        else
+        {
+            $arg = "$covbuild make $insureCompileFlags $JOBS install ";
+        }
+        print LOG "Running $arg\n";
+        print LOG "=================================\n";
+        if (&doSystemFail($arg))
+          {
+            if ($opt_notify)
+              {
+                print LOG "\nsending compile failure mail to $contact{$m}, cc $CC\n";
+                open( MAIL, "|$SENDMAIL" );
+                print MAIL "To: $contact{$m}\n";
+                print MAIL "From: The ",$collaboration," rebuild daemon\n";
+                print MAIL "Cc: $CC\n";
                 print MAIL "Subject: your code crashed the build\n\n";
-		print MAIL "Hello,\n";
-		print MAIL "The rebuild crashed in $m on $date:\n";
-		print MAIL "\"$arg\" reason: $? \n";
-		print MAIL "Please look at the rebuild log, found on: \n";
-		print MAIL "http://www.phenix.bnl.gov/software/sPHENIX/tinderbox\n";
-		print MAIL "Sincerely, the rebuild daemon \n";
-		close(MAIL);
-	      }
-	    goto END;
-	  }
+                print MAIL "Hello,\n";
+                print MAIL "The rebuild crashed in $m on $date:\n";
+                print MAIL "\"$arg\" reason: $? \n";
+                print MAIL "Please look at the rebuild log, found on: \n";
+                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+                print MAIL "Sincerely, the rebuild daemon \n";
+                close(MAIL);
+              }
+            goto END;
+          }
 
-	  if (! $opt_lafiles)
-	  {
-	      # GET RID OF INSTALLED POINTLESS LA FILES
-	      # Get rid of this package's installed la_files if we didn't build
-	      # static archives. For dynamic libraries they are pointless.
+          if (! $opt_lafiles)
+          {
+              # GET RID OF INSTALLED POINTLESS LA FILES
+              # Get rid of this package's installed la_files if we didn't build
+              # static archives. For dynamic libraries they are pointless.
 
-	      # find all la files in current build directory's .libs directory
-	      use File::Find;
-	      my @la_files;
-	      find(
-		  sub {
-		      my $fname = $File::Find::name;
-		      push @la_files, $fname if $fname =~ /\.libs\/.+\.la$/;
-		  },
-		  "."
-		  );
+              # find all la files in current build directory's .libs directory
+              use File::Find;
+              my @la_files;
+              find(
+                  sub {
+                      my $fname = $File::Find::name;
+                      push @la_files, $fname if $fname =~ /\.libs\/.+\.la$/;
+                  },
+                  "."
+                  );
 
-	      # find la files without associated static archive here and remove them from PREFIX
-	      use File::Basename;
-	      foreach my $la_f (@la_files) {
-		  my $dir  = dirname($la_f);
-		  my $base = basename($la_f);
-		  my $stem = basename($la_f, "la");
-		  my $a_f  = $dir . "/" . $stem . "a"; # name of the static archive in build dir
-		  (-e $a_f) or unlink $installDir . "/lib/" . $base;
-	      }
-	      # DONE REMOVING POINTLESS LA FILES
-	  }
+              # find la files without associated static archive here and remove them from PREFIX
+              use File::Basename;
+              foreach my $la_f (@la_files) {
+                  my $dir  = dirname($la_f);
+                  my $base = basename($la_f);
+                  my $stem = basename($la_f, "la");
+                  my $a_f  = $dir . "/" . $stem . "a"; # name of the static archive in build dir
+                  (-e $a_f) or unlink $installDir . "/lib/" . $base;
+              }
+              # DONE REMOVING POINTLESS LA FILES
+          }
       }
 # git clone -q --> no progress report to stdout
     my $gitcommand = sprintf("git clone -q https://github.com/%s/calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
     if ($opt_eic)
     {
-	$gitcommand = sprintf("git clone -q https://github.com/%s/fun4all_calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
+        $gitcommand = sprintf("git clone -q https://github.com/%s/fun4all_calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
     }
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
@@ -902,65 +906,65 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
     my $releasefile;
     if ($opt_afs)
     {
-	my $releasedir = sprintf("/afs/rhic.bnl.gov/sphenix/sys/%s/log",$afs_sysname);
+        my $releasedir = sprintf("/afs/rhic.bnl.gov/sphenix/sys/%s/log",$afs_sysname);
 # if we don't have to release the afs volume we are done here
-	if (! -d $releasedir)
-	{
-	    $buildSucceeded=1;
-	    goto END;
-	}
-	$releasefile = sprintf("%s/afs.release",$releasedir);
+        if (! -d $releasedir)
+        {
+            $buildSucceeded=1;
+            goto END;
+        }
+        $releasefile = sprintf("%s/afs.release",$releasedir);
     }
     else
     {
 # tell cvmfs DB to keep builds separately to reduce amount of loaded lookups
-	my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
-	system("touch $cvmfscatalognestfile");
-	my $releasedir = sprintf("/cvmfs/%s/%s/release",$opt_cvmfsvol,$afs_sysname);
-	if ($opt_version =~ /ana/ || $opt_version =~ /pro/)
-	{
-	    my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
-	    my $symlinktarget = sprintf("%s/%s.%d",$releasedir,$opt_version,$releasenumber);
-	    symlink $symlinksource, $symlinktarget;
-	    print LOG "creating symlink source: $symlinksource target: $symlinktarget\n";
-	}
-	else
-	{
-	    $releasedir = sprintf("%s/release_%s",$releasedir,$opt_version);
-	}
+        my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
+        system("touch $cvmfscatalognestfile");
+        my $releasedir = sprintf("/cvmfs/%s/%s/release",$opt_cvmfsvol,$afs_sysname);
+        if ($opt_version =~ /ana/ || $opt_version =~ /pro/)
+        {
+            my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
+            my $symlinktarget = sprintf("%s/%s.%d",$releasedir,$opt_version,$releasenumber);
+            symlink $symlinksource, $symlinktarget;
+            print LOG "creating symlink source: $symlinksource target: $symlinktarget\n";
+        }
+        else
+        {
+            $releasedir = sprintf("%s/release_%s",$releasedir,$opt_version);
+        }
 
 # if we don't have to release the afs volume we are done here
-	if (! -d $releasedir)
-	{
-	    $buildSucceeded=1;
-	    goto END;
-	}
-	$releasefile = sprintf("%s/CVMFSRELEASE",$releasedir);
+        if (! -d $releasedir)
+        {
+            $buildSucceeded=1;
+            goto END;
+        }
+        $releasefile = sprintf("%s/CVMFSRELEASE",$releasedir);
     }
     chomp (my $date = `date`);
     print LOG "$date checking for existing $releasefile\n";
     if (-f $releasefile)
     {
-	my $n = 40;
-	while($n > 0)
-	{
-	    sleep(30);
-	    if (! -f $releasefile)
-	    {
-		goto NORELEASEFILE;
-	    }
-	    $n--;
-	}
-	chomp (my $date = `date`);
-	print LOG "$date $releasefile still exist, build fails!\n";
-	$buildSucceeded=0;
-	goto END;
+        my $n = 40;
+        while($n > 0)
+        {
+            sleep(30);
+            if (! -f $releasefile)
+            {
+                goto NORELEASEFILE;
+            }
+            $n--;
+        }
+        chomp (my $date = `date`);
+        print LOG "$date $releasefile still exist, build fails!\n";
+        $buildSucceeded=0;
+        goto END;
     }
 NORELEASEFILE:
 #    if ($opt_version =~ /ana/)
 #      {
 #        chomp ($date = `date`);
-#	print LOG "$date creating taxi afs dirs\n";
+#        print LOG "$date creating taxi afs dirs\n";
 #        create_afs_taxi_dir();
 #      }
     chomp ($date = `date`);
@@ -974,17 +978,17 @@ NORELEASEFILE:
     my $n=70;
     while($n > 0)
     {
-	sleep(30);
-	if (! -f $releasefile)
-	{
-	    chomp (my $date = `date`);
-	    my $cycles = 70-$n;
-	    print LOG "$date build is released after $cycles cycles\n";
-	    goto END;
-	}
-	chomp (my $date = `date`);
-	print LOG "$date $releasefile still exists, counter: $n\n";
-	$n--;
+        sleep(30);
+        if (! -f $releasefile)
+        {
+            chomp (my $date = `date`);
+            my $cycles = 70-$n;
+            print LOG "$date build is released after $cycles cycles\n";
+            goto END;
+        }
+        chomp (my $date = `date`);
+        print LOG "$date $releasefile still exists, counter: $n\n";
+        $n--;
     }
     chomp ($date = `date`);
     print LOG "$date $releasefile still exists, giving up and failing build $n\n";
@@ -998,11 +1002,11 @@ else
     $buildSucceeded=1;
     if ($opt_scanbuild && $buildSucceeded==1 && $opt_phenixinstall)
     {
-	&install_scanbuild_reports();
+        &install_scanbuild_reports();
     }
     if ($opt_coverity && $buildSucceeded==1 && $opt_phenixinstall)
     {
-	&install_coverity_reports();
+        &install_coverity_reports();
     }
     print LOG "$date build success for local install\n";
 }
@@ -1031,11 +1035,11 @@ foreach my $repo (@gitrepos)
     $repodir = sprintf("%s/%s",$sourceDir,$repo);
     if (-d $repodir)
     {
-	chdir $repodir;
-	$fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
-	my $gittag = `git show | head -1 | awk '{print \$2}'`;
-	chomp $gittag;
-	$repotags{$fullrepo} = $gittag;
+        chdir $repodir;
+        $fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
+        my $gittag = `git show | head -1 | awk '{print \$2}'`;
+        chomp $gittag;
+        $repotags{$fullrepo} = $gittag;
     }
 }
 
@@ -1048,7 +1052,7 @@ if ($opt_tinderbox)
     print LOG "tinderbox: build: ".$sysname."\n";
     print LOG "tinderbox: errorparser: unix\n";
     print LOG "tinderbox: END\n";
-    my $cmd = sprintf("cat %s | /phenix/WWW/offline/sPHENIX/tinderbox/handlemail.pl /phenix/WWW/offline/sPHENIX/tinderbox",$logfile);
+    my $cmd = sprintf("cat %s | /phenix/WWW/offline/%s/tinderbox/handlemail.pl /phenix/WWW/offline/%s/tinderbox",$logfile,$collaboration,$collaboration);
     system($cmd);
   }
 
@@ -1067,7 +1071,7 @@ print INFO " source dir:".$sourceDir."\n ";
 print INFO " build dir:".$buildDir."\n ";
 print INFO " install dir:".$installDir."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
-print INFO " http://www.phenix.bnl.gov/software/sPHENIX/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
+print INFO " http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
 if ($opt_gittag ne '')
 {
   print INFO " git tag: ".$opt_gittag."\n";
@@ -1094,18 +1098,18 @@ $flag=0;
 while (<LOG>) 
   {
     if ((/^libtoolize aclocal automake autoconf and (configure) on (\S*)/)||
-	(/^(installing header) files and scripts in  (\S*)/)||
-	(/^(building) (\S*)/)) 
+        (/^(installing header) files and scripts in  (\S*)/)||
+        (/^(building) (\S*)/)) 
       {
-	$action=$newaction;
-	$newaction="$1 $2";
+        $action=$newaction;
+        $newaction="$1 $2";
       }
     if (/^======>\w\w\w (\w\w\w) *(\d*) (\d\d):(\d\d):(\d\d) \w\w\w (\d\d\d\d)/) 
       {
-	$newtime=timelocal($5,$4,$3,$2-1,$month{$1},$6-1900);
-	print INFO $action," takes ",$newtime-$time," seconds  \n" if $flag;
-	$flag=1;
-	$time=$newtime;
+        $newtime=timelocal($5,$4,$3,$2-1,$month{$1},$6-1900);
+        print INFO $action," takes ",$newtime-$time," seconds  \n" if $flag;
+        $flag=1;
+        $time=$newtime;
       }
   }
 
@@ -1122,7 +1126,7 @@ if ($username eq "phnxbld")
 {
     if ($opt_repoowner eq "sPHENIX-Collaboration")
     {
-	SaveGitTagsToDB();
+        SaveGitTagsToDB();
     }
 }
 
@@ -1145,11 +1149,11 @@ sub doSystemFail
     open(LOG, ">>$logfile");
     if ($status)
     {
-	print LOG "system $arg failed: $?\n";
+        print LOG "system $arg failed: $?\n";
     }
     if ($opt_includecheck)
     {
-	$status = 0;
+        $status = 0;
     }
     return $status;
 }
@@ -1161,42 +1165,42 @@ sub check_insure_reports
     open(INSREP,"find $insureDir -maxdepth 1 -type f -size +0 -print | sort |");
     while($insure_report = <INSREP>)
     {
-	chomp $insure_report;
-	$package = basename($insure_report);
+        chomp $insure_report;
+        $package = basename($insure_report);
         $package =~ s/\.txt//;
-	$package =~ s|\.|/|g;
-	print LOG "found non zero sized insure report for package: $package\n";
+        $package =~ s|\.|/|g;
+        print LOG "found non zero sized insure report for package: $package\n";
         if ($package =~ /mutoo\/modules/)
-	{
-	    print LOG "ignoring mutoo/modules\n";
-	    open(F,"$insure_report");
-	    while($line = <F>)
-	    {
-		print LOG $line;
-	    }
-	    close(F);
-	    next;
-	}
-	if ($opt_notify)
-	{
-	    print LOG "\nsending insure report mail to $contact{$m}, cc $CC\n";
-	    open( MAIL, "|$SENDMAIL" );
-	    print MAIL "To: $contact{$package}\n";
-	    print MAIL "From: The sPHENIX rebuild daemon\n";
-	    print MAIL "Cc: $CC\n";	
-	    print MAIL "Subject: your code ticks off the insure compiler\n\n";
-	    print MAIL "Hello,\n";
-	    print MAIL "Insure found problems in module $package on $date.\n";
-	    print MAIL "The content of the report is attached.\n";
-	    print MAIL "Yours, The Rebuild Daemon \n\n";
-	    open(F,"$insure_report");
-	    while($line = <F>)
-	    {
-		print MAIL $line;
-	    }
-	    close(F);
-	    close(MAIL);
-	}
+        {
+            print LOG "ignoring mutoo/modules\n";
+            open(F,"$insure_report");
+            while($line = <F>)
+            {
+                print LOG $line;
+            }
+            close(F);
+            next;
+        }
+        if ($opt_notify)
+        {
+            print LOG "\nsending insure report mail to $contact{$m}, cc $CC\n";
+            open( MAIL, "|$SENDMAIL" );
+            print MAIL "To: $contact{$package}\n";
+            print MAIL "From: The ",$collaboration," rebuild daemon\n";
+            print MAIL "Cc: $CC\n";
+            print MAIL "Subject: your code ticks off the insure compiler\n\n";
+            print MAIL "Hello,\n";
+            print MAIL "Insure found problems in module $package on $date.\n";
+            print MAIL "The content of the report is attached.\n";
+            print MAIL "Yours, The Rebuild Daemon \n\n";
+            open(F,"$insure_report");
+            while($line = <F>)
+            {
+                print MAIL $line;
+            }
+            close(F);
+            close(MAIL);
+        }
     }
     close(INSREP);
     close(LOG);
@@ -1211,18 +1215,18 @@ sub check_expiration_date
     my $setexpired = $dbh->prepare("update anatrainmodules set status = -1 where package = ?");
     while(my @mods = $getexpired->fetchrow_array())
     {
-	$setexpired->execute($mods[0]);
-	open( MAIL, "|$SENDMAIL" );
-	print MAIL "To: $contact{$mods[0]}\n";
-	print MAIL "From: The sPHENIX rebuild daemon\n";
-	print MAIL "Cc: $CC\n";	
-	print MAIL "Subject: your module $mods[0] expired\n\n";
-	print MAIL "Hello,\n";
-	print MAIL "Your module $mods[0] has reached is expiration date on $date.\n";
-	print MAIL "You can reenable it on the web under:\n";
-	print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/anatrain/TrainV2/trainbuild/modifymodule.html\n";
-	print MAIL "Yours, The Rebuild Daemon \n\n";
-	close(MAIL);
+        $setexpired->execute($mods[0]);
+        open( MAIL, "|$SENDMAIL" );
+        print MAIL "To: $contact{$mods[0]}\n";
+        print MAIL "From: The ",$collaboration," rebuild daemon\n";
+        print MAIL "Cc: $CC\n";
+        print MAIL "Subject: your module $mods[0] expired\n\n";
+        print MAIL "Hello,\n";
+        print MAIL "Your module $mods[0] has reached is expiration date on $date.\n";
+        print MAIL "You can reenable it on the web under:\n";
+        print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/anatrain/TrainV2/trainbuild/modifymodule.html\n";
+        print MAIL "Yours, The Rebuild Daemon \n\n";
+        close(MAIL);
     }
     $setexpired->finish();
     $getexpired->finish();
@@ -1242,105 +1246,105 @@ sub install_coverity_reports
 {
     if (defined $opt_covpasswd)
     {
-	my $covdir =  sprintf("%s/covtmp",$workdir);
-	my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --dir %s",$covdir);
-	print LOG "$covanacmd\n";
-	open(F2,"$covanacmd 2>&1 |");
-	while(my $line = <F2>)
-	{
-	    print LOG "$line";
-	}
-	close(F2);
-	my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user pinkenbu --dir %s",$covdir);
-	print LOG "executing $covcmd\n";
-	$covcmd = sprintf("%s --password %s",$covcmd,$opt_covpasswd);
-	open(F2,"$covcmd 2>&1 |");
-	while(my $line = <F2>)
-	{
-	    print LOG "$line";
-	}
-	close(F2);
+        my $covdir =  sprintf("%s/covtmp",$workdir);
+        my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --dir %s",$covdir);
+        print LOG "$covanacmd\n";
+        open(F2,"$covanacmd 2>&1 |");
+        while(my $line = <F2>)
+        {
+            print LOG "$line";
+        }
+        close(F2);
+        my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user pinkenbu --dir %s",$covdir);
+        print LOG "executing $covcmd\n";
+        $covcmd = sprintf("%s --password %s",$covcmd,$opt_covpasswd);
+        open(F2,"$covcmd 2>&1 |");
+        while(my $line = <F2>)
+        {
+            print LOG "$line";
+        }
+        close(F2);
     }
     else
     {
-	my $installroot = "/phenix/WWW/p/draft/phnxbld/sphenix/coverity/report";
-	my $realpath = realpath($installroot);
-	(my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
-	my $newnumber = ($number % 2) + 1;
-	my $installdir = sprintf("%s.%d",$inst,$newnumber);
-	remove_tree($installdir);
-	make_path($installdir, {mode => 0775});
-	my $indexfile = sprintf("%s/index.html",$installdir);
-	print LOG "indexfile: $indexfile\n";
-	open(F1,">$indexfile");
-	for my $packages (sort keys %contact)
-	{
-	    if (exists $coverityignore{$packages})
-	    {
-		print LOG "dropping coverity html report generation for $packages\n";
-		next;
-	    }
-	    my $covdir =  sprintf("%s/covtmp/%s",$workdir,$packages);
-	    my $htmldir = sprintf("%s/%s",$installdir,$packages);
-	    print LOG "analyzing $covdir writing to $htmldir\n";
-	    if (-d $covdir)
-	    {
-		my $makehtml = 0;
-		my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --disable CONSTANT_EXPRESSION_RESULT --dir %s",$covdir);
-		open(F2,"$covanacmd 2>&1 |");
-		while(my $line = <F2>)
-		{
-		    chomp $line;
+        my $installroot = sprintf("/phenix/WWW/p/draft/phnxbld/%s/coverity/report",$collaboration);
+        my $realpath = realpath($installroot);
+        (my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
+        my $newnumber = ($number % 2) + 1;
+        my $installdir = sprintf("%s.%d",$inst,$newnumber);
+        remove_tree($installdir);
+        make_path($installdir, {mode => 0775});
+        my $indexfile = sprintf("%s/index.html",$installdir);
+        print LOG "indexfile: $indexfile\n";
+        open(F1,">$indexfile");
+        for my $packages (sort keys %contact)
+        {
+            if (exists $coverityignore{$packages})
+            {
+                print LOG "dropping coverity html report generation for $packages\n";
+                next;
+            }
+            my $covdir =  sprintf("%s/covtmp/%s",$workdir,$packages);
+            my $htmldir = sprintf("%s/%s",$installdir,$packages);
+            print LOG "analyzing $covdir writing to $htmldir\n";
+            if (-d $covdir)
+            {
+                my $makehtml = 0;
+                my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --disable CONSTANT_EXPRESSION_RESULT --dir %s",$covdir);
+                open(F2,"$covanacmd 2>&1 |");
+                while(my $line = <F2>)
+                {
+                    chomp $line;
                     print LOG "$line\n";
-		    if ($line =~ /Defect occurrences found/)
-		    {
-			my @sp1 = split(/:/,$line);
-			my @sp2 = split(/ /,$sp1[1]);
-			if ($#sp2 > 1)
-			{
-			    $makehtml = 1;
-			}
-		    }
-		}
-		close(F2);
-		if ($makehtml > 0)
-		{
-		    my $covcmd = sprintf("cov-format-errors --dir %s --html-output %s",$covdir,$htmldir);
-		    print LOG "$covcmd\n";
-		    open(F2,"$covcmd 2>&1 |");
+                    if ($line =~ /Defect occurrences found/)
+                    {
+                        my @sp1 = split(/:/,$line);
+                        my @sp2 = split(/ /,$sp1[1]);
+                        if ($#sp2 > 1)
+                        {
+                            $makehtml = 1;
+                        }
+                    }
+                }
+                close(F2);
+                if ($makehtml > 0)
+                {
+                    my $covcmd = sprintf("cov-format-errors --dir %s --html-output %s",$covdir,$htmldir);
+                    print LOG "$covcmd\n";
+                    open(F2,"$covcmd 2>&1 |");
                     my $addfile = 1;
-		    while(my $line = <F2>)
-		    {
-			print LOG "$line";
-			if ($line =~ /Processing 0 errors/)
-			{
-			    $addfile = 0;
-			    print LOG "not adding html file $packages to summary, it is empty\n";
-			}
-		    }
-		    close(F2);
-		    my $packagename = $packages;
-		    $packagename =~  s/\./\//g;
-		    if ($addfile > 0)
-		    {
-			print F1 "<a href=\"$packages\">$packages</a> contact: $contact{$packagename} </br>\n";
-		    }
-		}
-		else
-		{
-		    print LOG "no coverity error for $packages\n";
-		}
-	    }
-	}
-	close(F1);
-	unlink $inst if (-e $inst);
-	symlink $installdir, $inst;
+                    while(my $line = <F2>)
+                    {
+                        print LOG "$line";
+                        if ($line =~ /Processing 0 errors/)
+                        {
+                            $addfile = 0;
+                            print LOG "not adding html file $packages to summary, it is empty\n";
+                        }
+                    }
+                    close(F2);
+                    my $packagename = $packages;
+                    $packagename =~  s/\./\//g;
+                    if ($addfile > 0)
+                    {
+                        print F1 "<a href=\"$packages\">$packages</a> contact: $contact{$packagename} </br>\n";
+                    }
+                }
+                else
+                {
+                    print LOG "no coverity error for $packages\n";
+                }
+            }
+        }
+        close(F1);
+        unlink $inst if (-e $inst);
+        symlink $installdir, $inst;
     }
 }
 
 sub install_scanbuild_reports
 {
-    my $installroot = "/phenix/WWW/p/draft/phnxbld/sphenix/scan-build/scan";
+    my $installroot = sprintf("/phenix/WWW/p/draft/phnxbld/%s/scan-build/scan",$collaboration);
     my $realpath = realpath($installroot);
     (my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
     my $newnumber = ($number % 2) + 1;
@@ -1356,8 +1360,8 @@ sub install_scanbuild_reports
     open(F,"find $installdir -maxdepth 1 -type d -name '20*' |");
     while(my $scandir = <F>)
     {
-	chomp $scandir;
-	my $indexfile = sprintf("%s/index.html",$scandir);
+        chomp $scandir;
+        my $indexfile = sprintf("%s/index.html",$scandir);
         open(F1,"$indexfile");
         while(my $line = <F1>)
         {
@@ -1368,11 +1372,11 @@ sub install_scanbuild_reports
 #               print $sp1[1];
                 my @sp2 = split(/</,$sp1[1]);
                 $sp2[0] =~ s/\//\./g;
-		$packets{$sp2[0]} = $scandir;
-		last;
-	    }
-	}
-	close(F1);
+                $packets{$sp2[0]} = $scandir;
+                last;
+            }
+        }
+        close(F1);
     }
     close(F);
     my %mailinglist;
@@ -1380,25 +1384,25 @@ sub install_scanbuild_reports
     open(F,">$indexfile");
     if (!keys %packets) # whoa - no scan build warnings!!!!
     {
-	print F "<H1>Congratulations - No Scan Build Warnings</H1>\n:";
+        print F "<H1>Congratulations - No Scan Build Warnings</H1>\n:";
     }
     else
     {
-	for my $packages (sort keys %packets)
-	{
-	    my $hrefentry = basename($packets{$packages});
-	    my $packagename = $packages;
-	    $packagename =~  s/\./\//g;
-	    print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
-	    if (exists $contact{$packagename})
-	    {
-		$mailinglist{$packagename} = "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan/$hrefentry";
-	    }
-	    else
-	    {
-		print LOG "Could not locate contact for package $packagename\n";
-	    }
-	}
+        for my $packages (sort keys %packets)
+        {
+            my $hrefentry = basename($packets{$packages});
+            my $packagename = $packages;
+            $packagename =~  s/\./\//g;
+            print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
+            if (exists $contact{$packagename})
+            {
+                $mailinglist{$packagename} = sprintf("https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/%s/scan-build/scan/%s",$collaboration,$hrefentry);
+            }
+            else
+            {
+                print LOG "Could not locate contact for package $packagename\n";
+            }
+        }
     }
     close(F);
     unlink $inst if (-e $inst);
@@ -1406,33 +1410,33 @@ sub install_scanbuild_reports
 # now send the mails
     if ($opt_notify)
     {
-	for my $package (sort keys %mailinglist)
-	{
-	    if (! exists $contact{$package})
-	    {
-		print LOG "Could not locate contact for package $package\n";
-		next;
-	    }
-	    my $scancc = "pinkenburg\@bnl.gov";
-	    print LOG "\nsending scanbuild report mail to $contact{$package}, cc $scancc\n";
-	    open( MAIL, "|$SENDMAIL" );
-	    print MAIL "To: $contact{$package}\n";
-	    print MAIL "From: The sPHENIX rebuild daemon\n";
-	    print MAIL "Cc: $scancc\n";	
-	    print MAIL "Subject: scan-build found issues in $package\n\n";
-	    print MAIL "Hello $contact{$package},\n";
-	    print MAIL "scan-build the static analyzer based on clang has found problems\n";
+        for my $package (sort keys %mailinglist)
+        {
+            if (! exists $contact{$package})
+            {
+                print LOG "Could not locate contact for package $package\n";
+                next;
+            }
+            my $scancc = "pinkenburg\@bnl.gov";
+            print LOG "\nsending scanbuild report mail to $contact{$package}, cc $scancc\n";
+            open( MAIL, "|$SENDMAIL" );
+            print MAIL "To: $contact{$package}\n";
+            print MAIL "From: The ",$collaboration," rebuild daemon\n";
+            print MAIL "Cc: $scancc\n";
+            print MAIL "Subject: scan-build found issues in $package\n\n";
+            print MAIL "Hello $contact{$package},\n";
+            print MAIL "scan-build the static analyzer based on clang has found problems\n";
             print MAIL "in your module $package on $date.\n";
-	    print MAIL "The report is under\n\n";
-	    print MAIL "$mailinglist{$package}\n\n";
+            print MAIL "The report is under\n\n";
+            print MAIL "$mailinglist{$package}\n\n";
             print MAIL "All reports are available under\n\n";
-            print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/sphenix/scan-build/scan\n\n";
-	    print MAIL "instructions how to run scan-build yourself are in our wiki\n\n";
-	    print MAIL "https://www.phenix.bnl.gov/WWW/offline/wikioff/index.php/Scan-build\n\n";
+            print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/",$collaboration,"/scan-build/scan\n\n";
+            print MAIL "instructions how to run scan-build yourself are in our wiki\n\n";
+            print MAIL "https://www.phenix.bnl.gov/WWW/offline/wikioff/index.php/Scan-build\n\n";
             print MAIL "Please look at the report and fix the issues found\n";
-	    print MAIL "Sincerely yours, The Rebuild Daemon \n\n";
-	    close(MAIL);
-	}
+            print MAIL "Sincerely yours, The Rebuild Daemon \n\n";
+            close(MAIL);
+        }
     }
 }
 
@@ -1479,17 +1483,17 @@ sub check_git_branch
     open(F,"git ls-remote --heads 2>/dev/null | awk \'{print \$2}\' |");
     while (my $line = <F>)
     {
-	if ($line !~ /refs/)
-	{
-	    next;
-	}
-	chomp $line;
-	my @sp1 = split("/",$line);
-	if ($sp1[$#sp1] eq $branchname )
-	{
-	    close(F);
-	    return 1;
-	}
+        if ($line !~ /refs/)
+        {
+            next;
+        }
+        chomp $line;
+        my @sp1 = split("/",$line);
+        if ($sp1[$#sp1] eq $branchname )
+        {
+            close(F);
+            return 1;
+        }
     }
     close(F);
     return 0;
@@ -1505,7 +1509,7 @@ sub SaveGitTagsToDB()
     $chkbuild->execute($buildname);
     if ($chkbuild->rows > 0)
     {
-	$delbuild->execute($buildname);
+        $delbuild->execute($buildname);
     }
     $chkbuild->finish();
     $delbuild->finish();
@@ -1517,7 +1521,7 @@ sub SaveGitTagsToDB()
 
     foreach my $key (keys %repotags)
     {
-	$insertbuild->execute($buildname,$humandate,$unixdate,$key,$repotags{$key});
+        $insertbuild->execute($buildname,$humandate,$unixdate,$key,$repotags{$key});
     }
     $insertbuild->finish();
 }
@@ -1528,15 +1532,15 @@ sub CreateCmakeCommand
     my $cmakesourcedir = shift;
     if ($packagename =~ /acts-framework/)
     {
-	my $g4dir = `find $G4_MAIN/lib64/ -maxdepth 1 -type d | grep Geant4`;
-	chomp $g4dir;
-	my $cmakecmd = "cmake -DBOOST_ROOT=${OPT_SPHENIX}/boost -DTBB_ROOT_DIR=${OPT_SPHENIX}/tbb -DEigen3_DIR=${OPT_SPHENIX}/eigen -DROOT_DIR=${ROOTSYS}/cmake -DUSE_GEANT4=ON -DUSE_TGEO=ON -DUSE_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OPT_SPHENIX}/pythia8/include -DPythia8_LIBRARY=${OPT_SPHENIX}/pythia8/lib/libpythia8.so -DGeant4_DIR=$g4dir -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON -DCMAKE_VERBOSE_MAKEFILE=ON  -DCMAKE_INSTALL_PREFIX=$installDir  -Wno-dev";
+        my $g4dir = `find $G4_MAIN/lib64/ -maxdepth 1 -type d | grep Geant4`;
+        chomp $g4dir;
+        my $cmakecmd = "cmake -DBOOST_ROOT=${OPT_SPHENIX}/boost -DTBB_ROOT_DIR=${OPT_SPHENIX}/tbb -DEigen3_DIR=${OPT_SPHENIX}/eigen -DROOT_DIR=${ROOTSYS}/cmake -DUSE_GEANT4=ON -DUSE_TGEO=ON -DUSE_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OPT_SPHENIX}/pythia8/include -DPythia8_LIBRARY=${OPT_SPHENIX}/pythia8/lib/libpythia8.so -DGeant4_DIR=$g4dir -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON -DCMAKE_VERBOSE_MAKEFILE=ON  -DCMAKE_INSTALL_PREFIX=$installDir  -Wno-dev";
         if ($opt_version =~ /debug/)
-	{
-	    $cmakecmd = sprintf("%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd);
-	}
-	$cmakecmd = sprintf("%s %s",$cmakecmd, $cmakesourcedir);
-	return $cmakecmd;
+        {
+            $cmakecmd = sprintf("%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd);
+        }
+        $cmakecmd = sprintf("%s %s",$cmakecmd, $cmakesourcedir);
+        return $cmakecmd;
     }
     print LOG "CreateCmakeCommand not implemented for $packagename\n";
     die;
