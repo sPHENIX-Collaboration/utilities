@@ -5,6 +5,9 @@ use warnings;
 
 use Getopt::Long;
 
+my $opt_collaboration = 'sPHENIX';
+GetOptions('collaboration:s' => \$opt_collaboration);
+
 my $containername = "rhic_sl7_ext.simg";
 my $dockername = "rhic_sl7_ext_docker.tar.gz";
 my $mcegname = "MCEG.tar.bz2";
@@ -45,10 +48,10 @@ open(F, ">$indexfile");
 
 print F "<HTML>\n";
 print F "<HEAD>\n";
-print F "<TITLE>sPHENIX Singularity Container Download</TITLE>\n";
+print F "<TITLE>$opt_collaboration Singularity Container Download</TITLE>\n";
 print F "</HEAD>\n";
 print F "<BODY>\n";
-print F "<h1>Welcome to the sPHENIX singularity download page</H1>\n";
+print F "<h1>Welcome to the $opt_collaboration singularity download page</H1>\n";
 print F "";
 
 my $fullcontainer = sprintf("%s/%s",$targetdir,$containername);
@@ -139,7 +142,7 @@ print F "<hr>\n";
 
 print F"</p>\n";
 print F "<h2>Virtualbox Image</h2>\n";
-print F "<p><a href=\"./Fun4AllSingularityDistribution.ova\">Virtualbox Ubuntu18.04LTS image</a> with sPHENIX CVMFS and Singularity installed, which provides a stable linux env for Windows Hosts.</br>\n";
+print F "<p><a href=\"./Fun4AllSingularityDistribution.ova\">Virtualbox Ubuntu18.04LTS image</a> with $opt_collaboration CVMFS and Singularity installed, which provides a stable linux env for Windows Hosts.</br>\n";
 print F "if prompted: username fun4all, password fun4all<p>\n";
 
 print F "</BODY>\n";
