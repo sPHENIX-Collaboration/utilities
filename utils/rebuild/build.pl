@@ -538,11 +538,17 @@ print LOG "===========================================\n";
     {
         my $ROOTSYS_NOAFSSYS = realpath($ROOTSYS);
         $ROOTSYS_NOAFSSYS =~ s/\@sys/$afs_sysname/;
+        my $G4_MAIN_NOAFSSYS = realpath($G4_MAIN);
+        $G4_MAIN_NOAFSSYS =~ s/\@sys/$afs_sysname/;
+        #change sphenix to fun4all to make eic happy
+	if ($opt_eic)
+	{
+	    $G4_MAIN_NOAFSSYS =~ s/sphenix/fun4all/;
+	    $ROOTSYS_NOAFSSYS =~ s/sphenix/fun4all/;
+	}
         symlink $ROOTSYS_NOAFSSYS, $installDir."/root";
         $ENV{ROOTSYS} = $installDir."/root"; #to get ROOTSYS for configure
-        my $G4_MAIN_NOAFS = realpath($G4_MAIN);
-        $G4_MAIN_NOAFS =~ s/\@sys/$afs_sysname/;
-        symlink $G4_MAIN_NOAFS, $installDir."/geant4";
+        symlink $G4_MAIN_NOAFSSYS, $installDir."/geant4";
         $ENV{G4_MAIN} = $installDir."/geant4"; #to get G4_MAIN for configure
         foreach my $m (sort keys %externalPackages)
         {
