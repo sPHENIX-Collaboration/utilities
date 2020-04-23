@@ -22,6 +22,12 @@ my $opt_version = 'new';
 my $opt_sourcevol = 'sphenix.sdcc.bnl.gov';
 GetOptions('all' => \$opt_all, 'help' => \$opt_help, 'mceg' =>\$opt_mceg, 'offline' => \$opt_offline, 'opt' => \$opt_optsphenix, 'utils' => \$opt_optutils, 'singularity' => \$opt_singularity, 'test' => \$opt_test, 'version:s' => \$opt_version, 'sourcevolume:s' => \$opt_sourcevol, 'sysname:s' => \$opt_sysname);
 
+my $optdir = "sphenix";
+if ($opt_sourcevol !~ /sphenix/)
+{
+    $optdir = "fun4all";
+}
+
 my $currdir = getcwd();
 
 if ($#ARGV < 0 || $opt_help>0)
@@ -30,9 +36,11 @@ if ($#ARGV < 0 || $opt_help>0)
     print "options:\n";
     print "--all          : copy container, opt area and offline_main tar balls\n";
     print "--help         : print this help\n";
+    print "--mceg         : create and copy MCEG area\n";
     print "--offline      : create and copy offline_main tar ball\n";
     print "--opt          : create and copy opt area tar ball\n";
     print "--singularity  : copy container\n";
+    print "--sourcevolume : cvmfs source volume\n";
     print "--sysname      : system name (x8664_sl7 [default] or gcc 8.3)\n";
     print "--test         : dryrun, print commands but do not execute them\n";
     print "--utils        : create and copy utils area tar ball\n";
@@ -51,7 +59,7 @@ if ($version ne $opt_version)
 {
     print "OFFLINE_MAIN version $version does not match requested version $opt_version\n";
     print "source the sphenix_setup script like:\n";
-    print "source /cvmfs/$opt_sourcevol/$opt_sysname/opt/sphenix/core/bin/sphenix_setup.csh -n $opt_version\n";
+    print "source /cvmfs/$opt_sourcevol/$opt_sysname/opt/$optdir/core/bin/sphenix_setup.csh -n $opt_version\n";
     print "and try again\n";
     exit 1;
 }
@@ -59,7 +67,7 @@ if ($version ne $opt_version)
 if ($OFFLINE_MAIN !~ /$opt_sysname/)
 {
     print "OFFLINE_MAIN does not match requested sysname $opt_sysname\n";
-    print "source /cvmfs/$opt_sourcevol/$opt_sysname/opt/sphenix/core/bin/sphenix_setup.csh -n $opt_version\n";
+    print "source /cvmfs/$opt_sourcevol/$opt_sysname/opt/$optdir/core/bin/sphenix_setup.csh -n $opt_version\n";
     print "and try again\n";
     exit 1;
 }
@@ -72,7 +80,7 @@ my $singularity_container = sprintf("%s/singularity/rhic_sl7_ext.simg",$sourcedi
 my $opt_tmp_tarfile =sprintf("%s/opt.tar",$tmpdir);
 my $mceg_tmp_tarfile = sprintf("%s/MCEG.tar",$tmpdir);
 my $utils_tmp_tarfile = sprintf("%s/utils.tar",$tmpdir);
-my $core_basedir = sprintf("/cvmfs/%s/%s/opt/sphenix/core",$opt_sourcevol,$opt_sysname);
+my $core_basedir = sprintf("/cvmfs/%s/%s/opt/%s/core",$opt_sourcevol,$opt_sysname,$optdir);
 my @opt_dir_list = (sprintf("%s/bin",$core_basedir),
                     sprintf("%s/etc",$core_basedir),
                     sprintf("%s/include",$core_basedir),
@@ -106,8 +114,6 @@ if ($opt_singularity > 0 || $opt_all > 0)
 	chdir $currdir;
     }
 }
-
-my $curdir = getcwd();
 
 if ($opt_mceg > 0 || $opt_all > 0)
 {
@@ -228,13 +234,56 @@ if ($opt_optutils > 0 || $opt_all > 0)
     {
 	mkpath($opttargetdir);
     }
-    my $utilsdir = sprintf("/cvmfs/%s/%s/opt/sphenix/utils",$opt_sourcevol,$opt_sysname);
-    my $tarcmd = sprintf("tar  -cf %s %s",$utils_tmp_tarfile,$utilsdir);
+    my $utilsdir = sprintf("/cvmfs/%s/%s/opt/%s/utils",$opt_sourcevol,$opt_sysname,$optdir);
+    my $stowdir = sprintf("%s/stow",$utilsdir);
+    my %restowlist = ();
+    if (-f "utils_restow.list")
+    {
+	open(F,"utils_restow.list");
+	while (my $line=<F>)
+	{
+	    chomp $line;
+	    $restowlist{$line} = 1;
+	}
+	close(F);
+    }
+    chdir $stowdir;
+    foreach my $pkg (keys %restowlist)
+    {
+	my $unstowcmd = sprintf("stow -D %s",$pkg);
+	print "executing $unstowcmd\n";
+	system($unstowcmd);
+    }
+    chdir $currdir;
+    my $excludelist = "";
+    if (-f "utils_no_tar.list")
+    {
+	open(F,"utils_no_tar.list");
+	while (my $line=<F>)
+	{
+            chomp $line;
+	    $excludelist = sprintf("%s --exclude \'%s\' ",$excludelist,$line);
+	}
+	close(F);
+    }
+    my $tarcmd = sprintf("tar  -cf %s %s %s",$utils_tmp_tarfile,$excludelist,$utilsdir);
     print "tarcmd: $tarcmd\n";
     if (! $opt_test)
     {
 	system($tarcmd);
     }
+    chdir $stowdir;
+    foreach my $pkg (keys %restowlist)
+    {
+	my $stowcmd = sprintf("stow %s",$pkg);
+	my $cvmfscatfile = sprintf("%s/.cvmfscatalog",$pkg);
+        unlink $cvmfscatfile;
+	print "executing $stowcmd\n";
+	system($stowcmd);
+        my $touchcmd = sprintf("touch %s",$cvmfscatfile);
+        system($touchcmd);
+    }
+    chdir $currdir;
     my $zipcmd = sprintf("bzip2 %s",$utils_tmp_tarfile);
     if (! $opt_test)
     {
