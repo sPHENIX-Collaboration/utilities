@@ -1,8 +1,9 @@
 acts-framework
+calibrations
 fun4all_coresoftware
-online_distribution
 fun4all_eicdetectors
 fun4all_g4jleic
-g4lblvtx
-qinhua
 g4hakanvtx
+g4lblvtx
+online_distribution
+qinhua
