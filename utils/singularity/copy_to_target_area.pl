@@ -81,6 +81,7 @@ my $opt_tmp_tarfile =sprintf("%s/opt.tar",$tmpdir);
 my $mceg_tmp_tarfile = sprintf("%s/MCEG.tar",$tmpdir);
 my $utils_tmp_tarfile = sprintf("%s/utils.tar",$tmpdir);
 my $core_basedir = sprintf("/cvmfs/%s/%s/opt/%s/core",$opt_sourcevol,$opt_sysname,$optdir);
+
 my @opt_dir_list = (sprintf("%s/bin",$core_basedir),
                     sprintf("%s/etc",$core_basedir),
                     sprintf("%s/include",$core_basedir),
@@ -166,6 +167,11 @@ if ($opt_optsphenix > 0 || $opt_all > 0)
     my $g4dir = sprintf("%s/geant4",$OFFLINE_MAIN);
     my $rootlink = readlink($rootdir);
     my $g4link = readlink($g4dir);
+    if ($opt_sourcevol !~ /sphenix/)
+    {
+	$rootlink =~ s/sphenix/fun4all/;
+	$g4link =~ s/sphenix/fun4all/;
+    }
     my $tarcmd = sprintf("tar -cf %s %s",$opt_tmp_tarfile,$rootlink);
     print "tarcmd: $tarcmd\n";
     if (! $opt_test)
