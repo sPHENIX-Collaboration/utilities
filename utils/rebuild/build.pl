@@ -617,7 +617,7 @@ print LOG "===========================================\n";
 #        close(F);
 
         # remove the la files - we do not need them
-	my $rmlacmd = sprintf("rm %/lib/*.la",$OFFLINE_MAIN);
+	my $rmlacmd = sprintf("rm %s/lib/*.la",$OFFLINE_MAIN);
 	system($rmlacmd);
 
 	foreach my $m (@package)
