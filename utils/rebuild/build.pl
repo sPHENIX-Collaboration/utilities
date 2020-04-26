@@ -591,113 +591,117 @@ print LOG "===========================================\n";
         system("rsync -a lib  $installDir");
         chdir "include";
         make_path($installDir."/include/GenFit", {mode => 0775}) unless -e $installDir."/include/GenFit";
-         system("rsync -a . $installDir/include/GenFit");
+	system("rsync -a . $installDir/include/GenFit");
 # modify all *.la files of external packages to point to this OFFLINE_MAIN, if someone can figure
 # out how to do the following one liner that would be enough:
 #    system("perl -e \"s/libdir=.*/libdir='$OFFLINE_MAIN\/lib'/g\" -p -i.old $OFFLINE_MAIN/lib/*.la");
 # Since I did not succeed with this here is the ugly by hand implementation:
-        $repl = "libdir='" . $OFFLINE_MAIN . "/lib'";
-        open(F,"find $OFFLINE_MAIN/lib -name '*.la' -print |");
-        while ($lafile = <F>)
-        {
-            chomp $lafile;
-            $bckfile = $lafile . ".bck";
-            move($lafile,$bckfile);
-            open(F1,$bckfile);
-            open(F2,">$lafile");
-            while ($line = <F1>)
-            {
-                $line =~ s/libdir=.*/$repl/g;
-                print F2 $line;
-            }
-            close(F1);
-            unlink $bckfile;
-            close(F2);
-        }
-        close(F);
+#        $repl = "libdir='" . $OFFLINE_MAIN . "/lib'";
+#        open(F,"find $OFFLINE_MAIN/lib -name '*.la' -print |");
+#        while ($lafile = <F>)
+#        {
+#            chomp $lafile;
+#            $bckfile = $lafile . ".bck";
+#            move($lafile,$bckfile);
+#            open(F1,$bckfile);
+#            open(F2,">$lafile");
+#            while ($line = <F1>)
+#            {
+#                $line =~ s/libdir=.*/$repl/g;
+#                print F2 $line;
+#            }
+#            close(F1);
+#            unlink $bckfile;
+#            close(F2);
+#        }
+#        close(F);
 
-    foreach my $m (@package)
-      {
-        my $sdir = realpath($sourceDir)."/".$m;
-        my $bdir = realpath($buildDir)."/".$m;
-        make_path($bdir, {verbose=>1, mode => 0775});
-        chdir $bdir;
+        # remove the la files - we do not need them
+	my $rmlacmd = sprintf("rm %/lib/*.la",$OFFLINE_MAIN);
+	system($rmlacmd);
 
-        # Populate top-level directories with their own copy of .psrc
-        # so that Insure++ will know where to send its output.  This
-        # keeps the little compilations done by autoconf from spewing
-        # Insure output to the screen.
-        if ($opt_insure)
-          {
-            ($base = $m) =~ s|/|.|g;
-            copy("$Bin/insure.psrc", $bdir."/.psrc");
-            open(OUT, ">>.psrc");
-            print OUT "insure++.report_file $insureDir/$base.txt\n";
-            print OUT "insure++.runtime off\n";
-            close(OUT);
-          }
+	foreach my $m (@package)
+	{
+	    my $sdir = realpath($sourceDir)."/".$m;
+	    my $bdir = realpath($buildDir)."/".$m;
+	    make_path($bdir, {verbose=>1, mode => 0775});
+	    chdir $bdir;
 
-        chomp ($date = `date`);
-        print LOG "========================================================\n";
-        print LOG "configuring package $m                                  \n";
-        print LOG "at $date                                                \n";
-        if ($m =~ /acts-framework/)
-        {
-            $arg = CreateCmakeCommand("acts-framework", $sdir);
-        }
-        else
-        {
-            if ( $opt_scanbuild && exists $scanbuildignore{$m})
-            {
-                $arg = "env $compileFlags $sdir/autogen.sh --prefix=$installDir";
-            }
-            else
-            {
-                if ($opt_clang)
-                {
-                    $arg = "env CXX=clang++ CC=clang $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
-                }
-                else
-                {
-                    $arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
-                }
-            }
-        }
-        print LOG "Running $arg\n";
-        print LOG "========================================================\n";
+	    # Populate top-level directories with their own copy of .psrc
+	    # so that Insure++ will know where to send its output.  This
+	    # keeps the little compilations done by autoconf from spewing
+	    # Insure output to the screen.
+	    if ($opt_insure)
+	    {
+		($base = $m) =~ s|/|.|g;
+		copy("$Bin/insure.psrc", $bdir."/.psrc");
+		open(OUT, ">>.psrc");
+		print OUT "insure++.report_file $insureDir/$base.txt\n";
+		print OUT "insure++.runtime off\n";
+		close(OUT);
+	    }
 
-        if (&doSystemFail($arg))
-          {
-            if ($opt_notify)
-              {
-                print LOG "\nsending configure failure mail to $contact{$m}, cc $CC\n";
-                open( MAIL, "|$SENDMAIL" );
-                print MAIL "To: $contact{$m}\n";
-                print MAIL "From: The ",$collaboration," rebuild daemon\n";
-                print MAIL "Cc: $CC\n";
-                print MAIL "Subject: your configure crashed the build\n\n";
-                print MAIL "\n";
-                print MAIL "Hello,\n";
-                print MAIL "The rebuild crashed in module $m at $date.\n";
-                print MAIL "\"$arg\" failed: $? \n";
-                print MAIL "Please look at the rebuild log, found on: \n";
-                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
-                print MAIL "Yours, The Rebuild Daemon \n";
-                close(MAIL);
-              }
-            goto END;
-          }
+	    chomp ($date = `date`);
+	    print LOG "========================================================\n";
+	    print LOG "configuring package $m                                  \n";
+	    print LOG "at $date                                                \n";
+	    if ($m =~ /acts-framework/)
+	    {
+		$arg = CreateCmakeCommand("acts-framework", $sdir);
+	    }
+	    else
+	    {
+		if ( $opt_scanbuild && exists $scanbuildignore{$m})
+		{
+		    $arg = "env $compileFlags $sdir/autogen.sh --prefix=$installDir";
+		}
+		else
+		{
+		    if ($opt_clang)
+		    {
+			$arg = "env CXX=clang++ CC=clang $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
+		    }
+		    else
+		    {
+			$arg = "env $compileFlags $scanbuild $sdir/autogen.sh --prefix=$installDir --cache-file=$buildDir/config.cache";
+		    }
+		}
+	    }
+	    print LOG "Running $arg\n";
+	    print LOG "========================================================\n";
 
-        # Populate all subdirectories with their own copy of .psrc so
-        # that Insure++ will know where to send its output.
-        if ($opt_insure)
-          {
-            find sub { -d &&
-                         !(realpath($File::Find::name) eq realpath($bdir)) &&
-                           copy($bdir."/.psrc", $File::Find::name)}, $bdir;
-          }
-      }
-  }
+	    if (&doSystemFail($arg))
+	    {
+		if ($opt_notify)
+		{
+		    print LOG "\nsending configure failure mail to $contact{$m}, cc $CC\n";
+		    open( MAIL, "|$SENDMAIL" );
+		    print MAIL "To: $contact{$m}\n";
+		    print MAIL "From: The ",$collaboration," rebuild daemon\n";
+		    print MAIL "Cc: $CC\n";
+		    print MAIL "Subject: your configure crashed the build\n\n";
+		    print MAIL "\n";
+		    print MAIL "Hello,\n";
+		    print MAIL "The rebuild crashed in module $m at $date.\n";
+		    print MAIL "\"$arg\" failed: $? \n";
+		    print MAIL "Please look at the rebuild log, found on: \n";
+		    print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+		    print MAIL "Yours, The Rebuild Daemon \n";
+		    close(MAIL);
+		}
+		goto END;
+	    }
+
+	    # Populate all subdirectories with their own copy of .psrc so
+	    # that Insure++ will know where to send its output.
+	    if ($opt_insure)
+	    {
+		find sub { -d &&
+			       !(realpath($File::Find::name) eq realpath($bdir)) &&
+			       copy($bdir."/.psrc", $File::Find::name)}, $bdir;
+	    }
+	}
+    }
 
 # set ROOTSYS to local root softlink if stage > 1 
 # otherwise we get ROOTSYS from phenix_setup.csh which 
