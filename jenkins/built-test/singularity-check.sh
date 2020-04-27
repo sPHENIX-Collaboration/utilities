@@ -1,7 +1,22 @@
 #!/bin/tcsh -f
 
-echo "source /opt/sphenix/core/bin/sphenix_setup.csh -n $*"
-source /opt/sphenix/core/bin/sphenix_setup.csh -n $*; 
+
+if (! $?build_type) then       
+  echo "build_type is undefined, use new"
+  set build_type=new
+else
+  echo "use predefined build_type = ${build_type}"
+endif
+
+if (! $?system_config) then       
+  echo "system_config is undefined, use x8664_sl7"
+  set system_config=x8664_sl7
+else
+  echo "use predefined system_config = ${system_config}"
+endif
+
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  -n $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  -n $build_type;
 
 env;
 
