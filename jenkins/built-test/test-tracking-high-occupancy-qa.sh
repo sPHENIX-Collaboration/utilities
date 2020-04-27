@@ -13,8 +13,16 @@ set number_jobs = $3;
 
 set name = test-tracking-high-occupancy-qa_Event${num_event}_Sum${number_jobs}
 
+if (! $?system_config) then       
+  echo "system_config is undefined, use x8664_sl7"
+  set system_config=x8664_sl7
+else
+  echo "use predefined system_config = ${system_config}"
+endif
+
 setenv OFFLINE_MAIN $WORKSPACE/install
-source /opt/sphenix/core/bin/sphenix_setup.csh $build_type; 
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  $build_type;
 
 # setenv PATH 		$WORKSPACE/install/bin:${PATH}
 # setenv LD_LIBRARY_PATH 	$WORKSPACE/install/lib:${LD_LIBRARY_PATH}
