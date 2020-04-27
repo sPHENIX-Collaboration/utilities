@@ -63,7 +63,7 @@ echo "======================================================="
 # Test case to produce memory error
 # echo '{int ret = gSystem->Load("libg4bbc.so"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
 
-/usr/bin/time -v ${valgrind_prefix} root.exe -b -q "${macro_name}.C(${number_event})" 2>&1 | tee -a ${macro_name}.log;
+/usr/bin/time -v ${valgrind_prefix} root.exe -b -q "${macro_name}.C(${number_event})" ;
 
 build_ret=$?;
 
