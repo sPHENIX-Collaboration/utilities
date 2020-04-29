@@ -182,9 +182,9 @@ $JOBS = sprintf("-j %d",$numcores) if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
 $workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/' . $collaboration;
-
+my $myhost = `hostname -s`;
 $startTime = time;
-$sysname = $USER.'@'.$HOST.'#'.$Config{osname}.':'.$opt_version;
+$sysname = $USER.'@'.$myhost.'#'.$Config{osname}.':'.$opt_version;
 $compileFlags = ($sysname =~ m/linux/) ? ' INSTALL="/usr/bin/install -D -p" install_sh="/usr/bin/install -D -p"' : "";
 $insureCompileFlags = " ";
 
@@ -588,7 +588,14 @@ print LOG "===========================================\n";
             goto END;
         }
         chdir $dir;
-        system("rsync -a lib  $installDir");
+	if (-d "./lib")
+	{
+	    system("rsync -a lib  $installDir");
+	}
+	if (-d "./lib64")
+	{
+	    system("rsync -a lib64  $installDir");
+	}
         chdir "include";
         make_path($installDir."/include/GenFit", {mode => 0775}) unless -e $installDir."/include/GenFit";
 	system("rsync -a . $installDir/include/GenFit");
