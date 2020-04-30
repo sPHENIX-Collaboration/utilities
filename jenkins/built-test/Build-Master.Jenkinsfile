@@ -44,7 +44,7 @@ pipeline
 						dir('online_distribution') {
 							deleteDir()
 						}
-						dir('acts-framework') {
+						dir('acts') {
 							deleteDir()
 						}
 						dir('macros')
@@ -124,7 +124,7 @@ pipeline
 						dir('online_distribution') {
 							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/online_distribution.git'
 						}
-						dir('acts-framework') {
+						dir('acts') {
 
 							checkout(
 								[
@@ -145,12 +145,12 @@ pipeline
 									userRemoteConfigs: 
 									[[
 									credentialsId: 'sPHENIX-bot', 
-									url: 'https://github.com/sPHENIX-Collaboration/acts-framework.git',
+									url: 'https://github.com/sPHENIX-Collaboration/acts.git',
 									refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
 									]]
 								] //checkout
 							)//checkout						
-						}//	dir('acts-framework') 
+						}//	dir('acts') 
 
 						//dir('macros')
 						//{
