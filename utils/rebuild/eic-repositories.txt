@@ -1,5 +1,5 @@
-acts-framework
 calibrations
+fun4all_acts
 fun4all_coresoftware
 fun4all_eicdetectors
 fun4all_g4jleic
