@@ -1,4 +1,4 @@
-acts-framework
+acts
 calibrations
 coresoftware
 online_distribution
