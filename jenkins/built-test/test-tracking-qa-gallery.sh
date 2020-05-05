@@ -21,7 +21,14 @@ cd qa_html/
 mkdir src/
 rsync -avl ${WORKSPACE}/macros/macros/g4simulations/*.png src/
 rsync -avl ${WORKSPACE}/macros/macros/QA/tracking/*.png src/
-ls -lsv src/
+
+mkdir -pv src/INTT
+mv src/*QA_Draw_Intt_* src/INTT/
+
+mkdir -pv src/MVTX
+mv src/*QA_Draw_Mvtx_* src/MVTX/
+
+ls -lsv src/*
 
 pwd;
 ls -lhv;
