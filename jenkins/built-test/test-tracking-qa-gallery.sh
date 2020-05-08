@@ -28,6 +28,9 @@ mv src/*QA_Draw_Intt_* src/INTT/
 mkdir -pv src/MVTX
 mv src/*QA_Draw_Mvtx_* src/MVTX/
 
+mkdir -pv src/Tracking
+mv src/*QA_Draw_Tracking_* src/Tracking/
+
 ls -lsv src/*
 
 pwd;
