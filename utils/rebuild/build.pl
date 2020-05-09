@@ -182,7 +182,8 @@ $JOBS = sprintf("-j %d",$numcores) if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
 $workdir = $opt_workdir ? $opt_workdir : '/home/'. $USER . '/' . $collaboration;
-my $myhost = `hostname -s`;
+my $myhost = `hostname`;
+chomp $myhost;
 $startTime = time;
 $sysname = $USER.'@'.$myhost.'#'.$Config{osname}.':'.$opt_version;
 $compileFlags = ($sysname =~ m/linux/) ? ' INSTALL="/usr/bin/install -D -p" install_sh="/usr/bin/install -D -p"' : "";
