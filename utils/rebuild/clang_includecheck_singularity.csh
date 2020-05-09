@@ -3,7 +3,7 @@
 # create dumb shell script to call build.pl inside container
 echo "#\!/bin/csh -f" > clang_includecheck.csh
 echo "source /opt/sphenix/core/bin/sphenix_setup.csh -n clang" >> clang_includecheck.csh
-echo "build.pl --includecheck --version='includecheck'" >> clang_includecheck.csh
+echo "build.pl --includecheck --clang --version='includecheck'" >> clang_includecheck.csh
 chmod +x clang_includecheck.csh
 
 set dir=$PWD
