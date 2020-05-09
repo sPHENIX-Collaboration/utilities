@@ -798,7 +798,7 @@ if ($opt_stage < 4)
             {
                 if ($opt_includecheck)
                 {
-                    $arg = "make -k CXX=/opt/sphenix/utils/bin/include-what-you-use "
+                    $arg = "make -k CXX='/opt/sphenix/utils/bin/include-what-you-use -I/opt/sphenix/utils/lib/clang/9.0.1/include ' "
                 }
                 else
                 {
