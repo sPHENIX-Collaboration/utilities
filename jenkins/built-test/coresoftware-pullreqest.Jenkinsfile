@@ -143,10 +143,15 @@ pipeline
 				    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
 					    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 				    		],
-			    			wait: true, propagate: true)
+			    			wait: true, propagate: false)
 			    			
-						   copyArtifacts(projectName: 'cpp-check-pipeline', filter: 'report/*', selector: specific("${built.number}"));
-		    		}
+						copyArtifacts(projectName: 'cpp-check-pipeline', filter: 'report/*', selector: specific("${built.number}"));
+		    		
+						if ("${built.result}" != 'SUCCESS')
+						{
+						   error('Build New FAIL by cppcheck')
+    						}
+					}
 		   		}
 				}// Stage - cpp check
 				 
