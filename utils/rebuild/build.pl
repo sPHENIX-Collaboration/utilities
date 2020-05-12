@@ -631,6 +631,11 @@ print LOG "===========================================\n";
 	foreach my $m (@package)
 	{
 	    my $sdir = realpath($sourceDir)."/".$m;
+	    if (! -d $sdir)
+	    {
+		print LOG "$sdir not found, skipping\n";
+		next;
+	    }
 	    my $bdir = realpath($buildDir)."/".$m;
 	    make_path($bdir, {verbose=>1, mode => 0775});
 	    chdir $bdir;
@@ -726,6 +731,11 @@ if ($opt_stage < 3)
           next;
         }
         $sdir = realpath($sourceDir)."/".$m;
+	if (! -d $sdir)
+	{
+	    print LOG "$sdir not found, skipping\n";
+	    next;
+	}
         $bdir = realpath($buildDir)."/".$m;
         chdir $bdir;
         chomp ($date = `date`);
@@ -775,7 +785,12 @@ if ($opt_stage < 4)
                   $covbuild = sprintf("%s --dir %s/covtmp/%s",$covcommonbuild,$workdir,$m);
               }
           }
-        $sdir = realpath($sourceDir)."/".$m;
+	  $sdir = realpath($sourceDir)."/".$m;
+	  if (! -d $sdir)
+	  {
+	      print LOG "$sdir not found, skipping\n";
+	      next;
+	  }
         $bdir = realpath($buildDir)."/".$m;
         chdir $bdir;
         chomp ($date = `date`);
