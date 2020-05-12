@@ -20,6 +20,7 @@ fun4all_coresoftware/generators/flowAfterburner|dave@bnl.gov
 fun4all_coresoftware/offline/packages/HelixHough|alan.dion@gmail.com
 fun4all_coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 fun4all_coresoftware/offline/packages/PHField|jhuang@bnl.gov
+fun4all_coresoftware/offline/packages/PHTpcTracker|arkhipkin@bnl.gov
 #
 # simulations
 # simulations/generator
