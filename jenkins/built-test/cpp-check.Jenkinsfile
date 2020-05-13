@@ -131,7 +131,7 @@ pipeline
 			dir('report')
 			{
 				sh('ls -lvhc')
-			  writeFile file: "cpp-check.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) cpp-check on coresoftware [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:cppcheck report](${env.BUILD_URL}/cppcheck/)"				
+			  writeFile file: "cpp-check.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) cpp-check on coresoftware [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:cppcheck report](${env.BUILD_URL}/cppcheck/new/)"				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
