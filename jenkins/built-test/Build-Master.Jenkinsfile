@@ -657,11 +657,11 @@ pipeline
 					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${system_config}` / `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
 	        				
 					if ("$build_type" == 'clang') {
-						report_content = "${report_content}, [:bar_chart:clang report](${env.BUILD_URL}/clang/new/)";
+						report_content = "${report_content}, [:bar_chart:clang report (full)](${env.BUILD_URL}/clang/)/[(new)](${env.BUILD_URL}/clang/new/)";
 					} else if ("$build_type" == 'scan') {
-						report_content = "${report_content}, [:bar_chart:scan-build report](${env.BUILD_URL}/clang-analyzer/new/)";
+						report_content = "${report_content}, [:bar_chart:scan-build report (full)](${env.BUILD_URL}/clang-analyzer/)/[(new)](${env.BUILD_URL}/clang-analyzer/new/)";
 					} else {
-						report_content = "${report_content}, [:bar_chart:Compiler report](${env.BUILD_URL}/gcc/new/)";
+						report_content = "${report_content}, [:bar_chart:Compiler report (full)](${env.BUILD_URL}/gcc/)/[(new)](${env.BUILD_URL}/gcc/new/)";
 					}
 					
 					report_content = "${report_content}, [build log](${env.BUILD_URL}/artifact/build/${build_type}/rebuild.log)"
