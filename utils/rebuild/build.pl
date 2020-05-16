@@ -41,7 +41,7 @@ for (my $arg = 0; $arg <= $#ARGV; $arg++)
 
 umask 002;
 $MAIL = '/bin/mail';
-my $SENDMAIL = "/usr/sbin/sendmail -t -v";
+my $SENDMAIL = "/usr/sbin/sendmail -t";
 my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
 
@@ -1047,7 +1047,7 @@ else
 
 END:{
   $buildSucceeded==1 && ($buildStatus='success', last END);
-  $buildSucceeded==0 && ($buildStatus='busted', exit(-1));
+  $buildSucceeded==0 && ($buildStatus='busted', last END);
 }
 
 # save the latest commit id of the checkouts
