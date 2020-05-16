@@ -15,6 +15,7 @@ use Time::Local;
 use Config;
 use Cwd qw(getcwd realpath);
 use Env;
+use POSIX;
 #use strict;
 
 sub SaveGitTagsToDB;
@@ -1047,7 +1048,7 @@ else
 
 END:{
   $buildSucceeded==1 && ($buildStatus='success', last END);
-  $buildSucceeded==0 && ($buildStatus='busted', last END);
+  $buildSucceeded==0 && ($buildStatus='busted', POSIX::_exit(-1), last END);
 }
 
 # save the latest commit id of the checkouts
