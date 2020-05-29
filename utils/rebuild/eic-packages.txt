@@ -73,7 +73,7 @@ fun4all_coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 fun4all_coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 fun4all_coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
 # calorimeters and tracking combined
-coresoftware/offline/packages/particleflow|dvp@bnl.gov
+fun4all_coresoftware/offline/packages/particleflow|dvp@bnl.gov
 # QA modules that use both simulation and offline libs
 fun4all_coresoftware/offline/QA/modules|jhuang@bnl.gov
 # the dumping needs all objects and comes last
