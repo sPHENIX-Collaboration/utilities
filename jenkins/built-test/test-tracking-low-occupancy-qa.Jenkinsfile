@@ -31,7 +31,7 @@ pipeline
 					
 						script {
 						
-							currentBuild.description = "${upstream_build_description}" 
+							currentBuild.description = "${upstream_build_description}<br>Use this build as reference: ${JENKINS_URL}/job/sPHENIX/job/test-tracking-low-occupancy-qa-reference/parambuild/?ref_build_id=${BUILD_ID}" 
 			
 							if (fileExists('./install'))
 							{
