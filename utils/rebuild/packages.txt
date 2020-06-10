@@ -44,10 +44,12 @@ coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 coresoftware/offline/packages/mvtx|dmcglinchey@lanl.gov
 coresoftware/offline/packages/intt|afrawley@fsu.edu
 coresoftware/offline/packages/tpc|afrawley@fsu.edu
+coresoftware/offline/packages/micromegas|hugo.pereira-da-costa@cea.fr
 # g4tpc, g4mvtx and g4intt need tpc, mvtx and intt
 coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
+coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
 # cemc needs g4detectors
 coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 # coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
