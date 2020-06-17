@@ -260,8 +260,10 @@ pipeline
 		}
 
 		success {
-			currentBuild.description = "${upstream_build_description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-calo-single-qa-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>"  
-
+			script {
+				currentBuild.description = "${upstream_build_description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-calo-single-qa-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>"  
+			}
+			
 			build(job: 'github-comment-label',
 			  parameters:
 			  [
