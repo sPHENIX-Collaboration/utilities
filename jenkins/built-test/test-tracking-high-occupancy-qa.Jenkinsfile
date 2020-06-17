@@ -31,7 +31,7 @@ pipeline
 					
 						script {
 						
-							"${upstream_build_description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-tracking-high-occupancy-qa-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>"  
+							currentBuild.description = "${upstream_build_description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-tracking-high-occupancy-qa-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>"  
 			
 							if (fileExists('./install'))
 							{
