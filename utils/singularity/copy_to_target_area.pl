@@ -161,7 +161,7 @@ if ($opt_optsphenix > 0 || $opt_all > 0)
     my $opttargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
     if (! $opt_test)
     {
-	mkpath($opttargetdir);
+	mkpath($opttargetdir,0,0750);
     }
     my $rootdir = sprintf("%s/root",$OFFLINE_MAIN);
     my $g4dir = sprintf("%s/geant4",$OFFLINE_MAIN);
@@ -238,7 +238,7 @@ if ($opt_optutils > 0 || $opt_all > 0)
     my $opttargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
     if (! $opt_test)
     {
-	mkpath($opttargetdir);
+	mkpath($opttargetdir,0,0750);
     }
     my $utilsdir = sprintf("/cvmfs/%s/%s/opt/%s/utils",$opt_sourcevol,$opt_sysname,$optdir);
     my $stowdir = sprintf("%s/stow",$utilsdir);
@@ -321,7 +321,7 @@ if ($opt_offline > 0 || $opt_all > 0)
     my $offtargetdir = sprintf("%s/%s/%s",$targetdir,$opt_sysname,$opt_version);
     if (! $opt_test)
     {
-      mkpath($offtargetdir);
+      mkpath($offtargetdir,0,0750);
     }
     my $offline_symlink = sprintf("/cvmfs/%s/%s/release/release_%s/%s",$opt_sourcevol,$opt_sysname,$opt_version,$opt_version);
     my $tarcmd = sprintf("tar -cf %s %s",$offline_tmp_tarfile,$offline_symlink);
