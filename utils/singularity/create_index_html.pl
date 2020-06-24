@@ -17,8 +17,8 @@ $rootversion{"new"} = "Root6";
 $rootversion{"root5"} = "Root5";
 
 my %tarball = ();
-$tarball{"opt.tar.bz2"} = "coresoftware tarball";
-$tarball{"offline_main.tar.bz2"} = "OFFLINE_MAIN tarball";
+$tarball{"opt.tar.bz2"} = "supportsoftware tarball";
+$tarball{"offline_main.tar.bz2"} = "coresoftware tarball";
 $tarball{"utils.tar.bz2"} = "utilities tarball";
 
 my %sysname = ();
@@ -60,10 +60,11 @@ if (-f $fullcontainer)
 {
     print F "<h3>\n";
     print F "<a href=\"./$containername\">rcf Singularity Container image</a>\n";
-    my $md5file = sprintf("%s.md5",$fullcontainer);
-    if (-f $md5file)
+    my $md5file = sprintf("%s.md5",$containername);
+    my $fullmd5file = sprintf("%s/%s",$targetdir,$md5file);
+    if (-f $fullmd5file)
     {
-	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+	print F " with corresponding <a href=\"./$md5file\"> md5 sum</a>\n";
     }
     print F "<p></h3>\n";
 }
@@ -74,10 +75,11 @@ if (-f $dockercontainer)
 {
     print F "<h3>\n";
     print F "<a href=\"./$dockername\">rcf Docker Container image</a>\n";
-    my $md5file = sprintf("%s.md5",$dockercontainer);
-    if (-f $md5file)
+    my $md5file = sprintf("%s.md5",$dockername);
+    my $fullmd5file = sprintf("%s/%s",$targetdir,$md5file);
+    if (-f $fullmd5file)
     {
-	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+	print F " with corresponding <a href=\"./$md5file\"> md5 sum</a>\n";
     }
     print F "<p></h3>\n";
 }
@@ -88,10 +90,11 @@ if (-f $mcegtar)
 {
     print F "<h3>\n";
     print F "<a href=\"./$mcegname\">EIC Monte Carlos</a>\n";
-    my $md5file = sprintf("%s.md5",$mcegtar);
-    if (-f $md5file)
+    my $md5file = sprintf("%s.md5",$mcegname);
+    my $fullmd5file = sprintf("%s/%s",$targetdir,$md5file);
+    if (-f $fullmd5file)
     {
-	print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+	print F " with corresponding <a href=\"./$md5file\"> md5 sum</a>\n";
     }
     print F "<p></h3>\n";
 }
@@ -117,14 +120,16 @@ foreach my $subdir (@dirs)
 	    print F "<h4>\n";
 	    foreach my $tb (keys %tarball)
 	    {
-		my $fullfile = sprintf("%s/%s/%s",$subtargetdir,$bldsubdir,$tb);
+		my $relfile = sprintf("%s/%s/%s",$subdir,$bldsubdir,$tb);
+		my $fullfile = sprintf("%s/%s",$targetdir,$relfile);
 		if (-f $fullfile)
 		{
-		    print F "<a href=\"$fullfile\">$tarball{$tb}</a>\n"; 
-		    my $md5file = sprintf("%s.md5",$fullfile);
-		    if (-f $md5file)
+		    print F "<a href=\"./$relfile\">$tarball{$tb}</a>\n";
+		    my $md5file = sprintf("%s.md5",$relfile);
+		    my $fullmd5file = sprintf("%s.md5",$fullfile);
+		    if (-f $fullmd5file)
 		    {
-			print F " with corresponding <a href=\"$md5file\"> md5 sum</a>\n";
+			print F " with corresponding <a href=\"./$md5file\"> md5 sum</a>\n";
 		    }
 		    print F"</br>\n";
 		}
