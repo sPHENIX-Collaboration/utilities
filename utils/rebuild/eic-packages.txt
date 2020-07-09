@@ -44,10 +44,12 @@ fun4all_coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 fun4all_coresoftware/offline/packages/mvtx|dmcglinchey@lanl.gov
 fun4all_coresoftware/offline/packages/intt|afrawley@fsu.edu
 fun4all_coresoftware/offline/packages/tpc|afrawley@fsu.edu
+fun4all_coresoftware/offline/packages/micromegas|hugo.pereira-da-costa@cea.fr
 # g4tpc, g4mvtx and g4intt need tpc, mvtx and intt
 fun4all_coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
 fun4all_coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
+fun4all_coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
 # cemc needs g4detectors
 fun4all_coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 # fun4all_coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
