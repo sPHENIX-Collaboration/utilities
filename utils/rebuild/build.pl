@@ -919,8 +919,24 @@ if ($opt_stage < 4)
     }
     print LOG $gitcommand, "\n";
     goto END if &doSystemFail($gitcommand);
-
+# rsync over common root macros to $OFFLINE_MAIN/rootmacros
+    my $macrotargetdir = sprintf("%s/rootmacros",$installDir);
+    make_path($macrotargetdir,{mode => 0775});
+    foreach my $repo (@gitrepos)
+    {
+	if ($repo =~ /macro/)
+	{
+	    my $macrosrcdir = sprintf("%s/%s/common",$sourceDir,$repo);
+	    if (-d $macrosrcdir)
+	    {
+		print LOG "rsync common ROOT macros from $macrosrcdir to $macrotargetdir\n";
+		my $rsynccmd = sprintf("rsync -a %s/* %s",$macrosrcdir,$macrotargetdir);
+		system($rsynccmd);
+	    }
+	}
+    }
   }
+
 # all done adjust remaining *.la files to point to /afs/rhic.bnl.gov/ instead 
 # of /afs/.rhic.bnl.gov/
 #my $cmd = sprintf("find %s/lib -name '*.la' -print | xargs sed -i 's/\\.rhic/rhic/g'",$OFFLINE_MAIN);
