@@ -152,7 +152,7 @@ pipeline
 			steps 
 			{
 			
-				archiveArtifacts artifacts: 'macros/macros/g4simulations/*.root'
+				archiveArtifacts artifacts: 'macros/detectors/${detector_name}/*.root'
 			
 			}		
 		}
