@@ -24,6 +24,8 @@ export OFFLINE_MAIN=$WORKSPACE/install
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 
+export ROOT_INCLUDE_PATH=${ROOT_INCLUDE_PATH}:${WORKSPACE}/macros/common
+
 echo "======================================================="
 echo "env check";
 echo "======================================================="
