@@ -31,9 +31,9 @@ echo "======================================================="
 env;
 
 echo "======================================================="
-echo "cd detectors/${detector_name}";
+echo "cd macros/detectors/${detector_name}";
 echo "======================================================="
-cd detectors/${detector_name}
+cd macros/detectors/${detector_name}
 
 pwd;
 ls -lhc
