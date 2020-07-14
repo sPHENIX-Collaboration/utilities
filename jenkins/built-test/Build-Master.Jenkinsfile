@@ -260,6 +260,7 @@ pipeline
 						stage('Test')
 						{
 							parallel {
+								
 								stage('test-default-sPHENIX')
 								{
 									
@@ -293,7 +294,7 @@ pipeline
     									}							
 										}
 									}				
-								}
+								} // stage('test-default-sPHENIX')
 								
 								stage('test-default-fsPHENIX')
 								{
@@ -330,7 +331,7 @@ pipeline
 						   			
 						   				    
 									}								
-								}// 				stage('test-calo-single-qa')
+								}// 				stage('test-default-fsPHENIX')
 								
 								stage('test-default-EICDetector')
 								{
@@ -366,7 +367,110 @@ pipeline
 										}
 						   				    
 									}								
-								}// 				stage('test-calo-single-qa')
+								}// 				stage('test-default-EICDetector')
+								
+								stage('test-default-detector-sPHENIX')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{			    		
+										script
+										{
+				   						def built = build(job: 'test-default-detector-pipeline',
+						    			parameters:
+						    			[
+							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'build_type', value: "${build_type}"), 
+							    			string(name: 'system_config', value: "${system_config}"), 
+							    			string(name: 'sha_macros', value: "${sha_macros}"), 
+		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		    								string(name: 'detector_name', value: "sPHENIX"), 
+				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+			    						],
+						    			wait: true, propagate: false)
+						   										
+						   				copyArtifacts(projectName: 'test-default-detector-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-default-detector-sPHENIX FAIL')
+    									}							
+										}
+									}				
+								} // stage('test-default-detector-sPHENIX')
+								
+								stage('test-default-detector-fsPHENIX')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ } // temp assignment to QA switch. Move to run_default_test switch later
+									}
+									steps 
+									{			    		
+										script
+										{
+				   						def built = build(job: 'test-default-detector-pipeline',
+						    			parameters:
+						    			[
+							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'build_type', value: "${build_type}"), 
+							    			string(name: 'system_config', value: "${system_config}"), 
+							    			string(name: 'sha_macros', value: "${sha_macros}"), 
+		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		    								string(name: 'detector_name', value: "fsPHENIX"), 
+				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+			    						],
+						    			wait: true, propagate: false)
+						   										
+						   				copyArtifacts(projectName: 'test-default-detector-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-default-detector-fsPHENIX FAIL')
+    									}							
+										}
+						   			
+						   				    
+									}								
+								}// 				stage('test-default-detector-fsPHENIX')
+								
+								stage('test-default-detector-EICDetector')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ } // temp assignment to QA switch. Move to run_default_test switch later
+									}
+									steps 
+									{			    		
+										script
+										{
+				   						def built = build(job: 'test-default-detector-pipeline',
+						    			parameters:
+						    			[
+							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'build_type', value: "${build_type}"), 
+							    			string(name: 'system_config', value: "${system_config}"), 
+							    			string(name: 'sha_macros', value: "${sha_macros}"), 
+		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		    								string(name: 'detector_name', value: "EICDetector"), 
+				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+			    						],
+						    			wait: true, propagate: false)
+						   										
+						   				copyArtifacts(projectName: 'test-default-detector-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
+						   				if ("${built.result}" != 'SUCCESS')
+						   				{
+						   					error('test-default-detector-EICDetector FAIL')
+    									}							
+										}
+						   				    
+									}								
+								}// 				stage('test-default-detector-EICDetector')
+								
 								
 								stage('test-default-valgrind')
 								{
