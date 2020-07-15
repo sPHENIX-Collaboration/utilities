@@ -147,15 +147,15 @@ pipeline
 					
 		}
 		
-		stage('report')
-		{
-			steps 
-			{
-			
-				archiveArtifacts artifacts: 'macros/macros/g4simulations/*.root'
-			
-			}		
-		}
+	//	stage('report')
+	//	{
+	//		steps 
+	//		{
+	//		
+	//			archiveArtifacts artifacts: 'macros/macros/g4simulations/*.root'
+	//		
+	//		}		
+	//	}
 		
 	}//stages
 
