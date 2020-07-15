@@ -147,15 +147,15 @@ pipeline
 					
 		}
 		
-		stage('report')
-		{
-			steps 
-			{
-			
-				archiveArtifacts artifacts: 'macros/detectors/${detector_name}/*.root'
-			
-			}		
-		}
+	//	stage('report')
+	//	{
+	//		steps 
+	//		{
+	//		
+	//			archiveArtifacts artifacts: 'macros/detectors/${detector_name}/*.root'
+	//		
+	//		}		
+	//	}
 		
 	}//stages
 
