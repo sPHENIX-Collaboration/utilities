@@ -56,6 +56,7 @@ my %externalPackages = (
     "fastjet" => "fastjet",
     "gsl" => "gsl",
     "HepMC" => "HepMC",
+    "HepMC3" => "HepMC3",
     "log4cpp" => "log4cpp",
     "PHOTOS" => "PHOTOS",
     "pythia8" => "pythia8",
@@ -287,11 +288,6 @@ elsif ($opt_version =~ /old/) # build with previous versions
     $externalPackages{"CGAL"} = "CGAL-4.12";
     $externalPackages{"pythia8"} = "pythia8235-hepmc2";
     $externalPackages{"rave"} = "rave-0.6.25_clhep-2.3.2.2";
-}
-elsif ($opt_version =~ /hepmc3/) 
-{
-    $externalPackages{"HepMC"} = "HepMC-3.0.0";
-    $externalPackages{"pythia8"} = "pythia8235-hepmc3";
 }
 foreach my $pkg (sort keys %externalRootPackages)
 {
