@@ -34,6 +34,9 @@ mv src/*QA_Draw_Tpc_* src/TPC/
 mkdir -pv src/Tracking
 mv src/*QA_Draw_Tracking_* src/Tracking/
 
+mkdir -pv src/Vertex
+mv src/*QA_Draw_VertexResolution_* src/Vertex/
+
 ls -lsv src/*
 
 pwd;
