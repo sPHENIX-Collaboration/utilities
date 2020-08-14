@@ -37,9 +37,6 @@ mv src/*QA_Draw_Tracking_* src/Tracking/
 mkdir -pv src/Vertex
 mv src/*QA_Draw_Vertex_* src/Vertex/
 
-mkdir -pv src/DCA
-mv src/*QA_Draw_DCA_* src/DCA
-
 ls -lsv src/*
 
 pwd;
