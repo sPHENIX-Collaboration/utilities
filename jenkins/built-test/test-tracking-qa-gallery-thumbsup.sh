@@ -6,15 +6,6 @@ ls -lhv
 
 ls -lhv macros/macros/g4simulations/*
 
-~/anaconda3/bin/virtualenv env
-source env/bin/activate
-
-which python
-python --version
-pip --version
-
-pip install sigal\[all\]
-
 mkdir qa_html
 cd qa_html/
 
@@ -42,7 +33,7 @@ ls -lsv src/*
 pwd;
 ls -lhv;
 
-sigal build -f -v -n 16 -c ../utilities/jenkins/built-test/test-tracking-qa-gallery.py src _build
+thumbsup --config ../utilities/jenkins/built-test/test-tracking-qa-gallery-thumbsup.json
 
 
 pwd;
