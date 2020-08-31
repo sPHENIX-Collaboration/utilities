@@ -265,8 +265,8 @@ if ($opt_version =~ /play/)
 {
     if ($opt_sysname =~ /gcc-8.3/)
     {
-        $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
-        $externalPackages{"CLHEP"} = "clhep-2.4.1.3";
+#        $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
+#        $externalPackages{"CLHEP"} = "clhep-2.4.1.3";
         $externalPackages{"gsl"} = "gsl-2.6";
     }
     else
