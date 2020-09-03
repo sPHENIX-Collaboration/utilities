@@ -944,8 +944,10 @@ INSTALLONLY:
 $buildSucceeded = 1;
 
 # OK, installation done; move symlink over
+print LOG "removing old installation symlink $inst\n";
 unlink $inst if (-e $inst);
-symlink $linkTarget, $inst;
+print LOG "creating symlink  $inst -> " .  basename($linkTarget) . ", full target: $linkTarget\n";
+symlink basename($linkTarget), $inst;
 # install for scan and coverity build means copying reports which are not in afs
 if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
 {
