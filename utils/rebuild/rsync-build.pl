@@ -89,11 +89,14 @@ if (! -e $buildsymlink)
 }
 my $reallink = `readlink $buildsymlink`;
 chomp $reallink;
+my $srcdir = sprintf("%s/%s",dirname($buildsymlink),basename($reallink));
 my $realtarget = sprintf("%s",basename($reallink));
-print LOG "real $reallink\n";
+print LOG "src dir $srcdir\n";
 print LOG "real $realtarget\n";
 
-my $rsynccmd = sprintf("rsync -a --delete $reallink $targetreleasedir");
+my $rsynccmd = sprintf("rsync -a --delete $srcdir $targetreleasedir");
+print LOG "rsync cmd: $rsynccmd\n";
+
 $reallink =~ s/$origvolume/$tgtvolume/; # replace sphenix.sdcc.bnl.gov
 if (defined $test)
 {
