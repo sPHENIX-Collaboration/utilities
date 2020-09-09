@@ -695,7 +695,7 @@ print LOG "===========================================\n";
 		    print MAIL "The rebuild crashed in module $m at $date.\n";
 		    print MAIL "\"$arg\" failed: $? \n";
 		    print MAIL "Please look at the rebuild log, found on: \n";
-		    print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+		    print MAIL "https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox\n";
 		    print MAIL "Yours, The Rebuild Daemon \n";
 		    close(MAIL);
 		}
@@ -758,7 +758,7 @@ if ($opt_stage < 3)
                 print MAIL "The rebuild crashed in $m.\n";
                 print MAIL "\"$arg\" failed: $? \n";
                 print MAIL "Please look at the rebuild log: \n";
-                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+                print MAIL "https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox\n";
                 print MAIL "Yours, The Rebuild Daemon\n";
                 close(MAIL);
               }
@@ -835,7 +835,7 @@ if ($opt_stage < 4)
                 print MAIL "The rebuild crashed in $m on $date:\n";
                 print MAIL "\"$arg\" reason: $? \n";
                 print MAIL "Please look at the rebuild log, found on: \n";
-                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+                print MAIL "https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox\n";
                 print MAIL "Sincerely, the rebuild daemon \n";
                 close(MAIL);
             }
@@ -871,7 +871,7 @@ if ($opt_stage < 4)
                 print MAIL "The rebuild crashed in $m on $date:\n";
                 print MAIL "\"$arg\" reason: $? \n";
                 print MAIL "Please look at the rebuild log, found on: \n";
-                print MAIL "http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox\n";
+                print MAIL "https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox\n";
                 print MAIL "Sincerely, the rebuild daemon \n";
                 close(MAIL);
               }
@@ -1119,7 +1119,7 @@ print INFO " source dir:".$sourceDir."\n ";
 print INFO " build dir:".$buildDir."\n ";
 print INFO " install dir:".$installDir."\n ";
 print INFO " for build logfile see: ".$logfile." or \n ";
-print INFO " http://www.phenix.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
+print INFO " https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
 if ($opt_gittag ne '')
 {
   print INFO " git tag: ".$opt_gittag."\n";
@@ -1272,7 +1272,7 @@ sub check_expiration_date
         print MAIL "Hello,\n";
         print MAIL "Your module $mods[0] has reached is expiration date on $date.\n";
         print MAIL "You can reenable it on the web under:\n";
-        print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/anatrain/TrainV2/trainbuild/modifymodule.html\n";
+        print MAIL "https://phenix-intra.sdcc.bnl.gov/WWW/p/draft/anatrain/TrainV2/trainbuild/modifymodule.html\n";
         print MAIL "Yours, The Rebuild Daemon \n\n";
         close(MAIL);
     }
@@ -1444,7 +1444,7 @@ sub install_scanbuild_reports
             print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
             if (exists $contact{$packagename})
             {
-                $mailinglist{$packagename} = sprintf("https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/%s/scan-build/scan/%s",$collaboration,$hrefentry);
+                $mailinglist{$packagename} = sprintf("https://phenix-intra.sdcc.bnl.gov/WWW/p/draft/phnxbld/%s/scan-build/scan/%s",$collaboration,$hrefentry);
             }
             else
             {
@@ -1478,9 +1478,9 @@ sub install_scanbuild_reports
             print MAIL "The report is under\n\n";
             print MAIL "$mailinglist{$package}\n\n";
             print MAIL "All reports are available under\n\n";
-            print MAIL "https://www.phenix.bnl.gov/WWW/p/draft/phnxbld/",$collaboration,"/scan-build/scan\n\n";
+            print MAIL "https://phenix-intra.sdcc.bnl.gov/WWW/p/draft/phnxbld/",$collaboration,"/scan-build/scan\n\n";
             print MAIL "instructions how to run scan-build yourself are in our wiki\n\n";
-            print MAIL "https://www.phenix.bnl.gov/WWW/offline/wikioff/index.php/Scan-build\n\n";
+            print MAIL "https://wiki.bnl.gov/sPHENIX/index.php/Tools#scan_build\n\n";
             print MAIL "Please look at the report and fix the issues found\n";
             print MAIL "Sincerely yours, The Rebuild Daemon \n\n";
             close(MAIL);
