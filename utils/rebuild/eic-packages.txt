@@ -3,21 +3,21 @@ fun4all_acts|osbornjd@ornl.gov
 fun4all_coresoftware/offline/packages/Half|pinkenburg@bnl.gov
 online_distribution/newbasic|purschke@bnl.gov
 online_distribution/pmonitor|purschke@bnl.gov
-fun4all_coresoftware/offline/framework/phool|Pinkenburg@bnl.gov
-fun4all_coresoftware/offline/framework/phoolraw|Pinkenburg@bnl.gov
-fun4all_coresoftware/offline/database/pdbcal/base|Pinkenburg@bnl.gov
-fun4all_coresoftware/offline/database/pdbcal/pg|Pinkenburg@bnl.gov
-fun4all_coresoftware/offline/database/PHParameter|Pinkenburg@bnl.gov
-fun4all_coresoftware/offline/packages/vararray|Pinkenburg@bnl.gov
-fun4all_coresoftware/offline/framework/frog|irina@bnl.gov
-fun4all_coresoftware/offline/framework/ffaobjects|Pinkenburg@bnl.gov
+fun4all_coresoftware/offline/framework/phool|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/framework/phoolraw|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/database/pdbcal/base|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/database/pdbcal/pg|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/packages/vararray|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/framework/frog|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
 fun4all_coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
 fun4all_coresoftware/generators/hijing|dave@bnl.gov
 fun4all_coresoftware/generators/sHijing|dave@bnl.gov
 fun4all_coresoftware/generators/flowAfterburner|dave@bnl.gov
-fun4all_coresoftware/offline/packages/HelixHough|alan.dion@gmail.com
+fun4all_coresoftware/offline/packages/HelixHough|afrawley@fsu.edu
 fun4all_coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 fun4all_coresoftware/offline/packages/PHField|jhuang@bnl.gov
 #
@@ -26,7 +26,7 @@ fun4all_coresoftware/offline/packages/PHField|jhuang@bnl.gov
 fun4all_coresoftware/generators/phhepmc|pinkenburg@bnl.gov
 #PHPythia8 needs phhepmc
 fun4all_coresoftware/generators/PHPythia8|dvp@bnl.gov
-fun4all_coresoftware/generators/PHPythia6|nils.feege@stonybrook.edu
+fun4all_coresoftware/generators/PHPythia6|pinkenburg@bnl.gov
 #PHSartre needs phhepmc
 fun4all_coresoftware/generators/PHSartre|lajoie@iastate.edu
 # simulations/Geant4
@@ -37,11 +37,11 @@ fun4all_coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 # calobase and trackbase need g4celldefs include for root6
 fun4all_coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
-fun4all_coresoftware/offline/packages/trackbase|dmcglinchey@lanl.gov
+fun4all_coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 fun4all_coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 # tracking needs g4 detectors for geometry classes
 # mvtx needs trackbase, tracking also needs trackbase_historic for now
-fun4all_coresoftware/offline/packages/mvtx|dmcglinchey@lanl.gov
+fun4all_coresoftware/offline/packages/mvtx|ycmorales@rcf.rhic.bnl.gov
 fun4all_coresoftware/offline/packages/intt|afrawley@fsu.edu
 fun4all_coresoftware/offline/packages/tpc|afrawley@fsu.edu
 fun4all_coresoftware/offline/packages/micromegas|hugo.pereira-da-costa@cea.fr
@@ -56,8 +56,8 @@ fun4all_coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4calo|jhuang@bnl.gov
 fun4all_coresoftware/offline/packages/trigger|dvp@bnl.gov
 # genfit stuff
-fun4all_coresoftware/offline/packages/PHGenFitPkg/GenFitExp|yuhw.pku@gmail.com
-fun4all_coresoftware/offline/packages/PHGenFitPkg/PHGenFit|yuhw.pku@gmail.com
+fun4all_coresoftware/offline/packages/PHGenFitPkg/GenFitExp|pinkenburg@bnl.gov
+fun4all_coresoftware/offline/packages/PHGenFitPkg/PHGenFit|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
 fun4all_coresoftware/offline/packages/jetbackground|dvp@bnl.gov
@@ -65,9 +65,8 @@ fun4all_coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
-#fun4all_coresoftware/simulation/g4simulation/g4picoDst|lxue4@gsu.edu
 # Offline tracking software
-fun4all_coresoftware/offline/packages/trackreco|yuhw.pku@gmail.com
+fun4all_coresoftware/offline/packages/trackreco|osbornjd@ornl.gov
 # PHTpcTracker needs libtrack_reco
 fun4all_coresoftware/offline/packages/PHTpcTracker|arkhipkin@bnl.gov
 fun4all_coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
