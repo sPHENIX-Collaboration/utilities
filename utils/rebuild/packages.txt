@@ -50,6 +50,7 @@ coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
+coresoftware/simulation/g4simulation/g4epd/biran@mit.edu
 # cemc needs g4detectors
 coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 # coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
