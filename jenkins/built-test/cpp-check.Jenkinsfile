@@ -120,8 +120,8 @@ pipeline
 										archiveArtifacts artifacts: 'cppcheck-result.xml'
 										// 	def buildana = scanForIssues tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
         						//	publishIssues issues: [buildana]
-        						// recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: cppCheck(pattern: 'cppcheck-result.xml')
-        						recordIssues enabledForFailure: true, failedNewHigh: 2, failedNewNormal: 2, tool: cppCheck(pattern: 'cppcheck-result.xml')
+        						recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: cppCheck(pattern: 'cppcheck-result.xml')
+        						// recordIssues enabledForFailure: true, failedNewHigh: 2, failedNewNormal: 2, tool: cppCheck(pattern: 'cppcheck-result.xml')
 									}										
 								} // 				stage('sPHENIX-Build')
 	}//stages
