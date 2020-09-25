@@ -367,7 +367,12 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
 			if ("${currentBuild.currentResult}" == "ABORT")
 			{
   				report_content = """${report_content}
-[![Jenkins on fire](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_snow-128p.png)](${env.BUILD_URL})"""
+[![Jenkins aborted](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_snow-128p.png)](${env.BUILD_URL})"""
+			}
+			if ("${currentBuild.currentResult}" == "SUCCESS")
+			{
+  				report_content = """${report_content}
+[![Jenkins passed](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_pass-128p.png)](${env.BUILD_URL})"""
 			}
 
   			report_content = """${report_content}
