@@ -207,7 +207,7 @@ pipeline
 			steps 
 			{
 			
-				sh('sh utilities/jenkins/built-test/test-tracking-qa-gallery.sh')
+				sh('sh utilities/jenkins/built-test/test-tracking-qa-gallery-thumbsup.sh')
 			
 				  publishHTML (target: [
 			      allowMissing: false,
