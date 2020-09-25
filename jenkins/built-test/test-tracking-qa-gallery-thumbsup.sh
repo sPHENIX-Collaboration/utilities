@@ -33,6 +33,11 @@ ls -lsv src/*
 pwd;
 ls -lhv;
 
+echo "========= Env setup ========="
+source ~/npm/usethis.sh
+env;
+
+echo "========= Start thumbsup ========="
 thumbsup --config ../utilities/jenkins/built-test/test-tracking-qa-gallery-thumbsup.json
 
 
