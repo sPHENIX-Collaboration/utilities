@@ -81,7 +81,7 @@ pipeline
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg  tcsh -f singularity-check.sh ${build_type}')
+							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh ${build_type}')
 						
 						}
 					}
@@ -141,7 +141,7 @@ pipeline
 			steps 
 			{
 					
-				sh("/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg sh utilities/jenkins/built-test/test-default.sh ${macro_name} 30 0")
+				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default.sh ${macro_name} 30 0")
 														
 			}				
 					
