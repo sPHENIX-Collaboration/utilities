@@ -98,7 +98,7 @@ pipeline
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg  tcsh -f singularity-check.sh ${build_type}')
+							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh ${build_type}')
 						
 						}
 						
@@ -194,7 +194,7 @@ pipeline
 			steps 
 			{
 					
-				sh('/usr/bin/singularity exec -B /cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-tracking-low-occupancy-qa.sh $build_type $num_event $number_jobs')
+				sh('$singularity_exec_sphenix tcsh -f utilities/jenkins/built-test/test-tracking-low-occupancy-qa.sh $build_type $num_event $number_jobs')
 				
 				archiveArtifacts artifacts: 'macros/macros/QA/tracking/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
@@ -207,7 +207,7 @@ pipeline
 			steps 
 			{
 			
-				sh('sh utilities/jenkins/built-test/test-tracking-qa-gallery-thumbsup.sh')
+				sh('$singularity_exec_sphenix sh utilities/jenkins/built-test/test-tracking-qa-gallery-thumbsup.sh')
 			
 				  publishHTML (target: [
 			      allowMissing: false,
