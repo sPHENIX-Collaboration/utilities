@@ -105,7 +105,7 @@ pipeline
 					steps 
 					{
 						
-						sh ('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/cpp-check.sh')
+						sh ('$singularity_exec_sphenix tcsh -f utilities/jenkins/built-test/cpp-check.sh')
 
 		   		}
 				}// Stage - cpp check
