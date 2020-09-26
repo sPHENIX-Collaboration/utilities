@@ -25,7 +25,7 @@ pipeline
 						}
 						
 							
-						sh('${singularity_cmd} lsb_release -a')
+						sh('${singularity_exec_sphenix} lsb_release -a')
 						
 						
 					}
@@ -466,7 +466,7 @@ pipeline
 							sh ('pwd')
 							sh ('ls -lhv')
 							
-							sh ("${singularity_cmd} sh doxygen.sh")						
+							sh ("${singularity_exec_sphenix} sh doxygen.sh")						
 							
 						}
 						
