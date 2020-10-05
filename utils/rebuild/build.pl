@@ -71,7 +71,8 @@ my %externalRootPackages = (
     "HepMC3" => "HepMC3",
     "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
-    "sartre" => "sartre"
+    "sartre" => "sartre",
+    "tpc-rs" => "tpc-rs"
     );
 my $rootversion = `root-config --version`;
 chomp $rootversion;
