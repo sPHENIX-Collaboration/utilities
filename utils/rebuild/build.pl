@@ -554,26 +554,8 @@ print LOG "===========================================\n";
             my $dir = $externalPackagesDir."/".$externalPackages{$m};
             if (! -d $dir)
             {
-                if ($dir =~ /acts/)
-                {
-                    print LOG "skipping $m\n";
-                    next;
-                }
-                print LOG "cannot find dir $dir for package $m\n";
-                if ($opt_notify)
-                {
-                    print LOG "\nsending external package failure mail to $buildmanager\n";
-                    open( MAIL, "|$SENDMAIL" );
-                    print MAIL "To: $buildmanager\n";
-                    print MAIL "From: The ",$collaboration," rebuild daemon\n";
-                    print MAIL "Subject: external package $dir does not exist\n\n";
-                    print MAIL "\n";
-                    print MAIL "Hello,\n";
-                    print MAIL "The rebuild could not find the external package dir $dir of package $m at $date.\n";
-                    print MAIL "Yours, The Rebuild Daemon \n";
-                    close(MAIL);
-                }
-                goto END;
+                print LOG "cannot find dir $dir for package $m, skipping it\n";
+		next;
             }
             chdir $dir;
             print LOG "rsyncing $dir\n";
