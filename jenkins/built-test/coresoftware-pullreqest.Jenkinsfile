@@ -171,9 +171,9 @@ pipeline
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
-							    			booleanParam(name: 'run_valgrind_test', value: true), 
+							    			booleanParam(name: 'run_valgrind_test', value: false), 
 							    			booleanParam(name: 'run_default_test', value: false), 
-							    			booleanParam(name: 'run_DST_readback', value: true), 
+							    			booleanParam(name: 'run_DST_readback', value: false), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
@@ -244,8 +244,7 @@ pipeline
 			
 									steps 
 									{
-										//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
-												    		
+											    		
 										script
 										{
 				   						def built = build(job: 'Build-Master-gcc8',
@@ -285,9 +284,9 @@ pipeline
 						    			[
 							    			string(name: 'sha_coresoftware', value: "${sha1}"), 
 							    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
-							    			booleanParam(name: 'run_DST_readback', value: true), 
-							    			booleanParam(name: 'run_cppcheck', value: false), 
+							    			booleanParam(name: 'run_valgrind_test', value: false), 
 							    			booleanParam(name: 'run_default_test', value: false), 
+							    			booleanParam(name: 'run_DST_readback', value: false), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
