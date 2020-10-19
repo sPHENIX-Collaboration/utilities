@@ -229,7 +229,6 @@ pipeline
 			//				    			booleanParam(name: 'run_cppcheck', value: false), 
 			//				    			booleanParam(name: 'run_default_test', value: true), 
 			//				    			booleanParam(name: 'run_calo_qa', value: false), 
-							    			booleanParam(name: 'run_DST_readback', value: false), 
 			//	    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 			//	    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			//    						],
@@ -258,6 +257,7 @@ pipeline
 							    			booleanParam(name: 'run_cppcheck', value: false), 
 							    			booleanParam(name: 'run_default_test', value: true), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 
+							    			booleanParam(name: 'run_DST_readback', value: false), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 				    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 			    						],
