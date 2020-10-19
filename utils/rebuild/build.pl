@@ -1566,9 +1566,12 @@ sub CreateCmakeCommand
         }
 	if (defined $CCACHE_DIR)
 	{
-	    my $ccompiler = `which g++`;
-	    chomp $ccompiler;
-	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s",$cmakecmd,$ccompiler);
+	    my $cxxcompiler = `which g++`;
+	    chomp $cxxcompiler;
+            my $ccompiler = `which gcc`;
+            chomp $ccompiler;
+	    print LOG "using ccache dir $CCACHE_DIR with\nC++ compiler $cxxcompiler\nC compiler $ccompiler\n";
+	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_C_COMPILER=%s",$cmakecmd,$cxxcompiler,$ccompiler);
 	}
         $cmakecmd = sprintf("%s %s",$cmakecmd, $cmakesourcedir);
 	return $cmakecmd;
