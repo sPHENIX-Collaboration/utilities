@@ -260,42 +260,7 @@ pipeline
 						stage('Test')
 						{
 							parallel {
-								
-								stage('test-default-sPHENIX')
-								{
-									
-									when {
-				    				// case insensitive regular expression for truthy values
-										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-									}
-									steps 
-									{
-										//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
-												    		
-										script
-										{
-				   						def built = build(job: 'test-default-pipeline',
-						    			parameters:
-						    			[
-							    			string(name: 'build_src', value: "${build_root_path}"), 
-							    			string(name: 'build_type', value: "${build_type}"), 
-							    			string(name: 'system_config', value: "${system_config}"), 
-							    			string(name: 'sha_macros', value: "${sha_macros}"), 
-		    								string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-		    								string(name: 'macro_name', value: "Fun4All_G4_sPHENIX"), 
-				    						string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-			    						],
-						    			wait: true, propagate: false)
-						   										
-						   				copyArtifacts(projectName: 'test-default-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
-						   				if ("${built.result}" != 'SUCCESS')
-						   				{
-						   					error('test-default-sPHENIX FAIL')
-    									}							
-										}
-									}				
-								} // stage('test-default-sPHENIX')
-								
+																
 								stage('test-default-fsPHENIX')
 								{
 									
