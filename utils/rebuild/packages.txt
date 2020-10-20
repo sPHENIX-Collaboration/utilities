@@ -17,7 +17,6 @@ coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
 coresoftware/generators/hijing|dave@bnl.gov
 coresoftware/generators/sHijing|dave@bnl.gov
 coresoftware/generators/flowAfterburner|dave@bnl.gov
-coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
 coresoftware/offline/packages/HelixHough|afrawley@fsu.edu
 coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
 coresoftware/offline/packages/PHField|jhuang@bnl.gov
@@ -25,6 +24,8 @@ coresoftware/offline/packages/PHField|jhuang@bnl.gov
 # simulations
 # simulations/generator
 coresoftware/generators/phhepmc|pinkenburg@bnl.gov
+# fermi motion uses phhepmc
+coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
 #PHPythia8 needs phhepmc
 coresoftware/generators/PHPythia8|dvp@bnl.gov
 coresoftware/generators/PHPythia6|pinkenburg@bnl.gov
