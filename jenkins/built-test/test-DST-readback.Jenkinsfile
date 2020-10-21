@@ -163,24 +163,11 @@ pipeline
 			steps 
 			{
 					
-				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default-detector.sh Fun4All_G4_sPHENIX 2 0")
+				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-DST-readback-detector.sh sPHENIX 2 0")
 														
 			}				
 					
 		}
-		stage('Test-Readback')
-		{
-			
-			
-			steps 
-			{
-					
-				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default-detector.sh Fun4All_ReadBack 0 0")
-														
-			}				
-					
-		}
-		
 		
 	}//stages
 
