@@ -101,7 +101,7 @@ echo "Readback DST file ${DSTfile}. ";
 echo "======================================================="
 	
 set quote = '"';
-/usr/bin/time -v  root.exe -b -q "Fun4All_ReadBack.C(0, ${quote}${DSTfile}${quote})" | & tee -a Fun4All_ReadBack.log;
+/usr/bin/time -v  root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" | & tee -a Fun4All_ReadBack.log;
 set build_ret = $?;
 
 ls -lhcrt
