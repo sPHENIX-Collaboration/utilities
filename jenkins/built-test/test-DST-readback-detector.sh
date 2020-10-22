@@ -80,7 +80,7 @@ echo "Build step - build - return $build_ret";
 
 if (( $build_ret != 0 )); then
 	echo "======================================================="
-	echo "Failed run with return = ${build_ret}. ";
+	echo "Failed run ${macro_name}.C(${number_event}) with return = ${build_ret}. ";
 	echo "======================================================="
 	
 	# if ($run_valgrind == 0) then
@@ -90,32 +90,31 @@ fi
 
 
 
-# readback test, only in non-valgrind mode
-# if ($run_valgrind == 0) then
+# readback test
 #
 # set DSTfile = `/bin/ls -1 G4*.root`;
-DSTfile = `/bin/ls -1 G4*.root | head -n 1` ;
+DSTfile=`/bin/ls -1 G4*.root | head -n 1` ;
 
 echo "======================================================="
 echo "Readback DST file ${DSTfile}. ";
 echo "======================================================="
 	
-quote = '"';
+quote='"';
 /usr/bin/time -v  root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" | tee -a Fun4All_ReadBack.log;
-build_ret = $?;
+build_ret=$?;
 
 ls -lhcrt
 echo "Readback step - build - return $build_ret";
 
-if ($build_ret != 0) then
+if (( $build_ret != 0 )); then
+	echo "======================================================="
+	echo "Failed run Fun4All_DST_ReadBack with return = ${build_ret}. ";
+	echo "======================================================="
 	
-	echo "======================================================="
-	echo "Readback run with return = ${build_ret}. ";
-	echo "======================================================="
+	# if ($run_valgrind == 0) then
 	exit $build_ret;
-	
-endif
-#endif
+	# endif
+fi
 
 echo "Build step - test - done";
 
