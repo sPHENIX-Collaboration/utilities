@@ -93,7 +93,7 @@ fi
 # readback test
 #
 # set DSTfile = `/bin/ls -1 G4*.root`;
-DSTfile=`/bin/ls -1 G4*.root | head -n 1` ;
+DSTfile="G4sPHENIX.root" ;
 
 echo "======================================================="
 echo "Readback DST file ${DSTfile}. ";
