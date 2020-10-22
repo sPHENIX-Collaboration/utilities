@@ -94,15 +94,15 @@ fi
 # if ($run_valgrind == 0) then
 #
 # set DSTfile = `/bin/ls -1 G4*.root`;
-set DSTfile = `/bin/ls -1 G4*.root | head -n 1` ;
+DSTfile = `/bin/ls -1 G4*.root | head -n 1` ;
 
 echo "======================================================="
 echo "Readback DST file ${DSTfile}. ";
 echo "======================================================="
 	
-set quote = '"';
+quote = '"';
 /usr/bin/time -v  root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" | tee -a Fun4All_ReadBack.log;
-set build_ret = $?;
+build_ret = $?;
 
 ls -lhcrt
 echo "Readback step - build - return $build_ret";
