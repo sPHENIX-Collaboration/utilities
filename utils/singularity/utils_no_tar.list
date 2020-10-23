@@ -2,6 +2,7 @@ stow/llv*
 stow/include-what-you-use*
 stow/Python*
 stow/ccache-3.4.2*
+stow/ccache-3.6*
 stow/cmake-3.11.1*
 stow/cmake-3.15.1*
 stow/cppcheck-1.83*
