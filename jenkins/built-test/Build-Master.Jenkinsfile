@@ -768,7 +768,7 @@ pipeline
 				} else if ("$build_type" == 'scan') {
 					recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: clangAnalyzer(pattern: 'build/${build_type}/scanlog/*/*.plist')
 				} else {
-					recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
+					recordIssues enabledForFailure: true, failedNewHigh: 10, failedNewNormal: 10, tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
 				}
         		} // script 
 			
