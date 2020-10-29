@@ -275,16 +275,25 @@ if ($opt_version =~ /play/)
 }
 elsif ($opt_version =~ /test/) 
 {
-      $externalPackages{"gsl"} = "gsl-2.6";
+    $externalPackages{"gsl"} = "gsl-2.6";
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
-    $externalPackages{"boost"} = "boost-1.67.0";
-    $externalPackages{"fastjet"} = "fastjet-3.3.1";
-    $externalPackages{"Eigen"} = "eigen-3.3.4";
-    $externalPackages{"CGAL"} = "CGAL-4.12";
-    $externalPackages{"pythia8"} = "pythia8235-hepmc2";
-    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.3.2.2";
+    if ($opt_sysname =~ /gcc-8.3/)
+    {
+        $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
+        $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
+        $externalPackages{"gsl"} = "gsl-2.5";
+    }
+    else
+    {
+	$externalPackages{"boost"} = "boost-1.67.0";
+	$externalPackages{"fastjet"} = "fastjet-3.3.1";
+	$externalPackages{"Eigen"} = "eigen-3.3.4";
+	$externalPackages{"CGAL"} = "CGAL-4.12";
+	$externalPackages{"pythia8"} = "pythia8235-hepmc2";
+	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.3.2.2";
+    }
 }
 foreach my $pkg (sort keys %externalRootPackages)
 {
