@@ -67,6 +67,7 @@ my %externalPackages = (
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
+    "DD4hep" => "DD4hep",
     "eic-smear" => "eic-smear",
     "HepMC3" => "HepMC3",
     "KFParticle" => "KFParticle",
