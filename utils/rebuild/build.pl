@@ -1574,7 +1574,23 @@ sub CreateCmakeCommand
         {
             $cmakecmd = sprintf("%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd);
         }
-	if (defined $CCACHE_DIR)
+        if ($opt_insure)
+	{
+# cmake is not able to digest 'insure g++' as compiler, so we create a little
+# shell script with insure g++ -g and use it as compiler
+# the shell script ends up in the acts build dir so we just leave it there
+	    my $insurecompiler = `which insure`;
+	    chomp $insurecompiler;
+	    my $runscript = "run_gpp.sh";
+	    open(F2,">$runscript");
+            my $runcmd = sprintf("%s g++ -g \$*",$insurecompiler);
+            print F2 "$runcmd\n";
+	    close(F2);
+	    chmod 0755, $runscript;
+	    print LOG "using insure $insurecompiler\n";
+	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd,$runscript);
+	}
+	elsif (defined $CCACHE_DIR)
 	{
 	    my $cxxcompiler = `which g++`;
 	    chomp $cxxcompiler;
