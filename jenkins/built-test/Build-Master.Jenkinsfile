@@ -450,7 +450,7 @@ pipeline
 												    		
 										script
 										{
-											def built = build(job: 'test-default-valgrind-pipeline',
+											def built = build(job: 'test-default-detector-valgrind-pipeline',
 												parameters:
 												[
 													string(name: 'build_src', value: "${build_root_path}"), 
@@ -462,12 +462,12 @@ pipeline
 												],
 												wait: true, propagate: false)
 
-											copyArtifacts(projectName: 'test-default-valgrind-pipeline', selector: specific("${built.number}"));
+											copyArtifacts(projectName: 'test-default-detector-valgrind-pipeline', selector: specific("${built.number}"));
 
 											if ("${built.getResult()}" == 'FAILURE')
 											{
 												currentBuild.result = "${built.getResult()}"
-												error("test-default-valgrind-pipeline #${built.number} ${built.getResult()}");
+												error("test-default-detector-valgrind-pipeline #${built.number} ${built.getResult()}");
 											}
 										}
 						   				    
