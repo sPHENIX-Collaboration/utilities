@@ -168,7 +168,7 @@ pipeline
           failThresholdDefinitelyLost: '0',
           failThresholdInvalidReadWrite: '0',
           failThresholdTotal: '',
-          pattern: 'macros/macros/g4simulations/*.valgrind.xml',
+          pattern: 'macros/detectors/*/*.valgrind.xml',
           publishResultsForAbortedBuilds: false,
           publishResultsForFailedBuilds: false,
           sourceSubstitutionPaths: '',
