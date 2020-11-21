@@ -160,7 +160,7 @@ pipeline
 		{
 			steps 
 			{			
-				archiveArtifacts artifacts: 'macros/macros/g4simulations/*.valgrind*'
+				archiveArtifacts artifacts: 'macros/detectors/*/*.valgrind*'
 				
 				publishValgrind (
           failBuildOnInvalidReports: true,
