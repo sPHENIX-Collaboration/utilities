@@ -174,7 +174,7 @@ if ( $opt_db && $opt_version !~ /pro/)
 my $numcores  = do { local @ARGV='/proc/cpuinfo'; grep /^processor\s+:/, <>;};
 my $JOBS = sprintf("-l %d -j %d", $numcores, $numcores);
 
-my $MAXDEPTH = ($opt_version =~ m/pro/ || $opt_version =~ /ana/ ) ? 9999999 : 4;
+my $MAXDEPTH = ($opt_version =~ m/pro/ || $opt_version =~ /ana/ || $opt_version =~ /mdc/ ) ? 9999999 : 4;
 $opt_version .= '+insure' if $opt_insure;
 # number of parallel builds with insure
 if ($numcores > 25) {$numcores=25;} # we have 50 insure licenses, only use 1/2 maximum
