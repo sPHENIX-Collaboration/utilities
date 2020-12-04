@@ -25,7 +25,7 @@ fun4all_coresoftware/offline/packages/PHField|jhuang@bnl.gov
 # simulations/generator
 fun4all_coresoftware/generators/phhepmc|pinkenburg@bnl.gov
 # fermi motion uses phhepmc
-coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
+fun4all_coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
 #PHPythia8 needs phhepmc
 fun4all_coresoftware/generators/PHPythia8|dvp@bnl.gov
 fun4all_coresoftware/generators/PHPythia6|pinkenburg@bnl.gov
