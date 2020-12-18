@@ -71,6 +71,8 @@ coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
+# KFFParticle needs libeval
+coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
 coresoftware/offline/packages/trackreco|osbornjd@ornl.gov
 # PHTpcTracker needs libtrack_reco
