@@ -724,7 +724,7 @@ pipeline
 					echo("start report building ...");
 					sh ('pwd');						
 				
-					def report_content = "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${system_config}` / `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+					def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build with configuration of `${system_config}` / `${build_type}` [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
 	        				
 					if ("$build_type" == 'clang') {
 						report_content = "${report_content}, [:bar_chart:clang report (full)](${env.BUILD_URL}/clang/)/[(new)](${env.BUILD_URL}/clang/new/)";
