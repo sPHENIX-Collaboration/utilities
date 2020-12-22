@@ -378,7 +378,7 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
 			}
 
   			report_content = """${report_content}
-* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) [builds and tests overall are ${currentBuild.currentResult}](${env.BUILD_URL})."""
+* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) [builds and tests overall are ${currentBuild.currentResult}](${env.BUILD_URL})."""
 				
     			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");
