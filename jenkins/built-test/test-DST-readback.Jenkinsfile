@@ -178,7 +178,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "DST-readback.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Generating DST and readback: [build is ${currentBuild.currentResult}](${env.BUILD_URL}) "				
+			  writeFile file: "DST-readback.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Generating DST and readback: [build is ${currentBuild.currentResult}](${env.BUILD_URL}) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
