@@ -166,7 +166,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "test-default-detector-${system_config}-${build_type}-${detector_name}.md", text: "* [![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}) "				
+			  writeFile file: "test-default-detector-${system_config}-${build_type}-${detector_name}.md", text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
