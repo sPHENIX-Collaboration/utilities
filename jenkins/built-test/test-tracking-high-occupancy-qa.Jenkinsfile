@@ -230,7 +230,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "QA-tracking-high-occupancy-qa.md", text: "* [![Build Status ](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at high occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Tracking/high occ.](${env.BUILD_URL}/QA_20Report/) "				
+			  writeFile file: "QA-tracking-high-occupancy-qa.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at high occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Tracking/high occ.](${env.BUILD_URL}/QA_20Report/) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
