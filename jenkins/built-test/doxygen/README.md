@@ -1,4 +1,4 @@
-[![Build Status](https://web.racf.bnl.gov/jenkins-sphenix/buildStatus/icon?job=sPHENIX/doxygen)](https://web.racf.bnl.gov/jenkins-sphenix/job/sPHENIX/job/doxygen/)
+[![Build Status](https://web.sdcc.bnl.gov/jenkins-sphenix/buildStatus/icon?job=sPHENIX/doxygen)](https://web.sdcc.bnl.gov/jenkins-sphenix/job/sPHENIX/job/doxygen/)
 [![Doxygen](https://img.shields.io/badge/code%20reference-Doxygen-green.svg)](https://sPHENIX-Collaboration.github.io/doxygen)
 
 Source file for [JekninCI doxygen documentation generator](https://sPHENIX-Collaboration.github.io/doxygen). 
