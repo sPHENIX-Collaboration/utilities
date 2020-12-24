@@ -144,7 +144,7 @@ source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type}
 
 env;
 
-cd ../macros/macros/g4simulations/
+cd ../macros/detectors/sPHENIX/
 ls -lhvc
 
 
