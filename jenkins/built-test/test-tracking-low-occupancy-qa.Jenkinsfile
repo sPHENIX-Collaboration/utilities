@@ -261,7 +261,7 @@ pipeline
 					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
 					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
 					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Tracking/low occ.](${env.BUILD_URL}/QA_20Report/) "),
-					string(name: 'output_text', value: "${currentBuild.displayName}\n${currentBuild.description}")
+					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
 			) // build(job: 'github-commit-checkrun',
