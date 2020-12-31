@@ -198,7 +198,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix tcsh -f utilities/jenkins/built-test/test-calo-single-qa.sh $build_type e- 4 15')
+				sh('$singularity_exec_sphenix tcsh -f utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 15')
 														
 			}				
 					
@@ -210,7 +210,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix tcsh -f utilities/jenkins/built-test/test-calo-single-qa.sh $build_type pi+ 30 15')
+				sh('$singularity_exec_sphenix tcsh -f utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 15')
 				
 				archiveArtifacts artifacts: 'macros/macros/QA/calorimeter/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
