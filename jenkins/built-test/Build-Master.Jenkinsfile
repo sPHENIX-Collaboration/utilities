@@ -780,7 +780,23 @@ pipeline
 						currentBuild.description = "${currentBuild.description}\n${fileContent}"		
 					}    			
 
-					writeFile file: "build-${system_config}-${build_type}.md", text: "${report_content}"		
+					writeFile file: "build-${system_config}-${build_type}.md", text: "${report_content}"	
+										
+					build(job: 'github-commit-checkrun',
+						parameters:
+						[
+							string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+							string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
+							string(name: 'src_details_url', value: "${env.BUILD_URL}"),
+							string(name: 'checkrun_status', value: "completed"),
+							string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
+							string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
+							string(name: 'output_summary', value: "${report_content}"),
+							string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
+						],
+						wait: false, propagate: false
+					) // build(job: 'github-commit-checkrun',
+								
 				}//script
 		  	} //dir('report')
 			
@@ -799,21 +815,6 @@ pipeline
 				}
         		} // script 
 			
-			
-			build(job: 'github-commit-checkrun',
-				parameters:
-				[
-					string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-					string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
-					string(name: 'src_details_url', value: "${env.BUILD_URL}"),
-					string(name: 'checkrun_status', value: "completed"),
-					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
-					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-					string(name: 'output_summary', value: "${report_content}"),
-					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
-				],
-				wait: false, propagate: false
-			) // build(job: 'github-commit-checkrun',
 			
 		} // always
 	
