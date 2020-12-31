@@ -7,6 +7,22 @@ pipeline
 //    }
        
 	stages { 
+		stage('Checkrun update') 
+		{
+		
+			steps {
+				build(job: 'github-commit-checkrun',
+				parameters:
+				[
+					string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+					string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
+					string(name: 'src_details_url', value: "${env.BUILD_URL}"),
+					string(name: 'checkrun_status', value: "in_progress")
+				],
+				wait: false, propagate: false)
+			} // steps
+		} // stage('Checkrun update')
+		
 		stage('Initialize') 
 		{
 			
@@ -277,7 +293,8 @@ pipeline
 				   						def built = build(job: 'test-default-pipeline',
 						    			parameters:
 						    			[
-							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+										string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
 							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
@@ -315,7 +332,8 @@ pipeline
 				   						def built = build(job: 'test-default-pipeline',
 						    			parameters:
 						    			[
-							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+										string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
 							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
@@ -349,7 +367,8 @@ pipeline
 				   						def built = build(job: 'test-default-detector-pipeline',
 						    			parameters:
 						    			[
-							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+										string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
 							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
@@ -382,7 +401,8 @@ pipeline
 				   						def built = build(job: 'test-default-detector-pipeline',
 						    			parameters:
 						    			[
-							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+										string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
 							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
@@ -417,7 +437,8 @@ pipeline
 				   						def built = build(job: 'test-default-detector-pipeline',
 						    			parameters:
 						    			[
-							    			string(name: 'build_src', value: "${build_root_path}"), 
+							    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+										string(name: 'build_src', value: "${build_root_path}"), 
 							    			string(name: 'build_type', value: "${build_type}"), 
 							    			string(name: 'system_config', value: "${system_config}"), 
 							    			string(name: 'sha_macros', value: "${sha_macros}"), 
@@ -454,6 +475,7 @@ pipeline
 											def built = build(job: 'test-default-detector-valgrind-pipeline',
 												parameters:
 												[
+													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
 													string(name: 'build_src', value: "${build_root_path}"), 
 													string(name: 'build_type', value: "${build_type}"), 
 													string(name: 'system_config', value: "${system_config}"), 
@@ -491,6 +513,7 @@ pipeline
 											def built = build(job: 'test-DST-readback',
 												parameters:
 												[
+													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
 													string(name: 'build_src', value: "${build_root_path}"), 
 													string(name: 'build_type', value: "${build_type}"), 
 													string(name: 'system_config', value: "${system_config}"), 
@@ -525,7 +548,8 @@ pipeline
 				   						def built = build(job: 'test-calo-single-qa',
 							    			parameters:
 							    			[
-								    			string(name: 'build_src', value: "${build_root_path}"), 
+								    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+											string(name: 'build_src', value: "${build_root_path}"), 
 							    				string(name: 'build_type', value: "${build_type}"), 
 							    				string(name: 'system_config', value: "${system_config}"), 
 							    				string(name: 'sha_macros', value: "${sha_macros}"), 
@@ -588,16 +612,17 @@ pipeline
 										script
 										{
 				   						def built = build(job: 'test-tracking-low-occupancy-qa',
-							    			parameters:
-							    			[
-								    			string(name: 'build_src', value: "${build_root_path}"), 
-							    				string(name: 'build_type', value: "${build_type}"), 
-							    				string(name: 'system_config', value: "${system_config}"), 
-							    				string(name: 'sha_macros', value: "${sha_macros}"), 
-		    									string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-			    							],
-							    			wait: true, propagate: false)
+											parameters:
+											[
+												string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+												string(name: 'build_src', value: "${build_root_path}"), 
+												string(name: 'build_type', value: "${build_type}"), 
+												string(name: 'system_config', value: "${system_config}"), 
+												string(name: 'sha_macros', value: "${sha_macros}"), 
+												string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+												string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+											],
+											wait: true, propagate: false)
 						   			
 						   				  copyArtifacts(projectName: 'test-tracking-low-occupancy-qa', selector: specific("${built.number}"));
 						   				  
@@ -653,7 +678,8 @@ pipeline
 				   						def built = build(job: 'test-tracking-high-occupancy-qa',
 							    			parameters:
 							    			[
-								    			string(name: 'build_src', value: "${build_root_path}"), 
+								    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+											string(name: 'build_src', value: "${build_root_path}"), 
 							    				string(name: 'build_type', value: "${build_type}"), 
 							    				string(name: 'system_config', value: "${system_config}"), 
 							    				string(name: 'sha_macros', value: "${sha_macros}"), 
@@ -772,6 +798,22 @@ pipeline
 					recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/${build_type}/rebuild.log')
 				}
         		} // script 
+			
+			
+			build(job: 'github-commit-checkrun',
+				parameters:
+				[
+					string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+					string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
+					string(name: 'src_details_url', value: "${env.BUILD_URL}"),
+					string(name: 'checkrun_status', value: "completed"),
+					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
+					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
+					string(name: 'output_summary', value: "${report_content}"),
+					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
+				],
+				wait: false, propagate: false
+			) // build(job: 'github-commit-checkrun',
 			
 		} // always
 	
