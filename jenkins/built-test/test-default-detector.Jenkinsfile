@@ -188,18 +188,19 @@ pipeline
 			archiveArtifacts artifacts: 'report/*.md'
 						
 			build(job: 'github-commit-checkrun',
-			parameters:
-			[
-				string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-				string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
-				string(name: 'src_details_url', value: "${env.BUILD_URL}"),
-				string(name: 'checkrun_status', value: "completed"),
-				string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
-				string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-				string(name: 'output_summary', value: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL})"),
-				string(name: 'output_text', value: "${currentBuild.displayName}\n${currentBuild.description}")
-			],
-			wait: false, propagate: false)
+				parameters:
+				[
+					string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+					string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
+					string(name: 'src_details_url', value: "${env.BUILD_URL}"),
+					string(name: 'checkrun_status', value: "completed"),
+					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
+					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
+					string(name: 'output_summary', value: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL})"),
+					string(name: 'output_text', value: "${currentBuild.displayName}\n${currentBuild.description}")
+				],
+				wait: false, propagate: false
+			) // build(job: 'github-commit-checkrun',
 		}
 		success {
 			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
