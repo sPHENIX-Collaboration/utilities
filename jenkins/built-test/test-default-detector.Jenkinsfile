@@ -13,16 +13,19 @@ pipeline
 	
 		stage('Checkrun update') 
 		{
-			build(job: 'github-commit-checkrun',
-			parameters:
-			[
-				string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-				string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
-				string(name: 'src_details_url', value: "${env.BUILD_URL}"),
-				string(name: 'checkrun_status', value: "in_progress")
-			],
-			wait: false, propagate: false)
-		}
+		
+			steps {
+				build(job: 'github-commit-checkrun',
+				parameters:
+				[
+					string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+					string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
+					string(name: 'src_details_url', value: "${env.BUILD_URL}"),
+					string(name: 'checkrun_status', value: "in_progress")
+				],
+				wait: false, propagate: false)
+			} // steps
+		} // stage('Checkrun update') 
 		
 		stage('Prebuild-Cleanup') 
 		{
