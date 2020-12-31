@@ -72,7 +72,7 @@ do
 		echo "Job index ${id_number}: Failed build with return = ${build_ret}. ";
 		echo "======================================================="
 		exit $build_ret;
-	endif
+	fi
 	
 	((id_number++))
 done
