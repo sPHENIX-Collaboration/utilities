@@ -11,6 +11,22 @@ pipeline
        
 	stages { 
 	
+		stage('Checkrun update') 
+		{
+		
+			steps {
+				build(job: 'github-commit-checkrun',
+				parameters:
+				[
+					string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+					string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
+					string(name: 'src_details_url', value: "${env.BUILD_URL}"),
+					string(name: 'checkrun_status', value: "in_progress")
+				],
+				wait: false, propagate: false)
+			} // steps
+		} // stage('Checkrun update') 
+		
 		stage('Prebuild-Cleanup') 
 		{
 			
@@ -257,6 +273,21 @@ pipeline
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
+			
+			build(job: 'github-commit-checkrun',
+				parameters:
+				[
+					string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+					string(name: 'src_Job_id', value: "${env.JOB_NAME}/${env.BUILD_NUMBER}"),
+					string(name: 'src_details_url', value: "${env.BUILD_URL}"),
+					string(name: 'checkrun_status', value: "completed"),
+					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
+					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
+					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/) "),
+					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
+				],
+				wait: false, propagate: false
+			) // build(job: 'github-commit-checkrun',
 		}
 
 		success {
