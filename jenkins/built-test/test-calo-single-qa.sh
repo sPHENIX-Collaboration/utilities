@@ -49,7 +49,7 @@ do
 	echo "${job_name}: Start test";
 	echo "======================================================="
   
-  	(/usr/bin/time -v root -b -q "Fun4All_G4_sPHENIX.C(20,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" && echo $? > exit_code_${id_number}.log ) &
+  	(/usr/bin/time -v root -b -q "Fun4All_G4_sPHENIX.C(20,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" && echo $? > exit_code_${id_number}.log ) 2>&1 | tee G4sPHENIX_${job_name}.log &
 	
   	sleep 1s;
 	((id_number++))
