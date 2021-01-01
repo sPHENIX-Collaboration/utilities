@@ -1,5 +1,4 @@
-#!/bin/tcsh -f
-
+#!/usr/bin/env tcsh
 
 if (! $?build_type) then       
   echo "build_type is undefined, use new"
@@ -40,3 +39,4 @@ if ($build_ret != 0) then
 endif
 
 echo "Build step - singularity test - done"
+
