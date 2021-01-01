@@ -106,7 +106,7 @@ pipeline
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('$singularity_exec_sphenix sh singularity-check.sh ${build_type}')
+							sh('$singularity_exec_sphenix tcsh singularity-check.sh ${build_type}')
 						
 						}
 						
