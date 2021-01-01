@@ -133,16 +133,16 @@ pipeline
 							   		[$class: 'CleanCheckout'],     
 							     	[
 							   			$class: 'PreBuildMerge',
-							    		options: [
+							    			options: [
 											mergeRemote: 'origin',
-							  			mergeTarget: 'calo-single-qa'
+							  				mergeTarget: 'QA-calorimeter-single-particle'
 							  			]
 							    	],   
 							     	[
 							   			$class: 'PreBuildMerge',
-							    		options: [
+							    			options: [
 											mergeRemote: 'origin',
-							  			mergeTarget: 'master'
+							  				mergeTarget: 'master'
 							  			]
 							    	],
 						   		],
