@@ -114,7 +114,9 @@ echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
 echo "======================================================="
 
-git checkout -b $BUILD_TAG
+export git_tag="$BUILD_TAG-${name}"
+
+git checkout -b $git_tag
 git status
 
 sh setup.sh 
@@ -133,10 +135,10 @@ echo "======================================================="
 git status
 
 git commit -am "Processing ${particle_ID}_pT${pT_GeV} at $JOB_URL"
-git tag -a $BUILD_TAG -m "Build by sPHENIX Jenkins CI for QA config ${particle_ID}_pT${pT_GeV} at $JOB_URL"
-git push origin $BUILD_TAG
+git tag -a $git_tag -m "Build by sPHENIX Jenkins CI for QA config ${particle_ID}_pT${pT_GeV} at $JOB_URL"
+git push origin $git_tag
 
-echo "* [:bar_chart: ${nbname} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${BUILD_TAG}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+echo "* [:bar_chart: ${nbname} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 
 
 
