@@ -116,7 +116,7 @@ echo "======================================================="
 
 export git_tag="$BUILD_TAG-${name}"
 
-git checkout -b $git_tag
+git checkout -b update_${name}
 git status
 
 sh setup.sh 
