@@ -236,7 +236,7 @@ pipeline
 					
 				sh('$singularity_exec_sphenix sh utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 15')
 				
-				archiveArtifacts artifacts: 'macros/macros/QA/calorimeter/G4sPHENIX_*_Sum*_qa.root*'										
+				// archiveArtifacts artifacts: 'macros/macros/QA/calorimeter/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
 					
 		}
