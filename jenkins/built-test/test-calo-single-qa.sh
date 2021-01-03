@@ -114,12 +114,14 @@ echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
 echo "======================================================="
 
+git checkout -b $BUILD_TAG
+git status
+
 sh setup.sh 
 
 source ./env/bin/activate
 
 nbname=QA-calorimeter.ipynb 
-
 run.sh ${nbname}
 
 
