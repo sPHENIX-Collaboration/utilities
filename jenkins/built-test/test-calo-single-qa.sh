@@ -133,7 +133,7 @@ git status
 git tag -a $BUILD_TAG -m "Build by sPHENIX Jenkins CI at $JOB_URL"
 git push origin $BUILD_TAG
 
-echo "* [${nbname}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${BUILD_TAG}/${nbname})" >> report.md
+echo "* [:bar_chart:QA report: ${nbname}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${BUILD_TAG}/${nbname})" >> report.md
 
 
 
