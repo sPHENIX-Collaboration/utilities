@@ -179,7 +179,7 @@ pipeline
 				timestamps { 
 					ansiColor('xterm') {
 						
-						dir('macros/macros/QA/calorimeter/reference')
+						dir('reference')
 						{
     					copyArtifacts(projectName: "test-calo-single-qa-reference", selector: lastSuccessful());
 
