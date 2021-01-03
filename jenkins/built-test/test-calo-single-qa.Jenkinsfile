@@ -293,7 +293,36 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "QA-calo.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/) "				
+			//  writeFile file: "QA-calo.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/) "				
+			
+				script
+				{					
+					echo("start report building ...");
+					sh ('pwd');						
+				
+					def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+	        				
+					def files = findFiles(glob: '../QA-gallery/report*.md')
+					echo("all reports: $files");
+					// def testFileNames = files.split('\n')
+					for (def fileEntry : files) 
+					{    			
+						String file = fileEntry.path;    				
+
+						String fileContent = readFile(file).trim();
+
+						echo("$file  -> ${fileContent}");
+
+						// update report summary
+						report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
+
+						// update build description
+						currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+					}    			
+
+					writeFile file: "QA-calo.md", text: "${report_content}"	
+				
+				}//script
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
@@ -307,7 +336,7 @@ pipeline
 					string(name: 'checkrun_status', value: "completed"),
 					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
 					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/) "),
+					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL})"),
 					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
