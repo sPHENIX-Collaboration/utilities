@@ -251,9 +251,9 @@ pipeline
 				{
 					sh('ls -lhv')
 					
-    					sh ("tar xzfv ./qa_page.tar.gz")
+    					//sh ("tar xzfv ./qa_page.tar.gz")
     							
-					archiveArtifacts artifacts: 'qa_page.tar.gz'
+					//archiveArtifacts artifacts: 'qa_page.tar.gz'
 					
 					sh('ls -lhv')
 				}
