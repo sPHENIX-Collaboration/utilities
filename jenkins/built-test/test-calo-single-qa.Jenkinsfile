@@ -247,39 +247,25 @@ pipeline
 			{
 			
 			
-				script{
-			    def built = build(job: 'test-calo-single-qa-gallery',
-			    	parameters:
-			    	[
-			    		string(name: 'build_src', value: "${env.JOB_NAME}"),
-			    		string(name: 'src_build_id', value: "${env.BUILD_NUMBER}"), 
-			  			string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-			  		],
-			    	wait: true, propagate: true)	
-				  
-				  copyArtifacts(projectName: 'test-calo-single-qa-gallery', selector: specific("${built.number}"));
-				}
-				
-				
 				dir('qa_html')
 				{
 					sh('ls -lhv')
-				
+					
+    					sh ("tar xzfv ./qa_page.tar.gz")
+    							
 					archiveArtifacts artifacts: 'qa_page.tar.gz'
 					
-    			sh ("tar xzfv ./qa_page.tar.gz")
-    			
 					sh('ls -lhv')
 				}
 
-				  publishHTML (target: [
-			      allowMissing: false,
-			      alwaysLinkToLastBuild: false,
-			      keepAll: true,
-			      reportDir: 'qa_html',
-			      reportFiles: 'index.html',
-			      reportName: "QA Report"
-			    ])
+				//publishHTML (target: [
+				//      allowMissing: false,
+				//      alwaysLinkToLastBuild: false,
+				//      keepAll: true,
+				//      reportDir: 'qa_html',
+				//      reportFiles: 'index.html',
+				//      reportName: "QA Report"
+				//    ])
 			}			// steps	
 					
 		}
