@@ -124,7 +124,7 @@ sh setup.sh
 source ./env/bin/activate
 
 nbname=QA-calorimeter.ipynb 
-run.sh ${nbname}
+sh run.sh ${nbname}
 
 
 
