@@ -176,12 +176,12 @@ pipeline
 							   		[$class: 'CleanCheckout'],  
 						   		],
 							  	branches: [
-							    		[name: "${sha_QA-gallery}"]
+							    		[name: "${sha_QA_gallery}"]
 							    	], 
 							  	userRemoteConfigs: 
 							  	[[
 							     	credentialsId: 'sPHENIX-bot', 
-							     	url: '${git_url_QA-gallery}',
+							     	url: '${git_url_QA_gallery}',
 							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
 							    	branch: ('*')
 							  	]]
