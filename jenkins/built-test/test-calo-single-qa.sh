@@ -130,7 +130,8 @@ echo "======================================================="
 
 git status
 
-git tag -a $BUILD_TAG -m "Build by sPHENIX Jenkins CI at $JOB_URL"
+git commit -am "Processing ${particle_ID}_pT${pT_GeV} at $JOB_URL"
+git tag -a $BUILD_TAG -m "Build by sPHENIX Jenkins CI for QA config ${particle_ID}_pT${pT_GeV} at $JOB_URL"
 git push origin $BUILD_TAG
 
 echo "* [:bar_chart: ${nbname} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${BUILD_TAG}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
