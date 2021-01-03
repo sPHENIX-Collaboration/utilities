@@ -277,40 +277,39 @@ pipeline
 	
 		always{
 		  
+			//  writeFile file: "QA-calo.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/) "				
 			dir('report')
 			{
-			//  writeFile file: "QA-calo.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/) "				
-			
-				script
-				{					
-					echo("start report building ...");
-					sh ('pwd');						
-				
-					def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
-	        				
-					def files = findFiles(glob: '../QA-gallery/report*.md')
-					echo("all reports: $files");
-					// def testFileNames = files.split('\n')
-					for (def fileEntry : files) 
-					{    			
-						String file = fileEntry.path;    				
-
-						String fileContent = readFile(file).trim();
-
-						echo("$file  -> ${fileContent}");
-
-						// update report summary
-						report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
-
-						// update build description
-						currentBuild.description = "${currentBuild.description}\n${fileContent}"		
-					}    			
-
-					writeFile file: "QA-calo.md", text: "${report_content}"	
-				
-				}//script
+				echo("start report building to ...");
+				sh ('pwd');
 			}
-		  		  
+			script
+			{								
+
+				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+
+				def files = findFiles(glob: 'QA-gallery/report*.md')
+				echo("all reports: $files");
+				// def testFileNames = files.split('\n')
+				for (def fileEntry : files) 
+				{    			
+					String file = fileEntry.path;    				
+
+					String fileContent = readFile(file).trim();
+
+					echo("$file  -> ${fileContent}");
+
+					// update report summary
+					report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
+
+					// update build description
+					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+				}    			
+
+				writeFile file: "report/QA-calo.md", text: "${report_content}"	
+
+			}//script
+			
 			archiveArtifacts artifacts: 'report/*.md'
 			
 			build(job: 'github-commit-checkrun',
