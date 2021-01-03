@@ -32,10 +32,11 @@ echo "${name}: Env check";
 echo "======================================================="
 env;
 
+macro_dir=$WORKSPACE/macros/detectors/${detector_name}
 echo "======================================================="
-echo "cd macros/detectors/${detector_name}";
+echo "cd ${macro_dir}";
 echo "======================================================="
-cd macros/detectors/${detector_name}
+cd ${macro_dir}
 
 pwd;
 ls -lhc
@@ -79,36 +80,61 @@ done
 ls -lhcrt
 
 
-#echo "======================================================="
-#echo "${name}: go to QA directory";
-#echo "======================================================="
-#cd ../QA/calorimeter/
-#pwd
-#ls -lhv
+echo "======================================================="
+echo "${name}: go to QA directory";
+echo "======================================================="
+cd $WORKSPACE/QA-gallery
+pwd
+ls -lhv
 
 echo "======================================================="
-echo "${name}: Merging output to G4sPHENIX_${name}_qa.root";
+echo "${name}: Reference";
 echo "======================================================="
 
-hadd -f G4sPHENIX_${name}_qa.root $WORKSPACE/macros/macros/g4simulations/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
+echo "use reference = ${use_reference}"
+if [ ${use_reference} ]; then
+	ln -svfb ../reference
+	
+	export qa_file_name_ref=reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
+	
+	echo "Reference file: with $qa_file_name_ref"
+	ls -lhvc $qa_file_name_ref
+	
+fi
 
-#echo "======================================================="
-#echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
-#echo "======================================================="
+export qa_file_name_new=G4sPHENIX_${name}_qa.root
+echo "======================================================="
+echo "${name}: Merging output to $qa_file_name_new";
+echo "======================================================="
 
-#echo "Reference file: with reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root"
-#ls -lhvc reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
+echo hadd -f $qa_file_name_new ${macro_dir}/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
+hadd -f $qa_file_name_new ${macro_dir}/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
 
-#echo "use reference = ${use_reference}"
-#
-#if (($? == 0) && (${use_reference} == "true")) then
-#	
-#	./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
-#
-#else
-#	
-#	./QA_Draw_ALL.sh G4sPHENIX_${name}_qa.root
-#	
-#endif
+echo "======================================================="
+echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
+echo "======================================================="
+
+sh setup.sh 
+
+source ./env/bin/activate
+
+nbname=QA-calorimeter.ipynb 
+
+run.sh ${nbname}
+
+
+
+echo "======================================================="
+echo "${name}: push for publication";
+echo "======================================================="
+
+git status
+
+git tag -a $BUILD_TAG -m "Build by sPHENIX Jenkins CI at $JOB_URL"
+git push origin $BUILD_TAG
+
+echo "* [${nbname}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${BUILD_TAG}/${nbname})" >> report.md
+
+
 
 
