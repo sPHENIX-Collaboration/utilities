@@ -95,7 +95,7 @@ echo "use reference = ${use_reference}"
 if [ ${use_reference} ]; then
 	ln -svfb ../reference
 	
-	export qa_file_name_ref=reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root
+	export qa_file_name_ref=`/bin/ls -1 reference/G4sPHENIX_${particle_ID}_pT${pT_GeV}_Sum*_qa.root`
 	
 	echo "Reference file: with $qa_file_name_ref"
 	ls -lhvc $qa_file_name_ref
