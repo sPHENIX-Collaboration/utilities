@@ -60,7 +60,7 @@ pipeline
 							if (fileExists('./build'))
 							{
 								sh "rm -fv ./build"
-							}						
+							}							
 						}						
     				
 						echo("link builds to ${build_src}")
@@ -79,8 +79,12 @@ pipeline
 						dir('report')
 						{
 							deleteDir()
-    				}
-    				
+    						}
+						dir('QA-gallery')
+						{
+							deleteDir()
+    						}
+    					
 						sh('ls -lvhc')
 						
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -159,12 +163,32 @@ pipeline
 								] //checkout
 							)//checkout
 							
-    				}	
+    						}	
     				
-    				// for QA macros, just use the default repository then...
-						dir('coresoftware') {
-							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
-						}
+				
+						dir('QA-gallery')
+						{			
+							
+							checkout(
+								[
+						 			$class: 'GitSCM',
+						   		extensions: [               
+							   		[$class: 'CleanCheckout'],  
+						   		],
+							  	branches: [
+							    		[name: "${sha_QA-gallery}"]
+							    	], 
+							  	userRemoteConfigs: 
+							  	[[
+							     	credentialsId: 'sPHENIX-bot', 
+							     	url: '${git_url_QA-gallery}',
+							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
+							    	branch: ('*')
+							  	]]
+								] //checkout
+							)//checkout
+							
+    						}	
 						
 					}
 				}
