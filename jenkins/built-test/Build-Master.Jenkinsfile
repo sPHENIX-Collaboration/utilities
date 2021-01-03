@@ -605,7 +605,8 @@ pipeline
 									
 									when {
 				    				// case insensitive regular expression for truthy values
-										expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+										// expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+										expression { return false } // temp disable this stage
 									}
 									steps 
 									{
@@ -669,7 +670,9 @@ pipeline
 									
 									when {
 				    				// case insensitive regular expression for truthy values
-										expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+										// expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+										expression { return false } // temp disable this stage
+
 									}
 									steps 
 									{
