@@ -772,15 +772,23 @@ pipeline
 					{    			
 						String file = fileEntry.path;    				
 
-						String fileContent = readFile(file).trim();
+						//String fileContent = readFile(file).trim();
 
-						echo("$file  -> ${fileContent}");
+						//echo("$file  -> ${fileContent}");
+						
+						new File(file).eachLine { line ->
+						
+							String fileContent = line.trim();
+							echo("$file  -> ${fileContent}");
+						    						    
+							// update report summary
+							report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
 
-						// update report summary
-						report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
-
-						// update build description
-						currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+							// update build description
+							currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+						}
+						
+	
 					}    			
 
 					writeFile file: "build-${system_config}-${build_type}.md", text: "${report_content}"	
