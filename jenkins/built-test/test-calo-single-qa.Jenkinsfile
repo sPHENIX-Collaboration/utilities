@@ -295,7 +295,8 @@ pipeline
 			}
 			script
 			{								
-
+				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
+				
 				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
 
 				def files = findFiles(glob: 'QA-gallery/report*.md')
