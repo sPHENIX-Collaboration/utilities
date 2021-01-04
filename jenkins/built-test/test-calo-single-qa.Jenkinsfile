@@ -240,6 +240,16 @@ pipeline
 			}				
 					
 		}
+		stage('archiveArtifacts')
+		{
+			
+			
+			steps 
+			{
+				archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'										
+			}				
+					
+		}
 		
 		stage('html-report')
 		{
