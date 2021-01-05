@@ -772,11 +772,13 @@ pipeline
 					{    			
 						String file = fileEntry.path;    				
 
-						//String fileContent = readFile(file).trim();
+						//String fileContent = readFile(file);
 
 						//echo("$file  -> ${fileContent}");
 						
-						new File(file).eachLine { line ->
+						def lines = readFile(file).split('\n')
+						
+						for (def line : lines){
 						
 							String fileContent = line.trim();
 							echo("$file  -> ${fileContent}");
