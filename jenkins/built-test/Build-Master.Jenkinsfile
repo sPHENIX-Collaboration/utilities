@@ -780,8 +780,8 @@ pipeline
 						
 						for (def line : lines){
 						
-							String fileContent = line.trim();
-							echo("$file  -> ${fileContent}");
+							String fileContent = line;
+							echo("$file  -> |${fileContent}|");
 						    						    
 							// update report summary
 							report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
