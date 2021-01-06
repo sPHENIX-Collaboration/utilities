@@ -41,35 +41,35 @@ cd ${macro_dir}
 pwd;
 ls -lhc
 
-id_number=1
-while [ $id_number -le $number_jobs ]
-do
-	job_name=${particle_ID}_pT${pT_GeV}_${id_number}
+# id_number=1
+# while [ $id_number -le $number_jobs ]
+# do
+# 	job_name=${particle_ID}_pT${pT_GeV}_${id_number}
   
-	echo "======================================================="
-	echo "${job_name}: Start test";
-	echo "======================================================="
+# 	echo "======================================================="
+# 	echo "${job_name}: Start test";
+# 	echo "======================================================="
   
-  	(/usr/bin/time -v root -b -q "Fun4All_G4_sPHENIX.C(20,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" && echo $? > exit_code_${id_number}.log ) 2>&1 | tee G4sPHENIX_${job_name}.log | (head; tail)  &
+#   	(/usr/bin/time -v root -b -q "Fun4All_G4_sPHENIX.C(20,"\"${particle_ID}\"",${pT_GeV},"\"G4sPHENIX_${job_name}\"")" && echo $? > exit_code_${id_number}.log ) 2>&1 | tee G4sPHENIX_${job_name}.log | (head; tail)  &
 	
-  	sleep 1s;
-	((id_number++))
-done
+#   	sleep 1s;
+# 	((id_number++))
+# done
 
-wait;
+# wait;
 
-id_number=1
+# id_number=1
 
-while [ $id_number -le $number_jobs ]
-do
-	build_ret=`cat exit_code_${id_number}.log`;
+# while [ $id_number -le $number_jobs ]
+# do
+# 	build_ret=`cat exit_code_${id_number}.log`;
 
-	echo "Build step - build - return $build_ret";
+# 	echo "Build step - build - return $build_ret";
 	
 	
-	if [ $build_ret -ne 0 ]; then
-		echo "======================================================="
-		echo "Job index ${id_number}: Failed build with return = ${build_ret}. ";
+# 	if [ $build_ret -ne 0 ]; then
+# 		echo "======================================================="
+# 		echo "Job index ${id_number}: Failed build with return = ${build_ret}. ";
 # 		echo "======================================================="
 # 		exit $build_ret;
 # 	fi
