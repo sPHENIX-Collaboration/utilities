@@ -70,22 +70,22 @@ do
 	if [ $build_ret -ne 0 ]; then
 		echo "======================================================="
 		echo "Job index ${id_number}: Failed build with return = ${build_ret}. ";
-		echo "======================================================="
-		exit $build_ret;
-	fi
+# 		echo "======================================================="
+# 		exit $build_ret;
+# 	fi
 	
-	((id_number++))
-done
+# 	((id_number++))
+# done
 
-ls -lhcrt
+# ls -lhcrt
 
 
-echo "======================================================="
-echo "${name}: go to QA directory";
-echo "======================================================="
-cd $WORKSPACE/QA-gallery
-pwd
-ls -lhv
+# echo "======================================================="
+# echo "${name}: go to QA directory";
+# echo "======================================================="
+# cd $WORKSPACE/QA-gallery
+# pwd
+# ls -lhv
 
 echo "======================================================="
 echo "${name}: Reference";
@@ -102,18 +102,18 @@ if [ ${use_reference} ]; then
 	
 fi
 
-export qa_file_name_new=G4sPHENIX_${name}_qa.root
-echo "======================================================="
-echo "${name}: Merging output to $qa_file_name_new";
-echo "======================================================="
-
-echo hadd -f $qa_file_name_new ${macro_dir}/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
-hadd -f $qa_file_name_new ${macro_dir}/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
-
+# export qa_file_name_new=G4sPHENIX_${name}_qa.root
 # echo "======================================================="
-# echo fake fast runs !! Remove before release!
+# echo "${name}: Merging output to $qa_file_name_new";
 # echo "======================================================="
-# ln -svfb $qa_file_name_ref $qa_file_name_new
+
+# echo hadd -f $qa_file_name_new ${macro_dir}/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
+# hadd -f $qa_file_name_new ${macro_dir}/G4sPHENIX_${particle_ID}_pT${pT_GeV}_*_qa.root
+
+echo "======================================================="
+echo fake fast runs !! Remove before release!
+echo "======================================================="
+ln -svfb $qa_file_name_ref $qa_file_name_new
 
 echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
