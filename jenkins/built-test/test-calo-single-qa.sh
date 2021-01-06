@@ -80,12 +80,12 @@ ls -lhc
 # ls -lhcrt
 
 
-# echo "======================================================="
-# echo "${name}: go to QA directory";
-# echo "======================================================="
-# cd $WORKSPACE/QA-gallery
-# pwd
-# ls -lhv
+echo "======================================================="
+echo "${name}: go to QA directory";
+echo "======================================================="
+cd $WORKSPACE/QA-gallery
+pwd
+ls -lhv
 
 echo "======================================================="
 echo "${name}: Reference";
