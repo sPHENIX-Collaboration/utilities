@@ -237,40 +237,42 @@ pipeline
 		}
 		stage('archiveArtifacts')
 		{
-			
-			
 			steps 
 			{
 				archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'										
-			}				
-					
+			}								
 		}
 		
 		stage('html-report')
 		{
 			steps 
-			{
+			{	
 			
+				sh("cp -fv QA-gallery/*.html qa_html/");
 			
 				dir('qa_html')
 				{
 					sh('ls -lhv')
 					
-    					//sh ("tar xzfv ./qa_page.tar.gz")
+    					sh ("tar xzfv ./qa_page.tar.gz")
     							
-					//archiveArtifacts artifacts: 'qa_page.tar.gz'
+					archiveArtifacts artifacts: 'qa_page.tar.gz'
 					
 					sh('ls -lhv')
 				}
-
-				//publishHTML (target: [
-				//      allowMissing: false,
-				//      alwaysLinkToLastBuild: false,
-				//      keepAll: true,
-				//      reportDir: 'qa_html',
-				//      reportFiles: 'index.html',
-				//      reportName: "QA Report"
-				//    ])
+				
+				script {
+					def html_files = findFiles(glob: 'qa_html/*.md')
+					
+					publishHTML (target: [
+					      allowMissing: false,
+					      alwaysLinkToLastBuild: false,
+					      keepAll: true,
+					      reportDir: 'qa_html',
+					      reportFiles: "$html_files",
+					      reportName: "QA Report"
+					    ])
+				}
 			}			// steps	
 					
 		}
