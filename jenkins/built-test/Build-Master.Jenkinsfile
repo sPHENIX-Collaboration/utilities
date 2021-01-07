@@ -276,7 +276,42 @@ pipeline
 						stage('Test')
 						{
 							parallel {
-											
+									
+								stage('test-default-detector-sPHENIX')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{			    		
+										script
+										{
+											def built = build(job: 'test-default-detector-pipeline',
+												parameters:
+												[
+													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+													string(name: 'build_src', value: "${build_root_path}"), 
+													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'system_config', value: "${system_config}"), 
+													string(name: 'sha_macros', value: "${sha_macros}"), 
+													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+													string(name: 'detector_name', value: "sPHENIX"), 
+													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+												],
+												wait: true, propagate: false)
+
+											copyArtifacts(projectName: 'test-default-detector-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
+
+											if ("${built.result}" != 'SUCCESS')
+											{
+												error('test-default-detector-sPHENIX FAIL')
+											}							
+										}// script
+									}				
+								} // stage('test-default-detector-sPHENIX')
+								
 								stage('test-default-detector-fsPHENIX')
 								{
 									
