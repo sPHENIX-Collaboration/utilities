@@ -141,6 +141,14 @@ do
 	# nbname=QA-calorimeter.ipynb 
 	sh run.sh ${nbname}
 	
+	build_ret=$?
+	if [ $build_ret -ne 0 ]; then
+		echo "======================================================="
+		echo "${nbname}: Failed build with return = ${build_ret}. ";
+		echo "======================================================="
+		exit $build_ret;
+	fi
+	
 done <<< "$notebooks"
 
 
