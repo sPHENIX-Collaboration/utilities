@@ -102,7 +102,7 @@ if [ ${use_reference} ]; then
 	
 fi
 
-# export qa_file_name_new=G4sPHENIX_${name}_qa.root
+export qa_file_name_new=G4sPHENIX_${name}_qa.root
 # echo "======================================================="
 # echo "${name}: Merging output to $qa_file_name_new";
 # echo "======================================================="
