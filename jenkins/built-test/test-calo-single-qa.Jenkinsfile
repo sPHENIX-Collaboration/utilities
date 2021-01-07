@@ -262,7 +262,7 @@ pipeline
 				
 				script {
 					def html_files = findFiles(glob: 'qa_html/*.html')
-					
+					echo("all html_files: $html_files");
 					publishHTML (target: [
 					      allowMissing: false,
 					      alwaysLinkToLastBuild: false,
