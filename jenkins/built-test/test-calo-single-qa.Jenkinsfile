@@ -256,7 +256,7 @@ pipeline
 				}
 				
 				script {
-					def html_files = findFiles(glob: 'qa_html/*.md')
+					def html_files = findFiles(glob: 'qa_html/*.html')
 					
 					publishHTML (target: [
 					      allowMissing: false,
