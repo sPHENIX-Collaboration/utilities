@@ -170,6 +170,9 @@ do
 	ls -lhvc report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 	cat report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 
+	filename=`basename ${nbname}`
+	cp -fv ${filename}.html ${nbname}-${particle_ID}_pT${pT_GeV}.html
+	
 done <<< "$notebooks"
 
 
