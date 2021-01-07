@@ -116,7 +116,7 @@ echo "======================================================="
 ln -svfb $qa_file_name_ref $qa_file_name_new
 
 echo "======================================================="
-echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
+echo "${name}: Initiating environment";
 echo "======================================================="
 
 export git_tag="$BUILD_TAG-${name}"
@@ -128,8 +128,20 @@ sh setup.sh
 
 source ./env/bin/activate
 
-nbname=QA-calorimeter.ipynb 
-sh run.sh ${nbname}
+echo "======================================================="
+echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
+echo "================================================"
+
+notebooks=`/bin/ls -1 *.ipynb`
+
+while IFS= read -r nbname; 
+do 
+	echo "Processing $nbname ..."; 
+	
+	# nbname=QA-calorimeter.ipynb 
+	sh run.sh ${nbname}
+	
+done <<< "$notebooks"
 
 
 
@@ -143,7 +155,22 @@ git commit -am "Processing ${particle_ID}_pT${pT_GeV} at $JOB_URL"
 git tag -a $git_tag -m "Build by sPHENIX Jenkins CI for QA config ${particle_ID}_pT${pT_GeV} at $JOB_URL"
 git push origin $git_tag
 
-echo "* [:bar_chart: ${nbname} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+
+echo "======================================================="
+echo "${name}: build Markdown reports";
+echo "======================================================="
+
+while IFS= read -r nbname; 
+do 
+	echo "Processing $nbname ..."; 
+	
+	# nbname=QA-calorimeter.ipynb 
+	echo "* [:bar_chart: ${nbname} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+
+	ls -lhvc report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+	cat report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+
+done <<< "$notebooks"
 
 
 
