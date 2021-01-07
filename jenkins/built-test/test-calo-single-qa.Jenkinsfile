@@ -251,13 +251,7 @@ pipeline
 				sh("cp -fv QA-gallery/*.html qa_html/");
 			
 				dir('qa_html')
-				{
-					sh('ls -lhv')
-					
-    					sh ("tar xzfv ./qa_page.tar.gz")
-    							
-					archiveArtifacts artifacts: 'qa_page.tar.gz'
-					
+				{					
 					sh('ls -lhv')
 				}
 				
