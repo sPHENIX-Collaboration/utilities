@@ -60,11 +60,7 @@ pipeline
 							if (fileExists('./build'))
 							{
 								sh "rm -frv ./build"
-							}						
-							if (fileExists('./qa_html'))
-							{
-								sh "rm -fvr ./qa_html"
-							}						
+							}							
 						}						
     				
 						echo("link builds to ${build_src}")
@@ -76,19 +72,25 @@ pipeline
 							deleteDir()
 						}	
 
-						dir('coresoftware') {
+						dir('coresoftware') 
+						{
 							deleteDir()
 						}
 
 						dir('report')
 						{
 							deleteDir()
-    						}
+    					}
 						
 						dir('QA-gallery')
 						{
 							deleteDir()
-    						}
+    					}
+    					
+						dir('qa_html')
+						{
+							deleteDir()
+    					}
 						sh('ls -lvhc')
 						
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
