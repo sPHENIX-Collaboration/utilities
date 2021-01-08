@@ -59,8 +59,12 @@ pipeline
 							}						
 							if (fileExists('./build'))
 							{
-								sh "rm -fv ./build"
-							}							
+								sh "rm -frv ./build"
+							}						
+							if (fileExists('./qa_html'))
+							{
+								sh "rm -fvr ./qa_html"
+							}						
 						}						
     				
 						echo("link builds to ${build_src}")
@@ -163,7 +167,7 @@ pipeline
 								] //checkout
 							)//checkout
 							
-    						}	
+    				}	
     				
 				
 						dir('QA-gallery')
@@ -198,6 +202,10 @@ pipeline
 		stage('Copy reference')
 		{
 			
+			when {
+    			// case insensitive regular expression for truthy values
+					expression { return use_reference ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+			}
 			steps 
 			{
 				timestamps { 

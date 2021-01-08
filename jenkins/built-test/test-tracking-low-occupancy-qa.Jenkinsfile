@@ -65,10 +65,6 @@ pipeline
 							{
 								sh "rm -fvr ./qa_html"
 							}						
-							if (fileExists('./report'))
-							{
-								sh "rm -frv ./report"
-							}						
 						}						
     				
 						echo("link builds to ${build_src}")
@@ -87,8 +83,12 @@ pipeline
 						dir('report')
 						{
 							deleteDir()
-    				}
-    				
+    						}
+						
+						dir('QA-gallery')
+						{
+							deleteDir()
+    						}
 						sh('ls -lvhc')
 						
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -114,7 +114,7 @@ pipeline
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh ${build_type}')
+							sh('$singularity_exec_sphenix tcsh singularity-check.sh ${build_type}')
 						
 						}
 						
@@ -141,16 +141,16 @@ pipeline
 							   		[$class: 'CleanCheckout'],     
 							     	[
 							   			$class: 'PreBuildMerge',
-							    		options: [
+							    			options: [
 											mergeRemote: 'origin',
-							  			mergeTarget: 'tracking-low-occupancy-qa'
+							  				mergeTarget: 'QA-tracking-low-occupancy'
 							  			]
 							    	],   
 							     	[
 							   			$class: 'PreBuildMerge',
-							    		options: [
+							    			options: [
 											mergeRemote: 'origin',
-							  			mergeTarget: 'master'
+							  				mergeTarget: 'master'
 							  			]
 							    	],
 						   		],
@@ -169,10 +169,30 @@ pipeline
 							
     				}	
     				
-    				// for QA macros, just use the default repository then...
-						dir('coresoftware') {
-							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
-						}
+				
+						dir('QA-gallery')
+						{			
+							
+							checkout(
+								[
+						 			$class: 'GitSCM',
+						   		extensions: [               
+							   		[$class: 'CleanCheckout'],  
+						   		],
+							  	branches: [
+							    		[name: "${sha_QA_gallery}"]
+							    	], 
+							  	userRemoteConfigs: 
+							  	[[
+							     	credentialsId: 'sPHENIX-bot', 
+							     	url: '${git_url_QA_gallery}',
+							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main'), 
+							    	branch: ('*')
+							  	]]
+								] //checkout
+							)//checkout
+							
+    						}	
 						
 					}
 				}
@@ -191,7 +211,7 @@ pipeline
 				timestamps { 
 					ansiColor('xterm') {
 						
-						dir('macros/macros/QA/tracking/reference')
+						dir('reference')
 						{
     					copyArtifacts(projectName: "test-tracking-low-occupancy-qa-reference", selector: lastSuccessful());
 
@@ -210,9 +230,9 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix tcsh -f utilities/jenkins/built-test/test-tracking-low-occupancy-qa.sh $build_type $num_event $number_jobs')
+				sh('$singularity_exec_sphenix sh utilities/jenkins/built-test/test-tracking-qa.sh $num_event $number_jobs')
 				
-				archiveArtifacts artifacts: 'macros/macros/QA/tracking/G4sPHENIX_*_Sum*_qa.root*'										
+				archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
 					
 		}
@@ -221,18 +241,27 @@ pipeline
 		stage('html-report')
 		{
 			steps 
-			{
+			{	
 			
-				sh('$singularity_exec_sphenix sh utilities/jenkins/built-test/test-tracking-qa-gallery-thumbsup.sh')
+				sh("cp -fv QA-gallery/*.html qa_html/");
 			
-				  publishHTML (target: [
-			      allowMissing: false,
-			      alwaysLinkToLastBuild: false,
-			      keepAll: true,
-			      reportDir: 'qa_html/_build/',
-			      reportFiles: 'index.html',
-			      reportName: "QA Report"
-			    ])
+				dir('qa_html')
+				{					
+					sh('ls -lhv')
+				}
+				
+				script {
+					def html_files = findFiles(glob: 'qa_html/*.html').join(',')
+					echo("all html_files: $html_files");
+					publishHTML (target: [
+					      allowMissing: false,
+					      alwaysLinkToLastBuild: false,
+					      keepAll: true,
+					      reportDir: 'qa_html',
+					      reportFiles: "$html_files",
+					      reportName: "QA Report"
+					    ])
+				}
 			}			// steps	
 					
 		}
@@ -244,13 +273,42 @@ pipeline
 	
 		always{
 		  
+			//  writeFile file: "QA-tracking-high-occupancy-qa.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL})"				
 			dir('report')
 			{
-			  writeFile file: "QA-tracking-low-occupancy-qa.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Tracking/low occ.](${env.BUILD_URL}/QA_20Report/) "				
+				echo("start report building to ...");
+				sh ('pwd');
 			}
-		  		  
+			script
+			{								
+				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
+				
+				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+
+				def files = findFiles(glob: 'QA-gallery/report*.md')
+				echo("all reports: $files");
+				// def testFileNames = files.split('\n')
+				for (def fileEntry : files) 
+				{    			
+					String file = fileEntry.path;    				
+
+					String fileContent = readFile(file).trim();
+
+					echo("$file  -> ${fileContent}");
+
+					// update report summary
+					report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
+
+					// update build description
+					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+				}    			
+
+				writeFile file: "report/QA-tracking-high-occupancy-qa.md", text: "${report_content}"	
+
+			}//script
+			
 			archiveArtifacts artifacts: 'report/*.md'
-						
+			
 			build(job: 'github-commit-checkrun',
 				parameters:
 				[
@@ -260,7 +318,7 @@ pipeline
 					string(name: 'checkrun_status', value: "completed"),
 					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
 					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Tracking/low occ.](${env.BUILD_URL}/QA_20Report/) "),
+					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL})"),
 					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
@@ -269,7 +327,7 @@ pipeline
 
 		success {
 			script {
-				currentBuild.description = "${upstream_build_description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-tracking-low-occupancy-qa-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
+				currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-tracking-low-occupancy-qa-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
 			}
 			
 			build(job: 'github-comment-label',
