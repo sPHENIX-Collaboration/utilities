@@ -90,6 +90,13 @@ ls -lhcrt
 echo "======================================================="
 echo "${name}: go to QA directory";
 echo "======================================================="
+
+if [ -f "README.md" ]; then
+    cp -fv README.md $WORKSPACE/QA-gallery/Fun4All-macros-README.md
+else
+	echo "missing README.md at " $PWD
+fi
+
 cd $WORKSPACE/QA-gallery
 pwd
 ls -lhv
