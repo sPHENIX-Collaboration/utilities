@@ -179,12 +179,12 @@ do
 	echo "Processing $nbname ..."; 
 	
 	# nbname=QA-calorimeter.ipynb 
-	echo "* [:bar_chart: ${nbname} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+	filename=`basename ${nbname} .ipynb`
+	echo "* [:bar_chart: ${filename} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 
 	ls -lhvc report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 	cat report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 
-	filename=`basename ${nbname} .ipynb`
 	mv -fv ${filename}.html ${nbname}-${particle_ID}_pT${pT_GeV}.html
 	
 done <<< "$notebooks"

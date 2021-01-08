@@ -192,12 +192,12 @@ do
 	echo "Processing $nbname ..."; 
 	
 	# nbname=QA-calorimeter.ipynb 
-	echo "* [:bar_chart: ${nbname}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}.md
+	filename=`basename ${nbname} .ipynb`
+	echo "* [:bar_chart: ${filename}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}.md
 
 	ls -lhvc report-${nbname}.md
 	cat report-${nbname}.md
 
-	# filename=`basename ${nbname} .ipynb`
 	# mv -fv ${filename}.html ${nbname}.html
 	
 done <<< "$notebooks"
