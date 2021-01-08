@@ -51,7 +51,7 @@ pipeline
 		   	copyArtifacts(projectName: "${build_src}", selector: specific("${ref_build_id}"));
 		    //copyArtifacts(projectName: "${test-calo-single-qa}");
 		   	
-		   	dir('macros/macros/QA/calorimeter/')
+		   	dir('QA-gallery')
 		   	{
 		   		stash name: "test-calo-single-qa-stash", includes: "*"
 		   	}
