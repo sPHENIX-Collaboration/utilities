@@ -91,6 +91,11 @@ pipeline
 						{
 							deleteDir()
     					}
+    					
+						dir('reference')
+						{
+							deleteDir()
+    					}
 						sh('ls -lvhc')
 						
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -245,12 +250,12 @@ pipeline
 			steps 
 			{	
 			
-				sh("cp -fv QA-gallery/*.html qa_html/");
-			
 				dir('qa_html')
 				{					
 					sh('ls -lhv')
 				}
+			
+				sh("cp -fv QA-gallery/*.html qa_html/");
 				
 				script {
 					def html_files = findFiles(glob: 'qa_html/*.html').join(',')
