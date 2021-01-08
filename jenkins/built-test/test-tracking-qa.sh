@@ -15,12 +15,6 @@ if [ -z "${build_type}" ]; then
 	exit 1;
 fi
 
-if ($#argv != 3) then
-	
-	echo "Usage $0 num_event number_jobs"
-	exit 1;
-	
-endif
 
 set num_event = $1;
 set number_jobs = $2;
@@ -166,8 +160,7 @@ do
 		echo "${nbname}: Failed build with return = ${build_ret}. ";
 		echo "======================================================="
 		exit $build_ret;
-	fi
-	
+	fi	
 done <<< "$notebooks"
 
 
