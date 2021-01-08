@@ -16,11 +16,10 @@ if [ -z "${build_type}" ]; then
 fi
 
 
-set num_event = $1;
-set number_jobs = $2;
+num_event=$1;
+number_jobs=$2;
 
-set name = test-tracking_Event${num_event}_Sum${number_jobs}
-
+name=test-tracking_Event${num_event}_Sum${number_jobs}
 
 detector_name=sPHENIX
 macro_name="Fun4All_G4_${detector_name}";
