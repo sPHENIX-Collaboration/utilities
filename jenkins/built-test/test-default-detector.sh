@@ -20,7 +20,8 @@ run_valgrind=$3;
 macro_name="Fun4All_G4_${detector_name}";
 
 export OFFLINE_MAIN=$WORKSPACE/install
-
+# export CALIBRATIONROOT=$WORKSPACE/calibrations # handle via OFFLINE_MAIN
+# note this is not using -n parameter to overwrite OFFLINE_MAIN
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 
@@ -83,9 +84,9 @@ if (( $build_ret != 0 )); then
 	echo "Failed run with return = ${build_ret}. ";
 	echo "======================================================="
 	
-	# if ($run_valgrind == 0) then
-	exit $build_ret;
-	# endif
+	if (( $run_valgrind != 0 )); then
+		exit $build_ret;
+	fi
 fi
 
 

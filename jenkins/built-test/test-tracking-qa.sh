@@ -26,9 +26,10 @@ macro_name="Fun4All_G4_${detector_name}";
 
 
 export OFFLINE_MAIN=$WORKSPACE/install
-
-echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
-source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
+# export CALIBRATIONROOT=$WORKSPACE/calibrations # handle via OFFLINE_MAIN
+# note this is not using -n parameter to overwrite OFFLINE_MAIN
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 
 export ROOT_INCLUDE_PATH=${WORKSPACE}/macros/common:${ROOT_INCLUDE_PATH}
 
