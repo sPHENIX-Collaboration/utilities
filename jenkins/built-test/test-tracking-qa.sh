@@ -204,7 +204,7 @@ do
     	summary="$summary : $notebook_summary"
 	fi
 	
-	echo $summary > report-${nbname}.md
+	echo "$summary" > report-${nbname}.md
 
 	ls -lhvc report-${nbname}.md
 	cat report-${nbname}.md
