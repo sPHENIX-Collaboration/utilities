@@ -192,7 +192,18 @@ do
 	
 	# nbname=QA-calorimeter.ipynb 
 	filename=`basename ${nbname} .ipynb`
-	echo "* [:bar_chart: ${filename}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}.md
+	
+	summary="* [:bar_chart: ${filename}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})"
+	
+	if [ -f "${filename}.txt" ]; then
+		
+		notebook_summary=$( cat ${filename}.txt )
+		echo "Note book summary, ${filename}.txt : $notebook_summary"
+		
+    	summary="$summary : $notebook_summary"
+	fi
+	
+	echo $summary > report-${nbname}.md
 
 	ls -lhvc report-${nbname}.md
 	cat report-${nbname}.md
