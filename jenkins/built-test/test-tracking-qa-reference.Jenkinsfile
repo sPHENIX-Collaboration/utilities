@@ -50,7 +50,7 @@ pipeline
 				echo ("copyArtifacts(projectName: ${build_src}, selector: specific(${ref_build_id}))");
 		   	copyArtifacts(projectName: "${build_src}", selector: specific("${ref_build_id}"));
 		   	
-		   	dir('macros/macros/QA/tracking/')
+		   	dir('QA-gallery/')
 		   	{
 		   		stash name: "qa-stash", includes: "*"
 		   	}
