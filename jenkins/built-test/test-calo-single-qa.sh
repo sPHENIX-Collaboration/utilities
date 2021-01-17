@@ -192,12 +192,12 @@ do
     	summary="$summary : $notebook_summary"
 	fi
 	
-	echo "$summary" > report-${nbname}.md
+	echo "$summary" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 
-	ls -lhvc report-${nbname}.md
-	cat report-${nbname}.md
+	ls -lhvc report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+	cat report-${nbname}-${particle_ID}_pT${pT_GeV}.md
 
-	# mv -fv ${filename}.html ${nbname}.html
+	mv -fv ${filename}.html ${nbname}-${particle_ID}_pT${pT_GeV}.html
 	
 done <<< "$notebooks"
 
