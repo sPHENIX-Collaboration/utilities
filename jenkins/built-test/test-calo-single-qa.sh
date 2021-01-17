@@ -181,15 +181,25 @@ do
 	
 	# nbname=QA-calorimeter.ipynb 
 	filename=`basename ${nbname} .ipynb`
-	echo "* [:bar_chart: ${filename} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})" > report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+	
+	summary="* [:bar_chart: ${filename} for ${particle_ID} at p_T=${pT_GeV}GeV](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})"
+	
+	if [ -f "${filename}.txt" ]; then
+		
+		notebook_summary=$( cat ${filename}.txt )
+		echo "Note book summary, ${filename}.txt : $notebook_summary"
+		
+    	summary="$summary : $notebook_summary"
+	fi
+	
+	echo "$summary" > report-${nbname}.md
 
-	ls -lhvc report-${nbname}-${particle_ID}_pT${pT_GeV}.md
-	cat report-${nbname}-${particle_ID}_pT${pT_GeV}.md
+	ls -lhvc report-${nbname}.md
+	cat report-${nbname}.md
 
-	mv -fv ${filename}.html ${nbname}-${particle_ID}_pT${pT_GeV}.html
+	# mv -fv ${filename}.html ${nbname}.html
 	
 done <<< "$notebooks"
-
 
 
 
