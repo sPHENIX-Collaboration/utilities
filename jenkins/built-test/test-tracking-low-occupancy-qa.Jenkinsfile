@@ -280,7 +280,7 @@ pipeline
 	
 		always{
 		  
-			//  writeFile file: "QA-tracking-high-occupancy-qa.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL})"				
+			//  writeFile file: "QA-tracking-low-occupancy-qa.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL})"				
 			dir('report')
 			{
 				echo("start report building to ...");
@@ -310,7 +310,7 @@ pipeline
 					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
 				}    			
 
-				writeFile file: "report/QA-tracking-high-occupancy-qa.md", text: "${report_content}"	
+				writeFile file: "report/QA-tracking-low-occupancy-qa.md", text: "${report_content}"	
 
 			}//script
 			
