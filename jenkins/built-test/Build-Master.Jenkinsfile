@@ -51,6 +51,7 @@ pipeline
 										
 						dir('build')
 						{
+							sh('chmod -R 755 .')
 							deleteDir()
 						}	
 
@@ -66,23 +67,23 @@ pipeline
 						dir('macros')
 						{
 							deleteDir()
-    				}	
+    						}	
 						dir('calibrations')
 						{
 							deleteDir()
-    				}	
+    						}	
 						dir('tutorials')
 						{
 							deleteDir()
-    				}
+    						}
 						dir('prototype')
 						{
 							deleteDir()
-    				}
+    						}
 						dir('report')
 						{
 							deleteDir()
-    				}
+    						}
 						sh('rm -fv *.*')
 					
 						sh('hostname')
