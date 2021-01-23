@@ -27,6 +27,7 @@ pipeline
 							deleteDir()
 						}
 						dir('Singularity') {
+							sh('chmod -R 755 .')
 							deleteDir()
 						}
 
