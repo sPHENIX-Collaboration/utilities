@@ -180,6 +180,17 @@ pipeline
 			}		
 		}
 		
+		
+		stage('error-search')
+		{
+			steps 
+			{
+			
+				system('grep G4Exception macros/detectors/${detector_name}/*.log; exit $?');
+			
+			} 
+		}
+		
 	}//stages
 
 	
