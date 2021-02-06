@@ -187,7 +187,14 @@ pipeline
 			{
 			
 				sh('''#!/usr/bin/env bash
-					 echo grep G4Exception macros/detectors/${detector_name}/*.log; grep G4Exception macros/detectors/${detector_name}/*.log  ;  if [ $? -eq 0 ]; then echo "G4Exception Error found in " macros/detectors/${detector_name}/*.log; exit 1 ; else exit 0; fi
+					echo grep G4Exception macros/detectors/${detector_name}/*.log; 
+					grep G4Exception macros/detectors/${detector_name}/*.log  ;  
+					if [ $? -eq 0 ]; then 
+						echo "G4Exception Error found in " macros/detectors/${detector_name}/*.log; 
+						exit 1 ; 
+					else 
+						exit 0; 
+					fi
          			''');
 			
 			} 
