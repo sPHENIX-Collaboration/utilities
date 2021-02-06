@@ -186,7 +186,7 @@ pipeline
 			steps 
 			{
 			
-				sh(sh '''#!/usr/bin/env bash
+				sh('''#!/usr/bin/env bash
 					 grep G4Exception macros/detectors/${detector_name}/*.log; exit $? 
          			''');
 			
