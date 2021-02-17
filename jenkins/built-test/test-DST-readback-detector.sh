@@ -100,8 +100,9 @@ echo "Readback DST file ${DSTfile}. ";
 echo "======================================================="
 	
 quote='"';
-/usr/bin/time -v  root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" | tee -a Fun4All_ReadBack.log;
-build_ret=$?;
+# /usr/bin/time -v  root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" | tee -a Fun4All_ReadBack.log;
+( /usr/bin/time -v root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" ; echo $? > return2.tmp ) 2>&1 | tee Fun4All_ReadBack.log  ;
+build_ret=`cat return2.tmp`;
 
 ls -lhcrt
 echo "Readback step - build - return $build_ret";
