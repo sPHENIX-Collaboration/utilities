@@ -214,7 +214,7 @@ pipeline
 				wait: false, propagate: false
 			) // build(job: 'github-commit-checkrun',
 			
-			archiveArtifacts artifacts: '**/*.log'
+			archiveArtifacts artifacts: 'macros/**/*.log'
 		}
 
 		success {
