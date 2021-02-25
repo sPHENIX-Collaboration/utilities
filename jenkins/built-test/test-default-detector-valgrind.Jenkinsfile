@@ -183,14 +183,14 @@ pipeline
           failBuildOnMissingReports: true,
           failThresholdDefinitelyLost: '100',
           failThresholdInvalidReadWrite: '0',
-          failThresholdTotal: '1000',
+          failThresholdTotal: '1500',
           pattern: 'macros/detectors/*/*.valgrind.xml',
           publishResultsForAbortedBuilds: false,
           publishResultsForFailedBuilds: false,
           sourceSubstitutionPaths: '',
           unstableThresholdDefinitelyLost: '40',
           unstableThresholdInvalidReadWrite: '',
-          unstableThresholdTotal: '500'
+          unstableThresholdTotal: '1500'
         )
 			
 			}		
