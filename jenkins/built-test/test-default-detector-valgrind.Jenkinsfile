@@ -181,16 +181,16 @@ pipeline
 				publishValgrind (
           failBuildOnInvalidReports: true,
           failBuildOnMissingReports: true,
-          failThresholdDefinitelyLost: '100',
+          failThresholdDefinitelyLost: '40',
           failThresholdInvalidReadWrite: '0',
-          failThresholdTotal: '1500',
+          failThresholdTotal: '100',
           pattern: 'macros/detectors/*/*.valgrind.xml',
           publishResultsForAbortedBuilds: false,
           publishResultsForFailedBuilds: false,
           sourceSubstitutionPaths: '',
-          unstableThresholdDefinitelyLost: '40',
+          unstableThresholdDefinitelyLost: '0',
           unstableThresholdInvalidReadWrite: '',
-          unstableThresholdTotal: '1500'
+          unstableThresholdTotal: '0'
         )
 			
 			}		
