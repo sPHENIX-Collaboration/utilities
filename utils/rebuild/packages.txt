@@ -88,7 +88,6 @@ prototype/simulation/g4simulation/g4caloprototype|jhuang@bnl.gov
 prototype/offline/packages/Prototype2|jhuang@bnl.gov
 prototype/offline/packages/Prototype3|jhuang@bnl.gov
 prototype/offline/packages/Prototype4|jhuang@bnl.gov
-prototype/offline/packages/tpc2019|jhuang@bnl.gov
 # QA modules that use both simulation and offline libs
 coresoftware/offline/QA/modules|jhuang@bnl.gov
 # the dumping needs all objects and comes last
