@@ -87,6 +87,7 @@ my $cwd = getcwd;
 my $buildSucceeded = 0;
 
 # Set up some defaults for script options
+my $default_repoowner = "sPHENIX-Collaboration";
 $opt_gittag = '';
 $opt_gitbranch = '';
 $opt_version = 'new';
@@ -97,7 +98,7 @@ $opt_coverity = 0;
 $opt_lafiles = 0;
 $opt_help = 0;
 $opt_afs = 0;
-$opt_repoowner = 'sPHENIX-Collaboration';
+$opt_repoowner = $default_repoowner;
 $opt_includecheck = 0;
 $opt_clang = 0;
 $opt_sysname = 'default';
@@ -399,13 +400,22 @@ else
     chdir $sourceDir;
     my $statret = 0;
     $ENV{'GIT_ASKPASS'} = 'true';
+    my %repoowner = ();
     foreach my $repo (@gitrepos)
     {
-        $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$opt_repoowner, $repo);
+	$repoowner{$repo} =  $opt_repoowner;
+        $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
         my $iret = system($gitcommand);
         if ($iret)
         {
-            print LOG "repository https://github.com/$opt_repoowner/$repo.git does not exist\n";
+            print LOG "repository https://github.com/$repoowner{$repo}/$repo.git does not exist, setting repoowner to $default_repoowner\n";
+	    $repoowner{$repo} =  $default_repoowner;
+	    $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
+	    $iret = system($gitcommand);
+	    if ($iret)
+	    {
+		print LOG "repository https://github.com/$repoowner{$repo}/$repo.git also does not exist\n";
+	    }
         }
         $statret += $iret;
     }
@@ -418,11 +428,11 @@ else
     {
         if ($repo =~ /acts/)
         {
-            $gitcommand = sprintf("git clone --branch sPHENIX -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+            $gitcommand = sprintf("git clone --branch sPHENIX -q https://github.com/%s/%s.git",$repoowner{$repo}, $repo);
         }
         else
         {
-            $gitcommand = sprintf("git clone -q https://github.com/%s/%s.git",$opt_repoowner, $repo);
+            $gitcommand = sprintf("git clone -q https://github.com/%s/%s.git",$repoowner{$repo}, $repo);
         }
         print LOG $gitcommand, "\n";
         goto END if &doSystemFail($gitcommand);
@@ -894,8 +904,23 @@ if ($opt_stage < 4)
               # DONE REMOVING POINTLESS LA FILES
           }
       }
+    my $repo = "calibrations";
+    $repoowner{$repo} = $opt_repoowner;
+    $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
+    my $iret = system($gitcommand);
+    if ($iret)
+    {
+	print LOG "repository https://github.com/$repoowner{$repo}/$repo.git does not exist\n";
+	$repoowner{$repo} = $default_repoowner;
+	$gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
+	$iret = system($gitcommand);
+	if ($iret)
+	{
+	    print LOG "repository https://github.com/$repoowner{$repo}/$repo.git also does not exist\n";
+	}
+    }
 # git clone -q --> no progress report to stdout
-    my $gitcommand = sprintf("git clone -q https://github.com/%s/calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
+    my $gitcommand = sprintf("git clone -q https://github.com/%s/calibrations.git $OFFLINE_MAIN/share/calibrations",$repoowner{$repo});
     if ($opt_eic)
     {
         $gitcommand = sprintf("git clone -q https://github.com/%s/fun4all_calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
