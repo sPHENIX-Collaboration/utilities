@@ -84,7 +84,7 @@ if (( $build_ret != 0 )); then
 	echo "Failed run with return = ${build_ret}. ";
 	echo "======================================================="
 	
-	if (( $run_valgrind != 0 )); then
+	if (( $run_valgrind == 0 )); then
 		exit $build_ret;
 	fi
 fi
