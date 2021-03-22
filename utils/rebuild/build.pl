@@ -103,11 +103,14 @@ $opt_includecheck = 0;
 $opt_clang = 0;
 $opt_sysname = 'default';
 $opt_cvmfsvol = 'sphenix.sdcc.bnl.gov';
+$opt_actsbranch = 'sPHENIX';
 
 GetOptions('help', 'stage=i', 'afs',
            'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
            'phenixinstall','workdir:s','insure','scanbuild',
-           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s', 'eic');
+           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles',
+           'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s',
+           'eic', 'actsbranch:s');
 
 if ($opt_help)
   {
@@ -168,10 +171,10 @@ if ( $opt_db && $opt_version !~ /pro/)
     $getpackages->finish();
 }
 
-# only run 120 parallel build jobs if distcc is in the path (it is not
-# right now), otherwise run numjobs = number of cores
+# run numjobs = number of cores
 # the -l adjusts for load, if the load is number of cores all cores are busy
-# to first order (disk load goes into the load as well)
+# to first order (disk load goes into the load as well), needed in case
+# we have 2 or more builds ongoing simultaneously
 my $numcores  = do { local @ARGV='/proc/cpuinfo'; grep /^processor\s+:/, <>;};
 my $JOBS = sprintf("-l %d -j %d", $numcores, $numcores);
 
@@ -428,7 +431,7 @@ else
     {
         if ($repo =~ /acts/)
         {
-            $gitcommand = sprintf("git clone --branch sPHENIX -q https://github.com/%s/%s.git",$repoowner{$repo}, $repo);
+            $gitcommand = sprintf("git clone --branch %s -q https://github.com/%s/%s.git",$opt_actsbranch,$repoowner{$repo}, $repo);
         }
         else
         {
@@ -575,6 +578,11 @@ print LOG "===========================================\n";
             print LOG "rsyncing $dir\n";
             system("rsync -a . $installDir");
         }
+        # softlink patch for Eigen include path (Eigen -> eigen3/Eigen),
+        # rsync alone results in needing -I$(OFFLINE_MAIN)/include/eigen3
+        # in our Makefile.am's
+        chdir $installDir . "/include";
+        symlink "eigen3/Eigen", "Eigen";
         # patch for GenFit to install includes in subdir
         $dir = sprintf("%s/genfit2_root-%s",$externalPackagesDir,$rootversion);
         if (! -d $dir)
