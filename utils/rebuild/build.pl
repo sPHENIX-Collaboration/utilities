@@ -108,9 +108,7 @@ $opt_actsbranch = 'sPHENIX';
 GetOptions('help', 'stage=i', 'afs',
            'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
            'phenixinstall','workdir:s','insure','scanbuild',
-           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles',
-           'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s',
-           'eic', 'actsbranch:s');
+           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s', 'eic', 'actsbranch:s');
 
 if ($opt_help)
   {
@@ -171,10 +169,10 @@ if ( $opt_db && $opt_version !~ /pro/)
     $getpackages->finish();
 }
 
-# run numjobs = number of cores
+# only run 120 parallel build jobs if distcc is in the path (it is not
+# right now), otherwise run numjobs = number of cores
 # the -l adjusts for load, if the load is number of cores all cores are busy
-# to first order (disk load goes into the load as well), needed in case
-# we have 2 or more builds ongoing simultaneously
+# to first order (disk load goes into the load as well)
 my $numcores  = do { local @ARGV='/proc/cpuinfo'; grep /^processor\s+:/, <>;};
 my $JOBS = sprintf("-l %d -j %d", $numcores, $numcores);
 
@@ -578,9 +576,7 @@ print LOG "===========================================\n";
             print LOG "rsyncing $dir\n";
             system("rsync -a . $installDir");
         }
-        # softlink patch for Eigen include path (Eigen -> eigen3/Eigen),
-        # rsync alone results in needing -I$(OFFLINE_MAIN)/include/eigen3
-        # in our Makefile.am's
+        # patch for Eigen include path
         chdir $installDir . "/include";
         symlink "eigen3/Eigen", "Eigen";
         # patch for GenFit to install includes in subdir
@@ -1620,6 +1616,14 @@ sub CreateCmakeCommand
 	    chmod 0755, $runscript;
 	    print LOG "using insure $insurecompiler\n";
 	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd,$runscript);
+	}
+	elsif ($opt_clang)
+	{
+	    my $cxxcompiler = `which clang++`;
+	    chomp $cxxcompiler;
+            my $ccompiler = `which clang`;
+	    chomp $ccompiler;
+	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_C_COMPILER=%s",$cmakecmd,$cxxcompiler,$ccompiler);
 	}
 	elsif (defined $CCACHE_DIR)
 	{
