@@ -575,6 +575,18 @@ print LOG "===========================================\n";
             chdir $dir;
             print LOG "rsyncing $dir\n";
             system("rsync -a . $installDir");
+# needs boost patch
+	    if ($opt_clang)
+	    {
+		$dir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/patches/%s",$opt_sysname,$externalPackages{$m});
+		if (! -d $dir)
+		{
+		    next;
+		}
+		chdir $dir;
+		print LOG "rsyncing patch $dir\n";
+		system("rsync -a --chmod=Fa-w . $installDir");
+	    }
         }
         # patch for Eigen include path
         chdir $installDir . "/include";
@@ -1596,7 +1608,7 @@ sub CreateCmakeCommand
     my $cmakesourcedir = shift;
     if ($packagename =~ /acts/)
     {
-	my $cmakecmd = "cmake -DBOOST_ROOT=${OPT_SPHENIX}/boost -DTBB_ROOT_DIR=${OPT_SPHENIX}/tbb -DEigen3_DIR=${OPT_SPHENIX}/eigen/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OPT_SPHENIX}/pythia8/include -DPythia8_LIBRARY=${OPT_SPHENIX}/pythia8/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev";
+	my $cmakecmd = "cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OPT_SPHENIX}/tbb -DEigen3_DIR=${OPT_SPHENIX}/eigen/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev";
         if ($opt_version =~ /debug/)
         {
             $cmakecmd = sprintf("%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd);
@@ -1624,6 +1636,12 @@ sub CreateCmakeCommand
             my $ccompiler = `which clang`;
 	    chomp $ccompiler;
 	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_C_COMPILER=%s",$cmakecmd,$cxxcompiler,$ccompiler);
+	}
+	elsif ($opt_scanbuild)
+	{
+	    my $cxxcompiler = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/opt/sphenix/utils/stow/llvm-11.1.0/bin/../libexec/c++-analyzer",$opt_sysname);
+	    chomp $cxxcompiler;
+	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s",$cmakecmd,$cxxcompiler);
 	}
 	elsif (defined $CCACHE_DIR)
 	{
