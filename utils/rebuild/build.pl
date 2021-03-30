@@ -73,7 +73,8 @@ my %externalRootPackages = (
     "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
     "sartre" => "sartre",
-    "tpc-rs" => "tpc-rs"
+    "tpc-rs" => "tpc-rs",
+    "vgm" => "vgm"
     );
 my $rootversion = `root-config --version`;
 chomp $rootversion;
