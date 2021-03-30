@@ -367,6 +367,10 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
     else
     {
         my $place = sprintf("/cvmfs/%s/%s/release/release_%s/%s",$opt_cvmfsvol,$afs_sysname,$opt_version,$opt_version);
+	if ($opt_ecce)
+	{
+	    $place = sprintf("/cvmfs/%s/ecce/%s/release/release_%s/%s",$opt_cvmfsvol,$afs_sysname,$opt_version,$opt_version);
+	}
         die "$place doesn't exist" unless -e $place;
         my $realpath = realpath($place);
 #    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
