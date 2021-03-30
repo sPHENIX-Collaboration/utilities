@@ -1,0 +1,91 @@
+# This list gives the packages we build in the order in which they are build
+acts|osbornjd@ornl.gov
+coresoftware/offline/packages/Half|pinkenburg@bnl.gov
+online_distribution/newbasic|purschke@bnl.gov
+online_distribution/pmonitor|purschke@bnl.gov
+coresoftware/offline/framework/phool|pinkenburg@bnl.gov
+coresoftware/offline/framework/phoolraw|pinkenburg@bnl.gov
+coresoftware/offline/database/pdbcal/base|pinkenburg@bnl.gov
+coresoftware/offline/database/pdbcal/pg|pinkenburg@bnl.gov
+coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
+coresoftware/offline/packages/vararray|pinkenburg@bnl.gov
+coresoftware/offline/framework/frog|pinkenburg@bnl.gov
+coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
+coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
+coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
+coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
+coresoftware/generators/hijing|dave@bnl.gov
+coresoftware/generators/sHijing|dave@bnl.gov
+coresoftware/generators/flowAfterburner|dave@bnl.gov
+coresoftware/offline/packages/HelixHough|afrawley@fsu.edu
+coresoftware/offline/packages/PHGeometry|jhuang@bnl.gov
+coresoftware/offline/packages/PHField|jhuang@bnl.gov
+#
+# simulations
+# simulations/generator
+coresoftware/generators/phhepmc|pinkenburg@bnl.gov
+# fermi motion uses phhepmc
+coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
+#PHPythia8 needs phhepmc
+coresoftware/generators/PHPythia8|dvp@bnl.gov
+coresoftware/generators/PHPythia6|pinkenburg@bnl.gov
+#PHSartre needs phhepmc
+coresoftware/generators/PHSartre|lajoie@iastate.edu
+# we want generator values in the event header
+coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
+# simulations/Geant4
+coresoftware/simulation/g4simulation/EICPhysicsList|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
+coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
+# calobase and trackbase need g4celldefs include for root6
+coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
+coresoftware/offline/packages/trackbase|afrawley@fsu.edu
+coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
+# tracking needs g4 detectors for geometry classes
+# mvtx needs trackbase, tracking also needs trackbase_historic for now
+coresoftware/offline/packages/mvtx|ycmorales@rcf.rhic.bnl.gov
+coresoftware/offline/packages/intt|afrawley@fsu.edu
+coresoftware/offline/packages/tpc|afrawley@fsu.edu
+coresoftware/offline/packages/micromegas|hugo.pereira-da-costa@cea.fr
+# g4tpc, g4mvtx and g4intt need tpc, mvtx and intt
+coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
+coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
+coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
+coresoftware/simulation/g4simulation/g4epd|biran@mit.edu
+# cemc needs g4detectors
+coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
+# coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4calo|jhuang@bnl.gov
+coresoftware/offline/packages/trigger|dvp@bnl.gov
+# genfit stuff
+coresoftware/offline/packages/PHGenFitPkg/GenFitExp|pinkenburg@bnl.gov
+coresoftware/offline/packages/PHGenFitPkg/PHGenFit|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
+coresoftware/offline/packages/jetbackground|dvp@bnl.gov
+# simulations/Geant4/ evals
+coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
+coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
+# KFFParticle needs libeval
+coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
+# Offline tracking software
+coresoftware/offline/packages/trackreco|osbornjd@ornl.gov
+# PHTpcTracker needs libtrack_reco
+coresoftware/offline/packages/PHTpcTracker|arkhipkin@bnl.gov
+coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
+# Offline calorimeter software
+coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
+coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
+# calorimeters and tracking combined
+coresoftware/offline/packages/particleflow|dvp@bnl.gov
+# QA modules that use both simulation and offline libs
+coresoftware/offline/QA/modules|jhuang@bnl.gov
+# the dumping needs all objects and comes last
+coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
+# this is the convenience library which loads all libraries needed for reading
+# DSTs, please leave it at the end of the package list
+coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov

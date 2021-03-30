@@ -108,7 +108,9 @@ $opt_actsbranch = 'sPHENIX';
 GetOptions('help', 'stage=i', 'afs',
            'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
            'phenixinstall','workdir:s','insure','scanbuild',
-           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles', 'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s', 'eic', 'actsbranch:s');
+           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles',
+           'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s',
+           'eic', 'actsbranch:s', 'ecce');
 
 if ($opt_help)
   {
@@ -120,6 +122,12 @@ my @gitrepos = ();
 my $repositoryfile = sprintf("%s/repositories.txt",$Bin);
 my $packagefile = sprintf("%s/packages.txt",$Bin);
 my $collaboration = "sPHENIX";
+if ($opt_ecce)
+{
+ $repositoryfile = sprintf("%s/ecce-repositories.txt",$Bin);
+ $packagefile = sprintf("%s/ecce-packages.txt",$Bin);
+ $collaboration = "ECCE-EIC";
+}
 if ($opt_eic)
 {
  $repositoryfile = sprintf("%s/eic-repositories.txt",$Bin);
@@ -359,6 +367,10 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
     else
     {
         my $place = sprintf("/cvmfs/%s/%s/release/release_%s/%s",$opt_cvmfsvol,$afs_sysname,$opt_version,$opt_version);
+	if ($opt_ecce)
+	{
+	    $place = sprintf("/cvmfs/%s/ecce/%s/release/release_%s/%s",$opt_cvmfsvol,$afs_sysname,$opt_version,$opt_version);
+	}
         die "$place doesn't exist" unless -e $place;
         my $realpath = realpath($place);
 #    ($linktg,$number) = $realpath =~ m/(.*)\.(\d+)$/;
@@ -555,7 +567,7 @@ print LOG "===========================================\n";
         my $G4_MAIN_NOAFSSYS = realpath($G4_MAIN);
         $G4_MAIN_NOAFSSYS =~ s/\@sys/$afs_sysname/;
         #change sphenix to fun4all to make eic happy
-	if ($opt_eic)
+	if ($opt_eic || $opt_ecce)
 	{
 	    $G4_MAIN_NOAFSSYS =~ s/sphenix/fun4all/;
 	    $ROOTSYS_NOAFSSYS =~ s/sphenix/fun4all/;
@@ -997,6 +1009,10 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
         my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
         system("touch $cvmfscatalognestfile");
         my $releasedir = sprintf("/cvmfs/%s/%s/release",$opt_cvmfsvol,$afs_sysname);
+	if ($opt_ecce)
+	{
+	    $releasedir = sprintf("/cvmfs/%s/ecce/%s/release",$opt_cvmfsvol,$afs_sysname);
+	}
         if ($opt_version =~ /ana/ || $opt_version =~ /pro/ || $opt_version =~ /mdc/)
         {
             my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
@@ -1525,12 +1541,15 @@ sub printhelp
     print "                     3 = compile and install \n";
     print "                     4 = run tests \n";
     print "                     5 = install only (scan-build) \n";
+    print "--actsbranch='string' build ACTS from this branch\n";
     print "--afs              install in afs (cvmfs is default)\n";
     print "--clang            use clang instead of gcc\n";
     print "--coverity         Making a coverity build\n";
     print "--covpasswd='string'  the coverity password for the integrity manager\n";
     print "--cvmfsvol='string'  the target cvmfs volume";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
+    print "--ecce             build packages for ECCE\n";
+    print "--eic              build packages for generic eic\n";
     print "--gittag='string'  git tag for source checkout.\n";
     print "--gitbranch='string' git branch to be used for build\n";
     print "--includecheck     run the clang based include file checker\n";
