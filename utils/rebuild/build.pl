@@ -1009,6 +1009,10 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
         my $cvmfscatalognestfile = sprintf("%s/.cvmfscatalog",$installDir);
         system("touch $cvmfscatalognestfile");
         my $releasedir = sprintf("/cvmfs/%s/%s/release",$opt_cvmfsvol,$afs_sysname);
+	if ($opt_ecce)
+	{
+	    $releasedir = sprintf("/cvmfs/%s/ecce/%s/release",$opt_cvmfsvol,$afs_sysname);
+	}
         if ($opt_version =~ /ana/ || $opt_version =~ /pro/ || $opt_version =~ /mdc/)
         {
             my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
