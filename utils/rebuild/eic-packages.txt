@@ -93,5 +93,5 @@ fun4all_eicdetectors/source|pinkenburg@bnl.gov
 fun4all_g4jleic/source|pinkenburg@bnl.gov
 g4lblvtx/source|pinkenburg@bnl.gov
 qinhua/source|pinkenburg@bnl.gov
-g4hakanvtx/source|pinkenburg@bnl.gov
+fun4allgdmlimport/source|pinkenburg@bnl.gov
 fun4all_eic_qa/source|pinkenburg@bnl.gov
