@@ -20,7 +20,8 @@ my $opt_sysname = 'x8664_sl7';
 my $opt_test = 0;
 my $opt_version = 'new';
 my $opt_sourcevol = 'sphenix.sdcc.bnl.gov';
-GetOptions('all' => \$opt_all, 'help' => \$opt_help, 'mceg' =>\$opt_mceg, 'offline' => \$opt_offline, 'opt' => \$opt_optsphenix, 'utils' => \$opt_optutils, 'singularity' => \$opt_singularity, 'test' => \$opt_test, 'version:s' => \$opt_version, 'sourcevolume:s' => \$opt_sourcevol, 'sysname:s' => \$opt_sysname);
+my $opt_subdir;
+GetOptions('all' => \$opt_all, 'help' => \$opt_help, 'mceg' =>\$opt_mceg, 'offline' => \$opt_offline, 'opt' => \$opt_optsphenix, 'utils' => \$opt_optutils, 'singularity' => \$opt_singularity, 'test' => \$opt_test, 'version:s' => \$opt_version, 'sourcevolume:s' => \$opt_sourcevol, 'subdir:s' => \$opt_subdir, 'sysname:s' => \$opt_sysname);
 
 my $optdir = "sphenix";
 if ($opt_sourcevol !~ /sphenix/)
@@ -42,6 +43,7 @@ if ($#ARGV < 0 || $opt_help>0)
     print "--singularity  : copy container\n";
     print "--sourcevolume : cvmfs source volume\n";
     print "--sysname      : system name (x8664_sl7 [default] or gcc 8.3)\n";
+    print "--subdir       : subdirectory under source volume\n";
     print "--test         : dryrun, print commands but do not execute them\n";
     print "--utils        : create and copy utils area tar ball\n";
     exit 1;
@@ -59,7 +61,15 @@ if ($version ne $opt_version)
 {
     print "OFFLINE_MAIN version $version does not match requested version $opt_version\n";
     print "source the sphenix_setup script like:\n";
-    print "source /cvmfs/$opt_sourcevol/$opt_sysname/opt/$optdir/core/bin/sphenix_setup.csh -n $opt_version\n";
+    if (!defined $opt_subdir)
+    {
+	print "source /cvmfs/$opt_sourcevol/$opt_sysname/opt/$optdir/core/bin/sphenix_setup.csh -n $opt_version\n";
+    }
+    else
+    {
+	print "source /cvmfs/$opt_sourcevol/$opt_subdir/$opt_sysname/opt/$optdir/core/bin/sphenix_setup.csh -n $opt_version\n";
+    }
+
     print "and try again\n";
     exit 1;
 }
@@ -75,12 +85,22 @@ if ($OFFLINE_MAIN !~ /$opt_sysname/)
 my $targetdir = $ARGV[0];
 my $sourcedir = sprintf("/cvmfs/%s",$opt_sourcevol);
 my $tmpdir = sprintf("/tmp/%s_%s_%s",$opt_sourcevol,$opt_sysname,$opt_version);
+if (defined $opt_subdir)
+{
+    $sourcedir = sprintf("/cvmfs/%s/%s",$opt_sourcevol,$opt_subdir);
+    $tmpdir = sprintf("/tmp/%s_%s_%s_%s",$opt_sourcevol,$opt_subdir,$opt_sysname,$opt_version);
+}
 mkpath($tmpdir);
 my $singularity_container = sprintf("%s/singularity/rhic_sl7_ext.simg",$sourcedir);
 my $opt_tmp_tarfile =sprintf("%s/opt.tar",$tmpdir);
 my $mceg_tmp_tarfile = sprintf("%s/MCEG.tar",$tmpdir);
 my $utils_tmp_tarfile = sprintf("%s/utils.tar",$tmpdir);
 my $core_basedir = sprintf("/cvmfs/%s/%s/opt/%s/core",$opt_sourcevol,$opt_sysname,$optdir);
+
+if (defined $opt_subdir)
+{
+ $core_basedir = sprintf("/cvmfs/%s/%s/%s/opt/%s/core",$opt_sourcevol,$opt_subdir,$opt_sysname,$optdir);
+}
 
 my @opt_dir_list = (sprintf("%s/bin",$core_basedir),
                     sprintf("%s/etc",$core_basedir),
@@ -241,6 +261,10 @@ if ($opt_optutils > 0 || $opt_all > 0)
 	mkpath($opttargetdir,0,0750);
     }
     my $utilsdir = sprintf("/cvmfs/%s/%s/opt/%s/utils",$opt_sourcevol,$opt_sysname,$optdir);
+if (defined $opt_subdir)
+{
+    $utilsdir = sprintf("/cvmfs/%s/%s/%s/opt/%s/utils",$opt_sourcevol,$opt_subdir,$opt_sysname,$optdir);
+}
     my $stowdir = sprintf("%s/stow",$utilsdir);
     my %restowlist = ();
     if (-f "utils_restow.list")
@@ -256,6 +280,12 @@ if ($opt_optutils > 0 || $opt_all > 0)
     chdir $stowdir;
     foreach my $pkg (keys %restowlist)
     {
+	my $dirname = sprintf("./%s",$pkg);
+	if (! -d $dirname)
+	{
+	    delete $restowlist{$pkg};
+	    next;
+	}
 	my $unstowcmd = sprintf("stow -D %s",$pkg);
 	print "executing $unstowcmd\n";
 	system($unstowcmd);
@@ -324,6 +354,10 @@ if ($opt_offline > 0 || $opt_all > 0)
       mkpath($offtargetdir,0,0750);
     }
     my $offline_symlink = sprintf("/cvmfs/%s/%s/release/release_%s/%s",$opt_sourcevol,$opt_sysname,$opt_version,$opt_version);
+    if (defined $opt_subdir)
+    {
+	$offline_symlink = sprintf("/cvmfs/%s/%s/%s/release/release_%s/%s",$opt_sourcevol,$opt_subdir,$opt_sysname,$opt_version,$opt_version);
+    }
     my $tarcmd = sprintf("tar -cf %s %s",$offline_tmp_tarfile,$offline_symlink);
     print "executing $tarcmd\n";
     if (! $opt_test)
@@ -331,6 +365,10 @@ if ($opt_offline > 0 || $opt_all > 0)
 	system($tarcmd);
     }
     $offline_symlink = sprintf("/cvmfs/%s/%s/release/%s",$opt_sourcevol,$opt_sysname,$opt_version);
+    if (defined $opt_subdir)
+    {
+	$offline_symlink = sprintf("/cvmfs/%s/%s/%s/release/%s",$opt_sourcevol,$opt_subdir,$opt_sysname,$opt_version);
+    }
     $tarcmd = sprintf("tar -rf %s %s",$offline_tmp_tarfile,$offline_symlink);
     print "executing $tarcmd\n";
     if (! $opt_test)
