@@ -1,4 +1,5 @@
 calibrations
+eictoydetector
 fun4all_acts
 fun4all_coresoftware
 fun4all_eicdetectors
