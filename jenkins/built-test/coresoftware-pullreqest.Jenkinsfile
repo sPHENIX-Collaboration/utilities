@@ -271,7 +271,7 @@ pipeline
 
 											if ("${built.result}" != 'SUCCESS')
 											{
-												// error('Build-Clang FAIL')
+												error('Build-Clang FAIL')
 											}										
 			
 										}//script						   			
