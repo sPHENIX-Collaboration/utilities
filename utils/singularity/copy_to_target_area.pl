@@ -16,7 +16,7 @@ my $opt_optsphenix = 0;
 my $opt_optutils = 0;
 my $opt_offline = 0;
 my $opt_singularity = 0;
-my $opt_sysname = 'x8664_sl7';
+my $opt_sysname = 'gcc-8.3';
 my $opt_test = 0;
 my $opt_version = 'new';
 my $opt_sourcevol = 'sphenix.sdcc.bnl.gov';
@@ -42,7 +42,7 @@ if ($#ARGV < 0 || $opt_help>0)
     print "--opt          : create and copy opt area tar ball\n";
     print "--singularity  : copy container\n";
     print "--sourcevolume : cvmfs source volume\n";
-    print "--sysname      : system name (x8664_sl7 [default] or gcc 8.3)\n";
+    print "--sysname      : system name (x8664_sl7 [old] or gcc 8.3 [default])\n";
     print "--subdir       : subdirectory under source volume\n";
     print "--test         : dryrun, print commands but do not execute them\n";
     print "--utils        : create and copy utils area tar ball\n";
@@ -111,9 +111,11 @@ my @opt_dir_list = (sprintf("%s/bin",$core_basedir),
 		    sprintf("%s/lhapdf",$core_basedir),
 		    sprintf("%s/lhapdf-5.9.1",$core_basedir));
 if ($opt_sysname =~ /gcc-8.3/)
- {
+{
     push(@opt_dir_list,sprintf("%s/binutils",$core_basedir));
     push(@opt_dir_list,sprintf("%s/gcc",$core_basedir));
+    push(@opt_dir_list,sprintf("%s/fieldmaps",$core_basedir));
+    push(@opt_dir_list,sprintf("/cvmfs/%s/default",$opt_sourcevol));
 }
 my $offline_tmp_tarfile = sprintf("/tmp/offline_main.tar");
 if (! -d $targetdir)
@@ -220,11 +222,14 @@ if ($opt_optsphenix > 0 || $opt_all > 0)
     }
     foreach my $dir (@opt_dir_list)
     {
-	$tarcmd = sprintf("tar  -rf %s %s",$opt_tmp_tarfile,$dir);
-        print "tarcmd: $tarcmd\n";
-	if (! $opt_test)
+	if (-e $dir)
 	{
-	    system($tarcmd);
+	    $tarcmd = sprintf("tar  -rf %s %s",$opt_tmp_tarfile,$dir);
+	    print "tarcmd: $tarcmd\n";
+	    if (! $opt_test)
+	    {
+		system($tarcmd);
+	    }
 	}
     }
     my $zipcmd = sprintf("bzip2 %s",$opt_tmp_tarfile);
