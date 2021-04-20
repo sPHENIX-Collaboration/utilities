@@ -354,7 +354,8 @@ pipeline
 									
 									when {
 				    				// case insensitive regular expression for truthy values
-										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ } // temp assignment to QA switch. Move to run_default_test switch later
+										// expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ } // temp assignment to QA switch. Move to run_default_test switch later
+										expression { return false } // temp assignment to QA switch. Move to run_default_test switch later
 									}
 									steps 
 									{			    		
