@@ -303,7 +303,7 @@ pipeline
 						   				
 						   				if ("${built.result}" != 'SUCCESS')
 						   				{
-						   					error('Build-ScanBuild FAIL')
+						   					// error('Build-ScanBuild FAIL')
     									}										
 			
 										}//script						   			
