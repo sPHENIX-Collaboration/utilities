@@ -89,10 +89,13 @@ fun4all_coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
 # this is the convenience library which loads all libraries needed for reading
 # DSTs, please leave it at the end of the package list
 fun4all_coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
-fun4all_eicdetectors/source|pinkenburg@bnl.gov
-fun4all_g4jleic/source|pinkenburg@bnl.gov
-g4lblvtx/source|pinkenburg@bnl.gov
-qinhua/source|pinkenburg@bnl.gov
+fun4all_eicdetectors/g4beastmagnet|osbornjd@ornl.gov
+fun4all_eicdetectors/g4drcalo|osbornjd@ornl.gov
+fun4all_eicdetectors/g4eiccalos|osbornjd@ornl.gov
+fun4all_eicdetectors/g4jleic|osbornjd@ornl.gov
+fun4all_eicdetectors/g4lblvtx/source|osbornjd@ornl.gov
+fun4all_eicdetectors/g4mrich|osbornjd@ornl.gov
+fun4all_eicdetectors/g4rich|osbornjd@ornl.gov
 eictoydetector/source|pinkenburg@bnl.gov
 fun4allgdmlimport/source|pinkenburg@bnl.gov
 fun4all_eic_qa/source|pinkenburg@bnl.gov
