@@ -89,3 +89,7 @@ coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
 # this is the convenience library which loads all libraries needed for reading
 # DSTs, please leave it at the end of the package list
 coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
+fun4all_eicdetectors/g4drcalo|osbornjd@ornl.gov
+fun4all_eicdetectors/g4eiccalos|osbornjd@ornl.gov
+fun4all_eicdetectors/g4mrich|osbornjd@ornl.gov
+fun4all_eicdetectors/g4rich|osbornjd@ornl.gov
