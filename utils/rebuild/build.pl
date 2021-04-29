@@ -74,7 +74,6 @@ my %externalRootPackages = (
     "KFParticle" => "KFParticle",
     "pythiaeRHIC" => "pythiaeRHIC",
     "sartre" => "sartre",
-    "tpc-rs" => "tpc-rs",
     "vgm" => "vgm"
     );
 my $rootversion = `root-config --version`;
@@ -278,6 +277,7 @@ if ($opt_version =~ /play/)
         $externalPackages{"boost"} = "boost-1.76.0";
         $externalPackages{"tbb"} = "tbb-2020.3";
 	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.3";
+	$externalRootPackages{"DD4hep"} = "DD4hep-01-15";
     }
     else
     {
