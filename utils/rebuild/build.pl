@@ -40,6 +40,11 @@ for (my $arg = 0; $arg <= $#ARGV; $arg++)
     $cmdline = $cmdline . " $ARGV[$arg]";
 }
 
+if (! defined $OPT_SPHENIX)
+{
+    die "$OPT_SPHENIX not set - forgot to source the setup script?";
+}
+
 umask 002;
 $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t";
@@ -951,14 +956,22 @@ if ($opt_stage < 4)
 	    print LOG "repository https://github.com/$repoowner{$repo}/$repo.git also does not exist\n";
 	}
     }
-# git clone -q --> no progress report to stdout
-    my $gitcommand = sprintf("git clone -q https://github.com/%s/calibrations.git $OFFLINE_MAIN/share/calibrations",$repoowner{$repo});
-    if ($opt_eic)
+# rsync over calibrations to $OFFLINE_MAIN/rootmacros
+    my $calibrationstargetdir = sprintf("%s/share/calibrations",$installDir);
+    make_path($calibrationstargetdir,{mode => 0775});
+    foreach my $repo (@gitrepos)
     {
-        $gitcommand = sprintf("git clone -q https://github.com/%s/fun4all_calibrations.git $OFFLINE_MAIN/share/calibrations",$opt_repoowner);
+	if ($repo =~ /calibrations/)
+	{
+	    my $calibsrcdir = sprintf("%s/%s",$sourceDir,$repo);
+	    if (-d $calibsrcdir)
+	    {
+		print LOG "rsync calibrations from $calibsrcdir to $calibrationstargetdir\n";
+		my $rsynccmd = sprintf("rsync -a %s/* --exclude '.git' %s",$calibsrcdir,$calibrationstargetdir);
+		system($rsynccmd);
+	    }
+	}
     }
-    print LOG $gitcommand, "\n";
-    goto END if &doSystemFail($gitcommand);
 # rsync over common root macros to $OFFLINE_MAIN/rootmacros
     my $macrotargetdir = sprintf("%s/rootmacros",$installDir);
     make_path($macrotargetdir,{mode => 0775});
