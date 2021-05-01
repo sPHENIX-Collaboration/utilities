@@ -1,6 +1,7 @@
 calibrations
 eictoydetector
 fun4all_acts
+fun4all_eiccalibrations
 fun4all_coresoftware
 fun4all_eicdetectors
 fun4all_macros
@@ -8,3 +9,4 @@ fun4all_eic_qa
 fun4all_eicmacros
 fun4allgdmlimport
 online_distribution
+utilities
