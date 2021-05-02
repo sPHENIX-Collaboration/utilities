@@ -941,21 +941,6 @@ if ($opt_stage < 4)
               # DONE REMOVING POINTLESS LA FILES
           }
       }
-    my $repo = "calibrations";
-    $repoowner{$repo} = $opt_repoowner;
-    $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
-    my $iret = system($gitcommand);
-    if ($iret)
-    {
-	print LOG "repository https://github.com/$repoowner{$repo}/$repo.git does not exist\n";
-	$repoowner{$repo} = $default_repoowner;
-	$gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
-	$iret = system($gitcommand);
-	if ($iret)
-	{
-	    print LOG "repository https://github.com/$repoowner{$repo}/$repo.git also does not exist\n";
-	}
-    }
 # rsync over calibrations to $OFFLINE_MAIN/rootmacros
     my $calibrationstargetdir = sprintf("%s/share/calibrations",$installDir);
     make_path($calibrationstargetdir,{mode => 0775});
@@ -1129,15 +1114,15 @@ END:{
 # save the latest commit id of the checkouts
 my %repotags = ();
 # first the calibrations
-my $fullrepo = sprintf("sPHENIX-Collaboration/calibrations.git");
-my $repodir = sprintf("%s/share/calibrations",$OFFLINE_MAIN);
-if (-d $repodir)
-{
-    chdir $repodir;
-    my $gittag = `git show | head -1 | awk '{print \$2}'`;
-    chomp $gittag;
-    $repotags{$fullrepo} = $gittag;
-}
+#my $fullrepo = sprintf("sPHENIX-Collaboration/calibrations.git");
+#my $repodir = sprintf("%s/share/calibrations",$OFFLINE_MAIN);
+#if (-d $repodir)
+#{
+#    chdir $repodir;
+#    my $gittag = `git show | head -1 | awk '{print \$2}'`;
+#    chomp $gittag;
+#    $repotags{$fullrepo} = $gittag;
+#}
 # then the repos from repositories.txt
 foreach my $repo (@gitrepos)
 {
