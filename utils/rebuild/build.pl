@@ -275,7 +275,7 @@ print LOG "$cmdline\n\n";
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
-if ($opt_version =~ /play/) 
+if ($opt_version =~ /play/ || $opt_version =~ /test/)
 {
     if ($opt_sysname =~ /gcc-8.3/)
     {
