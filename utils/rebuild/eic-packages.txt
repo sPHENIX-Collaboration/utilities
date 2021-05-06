@@ -93,7 +93,7 @@ fun4all_eicdetectors/simulation/g4simulation/g4beastmagnet|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4drcalo|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4eiccalos|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4jleic|osbornjd@ornl.gov
-fun4all_eicdetectors/simulation/g4simulation/g4lblvtx/source|osbornjd@ornl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4lblvtx/osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4mrich|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4rich|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4eicdirc|osbornjd@ornl.gov
