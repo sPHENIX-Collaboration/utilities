@@ -96,6 +96,7 @@ fun4all_eicdetectors/simulation/g4simulation/g4jleic|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4lblvtx/source|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4mrich|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4rich|osbornjd@ornl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4eicdirc|osbornjd@ornl.gov
 eictoydetector/source|pinkenburg@bnl.gov
 fun4allgdmlimport/source|pinkenburg@bnl.gov
 fun4all_eic_qa/source|pinkenburg@bnl.gov
