@@ -82,6 +82,8 @@ coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
 # calorimeters and tracking combined
 coresoftware/offline/packages/particleflow|dvp@bnl.gov
+#calibrations
+coresoftware/calibrations/tpc/generator|ross.corliss@stonybrook.edu
 # Simulation and Offline software for calorimeter/T1044 
 prototype/simulation/g4simulation/g4caloprototype|jhuang@bnl.gov
 prototype/offline/packages/Prototype2|jhuang@bnl.gov
