@@ -52,7 +52,6 @@ my $buildmanager = "pinkenburg\@bnl.gov";
 my $CC = $buildmanager;
 
 my %externalPackages = (
-    "BeastMagneticField" => "BeastMagneticField",
     "boost" => "boost",
     "CGAL" => "CGAL",
     "CLHEP" => "CLHEP",
@@ -72,6 +71,7 @@ my %externalPackages = (
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
+    "BeastMagneticField" => "BeastMagneticField",
     "DD4hep" => "DD4hep",
     "eic-smear" => "eic-smear",
     "EicToyModel" => "EicToyModel",
