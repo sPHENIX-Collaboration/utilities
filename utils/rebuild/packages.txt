@@ -1,6 +1,7 @@
 # This list gives the packages we build in the order in which they are build
 acts|osbornjd@ornl.gov
 coresoftware/offline/packages/Half|pinkenburg@bnl.gov
+coresoftware/offline/packages/compressor|cer@mit.edu
 online_distribution/newbasic|purschke@bnl.gov
 online_distribution/pmonitor|purschke@bnl.gov
 coresoftware/offline/framework/phool|pinkenburg@bnl.gov
