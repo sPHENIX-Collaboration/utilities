@@ -63,6 +63,7 @@ my %externalPackages = (
     "log4cpp" => "log4cpp",
     "PHOTOS" => "PHOTOS",
     "pythia8" => "pythia8",
+    "pytorch" => "pytorch",
     "rapidjson" => "rapidjson",
     "rave" => "rave",
     "TAUOLA" => "TAUOLA",
