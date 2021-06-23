@@ -942,8 +942,9 @@ if ($opt_stage < 4)
               # DONE REMOVING POINTLESS LA FILES
           }
       }
-# rsync over calibrations to $OFFLINE_MAIN/rootmacros
-    my $calibrationstargetdir = sprintf("%s/share/calibrations",$installDir);
+# rsync over calibrations to $OFFLINE_MAIN/share/calibrations
+    my $shareDir = sprintf("%s/share",$installDir);
+    my $calibrationstargetdir = sprintf("%s/calibrations",$shareDir);
     make_path($calibrationstargetdir,{mode => 0775});
     foreach my $repo (@gitrepos)
     {
@@ -957,6 +958,16 @@ if ($opt_stage < 4)
 		system($rsynccmd);
 	    }
 	}
+    }
+# create softlinks for our large calibrations in $OPT_SPHENIX/calibrations
+    my $corecalibdir = sprintf("%s/calibrations",$OPT_SPHENIX);
+    if (-d $corecalibdir)
+    {
+	my $corecalibdir_cp = sprintf("cp -as %s/ %s",$corecalibdir, $shareDir);
+	print LOG "executing $corecalibdir_cp\n";
+	system($corecalibdir_cp);
+        # this softlink has to be removed, it crashes the cvmfs release
+        unlink $shareDir . "/calibrations/.cvmfscatalog";
     }
 # rsync over common root macros to $OFFLINE_MAIN/rootmacros
     my $macrotargetdir = sprintf("%s/rootmacros",$installDir);
@@ -1114,17 +1125,6 @@ END:{
 
 # save the latest commit id of the checkouts
 my %repotags = ();
-# first the calibrations
-#my $fullrepo = sprintf("sPHENIX-Collaboration/calibrations.git");
-#my $repodir = sprintf("%s/share/calibrations",$OFFLINE_MAIN);
-#if (-d $repodir)
-#{
-#    chdir $repodir;
-#    my $gittag = `git show | head -1 | awk '{print \$2}'`;
-#    chomp $gittag;
-#    $repotags{$fullrepo} = $gittag;
-#}
-# then the repos from repositories.txt
 foreach my $repo (@gitrepos)
 {
     $repodir = sprintf("%s/%s",$sourceDir,$repo);
