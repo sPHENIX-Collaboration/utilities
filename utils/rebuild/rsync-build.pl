@@ -19,7 +19,6 @@ if ($#ARGV < 2)
     exit(-1);
 }
 
-my @sdcclinks = ("geant4", "root");
 my $origdir = `pwd`;
 my $src = $ARGV[0];
 my $target = $ARGV[1];
@@ -124,24 +123,27 @@ else
     }
 }
 
-for my $sdcclink (sort @sdcclinks)
+open(F,"find $targetreleasedir -type l |");
+while (my $softlink = <F>)
 {
-
-    print LOG "changing $sdcclink softlink\n";
-    my $softlink = sprintf("%s/%s/%s",$targetreleasedir,$realtarget, $sdcclink);
+    chomp $softlink;
     my $slinklocation = `readlink $softlink`;
     chomp $slinklocation;
-    $slinklocation =~ s/$origvolume/$tgtvolume/g;
-    unlink $softlink if (-e $softlink);
-    print LOG "softlink: $softlink\n";
-    print LOG "slinklocation: $slinklocation\n";
-    if (! -d $slinklocation)
+    if ($slinklocation =~ /$origvolume/)
     {
-	print "slinklocation $slinklocation not found\n";
-	exit(-1);
+	unlink $softlink if (-e $softlink);
+	$slinklocation =~ s/$origvolume/$tgtvolume/g;
+	if (! -e $slinklocation)
+	{
+	    print LOG "slinklocation $slinklocation not found\n";
+	    exit(-1);
+	}
+	print LOG "creating $softlink -> $slinklocation\n";
+	symlink $slinklocation, $softlink;
     }
-    symlink $slinklocation, $softlink;
 }
+close(F);
+
 
 my $libdir = sprintf("%s/%s/lib",$targetreleasedir,$realtarget);
 chdir $libdir;
