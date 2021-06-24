@@ -96,3 +96,4 @@ fun4all_eicdetectors/simulation/g4simulation/g4mrich|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4rich|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4eicdirc|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4zdc|osbornjd@ornl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4ttl|Friederike.Bock@cern.ch
