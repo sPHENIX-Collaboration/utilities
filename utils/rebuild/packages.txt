@@ -92,6 +92,8 @@ prototype/offline/packages/Prototype3|jhuang@bnl.gov
 prototype/offline/packages/Prototype4|jhuang@bnl.gov
 # QA modules that use both simulation and offline libs
 coresoftware/offline/QA/modules|jhuang@bnl.gov
+# calibrations
+coresoftware/calibrations/calorimeter/calo_tower_slope|frantz@ohio.edu
 # the dumping needs all objects and comes last
 coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
 # this is the convenience library which loads all libraries needed for reading
