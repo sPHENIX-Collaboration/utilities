@@ -114,6 +114,7 @@ if ($opt_sysname =~ /gcc-8.3/)
 {
     push(@opt_dir_list,sprintf("%s/binutils",$core_basedir));
     push(@opt_dir_list,sprintf("%s/gcc",$core_basedir));
+    push(@opt_dir_list,sprintf("%s/calibrations",$core_basedir));
     push(@opt_dir_list,sprintf("%s/fieldmaps",$core_basedir));
     push(@opt_dir_list,sprintf("/cvmfs/%s/default",$opt_sourcevol));
 }
