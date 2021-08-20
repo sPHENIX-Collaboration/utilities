@@ -103,3 +103,5 @@ fun4all_eicdetectors/analysis/eicevaluator|Friederike.Bock@cern.ch
 eictoydetector/source|pinkenburg@bnl.gov
 fun4allgdmlimport/source|pinkenburg@bnl.gov
 fun4all_eic_qa/source|pinkenburg@bnl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4drich|cdean@bnl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4trd|cdean@bnl.gov
