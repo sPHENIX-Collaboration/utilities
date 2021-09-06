@@ -726,10 +726,7 @@ pipeline
 			
 			archiveArtifacts artifacts: "report/build-${system_config}-${build_type}.md"
 		
-			archiveArtifacts artifacts: 'build/${build_type}/rebuild.log'
-			
-			
-			
+			archiveArtifacts artifacts: "build/${build_type}/rebuild.log"
 		} // always
 	
 		success {
