@@ -280,16 +280,7 @@ if ($opt_version =~ /play/ || $opt_version =~ /test/)
 {
     if ($opt_sysname =~ /gcc-8.3/)
     {
-        $externalPackages{"boost"} = "boost-1.76.0";
-        $externalPackages{"tbb"} = "tbb-2020.3";
-	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.3";
-	$externalRootPackages{"DD4hep"} = "DD4hep-01-15";
-    }
-    else
-    {
-        $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
-        $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
-        $externalPackages{"gsl"} = "gsl-2.6";
+	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.4";
     }
 }
 elsif ($opt_version =~ /test/) 
