@@ -281,6 +281,7 @@ if ($opt_version =~ /play/ || $opt_version =~ /test/)
     if ($opt_sysname =~ /gcc-8.3/)
     {
 	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.4";
+	$externalRootPackages{"eic-smear"} = "eic-smear_HepMC3-3.2.4";
     }
 }
 elsif ($opt_version =~ /test/) 
