@@ -94,6 +94,7 @@ prototype/offline/packages/Prototype4|jhuang@bnl.gov
 coresoftware/offline/QA/modules|jhuang@bnl.gov
 # calibrations
 coresoftware/calibrations/calorimeter/calo_tower_slope|frantz@ohio.edu
+coresoftware/calibrations/calorimeter/calo_emc_pi0_tbt|frantz@ohio.edu
 # the dumping needs all objects and comes last
 coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
 # this is the convenience library which loads all libraries needed for reading
