@@ -101,3 +101,4 @@ fun4all_eicdetectors/analysis/eicevaluator|Friederike.Bock@cern.ch
 fun4all_eicdetectors/reconstruction/eiccaloreco|tlp220@lehigh.edu
 fun4all_eicdetectors/simulation/g4simulation/g4drich|cdean@bnl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4trd|cdean@bnl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4b0|cdean@bnl.gov
