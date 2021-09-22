@@ -75,7 +75,7 @@ fun4all_coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
 fun4all_coresoftware/offline/packages/trackreco|osbornjd@ornl.gov
 # PHTpcTracker needs libtrack_reco
-fun4all_coresoftware/offline/packages/PHTpcTracker|arkhipkin@bnl.gov
+fun4all_coresoftware/offline/packages/PHTpcTracker|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
 fun4all_coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
