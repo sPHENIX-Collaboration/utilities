@@ -25,6 +25,7 @@ coresoftware/offline/packages/PHField|jhuang@bnl.gov
 # simulations
 # simulations/generator
 coresoftware/generators/phhepmc|pinkenburg@bnl.gov
+coresoftware/generators/decayFinder|cdean@bnl.gov
 # fermi motion uses phhepmc
 coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
 #PHPythia8 needs phhepmc
