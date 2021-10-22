@@ -109,7 +109,8 @@ my @opt_dir_list = (sprintf("%s/bin",$core_basedir),
                     sprintf("%s/share",$core_basedir),
 		    sprintf("%s/stow",$core_basedir),
 		    sprintf("%s/lhapdf",$core_basedir),
-		    sprintf("%s/lhapdf-5.9.1",$core_basedir));
+		    sprintf("%s/lhapdf-5.9.1",$core_basedir),
+		    sprintf("%s/LHAPDF-6.2.3",$core_basedir));
 if ($opt_sysname =~ /gcc-8.3/)
 {
     push(@opt_dir_list,sprintf("%s/binutils",$core_basedir));
