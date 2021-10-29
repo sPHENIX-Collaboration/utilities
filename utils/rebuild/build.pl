@@ -68,7 +68,8 @@ my %externalPackages = (
     "rave" => "rave",
     "TAUOLA" => "TAUOLA",
     "tbb" => "tbb",
-    "Vc" => "Vc"
+    "Vc" => "Vc",
+    "xpload" => "xpload"
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
@@ -1334,7 +1335,7 @@ sub install_coverity_reports
     if (defined $opt_covpasswd)
     {
         my $covdir =  sprintf("%s/covtmp",$workdir);
-        my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --dir %s",$covdir);
+        my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --disable MISSING_MOVE_ASSIGNMENT --dir %s",$covdir);
         print LOG "$covanacmd\n";
         open(F2,"$covanacmd 2>&1 |");
         while(my $line = <F2>)
@@ -1377,7 +1378,7 @@ sub install_coverity_reports
             if (-d $covdir)
             {
                 my $makehtml = 0;
-                my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --disable CONSTANT_EXPRESSION_RESULT --dir %s",$covdir);
+                my $covanacmd = sprintf("cov-analyze  --disable DEADCODE --disable UNINIT_CTOR --disable FORWARD_NULL --disable UNUSED_VALUE --disable CONSTANT_EXPRESSION_RESULT --disable MISSING_MOVE_ASSIGNMENT --dir %s",$covdir);
                 open(F2,"$covanacmd 2>&1 |");
                 while(my $line = <F2>)
                 {

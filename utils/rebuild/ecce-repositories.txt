@@ -2,6 +2,7 @@ acts
 calibrations
 coresoftware
 fun4all_eicdetectors
+ecce-detectors
 online_distribution
 macros
 utilities

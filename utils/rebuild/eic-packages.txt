@@ -24,6 +24,7 @@ fun4all_coresoftware/offline/packages/PHField|jhuang@bnl.gov
 # simulations
 # simulations/generator
 fun4all_coresoftware/generators/phhepmc|pinkenburg@bnl.gov
+fun4all_coresoftware/generators/decayFinder|cdean@bnl.gov
 # fermi motion uses phhepmc
 fun4all_coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
 #PHPythia8 needs phhepmc
@@ -75,7 +76,7 @@ fun4all_coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
 fun4all_coresoftware/offline/packages/trackreco|osbornjd@ornl.gov
 # PHTpcTracker needs libtrack_reco
-fun4all_coresoftware/offline/packages/PHTpcTracker|arkhipkin@bnl.gov
+fun4all_coresoftware/offline/packages/PHTpcTracker|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
 fun4all_coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
@@ -89,6 +90,8 @@ fun4all_coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
 # this is the convenience library which loads all libraries needed for reading
 # DSTs, please leave it at the end of the package list
 fun4all_coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
+fun4all_eicdetectors/reconstruction/eicpidbase|jhuang@bnl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4eicdst|jhuang@bnl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4beastmagnet|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4drcalo|Friederike.Bock@cern.ch
 fun4all_eicdetectors/simulation/g4simulation/g4eiccalos|osbornjd@ornl.gov
