@@ -191,8 +191,7 @@ pipeline
 							  	[[
 							     	credentialsId: 'sPHENIX-bot', 
 							     	url: '${git_url_QA_gallery}',
-							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main'), 
-							    	branch: ('*')
+							     	refspec: ('+refs/heads/${sha_QA_gallery}:refs/remotes/origin/${sha_QA_gallery}'),
 							  	]]
 								] //checkout
 							)//checkout
