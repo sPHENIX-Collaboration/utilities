@@ -185,7 +185,7 @@ pipeline
 						 			$class: 'GitSCM',
 						   		extensions: [               
 							   		[$class: 'CleanCheckout'],  
-									[$class: 'CloneOption', timeout: 30, shallow: true]
+									[$class: 'CloneOption', timeout: 60, shallow: true]
 						   		],
 							  	branches: [
 							    		[name: "${sha_QA_gallery}"]
