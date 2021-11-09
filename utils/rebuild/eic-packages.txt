@@ -113,3 +113,4 @@ fun4all_eicdetectors/simulation/g4simulation/g4b0|cdean@bnl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4barrelmmg|cdean@bnl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4etof|cdean@bnl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4rp|cdean@bnl.gov
+fun4all_eicdetectors/simulation/g4simulation/g4b0ecal|cdean@bnl.gov
