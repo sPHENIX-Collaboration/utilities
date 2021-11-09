@@ -59,6 +59,7 @@ my %externalPackages = (
     "EvtGen" => "EvtGen",
     "fastjet" => "fastjet",
     "gsl" => "gsl",
+    "hdf5" => "hdf5",
     "HepMC" => "HepMC",
     "log4cpp" => "log4cpp",
     "PHOTOS" => "PHOTOS",
