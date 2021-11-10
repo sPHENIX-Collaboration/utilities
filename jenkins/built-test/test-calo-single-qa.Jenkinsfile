@@ -166,8 +166,10 @@ pipeline
 							    ], 
 							  	userRemoteConfigs: 
 							  	[[
-							     	credentialsId: 'sPHENIX-bot', 
-							     	url: '${git_url_macros}',
+									credentialsId: 'sPHENIX-bot', 
+									url: '${git_url_macros}',
+									refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
+									branch: ('*')
 							  	]]
 								] //checkout
 							)//checkout
