@@ -1075,15 +1075,16 @@ NORELEASEFILE:
     open(LOG, ">>$logfile");
     print LOG "$date initiating release, touching $releasefile\n";
     system("touch $releasefile");
-    my $n=70;
+    my $totalcycles=180;
+    my $n = $totalcycles;
     while($n > 0)
     {
-        sleep(30);
+        sleep(60);
         if (! -f $releasefile)
         {
             chomp (my $date = `date`);
-            my $cycles = 70-$n;
-            print LOG "$date build is released after $cycles cycles\n";
+            my $cycles = $totalcycles - $n;
+            print LOG "$date build is released after $cycles minutes\n";
             goto END;
         }
         chomp (my $date = `date`);
@@ -1091,8 +1092,8 @@ NORELEASEFILE:
         $n--;
     }
     chomp ($date = `date`);
-    print LOG "$date $releasefile still exists, giving up and failing build $n\n";
-    $buildSucceeded=0;
+    print LOG "$date $releasefile still exists, giving up waiting it will ultimately happen\n";
+    $buildSucceeded=1;
     goto END;
 
 }
