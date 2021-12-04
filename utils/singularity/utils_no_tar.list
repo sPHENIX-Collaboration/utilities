@@ -6,4 +6,8 @@ stow/ccache-3.6*
 stow/cmake-3.11.1*
 stow/cmake-3.15.1*
 stow/cppcheck-1.83*
+stow/cppcheck-2.2*
+stow/cppcheck-2.4*
 stow/valgrind-3.13.0*
+stow/valgrind-3.15.0*
+stow/valgrind-3.16.1*
