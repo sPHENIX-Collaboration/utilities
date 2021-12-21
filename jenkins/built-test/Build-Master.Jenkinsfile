@@ -415,13 +415,12 @@ pipeline
 
 											copyArtifacts(projectName: 'test-default-detector-valgrind-pipeline', selector: specific("${built.number}"));
 
-											//if ("${built.getResult()}" == 'FAILURE')
-											//{
-											//	currentBuild.result = "${built.getResult()}"
-											//	error("test-default-detector-valgrind-pipeline #${built.number} ${built.getResult()}");
-											//}
-										}
-						   				    
+											if ("${built.getResult()}" == 'FAILURE')
+											{
+												currentBuild.result = "${built.getResult()}"
+												error("test-default-detector-valgrind-pipeline #${built.number} ${built.getResult()}");
+											}
+										}						   				    
 									}				
 								}
 								
