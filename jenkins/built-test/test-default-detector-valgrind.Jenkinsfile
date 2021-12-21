@@ -179,20 +179,19 @@ pipeline
 				archiveArtifacts artifacts: 'macros/detectors/*/*.valgrind*'
 				
 				publishValgrind (
-          failBuildOnInvalidReports: true,
-          failBuildOnMissingReports: true,
-          failThresholdDefinitelyLost: '40',
-          failThresholdInvalidReadWrite: '0',
-          failThresholdTotal: '2000',
-          pattern: 'macros/detectors/*/*.valgrind.xml',
-          publishResultsForAbortedBuilds: false,
-          publishResultsForFailedBuilds: false,
-          sourceSubstitutionPaths: '',
-          unstableThresholdDefinitelyLost: '0',
-          unstableThresholdInvalidReadWrite: '',
-          unstableThresholdTotal: '0'
-        )
-			
+				  failBuildOnInvalidReports: true,
+				  failBuildOnMissingReports: true,
+				  failThresholdDefinitelyLost: '100',
+				  failThresholdInvalidReadWrite: '0',
+				  failThresholdTotal: '2000',
+				  pattern: 'macros/detectors/*/*.valgrind.xml',
+				  publishResultsForAbortedBuilds: false,
+				  publishResultsForFailedBuilds: false,
+				  sourceSubstitutionPaths: '',
+				  unstableThresholdDefinitelyLost: '0',
+				  unstableThresholdInvalidReadWrite: '',
+				  unstableThresholdTotal: '0'
+				)			
 			}		
 		}
 		
