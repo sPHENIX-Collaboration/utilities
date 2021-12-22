@@ -70,7 +70,7 @@ echo "======================================================="
 # Test case to produce memory error
 # echo '{int ret = gSystem->Load("libg4bbc.so"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
 
-( /usr/bin/time -v ${valgrind_prefix} root.exe -b -q "${macro_name}.C(${number_event})" ; echo $? > return.tmp ) 2>&1 | tee ${macro_name}.log  ;
+( /usr/bin/time -v  timeout --preserve-status --kill-after=1s --signal=9 1d  ${valgrind_prefix} root.exe -b -q "${macro_name}.C(${number_event})" ; echo $? > return.tmp ) 2>&1 | tee ${macro_name}.log  ;
 
 build_ret=`cat return.tmp`;
 
@@ -101,7 +101,7 @@ echo "======================================================="
 	
 quote='"';
 # /usr/bin/time -v  root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" | tee -a Fun4All_ReadBack.log;
-( /usr/bin/time -v root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" ; echo $? > return2.tmp ) 2>&1 | tee Fun4All_ReadBack.log  ;
+( /usr/bin/time -v  timeout --preserve-status --kill-after=1s --signal=9 1d  root.exe -b -q "Fun4All_DST_ReadBack.C(0, ${quote}${DSTfile}${quote})" ; echo $? > return2.tmp ) 2>&1 | tee Fun4All_ReadBack.log  ;
 build_ret=`cat return2.tmp`;
 
 ls -lhcrt
