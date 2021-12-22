@@ -117,7 +117,7 @@ echo "======================================================="
 
 export qa_file_name_ref='None';
 echo "use reference = ${use_reference}"
-if [ ${use_reference} ]; then
+if [[ "${use_reference}" == "true" ]]; then
 	ln -svfb ../reference
 	
 	export qa_file_name_ref=`/bin/ls -1 reference/G4sPHENIX_*Sum*_qa.root`
