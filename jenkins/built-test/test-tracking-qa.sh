@@ -148,6 +148,8 @@ sh setup.sh
 
 source ./env/bin/activate
 
+env
+
 echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
 echo "================================================"
