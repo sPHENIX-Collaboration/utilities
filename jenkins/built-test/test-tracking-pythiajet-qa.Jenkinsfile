@@ -239,8 +239,7 @@ pipeline
 			{
 					
 				sh('$singularity_exec_sphenix_farm  sh utilities/jenkins/built-test/test-tracking-qa.sh $num_event $number_jobs')
-				
-				archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'										
+												
 			}				
 					
 		}
@@ -330,7 +329,9 @@ pipeline
 					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
-			) // build(job: 'github-commit-checkrun',
+			) // build(job: 'github-commit-checkrun',			
+			
+			archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'		
 		}
 
 		success {
