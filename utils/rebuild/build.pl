@@ -1357,7 +1357,7 @@ sub install_coverity_reports
     }
     else
     {
-        my $installroot = sprintf("/phenix/WWW/p/draft/phnxbld/%s/coverity/report",$collaboration);
+        my $installroot = sprintf("/sphenix/WWW/user/phnxbld/build-reports/%s/coverity/report",$collaboration);
         my $realpath = realpath($installroot);
         (my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
         my $newnumber = ($number % 2) + 1;
@@ -1428,13 +1428,13 @@ sub install_coverity_reports
         }
         close(F1);
         unlink $inst if (-e $inst);
-        symlink $installdir, $inst;
+        symlink basename($installdir), $inst;
     }
 }
 
 sub install_scanbuild_reports
 {
-    my $installroot = sprintf("/phenix/WWW/p/draft/phnxbld/%s/scan-build/scan",$collaboration);
+    my $installroot = sprintf("/sphenix/WWW/user/phnxbld/build-reports/%s/scan-build/scan",$collaboration);
     my $realpath = realpath($installroot);
     (my $inst,my $number) = $realpath =~ m/(.*)\.(\d+)$/;
     my $newnumber = ($number % 2) + 1;
@@ -1486,7 +1486,7 @@ sub install_scanbuild_reports
             print F "<a href=\"$hrefentry\">$packages</a> contact: $contact{$packagename} </br>\n";
             if (exists $contact{$packagename})
             {
-                $mailinglist{$packagename} = sprintf("https://phenix-intra.sdcc.bnl.gov/WWW/p/draft/phnxbld/%s/scan-build/scan/%s",$collaboration,$hrefentry);
+                $mailinglist{$packagename} = sprintf("https://sphenix-intra.sdcc.bnl.gov/WWW/user/phnxbld/build-reports/%s/scan-build/scan/%s",$collaboration,$hrefentry);
             }
             else
             {
@@ -1496,7 +1496,7 @@ sub install_scanbuild_reports
     }
     close(F);
     unlink $inst if (-e $inst);
-    symlink $installdir, $inst;
+    symlink basename($installdir), $inst;
 # now send the mails
     if ($opt_notify)
     {
@@ -1520,7 +1520,7 @@ sub install_scanbuild_reports
             print MAIL "The report is under\n\n";
             print MAIL "$mailinglist{$package}\n\n";
             print MAIL "All reports are available under\n\n";
-            print MAIL "https://phenix-intra.sdcc.bnl.gov/WWW/p/draft/phnxbld/",$collaboration,"/scan-build/scan\n\n";
+            print MAIL "https://sphenix-intra.sdcc.bnl.gov/WWW/user/phnxbld/build-reports/",$collaboration,"/scan-build/scan\n\n";
             print MAIL "instructions how to run scan-build yourself are in our wiki\n\n";
             print MAIL "https://wiki.bnl.gov/sPHENIX/index.php/Tools#scan_build\n\n";
             print MAIL "Please look at the report and fix the issues found\n";
