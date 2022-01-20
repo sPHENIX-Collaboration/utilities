@@ -91,6 +91,7 @@ fun4all_coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
 # DSTs, please leave it at the end of the package list
 fun4all_coresoftware/simulation/g4simulation/g4dst|pinkenburg@bnl.gov
 fun4all_eicdetectors/reconstruction/eicpidbase|jhuang@bnl.gov
+fun4all_eicdetectors/reconstruction/eiczdcbase|jhuang@bnl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4eicdst|jhuang@bnl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4beastmagnet|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4drcalo|Friederike.Bock@cern.ch
@@ -104,6 +105,7 @@ fun4all_eicdetectors/simulation/g4simulation/g4zdc|osbornjd@ornl.gov
 fun4all_eicdetectors/simulation/g4simulation/g4ttl|Friederike.Bock@cern.ch
 fun4all_eicdetectors/analysis/eicevaluator|Friederike.Bock@cern.ch
 fun4all_eicdetectors/reconstruction/eiccaloreco|tlp220@lehigh.edu
+fun4all_eicdetectors/reconstruction/eiczdcreco|jhuang@bnl.gov
 eictoydetector/source|pinkenburg@bnl.gov
 fun4allgdmlimport/source|pinkenburg@bnl.gov
 fun4all_eic_qa/source|pinkenburg@bnl.gov
