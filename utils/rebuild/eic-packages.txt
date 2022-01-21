@@ -7,7 +7,7 @@ fun4all_coresoftware/offline/framework/phool|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/framework/phoolraw|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/database/pdbcal/base|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/database/pdbcal/pg|pinkenburg@bnl.gov
-fun4all_coresoftware/offline/database/dbtools|pinkenburg@bnl.gov
+# fun4all_coresoftware/offline/database/dbtools|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/packages/vararray|pinkenburg@bnl.gov
 fun4all_coresoftware/offline/framework/frog|pinkenburg@bnl.gov
