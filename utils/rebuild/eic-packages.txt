@@ -68,6 +68,9 @@ fun4all_coresoftware/offline/packages/PHGenFitPkg/PHGenFit|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
 fun4all_coresoftware/offline/packages/jetbackground|dvp@bnl.gov
+# centrality needs trackbase_historic
+coresoftware/offline/packages/centrality|dvp@bnl.gov
+coresoftware/simulation/g4simulation/g4centrality|dvp@bnl.gov
 # simulations/Geant4/ evals
 fun4all_coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
 fun4all_coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
