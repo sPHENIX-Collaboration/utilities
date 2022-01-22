@@ -131,17 +131,20 @@ my @gitrepos = ();
 my $repositoryfile = sprintf("%s/repositories.txt",$Bin);
 my $packagefile = sprintf("%s/packages.txt",$Bin);
 my $collaboration = "sPHENIX";
+my $coveritystream = "coresoftware";
 if ($opt_ecce)
 {
  $repositoryfile = sprintf("%s/ecce-repositories.txt",$Bin);
  $packagefile = sprintf("%s/ecce-packages.txt",$Bin);
  $collaboration = "ECCE-EIC";
+ $coveritystream = "ecce-coresoftware";
 }
 if ($opt_eic)
 {
  $repositoryfile = sprintf("%s/eic-repositories.txt",$Bin);
  $packagefile = sprintf("%s/eic-packages.txt",$Bin);
  $collaboration = "EIC";
+ $coveritystream = "eic-coresoftware";
 }
 die unless open(IN,$repositoryfile);
 while (<IN>)
@@ -1345,7 +1348,7 @@ sub install_coverity_reports
             print LOG "$line";
         }
         close(F2);
-        my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream coresoftware --user pinkenbu --dir %s",$covdir);
+        my $covcmd = sprintf("cov-commit-defects --host coverity.rcf.bnl.gov --stream %s --user pinkenbu --dir %s",$coveritystream,$covdir);
         print LOG "executing $covcmd\n";
         $covcmd = sprintf("%s --password %s",$covcmd,$opt_covpasswd);
         open(F2,"$covcmd 2>&1 |");
