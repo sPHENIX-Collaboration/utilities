@@ -281,13 +281,15 @@ print LOG "$cmdline\n\n";
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
-if ($opt_version =~ /play/ || $opt_version =~ /test/)
+if ($opt_version =~ /play/)
 {
-    if ($opt_sysname =~ /gcc-8.3/)
-    {
+	$externalRootPackages{"DD4hep"} = "DD4hep-01-20";
 	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.4";
-	$externalRootPackages{"eic-smear"} = "eic-smear_HepMC3-3.2.4";
-    }
+        $externalPackages{"boost"} = "boost-1.78.0";
+        $externalPackages{"Eigen"} = "eigen-3.4.0";
+        $externalPackages{"Vc"} = "Vc-1.4.2";
+        $externalPackages{"gsl"} = "gsl-2.7";
+        $externalPackages{"tbb"} = "tbb-2021.5.0";
 }
 elsif ($opt_version =~ /test/) 
 {
@@ -448,7 +450,14 @@ else
     {
         if ($repo =~ /acts/)
         {
-            $gitcommand = sprintf("git clone --branch %s -q https://github.com/%s/%s.git",$opt_actsbranch,$repoowner{$repo}, $repo);
+	    if ($opt_version =~ /play/)
+	    {
+		$gitcommand = sprintf("git clone --branch v15.0.1 -q https://github.com/acts-project/%s.git", $repo);
+	    }
+	    else
+	    {
+		$gitcommand = sprintf("git clone --branch %s -q https://github.com/%s/%s.git",$opt_actsbranch,$repoowner{$repo}, $repo);
+	    }
         }
         else
         {
