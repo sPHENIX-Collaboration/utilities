@@ -286,10 +286,13 @@ if ($opt_version =~ /play/)
 	$externalRootPackages{"DD4hep"} = "DD4hep-01-20";
 	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.4";
         $externalPackages{"boost"} = "boost-1.78.0";
+        $externalPackages{"CGAL"} = "cgal-5.3.1";
         $externalPackages{"Eigen"} = "eigen-3.4.0";
-        $externalPackages{"Vc"} = "Vc-1.4.2";
+        $externalPackages{"fastjet"} = "fastjet-3.4.0";
         $externalPackages{"gsl"} = "gsl-2.7";
+        $externalPackages{"pythia8"} = "pythia8306";
         $externalPackages{"tbb"} = "tbb-2021.5.0";
+        $externalPackages{"Vc"} = "Vc-1.4.2";
 }
 elsif ($opt_version =~ /test/) 
 {
