@@ -1,5 +1,5 @@
 # This list gives the packages we build in the order in which they are build
-fun4all_acts|osbornjd@ornl.gov
+acts|osbornjd@ornl.gov
 fun4all_coresoftware/offline/packages/Half|pinkenburg@bnl.gov
 online_distribution/newbasic|purschke@bnl.gov
 online_distribution/pmonitor|purschke@bnl.gov
