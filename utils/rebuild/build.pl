@@ -281,7 +281,7 @@ print LOG "$cmdline\n\n";
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
-if ($opt_version =~ /play/)
+if ($opt_version =~ /play/ || $opt_version eq "test")
 {
 	$externalRootPackages{"DD4hep"} = "DD4hep-01-20";
 	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.4";
@@ -294,27 +294,17 @@ if ($opt_version =~ /play/)
         $externalPackages{"tbb"} = "tbb-2021.5.0";
         $externalPackages{"Vc"} = "Vc-1.4.2";
 }
-elsif ($opt_version =~ /test/) 
+elsif ($opt_version eq "g4test")
 {
-    $externalPackages{"gsl"} = "gsl-2.6";
+  $externalRootPackages{"DD4hep"} = "DD4hep-none";
+  $externalPackages{"CLHEP"} = "clhep-2.4.5.1";
+  $externalPackages{"rave"} = "rave-0.6.25_boost-1.70.0_clhep-2.4.5.1";
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
-    if ($opt_sysname =~ /gcc-8.3/)
-    {
         $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
         $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
         $externalPackages{"gsl"} = "gsl-2.5";
-    }
-    else
-    {
-	$externalPackages{"boost"} = "boost-1.67.0";
-	$externalPackages{"fastjet"} = "fastjet-3.3.1";
-	$externalPackages{"Eigen"} = "eigen-3.3.4";
-	$externalPackages{"CGAL"} = "CGAL-4.12";
-	$externalPackages{"pythia8"} = "pythia8235-hepmc2";
-	$externalPackages{"rave"} = "rave-0.6.25_clhep-2.3.2.2";
-    }
 }
 foreach my $pkg (sort keys %externalRootPackages)
 {
@@ -1646,6 +1636,10 @@ sub CreateCmakeCommand
         my $g4version = `geant4-config --version`;
         chomp $g4version;
 	my $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DACTS_BUILD_PLUGIN_DD4HEP=ON -DACTS_BUILD_EXAMPLES_DD4HEP=ON -DCMAKE_CXX_STANDARD=17 -DACTS_BUILD_EXAMPLES_GEANT4=ON -DDD4hep_DIR=${OFFLINE_MAIN}/cmake -DGeant4_DIR=${G4_MAIN}/lib64/Geant4-$g4version -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev",$externalPackages{"tbb"});
+	if ($opt_version eq "g4test")
+	{
+	    $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_CXX_STANDARD=17 -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev",$externalPackages{"tbb"});
+	}
         if ($opt_version =~ /debug/)
         {
             $cmakecmd = sprintf("%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd);
