@@ -37,7 +37,6 @@ coresoftware/generators/PHSartre|lajoie@iastate.edu
 # we want generator values in the event header
 coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
 # simulations/Geant4
-coresoftware/simulation/g4simulation/EICPhysicsList|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
