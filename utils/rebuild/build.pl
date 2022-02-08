@@ -119,12 +119,18 @@ GetOptions('help', 'stage=i', 'afs',
            'phenixinstall','workdir:s','insure','scanbuild',
            'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles',
            'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s',
-           'eic', 'actsbranch:s', 'ecce');
+           'eic', 'actsbranch:s', 'actsrepoowner:s' ,'ecce');
+
+# if a different actsrepoowner is not set, use the current repo owner
+if (! defined $opt_actsrepoowner)
+{
+    $opt_actsrepoowner = $opt_repoowner;
+}
 
 if ($opt_help)
-  {
-      printhelp();
-  }
+{
+    printhelp();
+}
 
 # Read in list of repositories
 my @gitrepos = ();
@@ -419,6 +425,10 @@ else
     foreach my $repo (@gitrepos)
     {
 	$repoowner{$repo} =  $opt_repoowner;
+	if ($repo eq "acts")
+	{
+	    $repoowner{$repo} =  $opt_actsrepoowner;
+	}
         $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
         my $iret = system($gitcommand);
         if ($iret)
@@ -1544,6 +1554,7 @@ sub printhelp
     print "                     3 = compile and install \n";
     print "                     4 = run tests \n";
     print "                     5 = install only (scan-build) \n";
+    print "--actsrepoowner='string' build ACTS from this repo\n";
     print "--actsbranch='string' build ACTS from this branch\n";
     print "--afs              install in afs (cvmfs is default)\n";
     print "--clang            use clang instead of gcc\n";
