@@ -83,6 +83,7 @@ coresoftware/offline/packages/trackreco|osbornjd@ornl.gov
 coresoftware/offline/packages/PHTpcTracker|pinkenburg@bnl.gov
 coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
+calibrations/calorimeter/dbfile_accessor_calo|frantz@ohio.edu
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
 # calorimeters and tracking combined
