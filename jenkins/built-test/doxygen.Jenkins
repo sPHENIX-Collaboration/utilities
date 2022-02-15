@@ -351,11 +351,13 @@ pipeline
 											[$class: 'CleanCheckout'],
 											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/main/']										
 										],
+										branches: [
+											[name: "main"]
+							        		], 
 										userRemoteConfigs: 
 										[[
 										credentialsId: 'sPHENIX-bot', 
 										url: 'https://github.com/sPHENIX-Collaboration/OnlMon.git',
-										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main')
 										]]
 									] //checkout
 								)//checkout			
