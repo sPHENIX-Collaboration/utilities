@@ -181,7 +181,7 @@ pipeline
 		}
 		
 		
-		stage('error-search')
+		stage('error-search-G4-overlap')
 		{
 			steps 
 			{
@@ -191,6 +191,25 @@ pipeline
 					grep G4Exception macros/detectors/${detector_name}/*.log  ;  
 					if [ $? -eq 0 ]; then 
 						echo "G4Exception Error found in " macros/detectors/${detector_name}/*.log; 
+						exit 1 ; 
+					else 
+						exit 0; 
+					fi
+         			''');
+			
+			} 
+		}
+		
+		
+		stage('error-search-TGeo-overlap')
+		{
+			steps 
+			{			
+				sh('''#!/usr/bin/env bash
+					echo grep '^ = Overlap ov.*:.* ovlp=.*$' macros/detectors/${detector_name}/*.log; 
+					grep '^ = Overlap ov.*:.* ovlp=.*$' macros/detectors/${detector_name}/*.log  ;  
+					if [ $? -eq 0 ]; then 
+						echo "TGeoManager Overlap Error found in " macros/detectors/${detector_name}/*.log; 
 						exit 1 ; 
 					else 
 						exit 0; 
