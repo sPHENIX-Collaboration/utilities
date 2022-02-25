@@ -56,18 +56,14 @@ my %externalPackages = (
     "CGAL" => "CGAL",
     "CLHEP" => "CLHEP",
     "Eigen" => "Eigen",
-    "EvtGen" => "EvtGen",
     "fastjet" => "fastjet",
     "gsl" => "gsl",
     "hdf5" => "hdf5",
     "HepMC" => "HepMC",
     "log4cpp" => "log4cpp",
-    "PHOTOS" => "PHOTOS",
-    "pythia8" => "pythia8",
     "pytorch" => "pytorch",
     "rapidjson" => "rapidjson",
     "rave" => "rave",
-    "TAUOLA" => "TAUOLA",
     "tbb" => "tbb",
     "Vc" => "Vc",
     "xpload" => "xpload"
@@ -78,10 +74,14 @@ my %externalRootPackages = (
     "DD4hep" => "DD4hep",
     "eic-smear" => "eic-smear",
     "EicToyModel" => "EicToyModel",
+    "EvtGen" => "EvtGen",
     "HepMC3" => "HepMC3",
     "KFParticle" => "KFParticle",
+    "PHOTOS" => "PHOTOS",
+    "pythia8" => "pythia8",
     "pythiaeRHIC" => "pythiaeRHIC",
     "sartre" => "sartre",
+    "TAUOLA" => "TAUOLA",
     "vgm" => "vgm"
     );
 my $rootversion = `root-config --version`;
@@ -287,18 +287,30 @@ print LOG "$cmdline\n\n";
 
 # temporary until the new versions are okay to use in new build
 # set this to play if you want to use this for the play build
-if ($opt_version =~ /play/ || $opt_version eq "test")
+if ($opt_version =~ /play/)
 {
-	$externalRootPackages{"DD4hep"} = "DD4hep-01-20";
-	$externalRootPackages{"HepMC3"} = "HepMC3-3.2.4";
-        $externalPackages{"boost"} = "boost-1.78.0";
-        $externalPackages{"CGAL"} = "cgal-5.3.1";
-        $externalPackages{"Eigen"} = "eigen-3.4.0";
-        $externalPackages{"fastjet"} = "fastjet-3.4.0";
-        $externalPackages{"gsl"} = "gsl-2.7";
-        $externalPackages{"pythia8"} = "pythia8306";
-        $externalPackages{"tbb"} = "tbb-2021.5.0";
-        $externalPackages{"Vc"} = "Vc-1.4.2";
+    $externalPackages{"boost"} = "boost-1.78.0";
+    $externalPackages{"CGAL"} = "cgal-5.3.1";
+    $externalPackages{"CLHEP"} = "clhep-2.4.5.1";
+    $externalPackages{"Eigen"} = "eigen-3.4.0";
+    $externalPackages{"fastjet"} = "fastjet-3.4.0";
+    $externalPackages{"gsl"} = "gsl-2.7";
+    $externalPackages{"Vc"} = "Vc-1.4.2";
+    $externalPackages{"rave"} = "rave-0.6.25_boost-1.78.0_clhep-2.4.5.1";
+    $externalRootPackages{"DD4hep"} = "DD4hep-01-20_geant4-11.00.00";
+}
+elsif ($opt_version eq "test")
+{
+    $externalRootPackages{"DD4hep"} = "DD4hep-01-20";
+    $externalRootPackages{"HepMC3"} = "HepMC3-3.2.5";
+    $externalPackages{"boost"} = "boost-1.78.0";
+    $externalPackages{"CGAL"} = "cgal-5.3.1";
+    $externalPackages{"Eigen"} = "eigen-3.4.0";
+    $externalPackages{"fastjet"} = "fastjet-3.4.0";
+    $externalPackages{"gsl"} = "gsl-2.7";
+    $externalPackages{"pythia8"} = "pythia8306";
+    $externalPackages{"tbb"} = "tbb-2021.5.0";
+    $externalPackages{"Vc"} = "Vc-1.4.2";
 }
 elsif ($opt_version eq "g4test")
 {
@@ -453,14 +465,7 @@ else
     {
         if ($repo =~ /acts/)
         {
-	    if ($opt_version =~ /play/)
-	    {
-		$gitcommand = sprintf("git clone --branch v15.0.1 -q https://github.com/acts-project/%s.git", $repo);
-	    }
-	    else
-	    {
-		$gitcommand = sprintf("git clone --branch %s -q https://github.com/%s/%s.git",$opt_actsbranch,$repoowner{$repo}, $repo);
-	    }
+	    $gitcommand = sprintf("git clone --branch %s -q https://github.com/%s/%s.git",$opt_actsbranch,$repoowner{$repo}, $repo);
         }
         else
         {
