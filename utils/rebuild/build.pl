@@ -301,16 +301,16 @@ if ($opt_version =~ /play/)
 }
 elsif ($opt_version eq "test")
 {
-    $externalRootPackages{"DD4hep"} = "DD4hep-01-20";
-    $externalRootPackages{"HepMC3"} = "HepMC3-3.2.5";
     $externalPackages{"boost"} = "boost-1.78.0";
     $externalPackages{"CGAL"} = "cgal-5.3.1";
+    $externalPackages{"CLHEP"} = "clhep-2.4.5.1";
     $externalPackages{"Eigen"} = "eigen-3.4.0";
     $externalPackages{"fastjet"} = "fastjet-3.4.0";
     $externalPackages{"gsl"} = "gsl-2.7";
-    $externalPackages{"pythia8"} = "pythia8306";
+    $externalPackages{"rave"} = "rave-0.6.25_boost-1.78.0_clhep-2.4.5.1";
     $externalPackages{"tbb"} = "tbb-2021.5.0";
     $externalPackages{"Vc"} = "Vc-1.4.2";
+    $externalRootPackages{"DD4hep"} = "DD4hep-01-20_geant4-11.00.00";
 }
 elsif ($opt_version eq "g4test")
 {
