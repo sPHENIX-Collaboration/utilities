@@ -299,19 +299,6 @@ if ($opt_version =~ /play/)
     $externalPackages{"rave"} = "rave-0.6.25_boost-1.78.0_clhep-2.4.5.1";
     $externalRootPackages{"DD4hep"} = "DD4hep-01-20_geant4-11.00.00";
 }
-elsif ($opt_version eq "test")
-{
-    $externalPackages{"boost"} = "boost-1.78.0";
-    $externalPackages{"CGAL"} = "cgal-5.3.1";
-    $externalPackages{"CLHEP"} = "clhep-2.4.5.1";
-    $externalPackages{"Eigen"} = "eigen-3.4.0";
-    $externalPackages{"fastjet"} = "fastjet-3.4.0";
-    $externalPackages{"gsl"} = "gsl-2.7";
-    $externalPackages{"rave"} = "rave-0.6.25_boost-1.78.0_clhep-2.4.5.1";
-    $externalPackages{"tbb"} = "tbb-2021.5.0";
-    $externalPackages{"Vc"} = "Vc-1.4.2";
-    $externalRootPackages{"DD4hep"} = "DD4hep-01-20_geant4-11.00.00";
-}
 elsif ($opt_version eq "g4test")
 {
   $externalRootPackages{"DD4hep"} = "DD4hep-none";
@@ -320,9 +307,15 @@ elsif ($opt_version eq "g4test")
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
-        $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.0";
-        $externalPackages{"CLHEP"} = "clhep-2.4.1.0";
-        $externalPackages{"gsl"} = "gsl-2.5";
+    $externalPackages{"boost"} = "boost-1.70.0";
+    $externalPackages{"CGAL"} = "CGAL-4.14.0";
+    $externalPackages{"Eigen"} = "eigen-3.3.7";
+    $externalPackages{"fastjet"} = "fastjet-3.3.2";
+    $externalPackages{"gsl"} = "gsl-2.6";
+    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
+    $externalPackages{"tbb"} = "tbb-2019_U8";
+    $externalPackages{"Vc"} = "Vc-1.4.1";
+    $externalPackages{"xpload"} = "xpload-0.6.0";
 }
 foreach my $pkg (sort keys %externalRootPackages)
 {
