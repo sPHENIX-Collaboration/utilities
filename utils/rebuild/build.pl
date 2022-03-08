@@ -289,15 +289,7 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/)
 {
-    $externalPackages{"boost"} = "boost-1.78.0";
-    $externalPackages{"CGAL"} = "cgal-5.3.1";
-    $externalPackages{"CLHEP"} = "clhep-2.4.5.1";
-    $externalPackages{"Eigen"} = "eigen-3.4.0";
-    $externalPackages{"fastjet"} = "fastjet-3.4.0";
-    $externalPackages{"gsl"} = "gsl-2.7";
-    $externalPackages{"Vc"} = "Vc-1.4.2";
-    $externalPackages{"rave"} = "rave-0.6.25_boost-1.78.0_clhep-2.4.5.1";
-    $externalRootPackages{"DD4hep"} = "DD4hep-01-20_geant4-11.00.00";
+    $externalPackages{"tbb"} = "tbb-2019_U8";
 }
 elsif ($opt_version eq "g4test")
 {
@@ -604,18 +596,19 @@ print LOG "===========================================\n";
             chdir $dir;
             print LOG "rsyncing $dir\n";
             system("rsync -a . $installDir");
-# needs boost patch
-	    if ($opt_clang)
-	    {
-		$dir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/patches/%s",$opt_sysname,$externalPackages{$m});
-		if (! -d $dir)
-		{
-		    next;
-		}
-		chdir $dir;
-		print LOG "rsyncing patch $dir\n";
-		system("rsync -a --chmod=Fa-w . $installDir");
-	    }
+# apply patches (not needed right now)
+# needs boost patch (boost-1.70.00)
+#	    if ($opt_clang)
+#	    {
+#		$dir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/patches/%s",$opt_sysname,$externalPackages{$m});
+#		if (! -d $dir)
+#		{
+#		    next;
+#		}
+#		chdir $dir;
+#		print LOG "rsyncing patch $dir\n";
+#		system("rsync -a --chmod=Fa-w . $installDir");
+#	    }
         }
         # patch for Eigen include path
         chdir $installDir . "/include";
