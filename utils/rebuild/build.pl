@@ -596,18 +596,19 @@ print LOG "===========================================\n";
             chdir $dir;
             print LOG "rsyncing $dir\n";
             system("rsync -a . $installDir");
-# needs boost patch
-	    if ($opt_clang)
-	    {
-		$dir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/patches/%s",$opt_sysname,$externalPackages{$m});
-		if (! -d $dir)
-		{
-		    next;
-		}
-		chdir $dir;
-		print LOG "rsyncing patch $dir\n";
-		system("rsync -a --chmod=Fa-w . $installDir");
-	    }
+# apply patches (not needed right now)
+# needs boost patch (boost-1.70.00)
+#	    if ($opt_clang)
+#	    {
+#		$dir = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/patches/%s",$opt_sysname,$externalPackages{$m});
+#		if (! -d $dir)
+#		{
+#		    next;
+#		}
+#		chdir $dir;
+#		print LOG "rsyncing patch $dir\n";
+#		system("rsync -a --chmod=Fa-w . $installDir");
+#	    }
         }
         # patch for Eigen include path
         chdir $installDir . "/include";
