@@ -741,6 +741,15 @@ print LOG "===========================================\n";
 	    # that Insure++ will know where to send its output.
 	    if ($opt_insure)
 	    {
+		my $insurecompiler = `which insure`;
+		chomp $insurecompiler;
+		my $runscript = "run_gpp.sh";
+		open(F2,">$runscript");
+		my $runcmd = sprintf("%s g++ -g -L%s/lib -linsure_mt \$*",$insurecompiler,$PARASOFT);
+		print F2 "$runcmd\n";
+		close(F2);
+		chmod 0755, $runscript;
+
 		find sub { -d &&
 			       !(realpath($File::Find::name) eq realpath($bdir)) &&
 			       copy($bdir."/.psrc", $File::Find::name)}, $bdir;
@@ -1660,7 +1669,7 @@ sub CreateCmakeCommand
 	    close(F2);
 	    chmod 0755, $runscript;
 	    print LOG "using insure $insurecompiler\n";
-	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd,$runscript);
+	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsure_mt -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
 	}
 	elsif ($opt_clang)
 	{
