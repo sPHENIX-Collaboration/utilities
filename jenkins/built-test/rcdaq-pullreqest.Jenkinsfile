@@ -141,6 +141,44 @@ pipeline
 			
 		}//stage('SCM Checkout')
 		
+		
+		stage('build-gcc')
+		{
+			steps 
+			{			
+				sh('''#!/usr/bin/env bash
+					
+					ONLINE_MAIN=$WORKSPACE/install
+					build_dir=$WORKSPACE/build
+					build_log=$WORKSPACE/build/buid.log
+					
+					echo install to ONLINE_MAIN=$ONLINE_MAIN
+					mkdir -v $ONLINE_MAIN				
+					
+					echo build at build_dir=$build_dir
+					mkdir -v $ONLINE_MAIN
+					
+					echo '---------------------------------'
+					echo "Build isntalling -> $build_log" | tee $build_log
+					echo '---------------------------------'
+					cd $build_dir					
+					$WORKSPACE/rcdaq/autogen.sh --prefix=$ONLINE_MAIN 2>&1 | tee $build_log
+					
+					ls -lhcv
+					
+					make install -j 2>&1 | tee $build_log								
+						
+					cd $ONLINE_MAIN
+					find
+         			''');
+			
+			} 
+		}// 		stage('build-gcc')
+
+		
+		
+		
+		
 	}//stages
 		
 	post {
