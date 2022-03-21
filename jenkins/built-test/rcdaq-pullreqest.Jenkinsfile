@@ -156,7 +156,7 @@ pipeline
 					mkdir -v $ONLINE_MAIN				
 					
 					echo build at build_dir=$build_dir
-					mkdir -v $ONLINE_MAIN
+					mkdir -v $build_dir
 					
 					echo '---------------------------------'
 					echo "Build isntalling -> $build_log" | tee $build_log
