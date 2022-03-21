@@ -42,7 +42,7 @@ pipeline
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 						mattermostSend color: "#FFFF00", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
 								
-						dir('coresoftware') {
+						dir('rcdaq') {
 							deleteDir()
 						}			
 						dir('qa_html') {
@@ -99,8 +99,8 @@ pipeline
 				timestamps { 
 					ansiColor('xterm') {
 						
-						dir('coresoftware') {
-							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/coresoftware.git'
+						dir('rcdaq') {
+							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/rcdaq.git'
 							
 							checkout(
 							   [
@@ -122,7 +122,7 @@ pipeline
 				            userRemoteConfigs: 
 				            [[
 				                credentialsId: 'sPHENIX-bot', 
-				                url: 'https://github.com/${ghprbGhRepository}.git', // https://github.com/sPHENIX-Collaboration/coresoftware.git
+				                url: 'https://github.com/${ghprbGhRepository}.git', // https://github.com/sPHENIX-Collaboration/rcdaq.git
 				                refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
 				                branch: ('*')
 				            ]]
@@ -130,7 +130,7 @@ pipeline
 					    )// checkout
 	    
 	
-						}//						dir('coresoftware') {
+						}//						dir('rcdaq') {
 						
 
 					}//					ansiColor('xterm') {
@@ -140,15 +140,6 @@ pipeline
 			}//			steps 
 			
 		}//stage('SCM Checkout')
-		
-		// hold this until jenkins supports nested parallel
-		stage('Build')
-		{
-			parallel {
-			
-							
-			} // parallel {
-		}//stage('Build')
 		
 	}//stages
 		
