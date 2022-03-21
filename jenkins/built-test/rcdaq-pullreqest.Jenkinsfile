@@ -150,7 +150,7 @@ pipeline
 					
 					ONLINE_MAIN=$WORKSPACE/install
 					build_dir=$WORKSPACE/build
-					build_log=$WORKSPACE/build/buid.log
+					build_log=$WORKSPACE/build/build.log
 					
 					echo install to ONLINE_MAIN=$ONLINE_MAIN
 					mkdir -v $ONLINE_MAIN				
@@ -176,7 +176,7 @@ pipeline
          			''');
 			
 			} 
-		}// 		stage('build-gcc') -> build/buid.log
+		}// 		stage('build-gcc') -> build/build.log
 
 		
 		
