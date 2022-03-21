@@ -166,7 +166,7 @@ pipeline
 					
 					ls -lhcv
 					
-					make install -j 2>&1 | tee $build_log								
+					make install 2>&1 | tee $build_log								
 						
 					cd $ONLINE_MAIN
 					find
