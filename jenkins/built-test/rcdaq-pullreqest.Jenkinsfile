@@ -166,14 +166,17 @@ pipeline
 					
 					ls -lhcv
 					
-					make install 2>&1 | tee $build_log								
-						
+					make install 2>&1 | tee $build_log	
+					status=${PIPESTATUS[0]}
+					 
 					cd $ONLINE_MAIN
 					find
+					
+					[ $status -eq 0 ] && echo "build successful" || exit $status
          			''');
 			
 			} 
-		}// 		stage('build-gcc')
+		}// 		stage('build-gcc') -> build/buid.log
 
 		
 		
@@ -183,7 +186,12 @@ pipeline
 		
 	post {
 		always{
-			// archiveArtifacts artifacts: 'build/new/rebuild.log'
+			
+	                script {			
+				recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
+
+        		} // script 
+			
 			
 			dir('report')
 			{
@@ -217,6 +225,13 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
 
   			report_content = """${report_content}
 * [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) [builds and tests overall are ${currentBuild.currentResult}](${env.BUILD_URL})."""
+				
+			def build_report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+			build_report_content = "${build_report_content}, [:bar_chart:Compiler report (full)](${env.BUILD_URL}/gcc/)/[(new)](${env.BUILD_URL}/gcc/new/)";
+  			report_content = """${report_content}
+build_report_content"""
+
+			// reset of reports
 				
     			def files = findFiles(glob: '*.md')
     			echo("all reports: $files");
