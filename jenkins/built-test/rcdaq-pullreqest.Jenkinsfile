@@ -224,7 +224,7 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
 			}
 
   			report_content = """${report_content}
-* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) [builds and tests overall are ${currentBuild.currentResult}](${env.BUILD_URL})."""
+[![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) [builds and tests overall are ${currentBuild.currentResult}](${env.BUILD_URL})."""
 				
 			def build_report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
 			build_report_content = "${build_report_content}, [:bar_chart:Compiler report (full)](${env.BUILD_URL}/gcc/)/[(new)](${env.BUILD_URL}/gcc/new/)";
