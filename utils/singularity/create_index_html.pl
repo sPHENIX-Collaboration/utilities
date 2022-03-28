@@ -8,7 +8,7 @@ use Getopt::Long;
 my $opt_collaboration = 'sPHENIX';
 GetOptions('collaboration:s' => \$opt_collaboration);
 
-my $containername = "rhic_sl7_ext.simg";
+my $containername = "rhic_sl7_ext.sif";
 my $dockername = "rhic_sl7_ext_docker.tar.gz";
 my $mcegname = "MCEG.tar.bz2";
 
