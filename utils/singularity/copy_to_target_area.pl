@@ -91,7 +91,7 @@ if (defined $opt_subdir)
     $tmpdir = sprintf("/tmp/%s_%s_%s_%s",$opt_sourcevol,$opt_subdir,$opt_sysname,$opt_version);
 }
 mkpath($tmpdir);
-my $singularity_container = sprintf("%s/singularity/rhic_sl7_ext.simg",$sourcedir);
+my $singularity_container = sprintf("%s/singularity/rhic_sl7_ext.sif",$sourcedir);
 my $opt_tmp_tarfile =sprintf("%s/opt.tar",$tmpdir);
 my $mceg_tmp_tarfile = sprintf("%s/MCEG.tar",$tmpdir);
 my $utils_tmp_tarfile = sprintf("%s/utils.tar",$tmpdir);
