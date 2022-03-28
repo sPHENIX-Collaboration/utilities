@@ -289,7 +289,7 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/)
 {
-    $externalPackages{"tbb"} = "tbb-2019_U8";
+    $externalRootPackages{"DD4hep"} = "DD4hep-01-20-01_geant4-11.00.01";
 }
 elsif ($opt_version eq "g4test")
 {
