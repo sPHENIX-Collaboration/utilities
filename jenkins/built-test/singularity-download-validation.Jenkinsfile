@@ -158,7 +158,7 @@ exit \$?
 														
 							sh('ls -lvhc')
 							
-							sh("singularity exec -B cvmfs:/cvmfs cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg ./test.sh");
+							sh("singularity exec -B cvmfs:/cvmfs cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.sif ./test.sh");
 							
 							sh('ls -lvhc')
 						}
