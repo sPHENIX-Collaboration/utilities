@@ -5,7 +5,7 @@ pwd;
 env;
 
 echo "-------- source setup ---------"
-source /opt/sphenix/core/bin/sphenix_setup.sh -n
+source /cvmfs/sphenix.sdcc.bnl.gov/x8664_sl7/opt/sphenix/core/bin/sphenix_setup.sh -n
 
 env;
 
