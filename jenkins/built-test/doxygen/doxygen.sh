@@ -40,7 +40,7 @@ cp -fv README.md html/
 cd html/
 
 pwd
-ll
+ls -lhcv
 
 git init
 git checkout -b gh-pages
