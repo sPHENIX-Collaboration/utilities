@@ -259,7 +259,8 @@ pipeline
 		{
 			steps 
 			{
-				archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'										
+				archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'			
+				archiveArtifacts artifacts: 'macros/detectors/sPHENIX/G4sPHENIX_*_1.log'
 			}								
 		}
 		
