@@ -332,6 +332,7 @@ pipeline
 			) // build(job: 'github-commit-checkrun',			
 			
 			archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'		
+			archiveArtifacts artifacts: 'macros/detectors/sPHENIX/*_1.log'
 		}
 
 		success {
