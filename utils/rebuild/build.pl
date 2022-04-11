@@ -293,9 +293,7 @@ if ($opt_version =~ /play/)
 }
 elsif ($opt_version eq "g4test")
 {
-  $externalRootPackages{"DD4hep"} = "DD4hep-none";
-  $externalPackages{"CLHEP"} = "clhep-2.4.5.1";
-  $externalPackages{"rave"} = "rave-0.6.25_boost-1.70.0_clhep-2.4.5.1";
+  $externalRootPackages{"DD4hep"} = "DD4hep-01-20-02_geant4-10.07.p03";
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
