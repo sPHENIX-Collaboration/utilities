@@ -119,7 +119,7 @@ GetOptions('help', 'stage=i', 'afs',
            'phenixinstall','workdir:s','insure','scanbuild',
            'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles',
            'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s',
-           'eic', 'actsbranch:s', 'actsrepoowner:s' ,'ecce');
+           'eic', 'actsbranch:s', 'actsrepoowner:s' ,'ecce', 'qa');
 
 # if a different actsrepoowner is not set, use the current repo owner
 if (! defined $opt_actsrepoowner)
@@ -152,6 +152,19 @@ if ($opt_eic)
  $collaboration = "EIC";
  $coveritystream = "eic-coresoftware";
 }
+if ($opt_qa)
+{
+ $repositoryfile = sprintf("%s/qa-repositories.txt",$Bin);
+ $packagefile = sprintf("%s/qa-packages.txt",$Bin);
+}
+if ($opt_qa && $opt_eic ||
+    $opt_qa && $opt_ecce ||
+    $opt_ecce && $opt_eic)
+{
+    print "--qa and --eic and --ecce are mutually exclusive\n";
+    die;
+}
+
 die unless open(IN,$repositoryfile);
 while (<IN>)
   {
@@ -1569,6 +1582,7 @@ sub printhelp
     print "--lafiles          build keeping libtool *.la files.\n";
     print "--notify           Contact responsibles in case of failure.\n";
     print "--phenixinstall    Install in the official AFS area. \n";
+    print "--qa              build packages for EIC Fun4All QA\n";
     print "--repoowner='string' repository owner (default: sPHENIX-Collaboration). \n";
     print "--scanbuild        Making a scan-build with clang\n";
     print "--source='string'  Use the specified source directory. Don't get\n";
