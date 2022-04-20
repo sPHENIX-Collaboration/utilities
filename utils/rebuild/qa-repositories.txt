@@ -6,6 +6,5 @@ fun4all_eicdetectors
 fun4all_eicmacros
 fun4all_eic_qa
 online_distribution
-prototype
 macros
 utilities
