@@ -302,12 +302,11 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/)
 {
-    $externalRootPackages{"DD4hep"} = "DD4hep-01-20-01_geant4-11.00.01";
-    $externalPackages{"xpload"} = "xpload-0.8.1";
+#    $externalPackages{"xpload"} = "xpload-0.8.1";
 }
 elsif ($opt_version eq "g4test")
 {
-  $externalRootPackages{"DD4hep"} = "DD4hep-01-20-02_geant4-10.07.p03";
+    $externalRootPackages{"DD4hep"} = "DD4hep-01-20-01_geant4-11.00.01";
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
