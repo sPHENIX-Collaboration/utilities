@@ -550,46 +550,20 @@ pipeline
 												string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 												string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 											],
-											wait: true, propagate: false)
+											wait: false, propagate: false)
 						   			
-						   				  copyArtifacts(projectName: 'test-tracking-low-occupancy-qa', selector: specific("${built.number}"));
-						   				  
-						   				if ("${built.result}" != 'SUCCESS')
-						   				{
-						   					error('test-tracking-low-occupancy-qa FAIL')
-    									}								
-										}
-										// archiveArtifacts artifacts: 'qa_page.tar.gz'
-										
+						   		//		  	copyArtifacts(projectName: 'test-tracking-low-occupancy-qa', selector: specific("${built.number}"));
+						   		//		  
+						   		//			if ("${built.result}" != 'SUCCESS')
+						   		//			{
+						   		//				error('test-tracking-low-occupancy-qa FAIL')
+    								//			}								
+										} // script
+									
 						    		
 										sh('ls -lhv')
 						   			
-						   			//dir('macros/macros/g4simulations/')
-						   			//{
-						   			//	stash name: "test-calo-single-qa-stash", includes: "*"
-						   			//}
-						   			
-						   			//dir('test-calo-single-qa-output')
-						   			//{
-						   			//	unstash "test-calo-single-qa-stash"
-						   			//	archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
-						   			//}    		   			
-						   			
-										//dir('qa_html')
-										//{
-						    		//	sh ("tar xzfv ../qa_page.tar.gz")
-										//}
-				
-									  //publishHTML (target: [
-								    //  allowMissing: false,
-								    //  alwaysLinkToLastBuild: false,
-								    //  keepAll: true,
-								    //  reportDir: 'qa_html',
-								    //  reportFiles: 'index.html',
-								    //  reportName: "Calorimeter QA Report"
-								    //])
-							   			
-									}				
+									}//steps				
 								}// 				stage('test-tracking-low-occupancy-qa')
 							
 								stage('test-tracking-high-occupancy-qa')
