@@ -550,14 +550,14 @@ pipeline
 												string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
 												string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
 											],
-											wait: false, propagate: false)
+											wait: true, propagate: false)
 						   			
-						   		//		  	copyArtifacts(projectName: 'test-tracking-low-occupancy-qa', selector: specific("${built.number}"));
-						   		//		  
-						   		//			if ("${built.result}" != 'SUCCESS')
-						   		//			{
-						   		//				error('test-tracking-low-occupancy-qa FAIL')
-    								//			}								
+						   				  	copyArtifacts(projectName: 'test-tracking-low-occupancy-qa', selector: specific("${built.number}"));
+						   				  
+						   					if ("${built.result}" != 'SUCCESS')
+						   					{
+						   						error('test-tracking-low-occupancy-qa FAIL')
+    											}								
 										} // script
 									
 						    		
