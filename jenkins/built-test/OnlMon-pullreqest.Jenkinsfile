@@ -146,24 +146,45 @@ pipeline
 		{
 			steps 
 			{			
-				sh('''#!/usr/bin/env bash
-					
-					ONLINE_MAIN=$WORKSPACE/install
+				writeFile file: "build.sh", text:'''#!/usr/bin/env bash
+				
+					install_dir=$WORKSPACE/install
 					build_dir=$WORKSPACE/build
 					build_log=$WORKSPACE/build/build.log
 					
-					echo install to ONLINE_MAIN=$ONLINE_MAIN
-					mkdir -v $ONLINE_MAIN				
+					echo '---------------------------------'
+					echo "Env setup"
+					echo '---------------------------------'
+					source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
+					env;
+					
+					echo install at install_dir=$install_dir
+					mkdir -v $install_dir
 					
 					echo build at build_dir=$build_dir
 					mkdir -v $build_dir
-					 
-					 touch $build_dir/build.log
-          				find
+					
+					echo '---------------------------------'
+					echo "Build isntalling -> $build_log" | tee $build_log
+					echo '---------------------------------'
+					
+					cd $build_dir					
+					$WORKSPACE/OnlMon/autogen.sh --prefix=$install_dir 2>&1 | tee $build_log
+					
+					ls -lhcv
+					
+					make -j  2>&1 | tee $build_log	
+					status=${PIPESTATUS[0]}
+
+					pwd
+					find
 					
 					[ $status -eq 0 ] && echo "build successful" || exit $status
-         			''');
-			
+         			''');//				writeFile file: "summary.md", text:'''#!/usr/bin/env bash
+
+				sh('chmod +x build.sh');
+				sh('$singularity_exec_sphenix bash build.sh')
+				
 			} 
 		}// 		stage('build-gcc') -> build/build.log
 
