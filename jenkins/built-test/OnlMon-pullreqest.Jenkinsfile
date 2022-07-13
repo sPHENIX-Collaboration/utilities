@@ -179,7 +179,7 @@ pipeline
 					
 					ls -lhcv
 					
-					make -j  2>&1 | tee $build_log	
+					make -j install 2>&1 | tee $build_log	
 					status=${PIPESTATUS[0]}
 
 					pwd
