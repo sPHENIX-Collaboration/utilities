@@ -176,7 +176,7 @@ pipeline
 		always{
 			
 	                script {			
-				# recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
+// recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
 
         		} // script 
 			
