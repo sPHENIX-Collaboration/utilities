@@ -64,6 +64,7 @@ my %externalPackages = (
     "pytorch" => "pytorch",
     "rapidjson" => "rapidjson",
     "rave" => "rave",
+    "starlight" => "starlight",
     "tbb" => "tbb",
     "Vc" => "Vc",
     "xpload" => "xpload"
