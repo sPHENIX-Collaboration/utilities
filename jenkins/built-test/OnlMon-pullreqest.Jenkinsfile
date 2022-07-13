@@ -50,6 +50,12 @@ pipeline
 						}			
 						dir('report') {
 						 	deleteDir()
+						}		
+						dir('install') {
+						 	deleteDir()
+						}		
+						dir('build') {
+						 	deleteDir()
 						}
 					
 						sh('hostname')
