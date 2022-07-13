@@ -180,7 +180,7 @@ pipeline
 					find
 					
 					[ $status -eq 0 ] && echo "build successful" || exit $status
-         			''');//				writeFile file: "summary.md", text:'''#!/usr/bin/env bash
+         			''';//				writeFile file: "summary.md", text:'''#!/usr/bin/env bash
 
 				sh('chmod +x build.sh');
 				sh('$singularity_exec_sphenix bash build.sh')
