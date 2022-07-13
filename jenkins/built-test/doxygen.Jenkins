@@ -365,15 +365,13 @@ pipeline
 							{
 								checkout(
 									[
-										$class: 'GitSCM',
+										$class: 'GitSCM', 
+										branches: [[name: '*/main']],
 										extensions: [               
 											[$class: 'CleanBeforeCheckout'], 
 											[$class: 'CleanCheckout'],
 											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/main/']										
 										],
-										branches: [
-											[name: "main"]
-							        		], 
 										userRemoteConfigs: 
 										[[
 										credentialsId: 'sPHENIX-bot', 
