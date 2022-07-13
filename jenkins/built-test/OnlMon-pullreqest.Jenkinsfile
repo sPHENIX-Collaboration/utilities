@@ -158,7 +158,8 @@ pipeline
 					echo build at build_dir=$build_dir
 					mkdir -v $build_dir
 					 
-          find
+					 touch $build_dir/build.log
+          				find
 					
 					[ $status -eq 0 ] && echo "build successful" || exit $status
          			''');
@@ -176,7 +177,7 @@ pipeline
 		always{
 			
 	                script {			
-// recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
+				recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
 
         		} // script 
 			
