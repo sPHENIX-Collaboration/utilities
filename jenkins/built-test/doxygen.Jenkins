@@ -292,8 +292,7 @@ pipeline
 										userRemoteConfigs: 
 										[[
 										credentialsId: 'sPHENIX-bot', 
-										url: 'https://github.com/sPHENIX-Collaboration/OnlMon.git',
-										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/main')
+										url: 'https://github.com/sPHENIX-Collaboration/OnlMon.git'
 										]]
 									] //checkout
 								)//checkout			
