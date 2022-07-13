@@ -289,6 +289,7 @@ pipeline
 											[$class: 'CleanCheckout'],
 											[$class: 'RelativeTargetDirectory', relativeTargetDir: 'blob/main/']										
 										],
+										branches: [[name: '*/main']],
 										userRemoteConfigs: 
 										[[
 										credentialsId: 'sPHENIX-bot', 
