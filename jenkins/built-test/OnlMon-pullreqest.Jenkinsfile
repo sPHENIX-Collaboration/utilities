@@ -186,7 +186,7 @@ pipeline
 					find
 					
 					[ $status -eq 0 ] && echo "build successful" || exit $status
-         			''';//				writeFile file: "summary.md", text:'''#!/usr/bin/env bash
+         			''';//	writeFile file: "build.sh", text:'''#!/usr/bin/env bash
 
 				sh('chmod +x build.sh');
 				sh('$singularity_exec_sphenix bash build.sh')
@@ -195,6 +195,39 @@ pipeline
 		}// 		stage('build-gcc') -> build/build.log
 
 		
+		stage('build-cppcheck')
+		{
+			steps 
+			{			
+				writeFile file: "cppcheck.sh", text:'''#!/usr/bin/env bash
+				
+					echo '---------------------------------'
+					echo "Env setup"
+					echo '---------------------------------'
+					source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
+					env;
+					
+					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon > & cppcheck-result.xml
+					status=${PIPESTATUS[0]}
+					
+					ls -hvl cppcheck-result.xml
+					wc -l cppcheck-result.xml
+					head -n 10 cppcheck-result.xml
+					
+					[ $status -eq 0 ] && echo "build successful" || exit $status
+				
+         			''';// writeFile file: "cppcheck.sh", text:'''#!/usr/bin/env bash
+
+				sh('chmod +x cppcheck.sh');
+				sh('$singularity_exec_sphenix bash cppcheck.sh')
+				
+				dir('report')
+				{
+					sh('ls -lvhc')
+				  	writeFile file: "cpp-check.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) `cpp-check` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`cppcheck` report (full)](${env.BUILD_URL}/cppcheck/)/[(new)](${env.BUILD_URL}/cppcheck/new/)"				
+				} // dir('report')				
+			}//steps 
+		}// 		stage('build-gcc') -> build/build.log
 		
 		
 		
@@ -205,6 +238,7 @@ pipeline
 			
 	                script {			
 				recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
+        			recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 10, tool: cppCheck(pattern: 'cppcheck-result.xml')
 
         		} // script 
 			
