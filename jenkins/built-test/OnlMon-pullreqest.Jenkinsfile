@@ -206,8 +206,12 @@ pipeline
 					echo '---------------------------------'
 					source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
 					env;
+					echo '---------------------------------'
+					echo "which cppcheck?"
+					echo '---------------------------------'
+					which cppcheck
 					
-					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon > & cppcheck-result.xml
+					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon  2>&1 > tee cppcheck-result.xml
 					status=${PIPESTATUS[0]}
 					
 					ls -hvl cppcheck-result.xml
