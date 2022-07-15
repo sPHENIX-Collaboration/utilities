@@ -216,7 +216,7 @@ pipeline
 					echo '---------------------------------'
 					which cppcheck
 					
-					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon  2>&1 > tee cppcheck-result.xml
+					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon  2>&1 > cppcheck-result.xml
 					status=${PIPESTATUS[0]}
 					
 					ls -hvl cppcheck-result.xml
