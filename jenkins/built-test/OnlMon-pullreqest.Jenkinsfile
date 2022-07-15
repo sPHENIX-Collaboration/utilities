@@ -191,6 +191,11 @@ pipeline
 				sh('chmod +x build.sh');
 				sh('$singularity_exec_sphenix bash build.sh')
 				
+				dir('report')
+				{
+					sh('ls -lvhc')
+				  	writeFile file: "gcc.md", text: "* `gcc` compilation: [:bar_chart:Compiler report (full)](${env.BUILD_URL}/gcc/)/[(new)](${env.BUILD_URL}/gcc/new/)"				
+				} // dir('report')	
 			} 
 		}// 		stage('build-gcc') -> build/build.log
 
@@ -228,7 +233,7 @@ pipeline
 				dir('report')
 				{
 					sh('ls -lvhc')
-				  	writeFile file: "cpp-check.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) `cpp-check` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`cppcheck` report (full)](${env.BUILD_URL}/cppcheck/)/[(new)](${env.BUILD_URL}/cppcheck/new/)"				
+				  	writeFile file: "cpp-check.md", text: "* `cpp-check` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`cppcheck` report (full)](${env.BUILD_URL}/cppcheck/)/[(new)](${env.BUILD_URL}/cppcheck/new/)"				
 				} // dir('report')				
 			}//steps 
 		}// 		stage('build-gcc') -> build/build.log
@@ -280,11 +285,6 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
   			report_content = """${report_content}
 [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) [builds and tests overall are ${currentBuild.currentResult}](${env.BUILD_URL})."""
 				
-			def build_report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Build [is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
-			build_report_content = "${build_report_content}, [:bar_chart:Compiler report (full)](${env.BUILD_URL}/gcc/)/[(new)](${env.BUILD_URL}/gcc/new/)";
-  			report_content = """${report_content}
-${build_report_content}"""
-
 			// reset of reports
 				
     			def files = findFiles(glob: '*.md')
