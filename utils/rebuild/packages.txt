@@ -9,7 +9,6 @@ coresoftware/offline/framework/phoolraw|pinkenburg@bnl.gov
 coresoftware/offline/database/pdbcal/base|pinkenburg@bnl.gov
 coresoftware/offline/database/pdbcal/pg|pinkenburg@bnl.gov
 #coresoftware/offline/database/dbtools|pinkenburg@bnl.gov
-coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
 coresoftware/offline/packages/vararray|pinkenburg@bnl.gov
 coresoftware/offline/framework/frog|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
@@ -37,6 +36,7 @@ coresoftware/generators/PHPythia6|pinkenburg@bnl.gov
 coresoftware/generators/PHSartre|lajoie@iastate.edu
 # we want generator values in the event header
 coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
+coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
 # simulations/Geant4
 coresoftware/simulation/g4simulation/eASTPhysicsList|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
