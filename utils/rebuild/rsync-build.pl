@@ -136,6 +136,7 @@ while (my $softlink = <F>)
 	if (! -e $slinklocation)
 	{
 	    print LOG "slinklocation $slinklocation not found\n";
+            print "Error in rsync-build.pl, slinklocation $slinklocation not found\n";
 	    exit(-1);
 	}
 	print LOG "creating $softlink -> $slinklocation\n";
