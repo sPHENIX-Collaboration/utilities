@@ -61,6 +61,7 @@ my %externalPackages = (
     "hdf5" => "hdf5",
     "HepMC" => "HepMC",
     "log4cpp" => "log4cpp",
+    "onnxruntime" => "onnxruntime",
     "pytorch" => "pytorch",
     "rapidjson" => "rapidjson",
     "rave" => "rave",
