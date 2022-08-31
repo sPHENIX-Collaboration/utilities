@@ -74,6 +74,13 @@ do
 
 	echo "Build step - build - return $build_ret";
 	
+	if [ -z "$build_ret" ]; then
+	      echo "build_ret from exit_code_${id_number}.log is empty, suggesting a failed QA job. Exit with error! Dump current files: "
+	      
+	      ls -lhvc ./
+	      
+	      exit 1
+	fi
 	
 	if [ $build_ret -ne 0 ]; then
 		echo "======================================================="
