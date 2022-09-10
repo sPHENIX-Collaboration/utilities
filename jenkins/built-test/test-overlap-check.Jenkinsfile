@@ -176,6 +176,7 @@ pipeline
 			{
 			
 				archiveArtifacts artifacts: "macros/detectors/${detector_name}/*.log"
+				archiveArtifacts artifacts: "macros/detectors/${detector_name}/*.gdml"
 			
 			}		
 		}
