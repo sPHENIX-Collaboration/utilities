@@ -339,7 +339,7 @@ pipeline
 						exclusionValues: 'STDOUT Linecount,min,max', 
 						file: 'test-default-detector.csv_STDOUT_Linecount.csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
-						url: "${env.JOB_URL}" + '/%build%/artifact/macros/detectors/sPHENIX/Fun4All_G4_sPHENIX.log'
+						url: "${env.JOB_URL}" + '/%build%/artifact/macros/detectors/sPHENIX/G4sPHENIX_e-_pT4_1.log'
 					]], 
 					description: 'line count of the text output', 
 					exclZero: true, 
@@ -359,7 +359,7 @@ pipeline
 	
 		always{
 		  
-			//  writeFile file: "QA-calo.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/) "				
+			//  writeFile file: "QA-calo.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:QA report - Calorimeter](${env.BUILD_URL}/QA_20Report/), [:bar_chart: trends](${env.JOB_URL}/plot/) "				
 			dir('report')
 			{
 				echo("start report building to ...");
@@ -369,7 +369,7 @@ pipeline
 			{								
 				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
 				
-				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Calorimeter QA: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
 
 				def files = findFiles(glob: 'QA-gallery/report*.md')
 				echo("all reports: $files");
