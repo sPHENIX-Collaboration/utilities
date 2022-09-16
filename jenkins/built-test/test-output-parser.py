@@ -3,6 +3,7 @@ import re
 import pprint
 import argparse
 
+print (f"Python env check: {sys.executable} with paths {sys.path}")
 
 #%% input
 
