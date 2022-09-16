@@ -157,7 +157,7 @@ pipeline
 			steps 
 			{
 					
-				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default-detector.sh ${detector_name} 30 0")
+				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default-detector.sh ${detector_name} 1 0")
 														
 			}				
 					
@@ -180,7 +180,7 @@ pipeline
 			steps 
 			{
 					
-				sh("python utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/${detector_name}/*.log --output_csv test-default-detector.csv")
+				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/${detector_name}/*.log --output_csv test-default-detector.csv")
 														
 			}				
 					
