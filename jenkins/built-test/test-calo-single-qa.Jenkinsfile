@@ -292,6 +292,66 @@ pipeline
 					
 		}
 		
+		stage('PerformanceAnalysis')
+		{
+			
+			
+			steps 
+			{
+					
+				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/sPHENIX/*.log --output_csv test-default-detector.csv")
+				
+				plot( csvFileName: 'test-default-detector.csv_Time_(s)_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'Time (s),min,max', 
+						file: 'test-default-detector.csv_Time_(s).csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'User time (s), from system time tool', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'User time (s)',
+					yaxis: 'Time (s)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_Memory_(kB)_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'Memory (kB),min,max', 
+						file: 'test-default-detector.csv_Memory_(kB).csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'Maximum resident set size (kbytes), from system time tool', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Maximum resident memory',
+					yaxis: 'Memory (kB)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_STDOUT_Linecount_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'STDOUT Linecount,min,max', 
+						file: 'test-default-detector.csv_STDOUT_Linecount.csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/artifact/macros/detectors/sPHENIX/Fun4All_G4_sPHENIX.log'
+					]], 
+					description: 'line count of the text output', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Output line count',
+					yaxis: 'Line count'			
+				)
+			}				
+					
+		}
 	}//stages
 
 	
