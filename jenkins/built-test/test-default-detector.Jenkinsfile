@@ -188,7 +188,7 @@ pipeline
 						exclusionValues: 'Time (s)', 
 						file: 'test-default-detector.csv_Time_(s).csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
-						url: '${JOB_URL}/%build%/'
+						url: "${env.JOB_URL}" + '/%build%/'
 					]], 
 					description: 'User time (s), from system time tool', 
 					exclZero: true, 
@@ -204,7 +204,7 @@ pipeline
 						exclusionValues: 'Memory (kB)', 
 						file: 'test-default-detector.csv_Memory_(kB).csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
-						url: '${JOB_URL}/%build%/'
+						url: "${env.JOB_URL}" + '/%build%/'
 					]], 
 					description: 'Maximum resident set size (kbytes), from system time tool', 
 					exclZero: true, 
@@ -220,7 +220,7 @@ pipeline
 						exclusionValues: 'STDOUT Linecount', 
 						file: 'test-default-detector.csv_STDOUT_Linecount.csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
-						url: '${JOB_URL}/%build%/artifact/macros/detectors/sPHENIX/Fun4All_G4_sPHENIX.log'
+						url: "${env.JOB_URL}" + '/%build%/artifact/macros/detectors/sPHENIX/Fun4All_G4_sPHENIX.log'
 					]], 
 					description: 'line count of the text output', 
 					exclZero: true, 
@@ -242,7 +242,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "test-default-detector-${system_config}-${build_type}-${detector_name}.md", text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}) "				
+			  writeFile file: "test-default-detector-${system_config}-${build_type}-${detector_name}.md", text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trend :bar_chart:](${env.JOB_URL}/plot/) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
