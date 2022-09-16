@@ -273,6 +273,65 @@ pipeline
 					
 		}
 		
+		stage('PerformanceAnalysis')
+		{
+			
+			
+			steps 
+			{
+					
+				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/sPHENIX/*.log --output_csv test-default-detector.csv")
+				
+				plot( csvFileName: 'test-default-detector.csv_Time_(s)_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'Time (s),min,max', 
+						file: 'test-default-detector.csv_Time_(s).csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'User time (s), from system time tool', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'User time (s)',
+					yaxis: 'Time (s)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_Memory_(kB)_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'Memory (kB),min,max', 
+						file: 'test-default-detector.csv_Memory_(kB).csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'Maximum resident set size (kbytes), from system time tool', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Maximum resident memory',
+					yaxis: 'Memory (kB)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_STDOUT_Linecount_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'STDOUT Linecount,min,max', 
+						file: 'test-default-detector.csv_STDOUT_Linecount.csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'line count of the text output', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Output line count',
+					yaxis: 'Line count'			
+				)
+			}								
+		}// 		stage('PerformanceAnalysis')
 	}//stages
 
 	
@@ -280,7 +339,7 @@ pipeline
 	
 		always{
 		  
-			//  writeFile file: "QA-tracking-low-occupancy-qa.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL})"				
+			//  writeFile file: "QA-tracking-low-occupancy-qa.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)"				
 			dir('report')
 			{
 				echo("start report building to ...");
@@ -290,7 +349,7 @@ pipeline
 			{								
 				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
 				
-				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA for Pythia D0-jet: [build is ${currentBuild.currentResult}](${env.BUILD_URL})";	        
+				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA for Pythia D0-jet: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
 
 				def files = findFiles(glob: 'QA-gallery/report*.md')
 				echo("all reports: $files");
