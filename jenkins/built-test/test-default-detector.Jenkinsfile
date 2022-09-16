@@ -185,11 +185,10 @@ pipeline
 				plot( csvFileName: 'test-default-detector.csv_Time_(s)_Summary.csv', 
 					csvSeries: 
 					[[
-						displayTableFlag: true, 
 						exclusionValues: 'Time (s)', 
 						file: 'test-default-detector.csv_Time_(s).csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
-						url: '%build%/'
+						url: '../%build%/'
 					]], 
 					description: 'User time (s), from system time tool', 
 					exclZero: true, 
@@ -198,6 +197,38 @@ pipeline
 					style: 'line',
 					title: 'User time (s)',
 					yaxis: 'Time (s)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_Memory_(kB)_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'Memory (kB)', 
+						file: 'test-default-detector.csv_Memory_(kB).csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: '../%build%/'
+					]], 
+					description: 'Maximum resident set size (kbytes), from system time tool', 
+					exclZero: true, 
+					group: 'memory', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Maximum resident memory',
+					yaxis: 'Memory (kB)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_STDOUT_Linecount_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'STDOUT Linecount', 
+						file: 'test-default-detector.csv_STDOUT_Linecount.csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: '../%build%/artifact/macros/detectors/sPHENIX/Fun4All_G4_sPHENIX.log'
+					]], 
+					description: 'line count of the text output', 
+					exclZero: true, 
+					group: 'output linecount', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Output line count',
+					yaxis: 'Line count'			
 				)
 			}				
 					
