@@ -349,9 +349,9 @@ pipeline
 					title: 'Output line count',
 					yaxis: 'Line count'			
 				)
-			}				
-					
-		}
+			}								
+		}// 		stage('PerformanceAnalysis')
+
 	}//stages
 
 	
