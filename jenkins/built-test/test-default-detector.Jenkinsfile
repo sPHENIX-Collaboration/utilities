@@ -181,7 +181,25 @@ pipeline
 			{
 					
 				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/${detector_name}/*.log --output_csv test-default-detector.csv")
-														
+				
+				plot( csvFileName: 'test-default-detector.csv_Time_(s)_Summary.csv', 
+					csvSeries: 
+					[[
+						displayTableFlag: true, 
+						exclusionValues: '', 
+						file: 'test-default-detector.csv_Time_(s).csv', 
+						inclusionFlag: 'OFF', 
+						url: ''
+					]], 
+					description: 'User time (s), from system time tool', 
+					exclZero: true, 
+					group: 'time', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'User time (s)', 
+					useDescr: true, 
+					yaxis: 'Time (s)'			
+				)
 			}				
 					
 		}
