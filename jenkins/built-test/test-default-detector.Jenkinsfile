@@ -186,18 +186,17 @@ pipeline
 					csvSeries: 
 					[[
 						displayTableFlag: true, 
-						exclusionValues: '', 
+						exclusionValues: 'Time (s)', 
 						file: 'test-default-detector.csv_Time_(s).csv', 
-						inclusionFlag: 'OFF', 
-						url: ''
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: '%build%/'
 					]], 
 					description: 'User time (s), from system time tool', 
 					exclZero: true, 
 					group: 'time', 
 					numBuilds: '10', 
 					style: 'line',
-					title: 'User time (s)', 
-					useDescr: true, 
+					title: 'User time (s)',
 					yaxis: 'Time (s)'			
 				)
 			}				
