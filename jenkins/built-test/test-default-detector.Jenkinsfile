@@ -173,6 +173,18 @@ pipeline
 	//		}		
 	//	}
 		
+		stage('PerformanceAnalysis')
+		{
+			
+			
+			steps 
+			{
+					
+				sh("python utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/${detector_name}/*.log --output_csv test-default-detector.csv")
+														
+			}				
+					
+		}
 	}//stages
 
 	
