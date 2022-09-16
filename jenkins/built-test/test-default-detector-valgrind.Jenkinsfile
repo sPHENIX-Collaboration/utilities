@@ -195,6 +195,65 @@ pipeline
 			}		
 		}
 		
+		stage('PerformanceAnalysis')
+		{
+			
+			
+			steps 
+			{
+					
+				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/${detector_name}/*.log --output_csv test-default-detector.csv")
+				
+				plot( csvFileName: 'test-default-detector.csv_Time_(s)_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'Time (s)', 
+						file: 'test-default-detector.csv_Time_(s).csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'User time (s), from system time tool', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'User time (s)',
+					yaxis: 'Time (s)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_Memory_(kB)_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'Memory (kB)', 
+						file: 'test-default-detector.csv_Memory_(kB).csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'Maximum resident set size (kbytes), from system time tool', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Maximum resident memory',
+					yaxis: 'Memory (kB)'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_STDOUT_Linecount_Summary.csv', 
+					csvSeries: 
+					[[
+						exclusionValues: 'STDOUT Linecount', 
+						file: 'test-default-detector.csv_STDOUT_Linecount.csv', 
+						inclusionFlag: 'INCLUDE_BY_STRING', 
+						url: "${env.JOB_URL}" + '/%build%/artifact/macros/detectors/sPHENIX/Fun4All_G4_sPHENIX.log'
+					]], 
+					description: 'line count of the text output', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Output line count',
+					yaxis: 'Line count'			
+				)
+			}							
+		} // stage('PerformanceAnalysis')
 	}//stages
 
 	
@@ -204,7 +263,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "valgrind-${system_config}-${build_type}.md", text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/) "				
+			  writeFile file: "valgrind-${system_config}-${build_type}.md", text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/), [trends :bar_chart:](${env.JOB_URL}/plot/) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
@@ -219,7 +278,7 @@ pipeline
 					string(name: 'checkrun_status', value: "completed"),
 					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
 					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-					string(name: 'output_summary', value: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/) "),
+					string(name: 'output_summary', value: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/), [trends :bar_chart:](${env.JOB_URL}/plot/) "),
 					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
