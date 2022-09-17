@@ -330,6 +330,22 @@ pipeline
 					title: 'Output line count',
 					yaxis: 'Line count'			
 				)
+				plot( csvFileName: 'test-default-detector.csv_Module_per_event_time_(ms)_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'test-default-detector.csv_Module_per_event_time_(ms).csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'per-event time (ms) for each of the Fun4All modules', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'per-event time (ms)',
+					yaxis: 'time (ms)'			
+				)
 			}								
 		}// 		stage('PerformanceAnalysis')
 	}//stages
