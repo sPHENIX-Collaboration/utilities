@@ -299,7 +299,7 @@ pipeline
 			steps 
 			{
 					
-				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/sPHENIX/*.log --output_csv test-default-detector.csv")
+				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/sPHENIX/G4sPHENIX*.log --output_csv test-default-detector.csv")
 				
 				plot( csvFileName: 'test-default-detector.csv_Time_(s)_Summary.csv', 
 					csvSeries: 
