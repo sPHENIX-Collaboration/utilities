@@ -78,7 +78,7 @@ for input_file in input_files:
                 match = reexp.search(line)
 
                 if match:
-                    print (f"{line.strip()} -> { match.group(1) }")
+                    # print (f"{line.strip()} -> { match.group(1) }")
                     search_results[label][input_file] = float(match[1])
 
             for label,reexp in search_dynamic_compile.items():
@@ -86,7 +86,7 @@ for input_file in input_files:
                 match = reexp.search(line)
 
                 if match:
-                    print (f"{line.strip()} -> { match.groups()}")
+                    # print (f"{line.strip()} -> { match.groups()}")
 
                     if match[1] not in search_dynamic_results[label].keys():
                         search_dynamic_results[label][match[1]] = []
@@ -98,9 +98,9 @@ for input_file in input_files:
 
 # %% results
 
-pprint.pprint(search_results);
+# pprint.pprint(search_results);
 
-pprint.pprint(search_dynamic_results);
+# pprint.pprint(search_dynamic_results);
 
 #%% to csv
 
