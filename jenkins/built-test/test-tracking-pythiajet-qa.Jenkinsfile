@@ -330,6 +330,57 @@ pipeline
 					title: 'Output line count',
 					yaxis: 'Line count'			
 				)
+				
+				
+				plot( csvFileName: 'Upsilon_count_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'QA-gallery/Upsilon_count.csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'Upsilon count from the Crystal Ball fit parameter 0', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Upsilon reconstructed',
+					yaxis: 'Reconstructed yield'			
+				)
+				plot( csvFileName: 'Upsilon_mean_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'QA-gallery/Upsilon_mean.csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'Upsilon peak position from the Crystal Ball fit parameter 1', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Upsilon reconstructed peak position',
+					yaxis: 'peak position (GeV)'			
+				)
+				plot( csvFileName: 'Upsilon_width_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'QA-gallery/Upsilon_width.csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'Upsilon peak width from the Crystal Ball fit parameter 2', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '10', 
+					style: 'line',
+					title: 'Upsilon reconstructed peak width',
+					yaxis: 'peak width (GeV)'		
+				)				
+				
 				plot( csvFileName: 'test-default-detector.csv_Module_per_event_time_(ms)_Summary.csv', 
 					csvSeries: 
 					[[
