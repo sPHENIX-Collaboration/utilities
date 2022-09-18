@@ -26,10 +26,13 @@ parser.add_argument('--input_files',type=str, nargs='+',
                     help='input log file', required=True)
 parser.add_argument('--output_csv', type=str,
                     help='output csv\'s name prefix', required=True)
+parser.add_argument('--output_max_col', type=int, default=8,
+                    help='Max col. count for the result CSV', required=False)
 
 args = parser.parse_args()
 input_files = args.input_files
 output_csv = args.output_csv
+output_max_col = args.output_max_col
 
 print("Input arguments: ",args)
 
@@ -131,18 +134,31 @@ for label,result_dict in search_dynamic_results.items():
     csv_name = f"{output_csv}_{label_filename}.csv"
     print (f"Output results for {label} to {csv_name}")
 
-    module_list = []
-    value_list = []
 
     with open(csv_name, 'w') as f:
 
+        module_dict = {}
+        module_list = []
+        value_list = []
+
         for module_name,result_values in result_dict.items():
-            module_list.append(module_name)
-            value_list.append(str(sum(result_values) / len(result_values)))
+            module_dict[module_name] = sum(result_values) / len(result_values)
+
+        module_dict = dict(sorted(module_dict.items(), key=lambda item: item[1], reverse=True))
+
+        count = 0
+        for key,value in module_dict.items():
+            module_list.append(key)
+            value_list.append(str(value))
+            
+            count = count +1
+            if count >= output_max_col: 
+                break
 
         f.write("{}\n".format(",\t".join(module_list)))
         f.write("{}\n".format(",\t".join(value_list)))
         f.close()
+
     with open(csv_name, 'r') as f:
         print(f.read())
     print(f"--- {len(module_list)} Entries ---")
