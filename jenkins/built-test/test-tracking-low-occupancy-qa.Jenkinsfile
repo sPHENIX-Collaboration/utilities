@@ -294,7 +294,7 @@ pipeline
 					description: 'User time (s), from system time tool', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'User time (s)',
 					yaxis: 'Time (s)'			
@@ -310,7 +310,7 @@ pipeline
 					description: 'Maximum resident set size (kbytes), from system time tool', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'Maximum resident memory',
 					yaxis: 'Memory (kB)'			
@@ -326,7 +326,7 @@ pipeline
 					description: 'line count of the text output', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'Output line count',
 					yaxis: 'Line count'			
@@ -342,7 +342,7 @@ pipeline
 					description: 'Upsilon count from the Crystal Ball fit parameter 0', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'Upsilon reconstructed',
 					yaxis: 'Reconstructed yield'			
@@ -358,7 +358,7 @@ pipeline
 					description: 'Upsilon peak position from the Crystal Ball fit parameter 1', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'Upsilon reconstructed peak position',
 					yaxis: 'peak position (GeV)'			
@@ -374,7 +374,7 @@ pipeline
 					description: 'Upsilon peak width from the Crystal Ball fit parameter 2', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'Upsilon reconstructed peak width',
 					yaxis: 'peak width (GeV)'		
@@ -390,7 +390,7 @@ pipeline
 					description: 'per-event time (ms) for each of the Fun4All modules', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'per-event time (ms)',
 					yaxis: 'time (ms)'			

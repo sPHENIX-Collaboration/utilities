@@ -193,7 +193,7 @@ pipeline
 					description: 'User time (s), from system time tool', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'User time (s)',
 					yaxis: 'Time (s)'			
@@ -209,7 +209,7 @@ pipeline
 					description: 'Maximum resident set size (kbytes), from system time tool', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'Maximum resident memory',
 					yaxis: 'Memory (kB)'			
@@ -225,7 +225,7 @@ pipeline
 					description: 'line count of the text output', 
 					exclZero: true, 
 					group: 'Analysis', 
-					numBuilds: '10', 
+					numBuilds: '25', 
 					style: 'line',
 					title: 'Output line count',
 					yaxis: 'Line count'			
