@@ -411,6 +411,7 @@ pipeline
 					group: 'Analysis', 
 					numBuilds: '25', 
 					style: 'line',
+					logarithmic: 'true',
 					title: 'pT resolution',
 					yaxis: 'Resolution'			
 				)
@@ -428,6 +429,7 @@ pipeline
 					group: 'Analysis', 
 					numBuilds: '25', 
 					style: 'line',
+					logarithmic: 'true',
 					title: 'DCA rphi',
 					yaxis: 'DCA rphi (cm)'			
 				)
@@ -445,6 +447,7 @@ pipeline
 					group: 'Analysis', 
 					numBuilds: '25', 
 					style: 'line',
+					logarithmic: 'true',
 					title: 'DCA z',
 					yaxis: 'DCA z (cm)'			
 				)

@@ -395,6 +395,60 @@ pipeline
 					title: 'per-event time (ms)',
 					yaxis: 'time (ms)'			
 				)
+				
+				plot( csvFileName: 'QAG4SimulationTracking_pTRecoGenRatio_pTGen_errorbar_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'QA-gallery/QAG4SimulationTracking_pTRecoGenRatio_pTGen_errorbar.csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'pT resolution from tracking QA. Binned in truth p_T in GeV/c', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '25', 
+					style: 'line',
+					logarithmic: 'true',
+					title: 'pT resolution',
+					yaxis: 'Resolution'			
+				)
+				
+				plot( csvFileName: 'QAG4SimulationTracking_DCArPhi_errorbar_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'QA-gallery/QAG4SimulationTracking_DCArPhi_errorbar.csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'DCA rphi resolution from vertex QA. Binned in truth p_T in GeV/c', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '25', 
+					style: 'line',
+					logarithmic: 'true',
+					title: 'DCA rphi',
+					yaxis: 'DCA rphi (cm)'			
+				)
+				
+				plot( csvFileName: 'QAG4SimulationTracking_DCAZ_errorbar_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'QA-gallery/QAG4SimulationTracking_DCAZ_errorbar.csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'DCA z resolution from vertex QA. Binned in truth p_T in GeV/c', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '25', 
+					style: 'line',
+					logarithmic: 'true',
+					title: 'DCA z',
+					yaxis: 'DCA z (cm)'			
+				)
 			}								
 		}// 		stage('PerformanceAnalysis')
 	}//stages
