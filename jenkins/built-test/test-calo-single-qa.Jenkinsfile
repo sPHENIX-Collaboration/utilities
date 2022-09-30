@@ -237,7 +237,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 8')
+				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 16')
 														
 			}				
 					
@@ -249,7 +249,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 8')
+				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 16')
 				
 				// archiveArtifacts artifacts: 'macros/macros/QA/calorimeter/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
