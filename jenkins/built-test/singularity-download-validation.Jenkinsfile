@@ -149,7 +149,7 @@ cd ../macros/detectors/sPHENIX/
 ls -lhvc
 
 
-root -b -q Fun4All_G4_sPHENIX.C
+/usr/bin/time -v  timeout --preserve-status --kill-after=1s --signal=9 1d  root.exe -b -q Fun4All_G4_sPHENIX.C
 
 exit \$?
 							"""				
