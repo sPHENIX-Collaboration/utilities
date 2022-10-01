@@ -121,7 +121,7 @@ pipeline
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('$singularity_exec_sphenix_farm  tcsh singularity-check.sh ${build_type}')
+							sh('$singularity_exec_sphenix_farm3  tcsh singularity-check.sh ${build_type}')
 						
 						}
 						
@@ -238,7 +238,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm  sh utilities/jenkins/built-test/test-tracking-qa.sh $num_event $number_jobs')
+				sh('$singularity_exec_sphenix_farm3  sh utilities/jenkins/built-test/test-tracking-qa.sh $num_event $number_jobs')
 												
 			}				
 					
