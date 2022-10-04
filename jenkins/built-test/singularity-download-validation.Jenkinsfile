@@ -160,7 +160,7 @@ fi
 	valgrind -v --num-callers=30 --gen-suppressions=all --leak-check=full \
 	--error-limit=no --log-file=Fun4All_G4_sPHENIX.valgrind \$valgrind_sup \
 	--xml=yes --xml-file=Fun4All_G4_sPHENIX.valgrind.xml --leak-resolution=high \
-  	root.exe -b -q Fun4All_G4_sPHENIX.C(2)
+  	root.exe -b -q 'Fun4All_G4_sPHENIX.C(2)'
 
 exit \$?
 """				
