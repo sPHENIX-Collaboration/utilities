@@ -150,15 +150,15 @@ ls -lhvc
 
 valgrind_sup='';
 
-if [ -f $ROOTSYS/root.supp ]; then
-	valgrind_sup="--suppressions=$ROOTSYS/root.supp";
+if [ -f \$ROOTSYS/root.supp ]; then
+	valgrind_sup="--suppressions=\$ROOTSYS/root.supp";
 	echo 'use valgrind suppression file:'
-	ls -lhv $ROOTSYS/root.supp
+	ls -lhv \$ROOTSYS/root.supp
 fi	
 
 /usr/bin/time -v  timeout --preserve-status --kill-after=1s --signal=9 1d \
 	valgrind -v --num-callers=30 --gen-suppressions=all --leak-check=full \
-	--error-limit=no --log-file=Fun4All_G4_sPHENIX.valgrind $valgrind_sup \
+	--error-limit=no --log-file=Fun4All_G4_sPHENIX.valgrind \$valgrind_sup \
 	--xml=yes --xml-file=Fun4All_G4_sPHENIX.valgrind.xml --leak-resolution=high \
   	root.exe -b -q Fun4All_G4_sPHENIX.C(2)
 
