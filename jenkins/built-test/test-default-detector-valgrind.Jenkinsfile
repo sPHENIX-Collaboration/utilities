@@ -106,7 +106,7 @@ pipeline
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh ${build_type}')
+							sh('$singularity_exec_sphenix_farm3 tcsh -f singularity-check.sh ${build_type}')
 						
 						}
 					}
@@ -165,9 +165,7 @@ pipeline
 			
 			steps 
 			{
-					
-				// sh('$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default.sh $macro_name 2 1')
-				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default-detector.sh ${detector_name} 2 1")										
+				sh("$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-default-detector.sh ${detector_name} 2 1")										
 			}				
 					
 		}
