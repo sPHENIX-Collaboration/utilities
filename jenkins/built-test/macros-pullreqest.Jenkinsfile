@@ -118,7 +118,7 @@ pipeline
 				                $class: 'PreBuildMerge',
 				                options: [
 				                    mergeRemote: 'origin',
-				                    mergeTarget: 'main'
+				                    mergeTarget: 'master'
 				                    ]
 				                ],
 				            ],
@@ -129,7 +129,7 @@ pipeline
 				            [[
 				                credentialsId: 'sPHENIX-bot', 
 				                url: 'https://github.com/${ghprbGhRepository}.git', // https://github.com/sPHENIX-Test/macros.git
-				                refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main'), 
+				                refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
 				                branch: ('*')
 				            ]]
 				        ] //checkout
