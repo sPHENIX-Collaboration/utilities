@@ -42,7 +42,7 @@ pipeline
 						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 						mattermostSend color: "#FFFF00", message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
 								
-						dir('OnlMon') {
+						dir('macros') {
 							deleteDir()
 						}			
 						dir('qa_html') {
@@ -105,8 +105,8 @@ pipeline
 				timestamps { 
 					ansiColor('xterm') {
 						
-						dir('OnlMon') {
-							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/OnlMon.git'
+						dir('macros') {
+							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Test/macros.git'
 							
 							checkout(
 							   [
@@ -128,7 +128,7 @@ pipeline
 				            userRemoteConfigs: 
 				            [[
 				                credentialsId: 'sPHENIX-bot', 
-				                url: 'https://github.com/${ghprbGhRepository}.git', // https://github.com/sPHENIX-Collaboration/OnlMon.git
+				                url: 'https://github.com/${ghprbGhRepository}.git', // https://github.com/sPHENIX-Test/macros.git
 				                refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main'), 
 				                branch: ('*')
 				            ]]
@@ -136,7 +136,7 @@ pipeline
 					    )// checkout
 	    
 	
-						}//						dir('OnlMon') {
+						}//						dir('macros') {
 						
 
 					}//					ansiColor('xterm') {
@@ -147,96 +147,6 @@ pipeline
 			
 		}//stage('SCM Checkout')
 		
-		
-		stage('build-gcc')
-		{
-			steps 
-			{			
-				writeFile file: "build.sh", text:'''#!/usr/bin/env bash
-				
-					install_dir=$WORKSPACE/install
-					build_dir=$WORKSPACE/build
-					build_log=$WORKSPACE/build/build.log
-					
-					echo '---------------------------------'
-					echo "Env setup"
-					echo '---------------------------------'
-					source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
-					env;
-					
-					echo install at install_dir=$install_dir
-					mkdir -v $install_dir
-					
-					echo build at build_dir=$build_dir
-					mkdir -v $build_dir
-					
-					echo '---------------------------------'
-					echo "Build isntalling -> $build_log" | tee $build_log
-					echo '---------------------------------'
-					
-					cd $build_dir					
-					$WORKSPACE/OnlMon/autogen.sh --prefix=$install_dir 2>&1 | tee $build_log
-					
-					ls -lhcv
-					
-					make -j install 2>&1 | tee $build_log	
-					status=${PIPESTATUS[0]}
-
-					pwd
-					find
-					
-					[ $status -eq 0 ] && echo "build successful" || exit $status
-         			''';//	writeFile file: "build.sh", text:'''#!/usr/bin/env bash
-
-				sh('chmod +x build.sh');
-				sh('$singularity_exec_sphenix bash build.sh')
-				
-				dir('report')
-				{
-					sh('ls -lvhc')
-				  	writeFile file: "gcc.md", text: "* `gcc` compilation: [:bar_chart:Compiler report (full)](${env.BUILD_URL}/gcc/)/[(new)](${env.BUILD_URL}/gcc/new/)"				
-				} // dir('report')	
-			} 
-		}// 		stage('build-gcc') -> build/build.log
-
-		
-		stage('build-cppcheck')
-		{
-			steps 
-			{			
-				writeFile file: "cppcheck.sh", text:'''#!/usr/bin/env bash
-				
-					echo '---------------------------------'
-					echo "Env setup"
-					echo '---------------------------------'
-					source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
-					env;
-					echo '---------------------------------'
-					echo "which cppcheck?"
-					echo '---------------------------------'
-					which cppcheck
-					
-					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon  2>&1 > cppcheck-result.xml
-					status=${PIPESTATUS[0]}
-					
-					ls -hvl cppcheck-result.xml
-					wc -l cppcheck-result.xml
-					head -n 10 cppcheck-result.xml
-					
-					[ $status -eq 0 ] && echo "build successful" || exit $status
-				
-         			''';// writeFile file: "cppcheck.sh", text:'''#!/usr/bin/env bash
-
-				sh('chmod +x cppcheck.sh');
-				sh('$singularity_exec_sphenix bash cppcheck.sh')
-				
-				dir('report')
-				{
-					sh('ls -lvhc')
-				  	writeFile file: "cpp-check.md", text: "* `cpp-check` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`cppcheck` report (full)](${env.BUILD_URL}/cppcheck/)/[(new)](${env.BUILD_URL}/cppcheck/new/)"				
-				} // dir('report')				
-			}//steps 
-		}// 		stage('build-gcc') -> build/build.log
 		
 		
 		
@@ -269,17 +179,17 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
 			if ("${currentBuild.currentResult}" == "FAILURE")
 			{
   				report_content = """${report_content}
-[![Jenkins on fire](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_fire-128p.png)](${env.BUILD_URL})"""
+[![Jenkins on fire](https://raw.githubusercontent.com/sPHENIX-Test/utilities/master/jenkins/material/jenkins_logo_fire-128p.png)](${env.BUILD_URL})"""
 			}
 			if ("${currentBuild.currentResult}" == "ABORT")
 			{
   				report_content = """${report_content}
-[![Jenkins aborted](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_snow-128p.png)](${env.BUILD_URL})"""
+[![Jenkins aborted](https://raw.githubusercontent.com/sPHENIX-Test/utilities/master/jenkins/material/jenkins_logo_snow-128p.png)](${env.BUILD_URL})"""
 			}
 			if ("${currentBuild.currentResult}" == "SUCCESS")
 			{
   				report_content = """${report_content}
-[![Jenkins passed](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_pass-128p.png)](${env.BUILD_URL})"""
+[![Jenkins passed](https://raw.githubusercontent.com/sPHENIX-Test/utilities/master/jenkins/material/jenkins_logo_pass-128p.png)](${env.BUILD_URL})"""
 			}
 
   			report_content = """${report_content}
@@ -307,7 +217,7 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
 
 --------------------
 _Automatically generated by [sPHENIX Jenkins continuous integration](${env.JOB_DISPLAY_URL})_
-[![sPHENIX](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/sphenix-logo-white-bg-72p.png)](https://www.sphenix.bnl.gov/web/) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [![jenkins.io](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_title-72p.png)](https://jenkins.io/)"""
+[![sPHENIX](https://raw.githubusercontent.com/sPHENIX-Test/utilities/master/jenkins/material/sphenix-logo-white-bg-72p.png)](https://www.sphenix.bnl.gov/web/) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [![jenkins.io](https://raw.githubusercontent.com/sPHENIX-Test/utilities/master/jenkins/material/jenkins_logo_title-72p.png)](https://jenkins.io/)"""
     			
 			  	writeFile file: "summary.md", text: "${report_content}"		
 			  	
