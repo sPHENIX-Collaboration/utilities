@@ -166,7 +166,7 @@ pipeline
                                 sh ('pwd');
                                 
                                 def report_content = """
-## Please start the check manually
+## Please start the check manually (Beta test)
 
 Please start checking this pull request on [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualCommit}). [`macros`](https://github.com/sPHENIX-Collaboration/macros) pull request require a manual start for CI checks, in particular selecting which [`coresoftware`](https://github.com/sPHENIX-Collaboration/coresoftware) and [`calibrations`](https://github.com/sPHENIX-Collaboration/calibrations) versions to check against this `macros` pull request. 
 
