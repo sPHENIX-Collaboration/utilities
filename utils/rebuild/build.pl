@@ -75,7 +75,6 @@ my %externalRootPackages = (
     "BeastMagneticField" => "BeastMagneticField",
     "DD4hep" => "DD4hep",
     "eic-smear" => "eic-smear",
-    "EicToyModel" => "EicToyModel",
     "EvtGen" => "EvtGen",
     "HepMC3" => "HepMC3",
     "KFParticle" => "KFParticle",
@@ -83,8 +82,7 @@ my %externalRootPackages = (
     "pythia8" => "pythia8",
     "pythiaeRHIC" => "pythiaeRHIC",
     "sartre" => "sartre",
-    "TAUOLA" => "TAUOLA",
-    "vgm" => "vgm"
+    "TAUOLA" => "TAUOLA"
     );
 my $rootversion = `root-config --version`;
 chomp $rootversion;
