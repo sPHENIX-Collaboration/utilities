@@ -148,11 +148,11 @@ pipeline
                                 sh ('pwd');
                                 
                                 def report_content = """
-## Please start the CI check manually (Beta test, [feedback](mailto:jhuang@bnl.gov))
+## For repository maintainers, please start the CI check manually ([feedback](mailto:jhuang@bnl.gov))
 
 This is an automatic message to assist manually starting CI check for this pull request, [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualCommit}). [`macros`](https://github.com/sPHENIX-Collaboration/macros) pull request require a manual start for CI checks, in particular selecting which [`coresoftware`](https://github.com/sPHENIX-Collaboration/coresoftware) and [`calibrations`](https://github.com/sPHENIX-Collaboration/calibrations) versions to check against this `macros` pull request. 
 
-Please make your input here and start the Build: 
+sPHENIX software maintainers: please make your input here and start the Build: 
 
 [![build](https://img.shields.io/badge/click%20to%20start-build-green.svg)](https://web.sdcc.bnl.gov/jenkins-sphenix/job/sPHENIX/job/Build-Master-gcc8/parambuild/?sha_macros=origin/pr/${ghprbPullId}/merge&upstream_build_description=Check%20%3Ca%20href%3D%22https%3A%2F%2Fgithub.com%2FsPHENIX-Collaboration%2Fmacros%2Fpull%2F${ghprbPullId}%22%3Emacros%20Pull%20request%20${ghprbPullId}%3C%2Fa%3E&ghprbPullLink=https://github.com/sPHENIX-Collaboration/macros/pull/${ghprbPullId}&checkrun_repo_commit=sPHENIX-Collaboration%2Fmacros%2F${ghprbActualCommit})
 
