@@ -72,7 +72,6 @@ my %externalPackages = (
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
-    "BeastMagneticField" => "BeastMagneticField",
     "DD4hep" => "DD4hep",
     "eic-smear" => "eic-smear",
     "EvtGen" => "EvtGen",
@@ -180,16 +179,12 @@ die unless open(IN,$packagefile);
 while (<IN>)
 {
     next if (/^#/);
-    if ($_ =~ /acts/ && $opt_sysname !~ /gcc-8.3/)
-    {
-        next;
-    }
     (my $p, my $c) = split(/\|/, $_, 2);
 # remove \n at end of $c
-             chomp $c;
+    chomp $c;
     push @package, $p;
     $contact{$p} = $c;
-  }
+}
 close(IN);
 
 my $dbh;
@@ -409,7 +404,7 @@ $installDir = $inst.".".$newnumber;
 
 my $linkTarget = $linktg.".".$newnumber;
 
-# Make the source directory and (maybe) populate it from CVS.
+# Make the source directory and (maybe) populate it from git.
 $sourceDir = $opt_source ? $opt_source : $workdir."/source";
 if ($opt_stage == 5)
 {
@@ -420,7 +415,7 @@ if (-e $sourceDir)
     # Assume the source area is already here because the user knows
     # what they're doing.  Don't delete it!
     print LOG "Source directory, ".$sourceDir.", already exists.\n";
-    print LOG "  Will not fetch new code from CVS.\n";
+    print LOG "  Will not fetch new code from git.\n";
     $opt_stage = ($opt_stage == 0) ? 1 : $opt_stage;
   }
 else
@@ -797,7 +792,6 @@ if ($opt_stage < 3)
         print LOG "at $date                                               \n";
         print LOG "=======================================================\n";
         $arg = "make $JOBS install-data";
-
         if (&doSystemFail($arg))
           {
             if ($opt_notify)
@@ -824,7 +818,7 @@ if ($opt_stage < 3)
 
 if ($opt_stage < 4)
   {
-    foreach $m (@package)
+      foreach $m (@package)
       {
           if ($opt_coverity)
           {
@@ -1559,7 +1553,7 @@ sub install_scanbuild_reports
 sub printhelp
 {
     print "--stage            Skip to stage N of the build process. \n";
-    print "                     0 = CVS checkout (default) \n";
+    print "                     0 = git checkout (default) \n";
     print "                     1 = configure\n";
     print "                     2 = install headers \n";
     print "                     3 = compile and install \n";
@@ -1586,7 +1580,7 @@ sub printhelp
     print "--repoowner='string' repository owner (default: sPHENIX-Collaboration). \n";
     print "--scanbuild        Making a scan-build with clang\n";
     print "--source='string'  Use the specified source directory. Don't get\n";
-    print "                   the source from CVS (i.e., skip stage 0)\n";
+    print "                   the source from git (i.e., skip stage 0)\n";
     print "--sysname          set system name for cvmfs/afs top dir\n";
     print "--tinderbox        Send build information to tinderbox.\n";
     print "--version='string' Prefix for installation area. Default: new\n";
@@ -1653,12 +1647,12 @@ sub CreateCmakeCommand
     my $cmakesourcedir = shift;
     if ($packagename =~ /acts/)
     {
-        my $clhep_version = `clhep-config --version`;
+        my $clhep_version = `${OFFLINE_MAIN}/bin/clhep-config --version`;
         chomp $clhep_version;
         $clhep_version =~ s/ /-/;
         my $g4version = `geant4-config --version`;
         chomp $g4version;
-	my $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DACTS_BUILD_ALIGNMENT=ON -DACTS_BUILD_PLUGIN_DD4HEP=ON -DACTS_BUILD_EXAMPLES_DD4HEP=ON -DCMAKE_CXX_STANDARD=17 -DACTS_BUILD_EXAMPLES_GEANT4=ON -DDD4hep_DIR=${OFFLINE_MAIN}/cmake -DGeant4_DIR=${G4_MAIN}/lib64/Geant4-$g4version -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev",$externalPackages{"tbb"});
+	my $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DACTS_BUILD_PLUGIN_DD4HEP=ON -DACTS_BUILD_EXAMPLES_DD4HEP=ON -DCMAKE_CXX_STANDARD=17 -DACTS_BUILD_EXAMPLES_GEANT4=ON -DDD4hep_DIR=${OFFLINE_MAIN}/cmake -DGeant4_DIR=${G4_MAIN}/lib64/Geant4-$g4version -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev",$externalPackages{"tbb"});
 	if ($opt_version eq "g4test")
 	{
 	    $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_CXX_STANDARD=17 -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev",$externalPackages{"tbb"});
