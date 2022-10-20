@@ -567,6 +567,9 @@ $ENV{ONLINE_MAIN} = $installDir;
 $oldOfflineMain =~ s/\+/\\\+/;
 $LD_LIBRARY_PATH =~ s/$oldOfflineMain/$OFFLINE_MAIN/ge;
 $PATH =~ s/$oldOfflineMain/$OFFLINE_MAIN/ge;
+# this is needed to prevent rootcint from looking for includes in
+# the old installation area (it also consults ROOT_INCLUDE_PATH silently)
+$ROOT_INCLUDE_PATH = sprintf("%s/include",$OFFLINE_MAIN);
 make_path($installDir."/share", {mode => 0775}) unless -e $installDir."/share";
 
 print LOG "===========================================\n";
@@ -638,30 +641,6 @@ print LOG "===========================================\n";
         chdir "include";
         make_path($installDir."/include/GenFit", {mode => 0775}) unless -e $installDir."/include/GenFit";
 	system("rsync -a . $installDir/include/GenFit");
-# modify all *.la files of external packages to point to this OFFLINE_MAIN, if someone can figure
-# out how to do the following one liner that would be enough:
-#    system("perl -e \"s/libdir=.*/libdir='$OFFLINE_MAIN\/lib'/g\" -p -i.old $OFFLINE_MAIN/lib/*.la");
-# Since I did not succeed with this here is the ugly by hand implementation:
-#        $repl = "libdir='" . $OFFLINE_MAIN . "/lib'";
-#        open(F,"find $OFFLINE_MAIN/lib -name '*.la' -print |");
-#        while ($lafile = <F>)
-#        {
-#            chomp $lafile;
-#            $bckfile = $lafile . ".bck";
-#            move($lafile,$bckfile);
-#            open(F1,$bckfile);
-#            open(F2,">$lafile");
-#            while ($line = <F1>)
-#            {
-#                $line =~ s/libdir=.*/$repl/g;
-#                print F2 $line;
-#            }
-#            close(F1);
-#            unlink $bckfile;
-#            close(F2);
-#        }
-#        close(F);
-
         # remove the la files - we do not need them
 	my $rmlacmd = sprintf("rm %s/lib/*.la",$OFFLINE_MAIN);
 	system($rmlacmd);
@@ -764,7 +743,7 @@ print LOG "===========================================\n";
     }
 
 # set ROOTSYS to local root softlink if stage > 1 
-# otherwise we get ROOTSYS from phenix_setup.csh which 
+# otherwise we get ROOTSYS from the sphenix_setup.csh which
 # points to previous successful install
 $ENV{ROOTSYS} = $installDir."/root";
 $ENV{G4_MAIN} = $installDir."/geant4";
@@ -773,10 +752,6 @@ if ($opt_stage < 3)
   {
       foreach $m (@package)
       {
-        if ($m =~ /acts/)
-        {
-          next;
-        }
         $sdir = realpath($sourceDir)."/".$m;
 	if (! -d $sdir)
 	{
@@ -787,11 +762,22 @@ if ($opt_stage < 3)
         chdir $bdir;
         chomp ($date = `date`);
 
-        print LOG "=======================================================\n";
-        print LOG "installing header files and scripts in  $m             \n";
-        print LOG "at $date                                               \n";
-        print LOG "=======================================================\n";
-        $arg = "make $JOBS install-data";
+        if ($m =~ /acts/)
+        {
+	    print LOG "=======================================================\n";
+	    print LOG "installing $m                                        \n";
+	    print LOG "at $date                                               \n";
+	    print LOG "=======================================================\n";
+	    $arg = "make $JOBS install";
+        }
+	else
+	{
+	    print LOG "=======================================================\n";
+	    print LOG "installing header files and scripts in  $m             \n";
+	    print LOG "at $date                                               \n";
+	    print LOG "=======================================================\n";
+	    $arg = "make $JOBS install-data";
+	}
         if (&doSystemFail($arg))
           {
             if ($opt_notify)
@@ -815,28 +801,27 @@ if ($opt_stage < 3)
           }
       }
   }
-
 if ($opt_stage < 4)
-  {
-      foreach $m (@package)
-      {
-          if ($opt_coverity)
-          {
-              if (defined $opt_covpasswd)
-              {
-                  $covbuild = sprintf("%s --dir %s/covtmp",$covcommonbuild,$workdir);
-              }
-              else
-              {
-                  $covbuild = sprintf("%s --dir %s/covtmp/%s",$covcommonbuild,$workdir,$m);
-              }
-          }
-	  $sdir = realpath($sourceDir)."/".$m;
-	  if (! -d $sdir)
-	  {
-	      print LOG "$sdir not found, skipping\n";
-	      next;
-	  }
+{
+    foreach $m (@package)
+    {
+	if ($opt_coverity)
+	{
+	    if (defined $opt_covpasswd)
+	    {
+		$covbuild = sprintf("%s --dir %s/covtmp",$covcommonbuild,$workdir);
+	    }
+	    else
+	    {
+		$covbuild = sprintf("%s --dir %s/covtmp/%s",$covcommonbuild,$workdir,$m);
+	    }
+	}
+	$sdir = realpath($sourceDir)."/".$m;
+	if (! -d $sdir)
+	{
+	    print LOG "$sdir not found, skipping\n";
+	    next;
+	}
         $bdir = realpath($buildDir)."/".$m;
         chdir $bdir;
         chomp ($date = `date`);
@@ -854,7 +839,7 @@ if ($opt_stage < 4)
         {
             if ( $opt_scanbuild && ! exists $scanbuildignore{$m})
             {
-               $arg = "$scanbuild make $insureCompileFlags $JOBS ";
+		$arg = "$scanbuild make $insureCompileFlags $JOBS ";
             }
             else
             {
@@ -868,6 +853,17 @@ if ($opt_stage < 4)
                 }
             }
         }
+	if ($m =~ /acts/)
+	{
+	    if ($opt_includecheck || $opt_scanbuild || $opt_insure)
+	    {
+		$arg = sprintf("make clean; %s",$arg);
+	    }
+	    else
+	    {
+		next;
+	    }
+	}
         print LOG "Running $arg\n";
         print LOG "=================================\n";
         if (&doSystemFail($arg))
