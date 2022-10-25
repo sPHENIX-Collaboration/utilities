@@ -788,6 +788,7 @@ if ($opt_stage < 3)
 	    print LOG "installing header files and scripts in  $m             \n";
 	    print LOG "at $date                                               \n";
 	    print LOG "=======================================================\n";
+	    $arg = "make $JOBS install-data";
 	}
         if (&doSystemFail($arg))
           {
