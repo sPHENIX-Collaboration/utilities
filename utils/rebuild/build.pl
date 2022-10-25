@@ -768,7 +768,19 @@ if ($opt_stage < 3)
 	    print LOG "installing $m                                        \n";
 	    print LOG "at $date                                               \n";
 	    print LOG "=======================================================\n";
-	    $arg = "make $JOBS install";
+            $arg = "$covbuild make $insureCompileFlags $JOBS install ";
+	    if ( $opt_scanbuild)
+	    {
+		$arg = "$scanbuild make $insureCompileFlags $JOBS ";
+	    }
+	    else
+	    {
+		if ($opt_includecheck)
+		{
+		    $arg = "make -k CXX='include-what-you-use -I/opt/sphenix/utils/lib/clang/11.1.0/include ' "
+		}
+	    }
+	    print "acts install: running $arg\n";
         }
 	else
 	{
@@ -776,7 +788,6 @@ if ($opt_stage < 3)
 	    print LOG "installing header files and scripts in  $m             \n";
 	    print LOG "at $date                                               \n";
 	    print LOG "=======================================================\n";
-	    $arg = "make $JOBS install-data";
 	}
         if (&doSystemFail($arg))
           {
@@ -855,14 +866,8 @@ if ($opt_stage < 4)
         }
 	if ($m =~ /acts/)
 	{
-	    if ($opt_includecheck || $opt_scanbuild || $opt_insure)
-	    {
-		$arg = sprintf("make clean; %s",$arg);
-	    }
-	    else
-	    {
-		next;
-	    }
+            print LOG "ACTS already build\n";
+	    next;
 	}
         print LOG "Running $arg\n";
         print LOG "=================================\n";
@@ -923,7 +928,7 @@ if ($opt_stage < 4)
             goto END;
           }
 
-          if (! $opt_lafiles)
+          if (! $opt_lafiles && ! $opt_insure)
           {
               # GET RID OF INSTALLED POINTLESS LA FILES
               # Get rid of this package's installed la_files if we didn't build
