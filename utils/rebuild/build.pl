@@ -770,7 +770,7 @@ if ($opt_stage < 3)
             $arg = "$covbuild make $insureCompileFlags $JOBS install ";
 	    if ( $opt_scanbuild)
 	    {
-		$arg = "$scanbuild make $insureCompileFlags $JOBS ";
+		$arg = "$scanbuild make $insureCompileFlags $JOBS install ";
 	    }
 	    else
 	    {
