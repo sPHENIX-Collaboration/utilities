@@ -63,7 +63,6 @@ my %externalPackages = (
     "log4cpp" => "log4cpp",
     "onnxruntime" => "onnxruntime",
     "pytorch" => "pytorch",
-    "rapidjson" => "rapidjson",
     "rave" => "rave",
     "starlight" => "starlight",
     "tbb" => "tbb",
