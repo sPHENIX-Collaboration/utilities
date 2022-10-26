@@ -63,7 +63,6 @@ my %externalPackages = (
     "log4cpp" => "log4cpp",
     "onnxruntime" => "onnxruntime",
     "pytorch" => "pytorch",
-    "rapidjson" => "rapidjson",
     "rave" => "rave",
     "starlight" => "starlight",
     "tbb" => "tbb",
@@ -788,6 +787,7 @@ if ($opt_stage < 3)
 	    print LOG "installing header files and scripts in  $m             \n";
 	    print LOG "at $date                                               \n";
 	    print LOG "=======================================================\n";
+	    $arg = "make $JOBS install-data";
 	}
         if (&doSystemFail($arg))
           {
