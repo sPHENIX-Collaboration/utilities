@@ -182,34 +182,37 @@ pipeline
 				
 				
 			// hold this until jenkins supports nested parallel 
-			//stage('Build-Test-ROOT6') {
-			//
-			//						steps 
-			//						{
-			//							//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
-			//									    		
-			//							script
-			//							{
-			//	   						def built = build(job: 'Build-Master',
-			//			    			parameters:
-			//			    			[
-			//				    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-			//							string(name: 'sha_coresoftware', value: "${sha1}"), 
-			//				    			string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
-			//				    			string(name: 'build_type', value: "root6"), 
-			//				    			booleanParam(name: 'run_cppcheck', value: false), 
-			//				    			booleanParam(name: 'run_default_test', value: true), 
-			//				    			booleanParam(name: 'run_calo_qa', value: false), 
-			//	    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
-			//	    						string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
-			//    						],
-			//			    			wait: true, propagate: true)						 
-			//			   				copyArtifacts(projectName: 'Build-Master', filter: 'report/*', selector: specific("${built.number}"));  										
-			//							}						   			
-			//			   				    
-			//						}				// steps
-			//	}//stage('Build-Test')
-			// hold this until jenkins supports nested parallel 
+			stage('Build-Test-gcc12') {
+			
+									steps 
+									{
+										script
+										{
+											def built = build(job: 'Build-Master-gcc12',
+											parameters:
+											[
+												string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+												string(name: 'sha_coresoftware', value: "${sha1}"), 
+												string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
+												booleanParam(name: 'run_valgrind_test', value: false), 
+												booleanParam(name: 'run_default_test', value: true), 
+												booleanParam(name: 'run_DST_readback', value: true), 
+												booleanParam(name: 'run_calo_qa', value: false), 
+												string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
+												string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
+											],
+											wait: true, propagate: false)						    									 
+												copyArtifacts(projectName: 'Build-Master-gcc12', filter: 'report/*', selector: specific("${built.number}"));  		
+
+											if ("${built.result}" != 'SUCCESS')
+											{
+												error('Build-Master-gcc12 FAIL')
+											}										
+			
+										}//script						   			
+							   				    
+									} // steps
+				}//stage('Build-Test-Clang')
 
 			stage('Build-Test-gcc8') {
 			
