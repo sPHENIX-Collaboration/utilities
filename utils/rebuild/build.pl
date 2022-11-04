@@ -80,7 +80,6 @@ my %externalRootPackages = (
     "PHOTOS" => "PHOTOS",
     "pythia8" => "pythia8",
     "pythiaeRHIC" => "pythiaeRHIC",
-    "sartre" => "sartre",
     "TAUOLA" => "TAUOLA"
     );
 my $rootversion = `root-config --version`;
@@ -777,7 +776,9 @@ if ($opt_stage < 3)
 	    {
 		if ($opt_includecheck)
 		{
-		    $arg = "make -k CXX='include-what-you-use -I/opt/sphenix/utils/lib/clang/11.1.0/include ' "
+		    my $clangversion = `clang --version | head -1 | awk '{print \$3}'`;
+		    chomp $clangversion;
+		    $arg = sprintf("make -k CXX='include-what-you-use -I/opt/sphenix/utils/lib/clang/%s/include ' ",$clangversion);
 		}
 	    }
 	    print "acts install: running $arg\n";
@@ -1689,7 +1690,9 @@ sub CreateCmakeCommand
 	}
 	elsif ($opt_scanbuild)
 	{
-	    my $cxxcompiler = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/opt/sphenix/utils/stow/llvm-11.1.0/bin/../libexec/c++-analyzer",$opt_sysname);
+            my $clangversion = `clang --version | head -1 | awk '{print \$3}'`;
+            chomp $clangversion;
+	    my $cxxcompiler = sprintf("/cvmfs/sphenix.sdcc.bnl.gov/%s/opt/sphenix/utils/stow/llvm-%s/bin/../libexec/c++-analyzer",$opt_sysname, $clangversion);
 	    chomp $cxxcompiler;
 	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s",$cmakecmd,$cxxcompiler);
 	}
