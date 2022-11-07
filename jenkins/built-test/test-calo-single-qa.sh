@@ -131,7 +131,7 @@ export git_tag="$BUILD_TAG-${name}"
 git checkout -b update_${name}
 git status
 
-sh setup.sh 
+source setup.sh 
 
 echo "======================================================="
 echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
