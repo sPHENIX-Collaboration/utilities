@@ -61,7 +61,6 @@ my %externalPackages = (
     "hdf5" => "hdf5",
     "HepMC" => "HepMC",
     "LHAPDF" => "LHAPDF",
-    "log4cpp" => "log4cpp",
     "onnxruntime" => "onnxruntime",
     "pytorch" => "pytorch",
     "rave" => "rave",
@@ -296,7 +295,7 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/)
 {
-#    $externalPackages{"xpload"} = "xpload-0.8.1";
+    $externalPackages{"Vc"} = "Vc-1.4.3";
 }
 elsif ($opt_version eq "g4test")
 {
