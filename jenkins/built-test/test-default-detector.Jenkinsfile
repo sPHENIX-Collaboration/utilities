@@ -71,11 +71,8 @@ pipeline
 						dir('report')
 						{
 							deleteDir()
-    				}
+    					}
 						sh('ls -lvhc')
-						
-						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-						
 					}
 				}
 			}
@@ -263,15 +260,6 @@ pipeline
 			) // build(job: 'github-commit-checkrun',
 			
 			archiveArtifacts artifacts: 'macros/**/*.log'
-		}
-		success {
-			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-		}
-		failure {
-			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-		}
-		unstable {
-			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
 }//pipeline 

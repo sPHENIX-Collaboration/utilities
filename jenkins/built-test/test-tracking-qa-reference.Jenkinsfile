@@ -27,7 +27,6 @@ pipeline
 						}
 					
 						echo("Build ${build_src} ref_build_id = (${ref_build_id})");
-						slackSend (color: '#FFFF00', message: "STARTED: Job with reference build ${ref_build_id} '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 						
 						deleteDir()						
 
@@ -60,7 +59,6 @@ pipeline
 		   	unstash "qa-stash"
 		   	archiveArtifacts artifacts: '*.*', onlyIfSuccessful: true	
 		   	
-				slackSend (color: '#00FF00', message: "Selected reference build ${ref_build_id}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 			}				
 		}//		stage('test-calo-single-qa')
 		
@@ -77,13 +75,6 @@ pipeline
 				currentBuild.description = "Selected reference build ${ref_build_id} from ${build_src}"		         
 			}
 			
-			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-		}
-		failure {
-			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-		}
-		unstable {
-			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
 }//pipeline 

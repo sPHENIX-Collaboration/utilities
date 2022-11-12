@@ -30,9 +30,7 @@ pipeline
 			steps {
 				timestamps {
 					ansiColor('xterm') {
-						
-						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-										
+																
 						build(job: 'github-comment-label',
 		    			parameters:
 		    			[
@@ -178,9 +176,7 @@ pipeline
 					string(name: 'LabelCategory', value: "cpp-check"),
 					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
-				wait: false, propagate: false)
-		
-			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+				wait: false, propagate: false)		
 		}
 		failure {
 		
@@ -193,7 +189,6 @@ pipeline
 				],
 				wait: false, propagate: false)
 		
-			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
 		
@@ -206,7 +201,6 @@ pipeline
 				],
 				wait: false, propagate: false)
 				
-			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
 	

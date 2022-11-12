@@ -98,7 +98,6 @@ pipeline
     					}
 						sh('ls -lvhc')
 						
-						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 						
 					}
 				}
@@ -347,7 +346,6 @@ pipeline
 				],
 				wait: false, propagate: false)
 				
-			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		failure {
 			build(job: 'github-comment-label',
@@ -358,7 +356,6 @@ pipeline
 					string(name: 'LabelStatus', value: "FAIL")
 				],
 				wait: false, propagate: false)
-			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
 			build(job: 'github-comment-label',
@@ -369,7 +366,6 @@ pipeline
 					string(name: 'LabelStatus', value: "AVAILABLE")
 				],
 				wait: false, propagate: false)
-			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
 }//pipeline 

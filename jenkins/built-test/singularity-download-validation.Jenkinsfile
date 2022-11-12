@@ -14,9 +14,7 @@ pipeline
 			steps {
 				timestamps {
 					ansiColor('xterm') {
-						
-						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-										
+							
 						script {
 						
 							currentBuild.displayName = "${env.BUILD_NUMBER} - ${build_type}"
@@ -181,18 +179,13 @@ exit \$?
 		
 	post {
 
-		success {
-			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-		}
 		failure {      
         emailext (
             subject: "${currentBuild.currentResult} - Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
 			to: 'pinkenbu@bnl.gov',
       		body: "Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]: ${currentBuild.currentResult}, Check console output at ${env.BUILD_URL}",
             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
-          )
-              
-			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+          )              
 		}
 		unstable {
         emailext (
@@ -200,9 +193,7 @@ exit \$?
 			to: 'pinkenbu@bnl.gov',
       		body: "Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]: ${currentBuild.currentResult}, Check console output at ${env.BUILD_URL}",
             recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']]
-          )
-          
-			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+          )          
 		}
 	}
 	

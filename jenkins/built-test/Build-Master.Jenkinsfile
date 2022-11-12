@@ -31,8 +31,6 @@ pipeline
 				timestamps {
 					ansiColor('xterm') {
 						
-						slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-										
 						build(job: 'github-comment-label',
 		    			parameters:
 		    			[
@@ -269,7 +267,6 @@ pipeline
 							  	build_root_path = pwd();
 							 	}
 										
-								slackSend (color: '#00F000', message: "sPHENIX build available: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}). Buld available at ${build_root_path}")
 							}										
 						} // 				stage('sPHENIX-Build')
 						
@@ -713,7 +710,6 @@ pipeline
 				],
 				wait: false, propagate: false)
 		
-			slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		failure {
 		
@@ -726,7 +722,6 @@ pipeline
 				],
 				wait: false, propagate: false)
 		
-			slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 		unstable {
 		
@@ -739,7 +734,6 @@ pipeline
 				],
 				wait: false, propagate: false)
 				
-			slackSend (color: '#FFF000', message: "UNSTABLE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 		}
 	}
 	
