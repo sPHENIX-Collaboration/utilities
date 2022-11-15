@@ -22,6 +22,7 @@ $tarball{"offline_main.tar.bz2"} = "coresoftware tarball";
 $tarball{"utils.tar.bz2"} = "utilities tarball";
 
 my %sysname = ();
+$sysname{"gcc-12.1.0"} = "SL7 build with gcc 12.1.0";
 $sysname{"gcc-8.3"} = "SL7 build with gcc 8.3.1";
 $sysname{"x8664_sl7"} = "SL7 build with gcc 4.8.3";
 
