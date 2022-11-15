@@ -118,6 +118,12 @@ if ($opt_sysname =~ /gcc-8.3/)
     push(@opt_dir_list,sprintf("%s/fieldmaps",$core_basedir));
     push(@opt_dir_list,sprintf("/cvmfs/%s/default",$opt_sourcevol));
 }
+if ($opt_sysname =~ /gcc-12.1.0/)
+{
+    push(@opt_dir_list,sprintf("%s/binutils",$core_basedir));
+    push(@opt_dir_list,sprintf("%s/gcc",$core_basedir));
+    push(@opt_dir_list,sprintf("%s/calibrations",$core_basedir));
+}
 my $offline_tmp_tarfile = sprintf("/tmp/offline_main.tar");
 if (! -d $targetdir)
 {
