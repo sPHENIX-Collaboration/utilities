@@ -303,15 +303,7 @@ elsif ($opt_version eq "g4test")
 }
 elsif ($opt_version =~ /old/) # build with previous versions 
 {
-    $externalPackages{"boost"} = "boost-1.70.0";
-    $externalPackages{"CGAL"} = "CGAL-4.14.0";
-    $externalPackages{"Eigen"} = "eigen-3.3.7";
-    $externalPackages{"fastjet"} = "fastjet-3.3.2";
-    $externalPackages{"gsl"} = "gsl-2.6";
-    $externalPackages{"rave"} = "rave-0.6.25_clhep-2.4.1.3";
-    $externalPackages{"tbb"} = "tbb-2019_U8";
-    $externalPackages{"Vc"} = "Vc-1.4.1";
-    $externalPackages{"xpload"} = "xpload-0.6.0";
+    $externalPackages{"Vc"} = "Vc-1.4.2";
 }
 foreach my $pkg (sort keys %externalRootPackages)
 {
