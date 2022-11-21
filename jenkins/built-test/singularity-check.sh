@@ -8,14 +8,14 @@ else
 endif
 
 if (! $?system_config) then       
-  echo "system_config is undefined, use x8664_sl7"
-  set system_config=x8664_sl7
+  echo "system_config is undefined, use sPHENIX default"
+  echo source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type};
+  source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type};
 else
   echo "use predefined system_config = ${system_config}"
+  echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  -n $build_type;
+  source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  -n $build_type;
 endif
-
-echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  -n $build_type;
-source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  -n $build_type;
 
 env;
 
