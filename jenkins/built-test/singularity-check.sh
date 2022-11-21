@@ -9,8 +9,8 @@ endif
 
 if (! $?system_config) then       
   echo "system_config is undefined, use sPHENIX default"
-  echo source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type};
-  source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type};
+  echo source /opt/sphenix/core/bin/sphenix_setup.csh -n ${build_type};
+  source /opt/sphenix/core/bin/sphenix_setup.csh -n ${build_type};
 else
   echo "use predefined system_config = ${system_config}"
   echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.csh  -n $build_type;
