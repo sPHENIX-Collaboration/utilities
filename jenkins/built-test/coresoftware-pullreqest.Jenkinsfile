@@ -226,7 +226,7 @@ pipeline
 							    			string(name: 'system_config', value: "gcc-8.3"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
 							    			booleanParam(name: 'run_default_test', value: true), 
-							    			booleanParam(name: 'run_valgrind_test', value: false), 
+							    			booleanParam(name: 'run_valgrind_test', value: true), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 
 							    			booleanParam(name: 'run_DST_readback', value: true), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
