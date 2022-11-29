@@ -176,8 +176,6 @@ pipeline
 		   		}
 				}// Stage - cpp check
 				 
-				
-				
 			// hold this until jenkins supports nested parallel 
 			stage('Build-Test-gcc12') {
 			
@@ -228,7 +226,7 @@ pipeline
 							    			string(name: 'system_config', value: "gcc-8.3"), 
 							    			booleanParam(name: 'run_cppcheck', value: false), 
 							    			booleanParam(name: 'run_default_test', value: true), 
-							    			booleanParam(name: 'run_valgrind_test', value: true), 
+							    			booleanParam(name: 'run_valgrind_test', value: false), 
 							    			booleanParam(name: 'run_calo_qa', value: false), 
 							    			booleanParam(name: 'run_DST_readback', value: true), 
 				    						string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
@@ -245,39 +243,6 @@ pipeline
 									}				// steps
 				}//stage('Build-Test')
 				
-			stage('Build-Test-Clang') {
-			
-									steps 
-									{
-										//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
-												    		
-										script
-										{
-											def built = build(job: 'Build-Clang',
-											parameters:
-											[
-												string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-												string(name: 'sha_coresoftware', value: "${sha1}"), 
-												string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
-												booleanParam(name: 'run_valgrind_test', value: false), 
-												booleanParam(name: 'run_default_test', value: false), 
-												booleanParam(name: 'run_DST_readback', value: false), 
-												booleanParam(name: 'run_calo_qa', value: false), 
-												string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
-												string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
-											],
-											wait: true, propagate: false)						    									 
-												copyArtifacts(projectName: 'Build-Clang', filter: 'report/*', selector: specific("${built.number}"));  		
-
-											if ("${built.result}" != 'SUCCESS')
-											{
-												error('Build-Clang FAIL')
-											}										
-			
-										}//script						   			
-							   				    
-									} // steps
-				}//stage('Build-Test-Clang')
 			stage('Build-Test-Clang-gcc12') {
 			
 									steps 
@@ -311,39 +276,7 @@ pipeline
 							   				    
 									} // steps
 				}//stage('Build-Test-Clang')
-				stage('Build-Test-Scanbuild') {
-			
-									steps 
-									{
-												    		
-										script
-										{
-				   							def built = build(job: 'Build-ScanBuild',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'sha_coresoftware', value: "${sha1}"), 
-													string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
-													booleanParam(name: 'run_DST_readback', value: false), 
-													booleanParam(name: 'run_cppcheck', value: false), 
-													booleanParam(name: 'run_default_test', value: false), 
-													booleanParam(name: 'run_calo_qa', value: false), 
-													string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
-												],
-												wait: true, propagate: false)						    									 
-											
-											copyArtifacts(projectName: 'Build-ScanBuild', filter: 'report/*', selector: specific("${built.number}"));  		
 
-											if ("${built.result}" != 'SUCCESS')
-											{
-												 error('Build-ScanBuild FAIL')
-											}										
-			
-										}//script						   			
-							   				    
-									}				// steps
-				}//stage('Build-Test-Scanbuild')
 				stage('Build-Test-Scanbuild-gcc12') {
 			
 									steps 
