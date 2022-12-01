@@ -59,7 +59,8 @@ coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
-coresoftware/simulation/g4simulation/g4epd|biran@mit.edu
+coresoftware/offline/packages/epd|brs521@lehigh.edu
+coresoftware/simulation/g4simulation/g4epd|brs521@lehigh.edu
 coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
 coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
 # cemc needs g4detectors
