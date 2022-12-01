@@ -51,8 +51,8 @@ coresoftware/calibrations/calorimeter/dbfile_accessor_calo|frantz@ohio.edu
 # mvtx needs trackbase, tracking also needs trackbase_historic for now
 coresoftware/offline/packages/mvtx|ycmorales@rcf.rhic.bnl.gov
 coresoftware/offline/packages/intt|afrawley@fsu.edu
-coresoftware/offline/packages/tpc|afrawley@fsu.edu
 coresoftware/offline/packages/micromegas|hugo.pereira-da-costa@cea.fr
+coresoftware/offline/packages/tpc|afrawley@fsu.edu
 coresoftware/offline/packages/TrackerMillepedeAlignment|afrawley@fsu.edu
 # g4tpc, g4mvtx and g4intt need tpc, mvtx and intt
 coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
