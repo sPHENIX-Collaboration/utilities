@@ -244,7 +244,7 @@ pipeline
 			
 	                script {			
 					recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
-        			recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 100, tool: cppCheck(pattern: 'cppcheck-result.xml')
+        			recordIssues enabledForFailure: true, failedNewHigh: 100, failedNewNormal: 100, tool: cppCheck(pattern: 'cppcheck-result.xml')
 
         		} // script 
 			
