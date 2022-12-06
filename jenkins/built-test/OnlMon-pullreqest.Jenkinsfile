@@ -213,7 +213,7 @@ pipeline
 					echo '---------------------------------'
 					which cppcheck
 					
-					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon  2>&1 > cppcheck-result.xml
+					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon  > cppcheck-result.xml 2>&1 
 					status=${PIPESTATUS[0]}
 					
 					ls -hvl cppcheck-result.xml
@@ -243,8 +243,8 @@ pipeline
 		always{
 			
 	                script {			
-				recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
-        			recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: cppCheck(pattern: 'cppcheck-result.xml')
+					recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
+        			recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 100, tool: cppCheck(pattern: 'cppcheck-result.xml')
 
         		} // script 
 			
