@@ -189,7 +189,7 @@ pipeline
 												string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
 												string(name: 'sha_coresoftware', value: "${sha1}"), 
 												string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
-												booleanParam(name: 'run_valgrind_test', value: false), 
+												booleanParam(name: 'run_valgrind_test', value: true), 
 												booleanParam(name: 'run_default_test', value: true), 
 												booleanParam(name: 'run_DST_readback', value: true), 
 												booleanParam(name: 'run_calo_qa', value: true), 
