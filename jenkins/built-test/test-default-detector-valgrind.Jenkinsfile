@@ -184,6 +184,7 @@ pipeline
 				  publishResultsForFailedBuilds: false,
 				  sourceSubstitutionPaths: '',
 				  unstableThresholdDefinitelyLost: '0',
+				  unstableThresholdInvalidReadWrite: '0',
 				  unstableThresholdTotal: '300'
 				)			
 			}		
