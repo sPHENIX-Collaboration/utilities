@@ -85,6 +85,8 @@ coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 #DecayFinder needs libg4hit in g4main
 coresoftware/offline/packages/decayfinder|cdean@bnl.gov
+# HFTrackEfficiency needs DecayFinder
+coresoftware/offline/packages/HFTrackEfficiency|cdean@bnl.gov
 # KFFParticle needs libeval
 coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
