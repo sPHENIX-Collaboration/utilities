@@ -703,7 +703,7 @@ print LOG "===========================================\n";
 		    print MAIL "To: $contact{$m}\n";
 		    print MAIL "From: The ",$collaboration," rebuild daemon\n";
 		    print MAIL "Cc: $CC\n";
-		    print MAIL "Subject: your configure crashed the build\n\n";
+		    print MAIL "Subject: your configure crashed the $opt_version build for $opt_sysname\n\n";
 		    print MAIL "\n";
 		    print MAIL "Hello,\n";
 		    print MAIL "The rebuild crashed in module $m at $date.\n";
@@ -795,7 +795,7 @@ if ($opt_stage < 3)
                 print MAIL "To: $contact{$m}\n";
                 print MAIL "From: The ",$collaboration," rebuild daemon\n";
                 print MAIL "Cc: $CC\n";
-                print MAIL "Subject: your install-data crashed the build\n\n";
+                print MAIL "Subject: your install-data crashed the $opt_version build for $opt_sysname\n\n";
                 print MAIL "\n";
                 print MAIL "Hello,\n";
                 print MAIL "The rebuild crashed in $m.\n";
@@ -877,7 +877,7 @@ if ($opt_stage < 4)
                 print MAIL "To: $contact{$m}\n";
                 print MAIL "From: The ",$collaboration," rebuild daemon\n";
                 print MAIL "Cc: $CC\n"; 
-                print MAIL "Subject: your code crashed the $opt_version build\n\n";
+                print MAIL "Subject: your code crashed the $opt_version build for $opt_sysname\n\n";
                 print MAIL "Hello,\n";
                 print MAIL "The rebuild crashed in $m on $date:\n";
                 print MAIL "\"$arg\" reason: $? \n";
@@ -913,7 +913,7 @@ if ($opt_stage < 4)
                 print MAIL "To: $contact{$m}\n";
                 print MAIL "From: The ",$collaboration," rebuild daemon\n";
                 print MAIL "Cc: $CC\n";
-                print MAIL "Subject: your code crashed the build\n\n";
+                print MAIL "Subject: your code crashed the $opt_version build for $opt_sysname\n\n";
                 print MAIL "Hello,\n";
                 print MAIL "The rebuild crashed in $m on $date:\n";
                 print MAIL "\"$arg\" reason: $? \n";
@@ -1296,7 +1296,7 @@ sub check_insure_reports
             print MAIL "To: $contact{$package}\n";
             print MAIL "From: The ",$collaboration," rebuild daemon\n";
             print MAIL "Cc: $CC\n";
-            print MAIL "Subject: your code ticks off the insure compiler\n\n";
+            print MAIL "Subject: your code ticks off the insure compiler for $opt_sysname\n\n";
             print MAIL "Hello,\n";
             print MAIL "Insure found problems in module $package on $date.\n";
             print MAIL "The content of the report is attached.\n";
@@ -1531,7 +1531,7 @@ sub install_scanbuild_reports
             print MAIL "To: $contact{$package}\n";
             print MAIL "From: The ",$collaboration," rebuild daemon\n";
             print MAIL "Cc: $scancc\n";
-            print MAIL "Subject: scan-build found issues in $package\n\n";
+            print MAIL "Subject: scan-build found issues in $package for $opt_sysname\n\n";
             print MAIL "Hello $contact{$package},\n";
             print MAIL "scan-build the static analyzer based on clang has found problems\n";
             print MAIL "in your module $package on $date.\n";
