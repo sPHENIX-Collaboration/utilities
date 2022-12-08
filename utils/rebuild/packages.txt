@@ -1,5 +1,5 @@
 # This list gives the packages we build in the order in which they are build
-acts|osbornjd@ornl.gov
+acts|josborn1@bnl.gov
 coresoftware/offline/packages/Half|pinkenburg@bnl.gov
 coresoftware/offline/packages/compressor|cer@mit.edu
 online_distribution/newbasic|purschke@bnl.gov
@@ -88,7 +88,7 @@ coresoftware/offline/packages/decayfinder|cdean@bnl.gov
 # KFFParticle needs libeval
 coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
-coresoftware/offline/packages/trackreco|osbornjd@ornl.gov
+coresoftware/offline/packages/trackreco|josborn1@bnl.gov
 coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
