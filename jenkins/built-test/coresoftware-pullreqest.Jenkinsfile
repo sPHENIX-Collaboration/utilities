@@ -304,7 +304,7 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
 			if ("${currentBuild.currentResult}" == "FAILURE")
 			{
   				report_content = """${report_content}
-[![Jenkins on fire](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/jenkins_logo_fire-128p.png)](${env.BUILD_URL})"""
+[![Jenkins on fire](https://raw.githubusercontent.com/sPHENIX-Collaboration/utilities/master/jenkins/material/build_failded.png)](${env.BUILD_URL})"""
 			}
 			if ("${currentBuild.currentResult}" == "ABORT")
 			{
