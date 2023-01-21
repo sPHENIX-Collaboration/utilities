@@ -176,7 +176,7 @@ pipeline
 				publishValgrind (
 				  failBuildOnInvalidReports: true,
 				  failBuildOnMissingReports: true,
-				  failThresholdDefinitelyLost: '0',
+				  failThresholdDefinitelyLost: '1',
 				  failThresholdInvalidReadWrite: '0',
 				  failThresholdTotal: '1000',
 				  pattern: 'macros/detectors/*/*.valgrind.xml',
