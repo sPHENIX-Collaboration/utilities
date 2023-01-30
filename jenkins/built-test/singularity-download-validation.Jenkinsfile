@@ -139,7 +139,7 @@ pipeline
 							writeFile file: "test.sh", text: """
 #! /bin/bash
 
-source /cvmfs/sphenix.sdcc.bnl.gov/gcc-8.3/opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type}
+source /opt/sphenix/core/bin/sphenix_setup.sh -n ${build_type}
 
 env;
 
