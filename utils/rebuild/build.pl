@@ -855,7 +855,9 @@ if ($opt_stage < 4)
             {
                 if ($opt_includecheck)
                 {
-                    $arg = "make -k CXX='include-what-you-use -I/opt/sphenix/utils/lib/clang/11.1.0/include ' "
+		    my $clangversion = `clang --version | head -1 | awk '{print \$3}'`;
+		    chomp $clangversion;
+                    $arg = sprintf("make -k CXX='include-what-you-use -I/opt/sphenix/utils/lib/clang/%s/include ' ",$clangversion);
                 }
                 else
                 {
