@@ -45,6 +45,7 @@ coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
+coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
 #dbfile_accessor_calo needs CaloBase
 coresoftware/calibrations/calorimeter/dbfile_accessor_calo|frantz@ohio.edu
 # tracking needs g4 detectors for geometry classes
