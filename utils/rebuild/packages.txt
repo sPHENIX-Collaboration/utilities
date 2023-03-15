@@ -92,6 +92,7 @@ coresoftware/offline/packages/HFTrackEfficiency|cdean@bnl.gov
 # KFFParticle needs libeval
 coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
+coresoftware/offline/packages/TrackingDiagnostics|josborn1@bnl.gov
 coresoftware/offline/packages/trackreco|josborn1@bnl.gov
 coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
