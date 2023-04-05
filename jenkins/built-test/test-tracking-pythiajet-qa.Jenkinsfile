@@ -36,14 +36,14 @@ pipeline
 					ansiColor('xterm') {
 					
 					
-						build(job: 'github-comment-label',
-		    			parameters:
-		    			[
-		    				string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-			    			string(name: 'LabelCategory', value: "track-pythia-QA"),
-			    			string(name: 'LabelStatus', value: "PENDING")
-			    		],
-		    			wait: false, propagate: false)
+						// build(job: 'github-comment-label',
+		    			// parameters:
+		    			// [
+		    			// 	string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+			    		// 	string(name: 'LabelCategory', value: "track-pythia-QA"),
+			    		// 	string(name: 'LabelStatus', value: "PENDING")
+			    		// ],
+		    			// wait: false, propagate: false)
 					
 						script {
 						
@@ -519,37 +519,37 @@ pipeline
 				currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-tracking-pythiajet-qa-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
 			}
 			
-			build(job: 'github-comment-label',
-			  parameters:
-			  [
-					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "track-pythia-QA"),
-					string(name: 'LabelStatus', value: "AVAILABLE")
-				],
-				wait: false, propagate: false)
+			// build(job: 'github-comment-label',
+			//   parameters:
+			//   [
+			// 		string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+			// 		string(name: 'LabelCategory', value: "track-pythia-QA"),
+			// 		string(name: 'LabelStatus', value: "AVAILABLE")
+			// 	],
+			// 	wait: false, propagate: false)
 				
 		}
-		failure {
-			build(job: 'github-comment-label',
-			  parameters:
-			  [
-					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "track-pythia-QA"),
-					string(name: 'LabelStatus', value: "FAIL")
-				],
-				wait: false, propagate: false)
+		// failure {
+		// 	build(job: 'github-comment-label',
+		// 	  parameters:
+		// 	  [
+		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		// 			string(name: 'LabelCategory', value: "track-pythia-QA"),
+		// 			string(name: 'LabelStatus', value: "FAIL")
+		// 		],
+		// 		wait: false, propagate: false)
 			
-			archiveArtifacts artifacts: 'macros/**/*.log'
-		}
-		unstable {
-			build(job: 'github-comment-label',
-			  parameters:
-			  [
-					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "track-pythia-QA"),
-					string(name: 'LabelStatus', value: "AVAILABLE")
-				],
-				wait: false, propagate: false)
-		}
+		// 	archiveArtifacts artifacts: 'macros/**/*.log'
+		// }
+		// unstable {
+		// 	build(job: 'github-comment-label',
+		// 	  parameters:
+		// 	  [
+		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		// 			string(name: 'LabelCategory', value: "track-pythia-QA"),
+		// 			string(name: 'LabelStatus', value: "AVAILABLE")
+		// 		],
+		// 		wait: false, propagate: false)
+		// }
 	}
 }//pipeline 

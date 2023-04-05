@@ -36,14 +36,14 @@ pipeline
 					ansiColor('xterm') {
 					
 					
-						build(job: 'github-comment-label',
-		    			parameters:
-		    			[
-		    				string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-			    			string(name: 'LabelCategory', value: "DST-readback"),
-			    			string(name: 'LabelStatus', value: "PENDING")
-			    		],
-		    			wait: false, propagate: false)
+						// build(job: 'github-comment-label',
+		    			// parameters:
+		    			// [
+		    			// 	string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+			    		// 	string(name: 'LabelCategory', value: "DST-readback"),
+			    		// 	string(name: 'LabelStatus', value: "PENDING")
+			    		// ],
+		    			// wait: false, propagate: false)
 					
 						script {
 						
@@ -215,38 +215,38 @@ pipeline
 			archiveArtifacts artifacts: 'macros/**/*.log'
 		}
 
-		success {
+		// success {
 		
-			build(job: 'github-comment-label',
-			  parameters:
-			  [
-					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "DST-readback"),
-					string(name: 'LabelStatus', value: "PASS")
-				],
-				wait: false, propagate: false)
+		// 	build(job: 'github-comment-label',
+		// 	  parameters:
+		// 	  [
+		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		// 			string(name: 'LabelCategory', value: "DST-readback"),
+		// 			string(name: 'LabelStatus', value: "PASS")
+		// 		],
+		// 		wait: false, propagate: false)
 				
-		}
-		failure {
-			build(job: 'github-comment-label',
-			  parameters:
-			  [
-					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "DST-readback"),
-					string(name: 'LabelStatus', value: "FAIL")
-				],
-				wait: false, propagate: false)
-		}
-		unstable {
-			build(job: 'github-comment-label',
-			  parameters:
-			  [
-					string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-					string(name: 'LabelCategory', value: "DST-readback"),
-					string(name: 'LabelStatus', value: "FAIL")
-				],
-				wait: false, propagate: false)
-		}
+		// }
+		// failure {
+		// 	build(job: 'github-comment-label',
+		// 	  parameters:
+		// 	  [
+		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		// 			string(name: 'LabelCategory', value: "DST-readback"),
+		// 			string(name: 'LabelStatus', value: "FAIL")
+		// 		],
+		// 		wait: false, propagate: false)
+		// }
+		// unstable {
+		// 	build(job: 'github-comment-label',
+		// 	  parameters:
+		// 	  [
+		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+		// 			string(name: 'LabelCategory', value: "DST-readback"),
+		// 			string(name: 'LabelStatus', value: "FAIL")
+		// 		],
+		// 		wait: false, propagate: false)
+		// }
 	}
 }//pipeline 
 
