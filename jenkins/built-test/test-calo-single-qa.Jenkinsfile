@@ -424,19 +424,19 @@ pipeline
 			// 	wait: false, propagate: false)
 				
 		}
-		// failure {
-		// 	build(job: 'github-comment-label',
-		// 	  parameters:
-		// 	  [
-		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-		// 			string(name: 'LabelCategory', value: "calo-QA"),
-		// 			string(name: 'LabelStatus', value: "FAIL")
-		// 		],
-		// 		wait: false, propagate: false)
+		failure {
+			// build(job: 'github-comment-label',
+			//   parameters:
+			//   [
+			// 		string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+			// 		string(name: 'LabelCategory', value: "calo-QA"),
+			// 		string(name: 'LabelStatus', value: "FAIL")
+			// 	],
+			// 	wait: false, propagate: false)
 			
-		// 	archiveArtifacts artifacts: 'macros/**/*.log'
+			archiveArtifacts artifacts: 'macros/**/*.log'
 
-		// }
+		}
 		// unstable {
 		// 	build(job: 'github-comment-label',
 		// 	  parameters:
