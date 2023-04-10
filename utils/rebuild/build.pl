@@ -65,7 +65,6 @@ my %externalPackages = (
     "onnxruntime" => "onnxruntime",
     "pytorch" => "pytorch",
     "rave" => "rave",
-    "sphenixnpc" => "sphenixnpc",
     "starlight" => "starlight",
     "tbb" => "tbb",
     "Vc" => "Vc",
