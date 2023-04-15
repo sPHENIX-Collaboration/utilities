@@ -227,7 +227,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm  sh utilities/jenkins/built-test/test-tracking-qa.sh $num_event $number_jobs')
+				sh('$singularity_exec_sphenix_farm3  sh utilities/jenkins/built-test/test-tracking-qa.sh $num_event $number_jobs')
 				
 				archiveArtifacts artifacts: 'QA-gallery/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
