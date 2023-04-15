@@ -29,11 +29,12 @@ coresoftware/generators/FermiMotionAfterburner|sl4859@columbia.edu
 #PHPythia8 needs phhepmc
 coresoftware/generators/PHPythia8|dvp@bnl.gov
 coresoftware/generators/PHPythia6|pinkenburg@bnl.gov
+# ffamodules need sphenixnpc
+coresoftware/offline/database/sphenixnpc|pinkenburg@bnl.gov
 # we want generator values in the event header
 coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
 coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
 coresoftware/offline/database/cdbobjects|pinkenburg@bnl.gov
-coresoftware/offline/database/sphenixnpc|pinkenburg@bnl.gov
 coresoftware/offline/packages/bbc|chiu@bnl.gov
 # simulations/Geant4
 coresoftware/simulation/g4simulation/eASTPhysicsList|pinkenburg@bnl.gov
