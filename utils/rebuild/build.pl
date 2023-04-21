@@ -67,8 +67,7 @@ my %externalPackages = (
     "rave" => "rave",
     "starlight" => "starlight",
     "tbb" => "tbb",
-    "Vc" => "Vc",
-    "xpload" => "xpload"
+    "Vc" => "Vc"
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
 my %externalRootPackages = (
