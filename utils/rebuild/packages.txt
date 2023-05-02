@@ -72,6 +72,7 @@ coresoftware/offline/packages/trigger|dvp@bnl.gov
 # genfit stuff
 coresoftware/offline/packages/PHGenFitPkg/GenFitExp|pinkenburg@bnl.gov
 coresoftware/offline/packages/PHGenFitPkg/PHGenFit|pinkenburg@bnl.gov
+coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
 coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
 coresoftware/offline/packages/jetbackground|dvp@bnl.gov
