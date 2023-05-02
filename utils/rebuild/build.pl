@@ -299,7 +299,7 @@ print LOG "$cmdline\n\n";
 # set this to play if you want to use this for the play build
 if ($opt_version =~ /play/)
 {
-    $externalPackages{"Vc"} = "Vc-1.4.3";
+#    $externalPackages{"Vc"} = "Vc-1.4.3";
 }
 elsif ($opt_version eq "g4test")
 {
