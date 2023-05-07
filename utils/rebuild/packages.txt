@@ -44,6 +44,9 @@ coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 # calobase and trackbase need g4celldefs include for root6
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
+# g4ihcal/g4ohcal need calo_io
+coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
+coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
@@ -62,8 +65,6 @@ coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
 coresoftware/offline/packages/epd|brs521@lehigh.edu
 coresoftware/simulation/g4simulation/g4epd|brs521@lehigh.edu
-coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
-coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
 # cemc needs g4detectors
 coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 # coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
