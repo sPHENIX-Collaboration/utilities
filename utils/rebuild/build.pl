@@ -46,10 +46,6 @@ if (! defined $OPT_SPHENIX)
 }
 
 umask 002;
-$MAIL = '/bin/mail';
-my $SENDMAIL = "/usr/sbin/sendmail -t";
-my $buildmanager = "pinkenburg\@bnl.gov";
-my $CC = $buildmanager;
 
 my %externalPackages = (
     "boost" => "boost",
@@ -110,13 +106,18 @@ $opt_clang = 0;
 $opt_sysname = 'default';
 $opt_cvmfsvol = 'sphenix.sdcc.bnl.gov';
 $opt_actsbranch = 'sPHENIX';
+$opt_manager = 'pinkenburg\@bnl.gov';
 
-GetOptions('help', 'stage=i', 'afs',
-           'version:s', 'tinderbox', 'gittag:s', 'gitbranch:s','source:s',
-           'phenixinstall','workdir:s','insure','scanbuild',
-           'coverity','covpasswd:s','notify','64', 'db:i', 'lafiles',
-           'repoowner:s', 'includecheck', 'clang', 'sysname:s', 'cvmfsvol:s',
-           'eic', 'actsbranch:s', 'actsrepoowner:s' ,'ecce', 'qa');
+GetOptions('help', '64', 'actsbranch:s', 'actsrepoowner:s' ,'afs', 'clang',
+           'coverity', 'covpasswd:s', 'cvmfsvol:s' , 'db:i', 'ecce', 'eic',
+           'gitbranch:s', 'gittag:s', 'includecheck', 'insure', 'lafiles',
+           'manager:s', 'notify', 'phenixinstall', 'qa', 'repoowner:s',
+           'scanbuild', 'source:s', 'stage=i', 'sysname:s', 'tinderbox',
+           'version:s', 'workdir:s',);
+
+$MAIL = '/bin/mail';
+my $SENDMAIL = "/usr/sbin/sendmail -t";
+my $CC = $opt_manager;
 
 # if a different actsrepoowner is not set, use the current repo owner
 if (! defined $opt_actsrepoowner)
@@ -1574,6 +1575,7 @@ sub printhelp
     print "--includecheck     run the clang based include file checker\n";
     print "--insure           Rebuild using the Insure++\n";
     print "--lafiles          build keeping libtool *.la files.\n";
+    print "--manager          email address for who gets the blame mail\n";
     print "--notify           Contact responsibles in case of failure.\n";
     print "--phenixinstall    Install in the official AFS area. \n";
     print "--qa              build packages for EIC Fun4All QA\n";
