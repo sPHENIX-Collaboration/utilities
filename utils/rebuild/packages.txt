@@ -41,12 +41,14 @@ coresoftware/simulation/g4simulation/eASTPhysicsList|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
-coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
-# calobase and trackbase need g4celldefs include for root6
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
+# g4detectors/g4ihcal/g4ohcal need calo_io
+coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
+coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
+coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
-coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
+#coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 # tracking needs g4 detectors for geometry classes
 # mvtx needs trackbase, tracking also needs trackbase_historic for now
@@ -62,8 +64,6 @@ coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
 coresoftware/offline/packages/epd|brs521@lehigh.edu
 coresoftware/simulation/g4simulation/g4epd|brs521@lehigh.edu
-coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
-coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
 # cemc needs g4detectors
 coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 # coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
@@ -76,6 +76,7 @@ coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
 coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 coresoftware/offline/packages/jetbase|0ds.johnny@gmail.com
 coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
+coresoftware/offline/packages/jetbase|0ds.johnny@gmail.com
 coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 # centrality needs trackbase_historic
 coresoftware/offline/packages/centrality|dvp@bnl.gov

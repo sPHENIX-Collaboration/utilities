@@ -158,7 +158,8 @@ pipeline
 					echo '---------------------------------'
 					echo "Env setup"
 					echo '---------------------------------'
-					source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
+					# source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
+					source /cvmfs/sphenix.sdcc.bnl.gov/online/Debian/bin/sphenix_setup.sh
 					env;
 					
 					echo install at install_dir=$install_dir
@@ -243,7 +244,7 @@ pipeline
 		always{
 			
 	                script {			
-					recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
+				recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: gcc(pattern: 'build/build.log')
         			recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: cppCheck(pattern: 'cppcheck-result.xml')
 
         		} // script 
