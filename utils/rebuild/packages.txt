@@ -56,7 +56,6 @@ coresoftware/offline/packages/mvtx|ycmorales@rcf.rhic.bnl.gov
 coresoftware/offline/packages/intt|afrawley@fsu.edu
 coresoftware/offline/packages/micromegas|hugo.pereira-da-costa@cea.fr
 coresoftware/offline/packages/tpc|afrawley@fsu.edu
-coresoftware/offline/packages/TrackerMillepedeAlignment|afrawley@fsu.edu
 # g4tpc, g4mvtx and g4intt need tpc, mvtx and intt
 coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
@@ -95,6 +94,7 @@ coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
 coresoftware/offline/packages/TrackingDiagnostics|josborn1@bnl.gov
 coresoftware/offline/packages/trackreco|josborn1@bnl.gov
+coresoftware/offline/packages/TrackerMillepedeAlignment|afrawley@fsu.edu
 coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
