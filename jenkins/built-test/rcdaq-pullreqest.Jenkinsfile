@@ -190,7 +190,7 @@ find
 		always{
 			
 	                script {			
-				recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 20, tool: gcc(pattern: 'build/build.log')
+				recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 5, tool: gcc(pattern: 'build/build.log')
 
         		} // script 
 			
