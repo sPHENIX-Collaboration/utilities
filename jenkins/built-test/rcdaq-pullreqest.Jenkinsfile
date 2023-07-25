@@ -156,6 +156,8 @@ mkdir -v $ONLINE_MAIN
 echo build at build_dir=$build_dir
 mkdir -v $build_dir
 
+env
+
 echo '---------------------------------'
 echo "Build isntalling -> $build_log" | tee $build_log
 echo '---------------------------------'
