@@ -143,7 +143,7 @@ pipeline
 		{
 			steps 
 			{			
-				sh('''#!/usr/bin/env bash
+				writeFile(file: 'build.sh', text:'''#!/usr/bin/env bash
 					
 					ONLINE_MAIN=$WORKSPACE/install
 					build_dir=$WORKSPACE/build
@@ -171,6 +171,8 @@ pipeline
 					
 					[ $status -eq 0 ] && echo "build successful" || exit $status
          			''');
+
+				sh('$singularity_exec_sphenix bash singularity-check.sh')
 			
 			} 
 		}// 		stage('build-gcc') -> build/build.log
