@@ -144,6 +144,7 @@ pipeline
 			steps 
 			{			
 				writeFile(file: 'build.sh', text:'''#!/usr/bin/env bash
+source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
 
 ONLINE_MAIN=$WORKSPACE/install
 build_dir=$WORKSPACE/build
