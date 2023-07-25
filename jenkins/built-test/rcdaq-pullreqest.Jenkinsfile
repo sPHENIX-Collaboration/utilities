@@ -144,35 +144,35 @@ pipeline
 			steps 
 			{			
 				writeFile(file: 'build.sh', text:'''#!/usr/bin/env bash
-					
-					ONLINE_MAIN=$WORKSPACE/install
-					build_dir=$WORKSPACE/build
-					build_log=$WORKSPACE/build/build.log
-					
-					echo install to ONLINE_MAIN=$ONLINE_MAIN
-					mkdir -v $ONLINE_MAIN				
-					
-					echo build at build_dir=$build_dir
-					mkdir -v $build_dir
-					
-					echo '---------------------------------'
-					echo "Build isntalling -> $build_log" | tee $build_log
-					echo '---------------------------------'
-					cd $build_dir					
-					$WORKSPACE/rcdaq/autogen.sh --prefix=$ONLINE_MAIN 2>&1 | tee $build_log
-					
-					ls -lhcv
-					
-					make install 2>&1 | tee $build_log	
-					status=${PIPESTATUS[0]}
-					 
-					cd $ONLINE_MAIN
-					find
-					
-					[ $status -eq 0 ] && echo "build successful" || exit $status
-         			''');
 
-				sh('$singularity_exec_sphenix bash singularity-check.sh')
+ONLINE_MAIN=$WORKSPACE/install
+build_dir=$WORKSPACE/build
+build_log=$WORKSPACE/build/build.log
+
+echo install to ONLINE_MAIN=$ONLINE_MAIN
+mkdir -v $ONLINE_MAIN				
+
+echo build at build_dir=$build_dir
+mkdir -v $build_dir
+
+echo '---------------------------------'
+echo "Build isntalling -> $build_log" | tee $build_log
+echo '---------------------------------'
+cd $build_dir
+$WORKSPACE/rcdaq/autogen.sh --prefix=$ONLINE_MAIN 2>&1 | tee $build_log
+
+ls -lhcv
+
+make install 2>&1 | tee $build_log	
+status=${PIPESTATUS[0]}
+	
+cd $ONLINE_MAIN
+find
+
+[ $status -eq 0 ] && echo "build successful" || exit $status
+''');
+
+				sh('$singularity_exec_sphenix bash build.sh')
 			
 			} 
 		}// 		stage('build-gcc') -> build/build.log
