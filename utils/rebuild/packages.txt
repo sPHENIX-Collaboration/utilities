@@ -35,17 +35,17 @@ coresoftware/offline/database/sphenixnpc|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
 coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
 coresoftware/offline/database/cdbobjects|pinkenburg@bnl.gov
-coresoftware/offline/packages/bbc|chiu@bnl.gov
 # simulations/Geant4
 coresoftware/simulation/g4simulation/eASTPhysicsList|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
-# g4detectors/g4ihcal/g4ohcal need calo_io
+# g4detectors/g4ihcal/g4ohcal and offline/packages/bbc need calo_io
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
 coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
+coresoftware/offline/packages/bbc|chiu@bnl.gov
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 #coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
