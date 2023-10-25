@@ -387,6 +387,7 @@ pipeline
 								checkout(
 									[
 										$class: 'GitSCM',
+										branches: [[name: '*/main']],
 										extensions: [               
 											[$class: 'CleanBeforeCheckout'], 
 											[$class: 'CleanCheckout'],
