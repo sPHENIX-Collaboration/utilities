@@ -397,7 +397,7 @@ pipeline
 										[[
 										credentialsId: 'sPHENIX-bot', 
 										url: 'https://github.com/sPHENIX-Collaboration/JETSCAPE.git',
-										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/main')
+										refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main')
 										]]
 									] //checkout
 								)//checkout			
