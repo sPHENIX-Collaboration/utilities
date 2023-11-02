@@ -43,13 +43,14 @@ coresoftware/simulation/g4simulation/g4decayer|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4gdml|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4main|pinkenburg@bnl.gov
 coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
-# g4detectors/g4ihcal/g4ohcal and offline/packages/bbc need calo_io
+# g4detectors/g4ihcal/g4ohcal and offline/packages/mbd need calo_io
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
 coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
-coresoftware/offline/packages/bbc|chiu@bnl.gov
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
+coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
+coresoftware/offline/packages/mbd|chiu@bnl.gov
 #coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 # tracking needs g4 detectors for geometry classes
@@ -75,7 +76,6 @@ coresoftware/offline/packages/trigger|dvp@bnl.gov
 # genfit stuff
 coresoftware/offline/packages/PHGenFitPkg/GenFitExp|pinkenburg@bnl.gov
 coresoftware/offline/packages/PHGenFitPkg/PHGenFit|pinkenburg@bnl.gov
-coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
 coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 coresoftware/offline/packages/jetbase|0ds.johnny@gmail.com
 coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
