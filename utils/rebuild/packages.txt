@@ -51,6 +51,7 @@ coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
 coresoftware/offline/packages/mbd|chiu@bnl.gov
+coresoftware/offline/packages/eventplaneinfo|ejironaomiumaka@gmail.com
 #coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 # tracking needs g4 detectors for geometry classes
