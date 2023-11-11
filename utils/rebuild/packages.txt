@@ -52,7 +52,6 @@ coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
 coresoftware/offline/packages/mbd|chiu@bnl.gov
-coresoftware/offline/packages/eventplaneinfo|ejironaomiumaka@gmail.com
 #coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 # tracking needs g4 detectors for geometry classes
@@ -68,8 +67,8 @@ coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4intt|afrawley@fsu.edu
 coresoftware/simulation/g4simulation/g4micromegas|hugo.pereira-da-costa@cea.fr
-coresoftware/offline/packages/epd|brs521@lehigh.edu
-coresoftware/simulation/g4simulation/g4epd|brs521@lehigh.edu
+coresoftware/offline/packages/epd|ejironaomiumaka@gmail.com
+coresoftware/simulation/g4simulation/g4epd|ejironaomiumaka@gmail.com
 # cemc needs g4detectors
 coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 # coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
