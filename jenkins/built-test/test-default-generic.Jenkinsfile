@@ -95,7 +95,7 @@ ${macro_full_path}(${function_parameters})"""
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('$singularity_exec_sphenix  tcsh -f singularity-check.sh ${build_type}')
+							sh("$singularity_exec_sphenix_farm3  tcsh -f singularity-check.sh ${build_type}")
 						
 						}
 					}
@@ -153,10 +153,38 @@ ${macro_full_path}(${function_parameters})"""
 			steps 
 			{					
 				dir('macros') {
-					sh("$singularity_exec_sphenix sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} '${function_parameters}' 0")
+					sh("$singularity_exec_sphenix_farm3 sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} '${function_parameters}' ${run_valgrind}")
 				}						
 			}				
 					
+		}
+
+		
+		stage('valgrind_report')
+		{
+			when {
+				// case insensitive regular expression for truthy values
+				expression { return params.run_valgrind}
+			}
+			steps 
+			{			
+				archiveArtifacts artifacts: 'macros/${macro_full_path}.valgrind*'
+				
+				publishValgrind (
+				  failBuildOnInvalidReports: true,
+				  failBuildOnMissingReports: true,
+				  failThresholdDefinitelyLost: '1',
+				  failThresholdInvalidReadWrite: '0',
+				  failThresholdTotal: '1000',
+				  pattern: 'macros/${macro_full_path}.valgrind.xml',
+				  publishResultsForAbortedBuilds: false,
+				  publishResultsForFailedBuilds: false,
+				  sourceSubstitutionPaths: '',
+				  unstableThresholdDefinitelyLost: '0',
+				  unstableThresholdInvalidReadWrite: '0',
+				  unstableThresholdTotal: '300'
+				)			
+			}		
 		}
 		
 		stage('PerformanceAnalysis')
@@ -223,9 +251,22 @@ ${macro_full_path}(${function_parameters})"""
 
 		always{
 		  
+			
+			script {
+
+				build_result_description = "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${macro_full_path} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/${macro_full_path}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trends :bar_chart:](${env.JOB_URL}/plot/) "
+
+				if (params.run_valgrind)
+				{
+					build_result_description = "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: Valgrind test: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/), [trends :bar_chart:](${env.JOB_URL}/plot/) "
+				}						
+
+				currentBuild.description = "${currentBuild.description}\n${build_result_description}"
+			}					
+
 			dir('report')
 			{
-			  writeFile file: "test-default-generic-${system_config}-${build_type}-${macro_full_path}.md".replaceAll('/','_'), text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${macro_full_path} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/${macro_full_path}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trends :bar_chart:](${env.JOB_URL}/plot/) "				
+			  writeFile file: "test-default-generic-${system_config}-${build_type}-valgrind${run_valgrind}-${macro_full_path}.md".replaceAll('/','_'), text: "${build_result_description}"
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
@@ -239,7 +280,7 @@ ${macro_full_path}(${function_parameters})"""
 					string(name: 'checkrun_status', value: "completed"),
 					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
 					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-					string(name: 'output_summary', value: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${macro_full_path} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/${macro_full_path}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trends :bar_chart:](${env.JOB_URL}/plot/) " ),
+					string(name: 'output_summary', value: "${build_result_description}" ),
 					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
