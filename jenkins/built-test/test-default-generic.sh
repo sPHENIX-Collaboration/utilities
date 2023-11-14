@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$#" -ne 3 ]; then	
-	echo "Usage $0  sPHENIX number_event run_valgrind"
+	echo "Usage $0 macro_full_path function_parameters run_valgrind"
 	exit 1;
 fi
 if [ -z "${system_config}" ]; then
@@ -67,7 +67,7 @@ if (( $run_valgrind > 0 )); then
 	# set valgrind_prefix = "valgrind -v  --num-callers=30 --leak-check=full --error-limit=no --log-file=${macro_name}.valgrind $valgrind_sup --xml=yes --xml-file=${macro_name}.valgrind.xml --leak-resolution=high"
 	# set valgrind_prefix = "valgrind -v  --num-callers=30 --leak-check=full --error-limit=no --log-file=${macro_name}.valgrind $valgrind_sup  --leak-resolution=high"
 	# set valgrind_prefix = "valgrind -v --gen-suppressions=all  --num-callers=30 --leak-check=full --error-limit=no --log-file=${macro_name}.valgrind $valgrind_sup  --leak-resolution=high"
-	valgrind_prefix="valgrind -v --num-callers=30 --gen-suppressions=all --leak-check=full --error-limit=no --log-file=${macro_name}.valgrind $valgrind_sup --xml=yes --xml-file=${macro_name}.valgrind.xml --leak-resolution=high"
+	valgrind_prefix="valgrind -v --num-callers=30 --gen-suppressions=all --leak-check=full --error-limit=no --log-file=${macro_file_name}.valgrind $valgrind_sup --xml=yes --xml-file=${macro_file_name}.valgrind.xml --leak-resolution=high"
 	
 	which valgrind
 	echo "valgrind_prefix = ${valgrind_prefix}"
@@ -81,7 +81,7 @@ echo "======================================================="
 # Test case to produce memory error
 # echo '{int ret = gSystem->Load("libg4bbc.so"); cout <<"Load libg4detectors = "<<ret<<endl;assert(ret == 0);BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();BbcVertexFastSimReco* bbcvertex = new BbcVertexFastSimReco();int a[2] = {0}; a[3] = 1;exit(0);}' > test.C
 
-( /usr/bin/time -v  timeout --preserve-status --kill-after=1s --signal=9 1d  ${valgrind_prefix} root.exe -b -q "${macro_file_name}(${number_event})" ; echo $? > return.tmp ) 2>&1 | tee ${macro_file_name}.log;
+( /usr/bin/time -v  timeout --preserve-status --kill-after=1s --signal=9 1d  ${valgrind_prefix} root.exe -b -q "${macro_file_name}(${function_parameters})" ; echo $? > return.tmp ) 2>&1 | tee ${macro_file_name}.log;
 
 build_ret=`cat return.tmp`;
 
