@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
+echo "Command called: " $0 $*
+
 if [ "$#" -ne 3 ]; then	
 	echo "Usage $0 macro_full_path function_parameters run_valgrind"
 	exit 1;
 fi
-
-echo $*
-exit
-
 if [ -z "${system_config}" ]; then
 	echo "Fatal error: Miss env system_config"
 	exit 1;
