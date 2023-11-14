@@ -29,15 +29,16 @@ pipeline
 		
 		stage('Prebuild-Cleanup') 
 		{
-			
-            
 			steps {
 				timestamps {
 					ansiColor('xterm') {
 					
 						script {
-							currentBuild.displayName = "${env.BUILD_NUMBER} - ${system_config} - ${build_type} - ${detector_name}"
-							currentBuild.description = "${upstream_build_description} - ${system_config} - ${build_type}" 
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${system_config} - ${build_type} - ${macro_full_path}"
+							currentBuild.description = """\
+${upstream_build_description} - ${system_config} - ${build_type}\
+${macro_full_path}(${function_parameters})"""
+							
 						
 							if (fileExists('./install'))
 							{
@@ -149,41 +150,27 @@ pipeline
 		
 		stage('Test')
 		{
-			
-			
 			steps 
-			{
-					
-				sh("$singularity_exec_sphenix sh utilities/jenkins/built-test/test-default-detector.sh ${detector_name} 30 0")
-														
+			{					
+				dir('macros') {
+					sh("$singularity_exec_sphenix sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} ${function_parameters} 0")
+				}						
 			}				
 					
 		}
 		
-	//	stage('report')
-	//	{
-	//		steps 
-	//		{
-	//		
-	//			archiveArtifacts artifacts: 'macros/detectors/${detector_name}/*.root'
-	//		
-	//		}		
-	//	}
-		
 		stage('PerformanceAnalysis')
 		{
-			
-			
 			steps 
 			{
 					
-				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/detectors/${detector_name}/*.log --output_csv test-default-detector.csv")
+				sh("${python_bin} utilities/jenkins/built-test/test-output-parser.py --input_file macros/${macro_full_path}.log --output_csv test-default-generic.csv")
 				
-				plot( csvFileName: 'test-default-detector.csv_Time_(s)_Summary.csv', 
+				plot( csvFileName: 'test-default-generic.csv_Time_(s)_Summary.csv', 
 					csvSeries: 
 					[[
 						exclusionValues: 'Time (s)', 
-						file: 'test-default-detector.csv_Time_(s).csv', 
+						file: 'test-default-generic.csv_Time_(s).csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
 						url: "${env.JOB_URL}" + '/%build%/'
 					]], 
@@ -195,11 +182,11 @@ pipeline
 					title: 'User time (s)',
 					yaxis: 'Time (s)'			
 				)
-				plot( csvFileName: 'test-default-detector.csv_Memory_(kB)_Summary.csv', 
+				plot( csvFileName: 'test-default-generic.csv_Memory_(kB)_Summary.csv', 
 					csvSeries: 
 					[[
 						exclusionValues: 'Memory (kB)', 
-						file: 'test-default-detector.csv_Memory_(kB).csv', 
+						file: 'test-default-generic.csv_Memory_(kB).csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
 						url: "${env.JOB_URL}" + '/%build%/'
 					]], 
@@ -211,13 +198,13 @@ pipeline
 					title: 'Maximum resident memory',
 					yaxis: 'Memory (kB)'			
 				)
-				plot( csvFileName: 'test-default-detector.csv_STDOUT_Linecount_Summary.csv', 
+				plot( csvFileName: 'test-default-generic.csv_STDOUT_Linecount_Summary.csv', 
 					csvSeries: 
 					[[
 						exclusionValues: 'STDOUT Linecount', 
-						file: 'test-default-detector.csv_STDOUT_Linecount.csv', 
+						file: 'test-default-generic.csv_STDOUT_Linecount.csv', 
 						inclusionFlag: 'INCLUDE_BY_STRING', 
-						url: "${env.JOB_URL}" + '/%build%/artifact/macros/detectors/sPHENIX/Fun4All_G4_sPHENIX.log'
+						url: "${env.JOB_URL}" + "/%build%/artifact/macros/${macro_full_path}.log"
 					]], 
 					description: 'line count of the text output', 
 					exclZero: true, 
@@ -228,7 +215,6 @@ pipeline
 					yaxis: 'Line count'			
 				)
 			}				
-					
 		}
 	}//stages
 
@@ -239,7 +225,7 @@ pipeline
 		  
 			dir('report')
 			{
-			  writeFile file: "test-default-detector-${system_config}-${build_type}-${detector_name}.md", text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trends :bar_chart:](${env.JOB_URL}/plot/) "				
+			  writeFile file: "test-default-generic-${system_config}-${build_type}-${macro_full_path}.md".replaceAll('/','_'), text: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${macro_full_path} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/${macro_full_path}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trends :bar_chart:](${env.JOB_URL}/plot/) "				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
@@ -253,7 +239,7 @@ pipeline
 					string(name: 'checkrun_status', value: "completed"),
 					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
 					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-					string(name: 'output_summary', value: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${detector_name} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/detectors/${detector_name}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trends :bar_chart:](${env.JOB_URL}/plot/)"),
+					string(name: 'output_summary', value: "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: run [the default ${macro_full_path} macro](https://github.com/sPHENIX-Collaboration/macros/tree/master/${macro_full_path}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [output](${env.BUILD_URL}), [trends :bar_chart:](${env.JOB_URL}/plot/) " ),
 					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
