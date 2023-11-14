@@ -164,7 +164,7 @@ ${macro_full_path}(${function_parameters})"""
 		{
 			when {
 				// case insensitive regular expression for truthy values
-				expression { return params.run_valgrind}
+				expression { return params.run_valgrind == "1" }
 			}
 			steps 
 			{			
