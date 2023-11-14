@@ -245,7 +245,7 @@ ${macro_full_path}(${function_parameters})"""
 				plot( csvFileName: 'test-default-detector.csv_Module_per_event_time_(ms)_Summary.csv', 
 					csvSeries: 
 					[[
-						file: 'test-default-detector.csv_Module_per_event_time_(ms).csv', 
+						file: 'test-default-generic.csv_Module_per_event_time_(ms).csv', 
 						exclusionValues: '', 
 						inclusionFlag: 'OFF', 
 						url: "${env.JOB_URL}" + '/%build%/'
