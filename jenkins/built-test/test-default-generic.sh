@@ -19,8 +19,8 @@ macro_full_path=$1;
 function_parameters=$2;
 run_valgrind=$3;
 
-macro_path=`dirname macro_full_path`
-macro_file_name=`basename macro_full_path`
+macro_path=`dirname $macro_full_path`
+macro_file_name=`basename $macro_full_path`
 macro_name=$(echo $macro_file_name | cut -f 1 -d '.')
 
 export OFFLINE_MAIN=$WORKSPACE/install
