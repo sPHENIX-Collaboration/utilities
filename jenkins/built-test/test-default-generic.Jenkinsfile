@@ -168,7 +168,7 @@ ${macro_full_path}(${function_parameters})"""
 			}
 			steps 
 			{			
-				archiveArtifacts artifacts: 'macros/${macro_full_path}.valgrind*'
+				archiveArtifacts artifacts: "macros/${macro_full_path}.valgrind*"
 				
 				publishValgrind (
 				  failBuildOnInvalidReports: true,
@@ -176,7 +176,7 @@ ${macro_full_path}(${function_parameters})"""
 				  failThresholdDefinitelyLost: '1',
 				  failThresholdInvalidReadWrite: '0',
 				  failThresholdTotal: '1000',
-				  pattern: 'macros/${macro_full_path}.valgrind.xml',
+				  pattern: "macros/${macro_full_path}.valgrind.xml",
 				  publishResultsForAbortedBuilds: false,
 				  publishResultsForFailedBuilds: false,
 				  sourceSubstitutionPaths: '',
@@ -241,6 +241,22 @@ ${macro_full_path}(${function_parameters})"""
 					style: 'line',
 					title: 'Output line count',
 					yaxis: 'Line count'			
+				)
+				plot( csvFileName: 'test-default-detector.csv_Module_per_event_time_(ms)_Summary.csv', 
+					csvSeries: 
+					[[
+						file: 'test-default-detector.csv_Module_per_event_time_(ms).csv', 
+						exclusionValues: '', 
+						inclusionFlag: 'OFF', 
+						url: "${env.JOB_URL}" + '/%build%/'
+					]], 
+					description: 'per-event time (ms) for each of the Fun4All modules', 
+					exclZero: true, 
+					group: 'Analysis', 
+					numBuilds: '40', 
+					style: 'line',
+					title: 'per-event time (ms)',
+					yaxis: 'time (ms)'			
 				)
 			}				
 		}
