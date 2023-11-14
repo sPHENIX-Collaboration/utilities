@@ -153,7 +153,7 @@ ${macro_full_path}(${function_parameters})"""
 			steps 
 			{					
 				dir('macros') {
-					sh("$singularity_exec_sphenix sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} '\\'${function_parameters}\\'' 0")
+					sh("$singularity_exec_sphenix sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} '\'${function_parameters}\'' 0")
 				}						
 			}				
 					
