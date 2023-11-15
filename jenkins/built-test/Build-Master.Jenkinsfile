@@ -422,7 +422,9 @@ pipeline
 									}				
 								}
 
-
+								//---------------------------
+								// Calo Production Year 1
+								//---------------------------
 								
 								stage('test-default-CaloProduction-Year1')
 								{
@@ -494,6 +496,80 @@ pipeline
 									}				
 								}
 
+
+								//---------------------------
+								// Tracking Production TrkrHitSet_Unpacker
+								//---------------------------
+								
+								stage('test-default-TrackingProduction-TrkrHitSet_Unpacker')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{			    		
+										script
+										{
+											def built = build(job: 'test-default-TrackingProduction-TrkrHitSet_Unpacker',
+												parameters:
+												[
+													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+													string(name: 'build_src', value: "${build_root_path}"), 
+													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'system_config', value: "${system_config}"), 
+													string(name: 'sha_macros', value: "${sha_macros}"), 
+													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+													string(name: 'detector_name', value: "sPHENIX"), 
+													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+												],
+												wait: true, propagate: false)
+
+											copyArtifacts(projectName: 'test-default-TrackingProduction-TrkrHitSet_Unpacker', selector: specific("${built.number}"), filter: 'report/*.md');
+
+											// if ("${built.result}" != 'SUCCESS')
+											// {
+											// 	error("test-default-TrackingProduction-TrkrHitSet_Unpacker  #${built.number} ${built.getResult()}")
+											// }							
+										}// script
+									}				
+								} // stage('test-default-TrackingProduction-TrkrHitSet_Unpacker')
+								stage('test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{												    		
+										script
+										{
+											def built = build(job: 'test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker',
+												parameters:
+												[
+													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+													string(name: 'build_src', value: "${build_root_path}"), 
+													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'system_config', value: "${system_config}"), 
+													string(name: 'sha_macros', value: "${sha_macros}"), 
+													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+												],
+												wait: true, propagate: false)
+
+											copyArtifacts(projectName: 'test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker', selector: specific("${built.number}"));
+
+											// Disable valgrind error passing for now
+											// if ("${built.getResult()}" == 'FAILURE')
+											// {
+											// 	currentBuild.result = "${built.getResult()}"
+											// 	error("test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker #${built.number} ${built.getResult()}");
+											// }
+										}						   				    
+									}				
+								}
 
 							
 								stage('test-calo-single-qa')
