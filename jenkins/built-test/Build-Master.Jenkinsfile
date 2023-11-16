@@ -486,12 +486,11 @@ pipeline
 
 											copyArtifacts(projectName: 'test-default-valgrind-CaloProduction-Year1', selector: specific("${built.number}"));
 
-											// Disable valgrind error passing for now
-											// if ("${built.getResult()}" == 'FAILURE')
-											// {
-											// 	currentBuild.result = "${built.getResult()}"
-											// 	error("test-default-valgrind-CaloProduction-Year1 #${built.number} ${built.getResult()}");
-											// }
+											if ("${built.getResult()}" == 'FAILURE')
+											{
+												currentBuild.result = "${built.getResult()}"
+												error("test-default-valgrind-CaloProduction-Year1 #${built.number} ${built.getResult()}");
+											}
 										}						   				    
 									}				
 								}
@@ -528,10 +527,10 @@ pipeline
 
 											copyArtifacts(projectName: 'test-default-TrackingProduction-TrkrHitSet_Unpacker', selector: specific("${built.number}"), filter: 'report/*.md');
 
-											// if ("${built.result}" != 'SUCCESS')
-											// {
-											// 	error("test-default-TrackingProduction-TrkrHitSet_Unpacker  #${built.number} ${built.getResult()}")
-											// }							
+											if ("${built.result}" != 'SUCCESS')
+											{
+												error("test-default-TrackingProduction-TrkrHitSet_Unpacker  #${built.number} ${built.getResult()}")
+											}							
 										}// script
 									}				
 								} // stage('test-default-TrackingProduction-TrkrHitSet_Unpacker')
@@ -561,12 +560,11 @@ pipeline
 
 											copyArtifacts(projectName: 'test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker', selector: specific("${built.number}"));
 
-											// Disable valgrind error passing for now
-											// if ("${built.getResult()}" == 'FAILURE')
-											// {
-											// 	currentBuild.result = "${built.getResult()}"
-											// 	error("test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker #${built.number} ${built.getResult()}");
-											// }
+											if ("${built.getResult()}" == 'FAILURE')
+											{
+												currentBuild.result = "${built.getResult()}"
+												error("test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker #${built.number} ${built.getResult()}");
+											}
 										}						   				    
 									}				
 								}
