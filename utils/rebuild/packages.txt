@@ -85,7 +85,6 @@ coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 coresoftware/offline/packages/centrality|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4centrality|dvp@bnl.gov
 # event plane needs centrality
-coresoftware/offline/packages/eventplane|ejironaomiumaka@gmail.com
 coresoftware/offline/packages/eventplaneinfo|ejironaomiumaka@gmail.com
 # simulations/Geant4/ evals
 coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
