@@ -129,16 +129,14 @@ pipeline
 		}
 
 		stage('Git Checkout')
-		{
-			
+		{			
 			steps 
 			{
 				timestamps { 
 					ansiColor('xterm') {
 						
 						dir('macros')
-						{			
-							
+						{										
 							checkout(
 								[
 						 			$class: 'GitSCM',
@@ -235,7 +233,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 14')
+				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 10')
 														
 			}				
 					
@@ -247,7 +245,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 14')
+				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 10')
 				
 				// archiveArtifacts artifacts: 'macros/macros/QA/calorimeter/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
