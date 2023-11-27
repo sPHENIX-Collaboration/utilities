@@ -1020,7 +1020,7 @@ $elapsedtime = $endtime - $starttime;
 open (INFO, "> $rebuildInfo");
 print INFO "\n";
 print INFO " tree: default\n";
-print INFO " status: ".$buildStatus."\n";
+#print INFO " status: ".$buildStatus."\n";
 print INFO " build: ".$sysname."\n";
 print INFO " at system: ".$sysInfo."\n";
 print INFO " elapsed time: ".$elapsedtime." seconds\n";
