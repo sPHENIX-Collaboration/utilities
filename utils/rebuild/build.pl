@@ -1012,6 +1012,41 @@ INSTALLONLY:
 
 $buildSucceeded = 1;
 
+# creating and writing rebuild.info
+$rebuildInfo=$OFFLINE_MAIN.'/rebuild.info';
+$sysInfo=`uname -a`;
+$endtime = time;
+$elapsedtime = $endtime - $starttime;
+open (INFO, "> $rebuildInfo");
+print INFO "\n";
+print INFO " tree: default\n";
+print INFO " status: ".$buildStatus."\n";
+print INFO " build: ".$sysname."\n";
+print INFO " at system: ".$sysInfo."\n";
+print INFO " elapsed time: ".$elapsedtime." seconds\n";
+print INFO " source dir:".$sourceDir."\n ";
+print INFO " build dir:".$buildDir."\n ";
+print INFO " install dir:".$installDir."\n ";
+print INFO " for build logfile see: ".$logfile." or \n ";
+print INFO " https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
+if ($opt_gittag ne '')
+{
+  print INFO " git tag: ".$opt_gittag."\n";
+}
+if ($opt_gitbranch ne '')
+{
+ print INFO " git branch: ".$opt_gitbranch."\n";
+}
+else
+{
+    print INFO " git branch: master\n";
+}
+foreach my $key (keys %repotags)
+{
+    print INFO " git repo $key, tag: $repotags{$key}\n";
+}
+close(INFO);
+
 # OK, installation done; move symlink over
 print LOG "removing old installation symlink $inst\n";
 unlink $inst if (-e $inst);
@@ -1155,7 +1190,7 @@ foreach my $repo (@gitrepos)
 }
 
 if ($opt_tinderbox) 
-  {
+{
     print LOG "\n";
     print LOG "tinderbox: tree: default\n";
     print LOG "tinderbox: builddate: ".$startTime."\n";
@@ -1165,7 +1200,7 @@ if ($opt_tinderbox)
     print LOG "tinderbox: END\n";
     my $cmd = sprintf("cat %s | /phenix/WWW/offline/%s/tinderbox/handlemail.pl /phenix/WWW/offline/%s/tinderbox",$logfile,$collaboration,$collaboration);
     system($cmd);
-  }
+}
 
 $rebuildInfo=$OFFLINE_MAIN.'/rebuild.info';
 $sysInfo=`uname -a`;
@@ -1218,14 +1253,14 @@ while (<LOG>)
     if (/^======>\w\w\w (\w\w\w) *(\d*) (\d\d):(\d\d):(\d\d) \w\w\w (\d\d\d\d)/) 
       {
         $newtime=timelocal($5,$4,$3,$2-1,$month{$1},$6-1900);
-        print INFO $action," takes ",$newtime-$time," seconds  \n" if $flag;
+#        print INFO $action," takes ",$newtime-$time," seconds  \n" if $flag;
         $flag=1;
         $time=$newtime;
       }
   }
 
 close(LOG);
-close(INFO);
+#close(INFO);
 
 if ($opt_insure && $buildSucceeded==1)
 {
