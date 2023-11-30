@@ -1012,6 +1012,21 @@ INSTALLONLY:
 
 $buildSucceeded = 1;
 
+# save the latest commit id of the checkouts
+my %repotags = ();
+foreach my $repo (@gitrepos)
+{
+    $repodir = sprintf("%s/%s",$sourceDir,$repo);
+    if (-d $repodir)
+    {
+        chdir $repodir;
+        $fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
+        my $gittag = `git show | head -1 | awk '{print \$2}'`;
+        chomp $gittag;
+        $repotags{$fullrepo} = $gittag;
+    }
+}
+
 # creating and writing rebuild.info
 $rebuildInfo=$OFFLINE_MAIN.'/rebuild.info';
 $sysInfo=`uname -a`;
@@ -1174,20 +1189,6 @@ END:{
   $buildSucceeded==0 && ($buildStatus='busted', POSIX::_exit(-1), last END);
 }
 
-# save the latest commit id of the checkouts
-my %repotags = ();
-foreach my $repo (@gitrepos)
-{
-    $repodir = sprintf("%s/%s",$sourceDir,$repo);
-    if (-d $repodir)
-    {
-        chdir $repodir;
-        $fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
-        my $gittag = `git show | head -1 | awk '{print \$2}'`;
-        chomp $gittag;
-        $repotags{$fullrepo} = $gittag;
-    }
-}
 
 if ($opt_tinderbox) 
 {
