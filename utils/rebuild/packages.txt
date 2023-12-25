@@ -85,6 +85,7 @@ coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 # centrality needs trackbase_historic
 coresoftware/offline/packages/centrality|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4centrality|dvp@bnl.gov
+coresoftware/validation/CaloValid|bs3402@columbia.edu
 # event plane needs centrality
 coresoftware/offline/packages/eventplaneinfo|ejironaomiumaka@gmail.com
 # simulations/Geant4/ evals
