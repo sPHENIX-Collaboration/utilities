@@ -190,7 +190,25 @@ my $dbh;
 if ( $opt_db && $opt_version !~ /pro/)
 {
     use DBI;
-    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
+    my $attempts = 0;
+CONNECTAGAIN1:
+    if ($attempts > 0)
+    {
+	print "connection attempt failed, sleeping and trying again\n";
+	sleep(int(rand(21) + 10)); # sleep 10-30 seconds before retrying
+    }
+    $attempts++;
+    if ($attempts > 100)
+    {
+	print "giving up connecting to DB after $attempts attempts\n";
+	exit(1);
+    }
+    $dbh = DBI->connect("dbi:ODBC:phnxbld") || goto CONNECTAGAIN1;
+    if ($attempts > 0)
+    {
+	print "connections succeded after $attempts attempts\n";
+    }
+#    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
     my $getpackages = $dbh->prepare("select package,contact from anatrainmodules where status > 0 order by ordering");
     $getpackages->execute() || die $DBI::error;
     while(my @pkts = $getpackages->fetchrow_array())
@@ -1655,7 +1673,26 @@ sub check_git_branch
 sub SaveGitTagsToDB()
 {
     use DBI;
-    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
+    my $attempts = 0;
+CONNECTAGAIN2:
+    if ($attempts > 0)
+    {
+	print "connection attempt failed, sleeping and trying again\n";
+	sleep(int(rand(21) + 10)); # sleep 10-30 seconds before retrying
+    }
+    $attempts++;
+    if ($attempts > 100)
+    {
+	print "giving up connecting to DB after $attempts attempts\n";
+	exit(1);
+    }
+    $dbh = DBI->connect("dbi:ODBC:phnxbld") || goto CONNECTAGAIN2;
+    if ($attempts > 0)
+    {
+	print "connections succeded after $attempts attempts\n";
+    }
+#    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
+#    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
     my $chkbuild = $dbh->prepare("select build from buildtags where build=?");
     my $delbuild = $dbh->prepare("delete from buildtags where build=?");
     my $buildname = sprintf("%s.%d",$opt_version,$releasenumber);
