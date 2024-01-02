@@ -208,9 +208,8 @@ CONNECTAGAIN1:
     {
 	print "connections succeded after $attempts attempts\n";
     }
-#    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
     my $getpackages = $dbh->prepare("select package,contact from anatrainmodules where status > 0 order by ordering");
-    $getpackages->execute() || die $DBI::error;
+    $getpackages->execute();
     while(my @pkts = $getpackages->fetchrow_array())
     {
         push @package, $pkts[0];
@@ -1691,8 +1690,6 @@ CONNECTAGAIN2:
     {
 	print "connections succeded after $attempts attempts\n";
     }
-#    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
-#    $dbh = DBI->connect("dbi:ODBC:phnxbld") || die $DBI::error;
     my $chkbuild = $dbh->prepare("select build from buildtags where build=?");
     my $delbuild = $dbh->prepare("delete from buildtags where build=?");
     my $buildname = sprintf("%s.%d",$opt_version,$releasenumber);
