@@ -1682,13 +1682,13 @@ CONNECTAGAIN2:
     $attempts++;
     if ($attempts > 100)
     {
-	print "giving up connecting to DB after $attempts attempts\n";
+	print LOG "giving up connecting to DB after $attempts attempts\n";
 	exit(1);
     }
     $dbh = DBI->connect("dbi:ODBC:phnxbld") || goto CONNECTAGAIN2;
-    if ($attempts > 0)
+    if ($attempts > 1)
     {
-	print "connections succeded after $attempts attempts\n";
+	print LOG "connections succeded after $attempts attempts\n";
     }
     my $chkbuild = $dbh->prepare("select build from buildtags where build=?");
     my $delbuild = $dbh->prepare("delete from buildtags where build=?");
