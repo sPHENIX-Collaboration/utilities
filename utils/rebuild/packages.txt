@@ -106,6 +106,7 @@ coresoftware/offline/packages/TrackingDiagnostics|josborn1@bnl.gov
 coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
+coresoftware/offline/packages/CaloEmbedding|benjamin.kimelman@vanderbilt.edu
 coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
 # calorimeters and tracking combined
 coresoftware/offline/packages/particleflow|dvp@bnl.gov
