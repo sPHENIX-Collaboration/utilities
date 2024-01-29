@@ -9,7 +9,7 @@ if (-e  clang-tidy-result.xml) then
 endif
 
 # cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++20 ./coresoftware > & cppcheck-result.xml
-clang-tidy *.cc -- -Wall -Werror -Wshadow -std=c++17 -I$OFFLINE_MAIN/include -isystem$ROOTSYS/include -I$G4_MAIN/include -I$G4_MAIN/include/Geant4 -I$OPT_SPHENIX/include -o clang-tidy-result.txt
+clang-tidy -p ./coresoftware -- -Wall -Werror -Wshadow -std=c++17 -I$OFFLINE_MAIN/include -isystem$ROOTSYS/include -I$G4_MAIN/include -I$G4_MAIN/include/Geant4 -I$OPT_SPHENIX/include -o clang-tidy-result.txt
 
 ls -hvl $PWD/clang-tidy-result.txt
 wc -l clang-tidy-result.txt
