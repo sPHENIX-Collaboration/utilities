@@ -112,8 +112,8 @@ pipeline
       
       steps 
       {
-        archiveArtifacts artifacts: 'clang-tidy-result.xml'
-        recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 100, tool: clangTidy(pattern: 'clang-tidy-result.xml')
+        archiveArtifacts artifacts: 'clang-tidy-result.txt'
+        recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 100, tool: clangTidy(pattern: 'clang-tidy-result.txt')
       }										
     } // 				stage('sPHENIX-Build')
 
