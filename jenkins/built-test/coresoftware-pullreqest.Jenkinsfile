@@ -175,6 +175,41 @@ pipeline
 					}
 		   		}
 				}// Stage - cpp check
+
+
+				stage('clang-tidy')
+				{
+					when {
+    			 	// case insensitive regular expression for truthy values
+						expression { return run_cppcheck ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+					}
+					steps 
+					{
+						echo ("starting clang-tidy with run_cppcheck = ${run_cppcheck}")
+		
+						script
+						{
+				   		def built = build(job: 'clang-tidy-pipeline',
+			    			parameters:
+			    			[
+							string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+							string(name: 'sha_coresoftware', value: "${sha1}"), 
+							string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
+				    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
+					    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
+				    		],
+			    			wait: true, propagate: false)
+			    			
+						copyArtifacts(projectName: 'clang-tidy-pipeline', filter: 'report/*', selector: specific("${built.number}"));
+		    		
+						if ("${built.result}" != 'SUCCESS')
+						{
+						   error('Build New FAIL by clang-tidy')
+    						}
+					}
+		   		}
+				}// Stage - cpp check
+
 				 
 			// hold this until jenkins supports nested parallel 
 			stage('Build-Test-gcc12') {
