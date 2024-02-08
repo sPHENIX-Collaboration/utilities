@@ -107,12 +107,13 @@ $opt_sysname = 'default';
 $opt_cvmfsvol = 'sphenix.sdcc.bnl.gov';
 $opt_actsbranch = 'sPHENIX';
 $opt_manager = 'pinkenburg\@bnl.gov';
+my $to_stage = 5;
 
 GetOptions('help', '64', 'actsbranch:s', 'actsrepoowner:s' ,'afs', 'clang',
            'coverity', 'covpasswd:s', 'cvmfsvol:s' , 'db:i', 'ecce', 'eic',
            'gitbranch:s', 'gittag:s', 'includecheck', 'insure', 'lafiles',
            'manager:s', 'notify', 'phenixinstall', 'qa', 'repoowner:s',
-           'scanbuild', 'source:s', 'stage=i', 'sysname:s', 'tinderbox',
+           'scanbuild', 'source:s', 'stage=i', 'sysname:s', 'tinderbox', 'to_stage:i' => \$to_stage,
            'version:s', 'workdir:s',);
 
 $MAIL = '/bin/mail';
@@ -759,6 +760,11 @@ print LOG "===========================================\n";
 # points to previous successful install
 $ENV{ROOTSYS} = $installDir."/root";
 $ENV{G4_MAIN} = $installDir."/geant4";
+if ($to_stage < 2)
+{
+  $buildSucceeded=1;
+  goto END;
+}
 
 if ($opt_stage < 3)
   {
@@ -827,6 +833,11 @@ if ($opt_stage < 3)
           }
       }
   }
+if ($to_stage < 3)
+{
+  $buildSucceeded=1;
+  goto END;
+}
 if ($opt_stage < 4)
 {
     foreach $m (@package)
@@ -1607,6 +1618,13 @@ sub install_scanbuild_reports
 sub printhelp
 {
     print "--stage            Skip to stage N of the build process. \n";
+    print "                     0 = git checkout (default) \n";
+    print "                     1 = configure\n";
+    print "                     2 = install headers \n";
+    print "                     3 = compile and install \n";
+    print "                     4 = run tests \n";
+    print "                     5 = install only (scan-build) \n";
+    print "--to_stage           quit after stage N of the build process. \n";
     print "                     0 = git checkout (default) \n";
     print "                     1 = configure\n";
     print "                     2 = install headers \n";
