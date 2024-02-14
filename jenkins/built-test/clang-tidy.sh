@@ -1,8 +1,32 @@
 #!/bin/bash
 
-source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
+
+
+echo "-----------------------------------"
+echo " Start header installation "
+echo "-----------------------------------"
+
+source /opt/sphenix/core/bin/sphenix_setup.sh -n;
+mkdir -v ${WORKSPACE}/build;
+
+cd ${WORKSPACE}/utilities/utils/rebuild/
+# cat ${WORKSPACE}/utilities/jenkins/built-test/full-build.extra_packages.txt >> packages.txt
+./build.pl --stage 1 --to_stage=2 --source=${WORKSPACE} --workdir=${WORKSPACE}/build;
+
+
+echo "-----------------------------------"
+echo " Clang Tidy Check "
+echo "-----------------------------------"
+
+export OFFLINE_MAIN=$WORKSPACE/install
+source /opt/sphenix/core/bin/sphenix_setup.sh; 
 
 which clang-tidy; 
+env;
+
+cd ${WORKSPACE}
+pwd
+ls -lhcv
 
 if test -f clang-tidy-result.txt; then
   mv -fv clang-tidy-result.txt clang-tidy-result.txt.backup
