@@ -90,7 +90,42 @@ pipeline
 								] //checkout
 							)//checkout
 						}//						dir('coresoftware') {
-						
+
+
+						dir('online_distribution') {
+							git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/online_distribution.git'
+						}
+
+
+						dir('acts') {
+
+							checkout(
+								[
+						 			$class: 'GitSCM',
+									extensions: [               
+										[$class: 'SubmoduleOption',
+										    disableSubmodules: false,
+										    parentCredentials: true,
+										    recursiveSubmodules: true,
+										    reference: '',
+										    trackingSubmodules: false],
+										[$class: 'CleanBeforeCheckout'], 
+										[$class: 'CleanCheckout'] 
+									],
+									branches: [
+									[name: "sPHENIX"]
+							        	], 
+									userRemoteConfigs: 
+									[[
+									credentialsId: 'sPHENIX-bot', 
+									url: 'https://github.com/sPHENIX-Collaboration/acts.git',
+									refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
+									]]
+								] //checkout
+							)//checkout						
+						}//	dir('acts') 
+
+
 					}
 				}
 			}
