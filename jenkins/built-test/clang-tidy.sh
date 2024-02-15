@@ -14,7 +14,7 @@ cd ${WORKSPACE}/utilities/utils/rebuild/
 ./build.pl --stage 1 --to_stage=2 --source=${WORKSPACE} --workdir=${WORKSPACE}/build;
 
 cd ${WORKSPACE}
-ln -sbfv build/new/install ./
+ln -sbfv build/new/install.1 ./
 ls -lhcv
 
 echo "-----------------------------------"
