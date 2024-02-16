@@ -202,10 +202,10 @@ pipeline
 			    			
 						copyArtifacts(projectName: 'clang-tidy-pipeline', filter: 'report/*', selector: specific("${built.number}"));
 		    		
-						//if ("${built.result}" != 'SUCCESS')
-						//{
-						//   error('Build New FAIL by clang-tidy')
-    						//}
+						if ("${built.result}" != 'SUCCESS')
+						{
+						   error('Build New FAIL by clang-tidy')
+    						}
 					}
 		   		}
 				}// Stage - cpp check
