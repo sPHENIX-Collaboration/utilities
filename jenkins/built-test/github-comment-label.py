@@ -44,7 +44,7 @@ with open (os.environ['HOME'] + "/.ssh/github.app.sphenix-jenkins-ci.appid", "r"
 with open (os.environ['HOME'] + "/.ssh/github.app.sphenix-jenkins-ci.installationid", "r") as myfile:
     INSTALLATIONID=myfile.read().strip()
 with open(os.environ['HOME'] + "/.ssh/github.app.sphenix-jenkins-ci.private-key.pem", 'rb') as fh:
-    signing_key = fh.read()
+    signing_key = fh.read().decode()
 
 print(f"Authentication with private key for app {APPID} installation {INSTALLATIONID} ...")
 
