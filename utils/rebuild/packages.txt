@@ -75,7 +75,6 @@ coresoftware/simulation/g4simulation/g4epd|ejironaomiumaka@gmail.com
 coresoftware/simulation/g4simulation/g4bbc|pinkenburg@bnl.gov
 # coresoftware/simulation/g4simulation/g4cemc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4calo|jhuang@bnl.gov
-coresoftware/offline/packages/trigger|dvp@bnl.gov
 # genfit stuff
 coresoftware/offline/packages/PHGenFitPkg/GenFitExp|pinkenburg@bnl.gov
 coresoftware/offline/packages/PHGenFitPkg/PHGenFit|pinkenburg@bnl.gov
@@ -107,6 +106,7 @@ coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 # Offline calorimeter software
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 coresoftware/offline/packages/CaloEmbedding|benjamin.kimelman@vanderbilt.edu
+coresoftware/offline/packages/trigger|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4waveformsim|sl4859@columbia.edu
 coresoftware/offline/packages/ClusterIso|dvp@bnl.gov
 # calorimeters and tracking combined
