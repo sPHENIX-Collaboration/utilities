@@ -40,7 +40,7 @@ pipeline
 						dir('report') {
 							deleteDir()
 						}
-						sh('rm -fv cppcheck-result.xml')
+						sh('rm -fv clang-tidy-result.txt')
 					
 						sh('hostname')
 						sh('pwd')
@@ -160,7 +160,7 @@ pipeline
 			dir('report')
 			{
 				sh('ls -lvhc')
-			  writeFile file: "clang-tidy.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) `clang-tidy` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`cppcheck` report (full)](${env.BUILD_URL}/cppcheck/)/[(new)](${env.BUILD_URL}/cppcheck/new/)"				
+			  writeFile file: "clang-tidy.md", text: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) `clang-tidy` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`clang-tidy` report (full)](${env.BUILD_URL}/clang-tidy/)/[(new)](${env.BUILD_URL}/clang-tidy/new/)"				
 			}
 		  		  
 			archiveArtifacts artifacts: 'report/*.md'
@@ -174,7 +174,7 @@ pipeline
 					string(name: 'checkrun_status', value: "completed"),
 					string(name: 'checkrun_conclusion', value: "${currentBuild.currentResult}"),
 					string(name: 'output_title', value: "sPHENIX Jenkins Report for ${env.JOB_NAME}"),
-					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) `clang-tidy` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`cppcheck` report (full)](${env.BUILD_URL}/cppcheck/)/[(new)](${env.BUILD_URL}/cppcheck/new/)"),
+					string(name: 'output_summary', value: "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) `clang-tidy` [is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:`clang-tidy` report (full)](${env.BUILD_URL}/clang-tidy/)/[(new)](${env.BUILD_URL}/clang-tidy/new/)"),
 					string(name: 'output_text', value: "${currentBuild.displayName}\n\n${currentBuild.description}")
 				],
 				wait: false, propagate: false
