@@ -50,6 +50,8 @@ coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
 coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
+# rundb needs calo_io
+coresoftware/offline/database/rundb|egm2153@columbia.edu
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
 coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
