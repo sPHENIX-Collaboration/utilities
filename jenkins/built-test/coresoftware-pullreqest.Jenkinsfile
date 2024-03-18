@@ -202,7 +202,7 @@ pipeline
 			    			
 						copyArtifacts(projectName: 'clang-tidy-pipeline', filter: 'report/*', selector: specific("${built.number}"));
 		    		
-						if ("${built.result}" != 'SUCCESS')
+						if ("${built.getResult()}" == 'FAILURE')
 						{
 						   error('Build New FAIL by clang-tidy')
     						}
