@@ -56,6 +56,7 @@ my %externalPackages = (
     "gsl" => "gsl",
     "hdf5" => "hdf5",
     "HepMC" => "HepMC",
+    "Herwig" => "Herwig",
     "LHAPDF" => "LHAPDF",
     "nopayloadclient" => "nopayloadclient",
     "onnxruntime" => "onnxruntime",
@@ -654,6 +655,14 @@ print LOG "===========================================\n";
         chdir "include";
         make_path($installDir."/include/GenFit", {mode => 0775}) unless -e $installDir."/include/GenFit";
 	system("rsync -a . $installDir/include/GenFit");
+        #Herwig move libraries from lib/Herwig to lib
+        if (-d $installDir."/lib/Herwig")
+	{
+	    chdir $installDir;
+	    chdir "lib";
+	    system("mv Herwig/* .");
+	    system("rmdir Herwig");
+	}
         # remove the la files - we do not need them
 	my $rmlacmd = sprintf("rm %s/lib/*.la",$OFFLINE_MAIN);
 	system($rmlacmd);
