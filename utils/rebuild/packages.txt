@@ -124,6 +124,8 @@ prototype/offline/packages/Prototype4|jhuang@bnl.gov
 coresoftware/offline/packages/ResonanceJetTagging|antonio.sphenix@gmail.com
 # QA modules that use both simulation and offline libs
 coresoftware/offline/QA/modules|jhuang@bnl.gov
+coresoftware/offline/QA/SimulationModules|jhuang@bnl.gov
+coresoftware/offline/QA/Tracking|josborn1@bnl.gov
 coresoftware/offline/QA/EventDisplay|josborn1@bnl.gov
 # TPC hit and track prep for event display
 coresoftware/offline/packages/TPCHitTrackDisplay|rosstom@g.ucla.edu
