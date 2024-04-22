@@ -36,7 +36,7 @@ if test -f clang-tidy-result.txt; then
 fi
 
 shopt -s globstar
-clang-tidy ./coresoftware/**/*.cc ./coresoftware/**/*.cpp -- -Wall -Werror -Wshadow -std=c++17 -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DRAVE -DRaveDllExport= > clang-tidy-result.txt
+clang-tidy ./coresoftware/**/*.cc ./coresoftware/**/*.cpp -- -Wall -Werror -Wshadow -std=c++17 -Wno-dangling -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DHomogeneousField -DRAVE -DRaveDllExport= > clang-tidy-result.txt
 
 ls -hvl $PWD/clang-tidy-result.txt
 wc -l clang-tidy-result.txt
