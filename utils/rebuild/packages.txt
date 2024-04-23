@@ -127,7 +127,7 @@ coresoftware/offline/QA/modules|jhuang@bnl.gov
 coresoftware/offline/QA/SimulationModules|jhuang@bnl.gov
 coresoftware/offline/QA/Tracking|josborn1@bnl.gov
 coresoftware/offline/QA/EventDisplay|josborn1@bnl.gov
-coreosftware/offline/QA/Calorimeters|bs3402@columbia.edu
+coresoftware/offline/QA/Calorimeters|bs3402@columbia.edu
 # TPC hit and track prep for event display
 coresoftware/offline/packages/TPCHitTrackDisplay|rosstom@g.ucla.edu
 # calibrations
