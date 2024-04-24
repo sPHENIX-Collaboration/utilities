@@ -133,6 +133,8 @@ coresoftware/offline/packages/TPCHitTrackDisplay|rosstom@g.ucla.edu
 coresoftware/calibrations/calorimeter/calo_tower_slope|frantz@ohio.edu
 coresoftware/calibrations/calorimeter/calo_emc_pi0_tbt|frantz@ohio.edu
 coresoftware/calibrations/calorimeter/calo_emc_noisy_tower|ahodges4@illinois.edu
+coresoftware/calibrations/intt/InttBCOFinder|jaeinhwang213@gmail.com
+coresoftware/calibrations/intt/InttHitMap|jaeinhwang213@gmail.com
 coresoftware/calibrations/tpc/generator|ross.corliss@stonybrook.edu
 coresoftware/calibrations/tpc/fillSpaceChargeMaps|mohaas33@gmail.com
 coresoftware/calibrations/tpc/fillDigitalCurrentMaps|ross.corliss@stonybrook.edu
