@@ -2,6 +2,7 @@
 acts|josborn1@bnl.gov
 coresoftware/offline/packages/Half|pinkenburg@bnl.gov
 coresoftware/offline/packages/compressor|cer@mit.edu
+coresoftware/offline/packages/uspin|dloom@umich.edu
 online_distribution/newbasic|purschke@bnl.gov
 online_distribution/pmonitor|purschke@bnl.gov
 coresoftware/offline/framework/phool|pinkenburg@bnl.gov
