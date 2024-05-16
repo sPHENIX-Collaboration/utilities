@@ -496,6 +496,80 @@ pipeline
 								}
 
 
+
+								//---------------------------
+								// Calo Production Year 2
+								//---------------------------
+								
+								stage('test-default-CaloProduction-Fun4All_Year2')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{			    		
+										script
+										{
+											def built = build(job: 'test-default-CaloProduction-Fun4All_Year2',
+												parameters:
+												[
+													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+													string(name: 'build_src', value: "${build_root_path}"), 
+													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'system_config', value: "${system_config}"), 
+													string(name: 'sha_macros', value: "${sha_macros}"), 
+													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+													string(name: 'detector_name', value: "sPHENIX"), 
+													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+												],
+												wait: true, propagate: false)
+
+											copyArtifacts(projectName: 'test-default-CaloProduction-Fun4All_Year2', selector: specific("${built.number}"), filter: 'report/*.md');
+
+											if ("${built.result}" != 'SUCCESS')
+											{
+												error("test-default-CaloProduction-Fun4All_Year2  #${built.number} ${built.getResult()}")
+											}							
+										}// script
+									}				
+								} // stage('test-default-CaloProduction-Fun4All_Year2')
+								stage('test-default-valgrind-CaloProduction-Year2')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{												    		
+										script
+										{
+											def built = build(job: 'test-default-valgrind-CaloProduction-Year2',
+												parameters:
+												[
+													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+													string(name: 'build_src', value: "${build_root_path}"), 
+													string(name: 'build_type', value: "${build_type}"), 
+													string(name: 'system_config', value: "${system_config}"), 
+													string(name: 'sha_macros', value: "${sha_macros}"), 
+													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
+												],
+												wait: true, propagate: false)
+
+											copyArtifacts(projectName: 'test-default-valgrind-CaloProduction-Year2', selector: specific("${built.number}"));
+
+											if ("${built.getResult()}" == 'FAILURE')
+											{
+												currentBuild.result = "${built.getResult()}"
+												error("test-default-valgrind-CaloProduction-Year2 #${built.number} ${built.getResult()}");
+											}
+										}						   				    
+									}				
+								}
+
 								//---------------------------
 								// Tracking Production TrkrHitSet_Unpacker
 								//---------------------------
