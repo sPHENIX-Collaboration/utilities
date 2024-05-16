@@ -414,6 +414,41 @@ pipeline
 									}				
 								}
 
+								//---------------------------
+								// Tracking Production StreamingProduction
+								//---------------------------
+								
+								stage('test-default-StreamingProduction')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{			    		
+										script
+										{
+											runCheckTest('test-default-StreamingProduction')		
+										}// script
+									}				
+								} // stage('test-default-StreamingProduction')
+								stage('test-default-valgrind-StreamingProduction')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{												    		
+										script
+										{
+											runCheckTest('test-default-valgrind-StreamingProduction')	
+										}						   				    
+									}				
+								}
+
 
 
 								//---------------------------
