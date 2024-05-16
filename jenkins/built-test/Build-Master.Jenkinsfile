@@ -303,26 +303,7 @@ pipeline
 									{			    		
 										script
 										{
-											def built = build(job: 'test-overlap-check-pipeline',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'detector_name', value: "sPHENIX"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-overlap-check-pipeline', selector: specific("${built.number}"), filter: 'report/*.md');
-
-											if ("${built.result}" != 'SUCCESS')
-											{
-												error('test-overlap-check-sPHENIX FAIL')
-											}							
+											runCheckTest('test-overlap-check-pipeline')
 										}// script
 									}				
 								} // stage('test-overlap-check-sPHENIX')
@@ -337,31 +318,10 @@ pipeline
 										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
 									}
 									steps 
-									{
-										//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
-												    		
+									{												    		
 										script
 										{
-											def built = build(job: 'test-default-detector-valgrind-pipeline',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-default-detector-valgrind-pipeline', selector: specific("${built.number}"));
-
-											if ("${built.getResult()}" == 'FAILURE')
-											{
-												currentBuild.result = "${built.getResult()}"
-												error("test-default-detector-valgrind-pipeline #${built.number} ${built.getResult()}");
-											}
+											runCheckTest('test-default-detector-valgrind-pipeline')
 										}						   				    
 									}				
 								}
@@ -375,29 +335,10 @@ pipeline
 									}
 									steps 
 									{
-										//sh('/usr/bin/singularity exec -B /var/lib/jenkins/singularity/cvmfs:/cvmfs -B /gpfs -B /direct -B /afs -B /sphenix /var/lib/jenkins/singularity/cvmfs/sphenix.sdcc.bnl.gov/singularity/rhic_sl7_ext.simg tcsh -f utilities/jenkins/built-test/test-default.sh')
 												    		
 										script
 										{
-											def built = build(job: 'test-DST-readback',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-DST-readback', selector: specific("${built.number}"));
-						   				if ("${built.result}" != 'SUCCESS')
-						   				{
-						   					error('test-DST-readback FAIL')
-    									}								
-
+											runCheckTest('test-DST-readback')
 										}
 						   				    
 									}				
@@ -418,26 +359,7 @@ pipeline
 									{			    		
 										script
 										{
-											def built = build(job: 'test-default-CaloProduction-Year1',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'detector_name', value: "sPHENIX"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-default-CaloProduction-Year1', selector: specific("${built.number}"), filter: 'report/*.md');
-
-											if ("${built.result}" != 'SUCCESS')
-											{
-												error("test-default-CaloProduction-Year1  #${built.number} ${built.getResult()}")
-											}							
+											runCheckTest('test-default-CaloProduction-Year1')		
 										}// script
 									}				
 								} // stage('test-default-CaloProduction-Year1')
@@ -452,29 +374,46 @@ pipeline
 									{												    		
 										script
 										{
-											def built = build(job: 'test-default-valgrind-CaloProduction-Year1',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-default-valgrind-CaloProduction-Year1', selector: specific("${built.number}"));
-
-											if ("${built.getResult()}" == 'FAILURE')
-											{
-												currentBuild.result = "${built.getResult()}"
-												error("test-default-valgrind-CaloProduction-Year1 #${built.number} ${built.getResult()}");
-											}
+											runCheckTest('test-default-valgrind-CaloProduction-Year1')	
 										}						   				    
 									}				
 								}
+
+								//---------------------------
+								// Calo Production Year 2
+								//---------------------------
+								
+								stage('test-default-CaloProduction-Fun4All_Year2')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{			    		
+										script
+										{
+											runCheckTest('test-default-CaloProduction-Fun4All_Year2')		
+										}// script
+									}				
+								} // stage('test-default-CaloProduction-Year2')
+								stage('test-default-valgrind-CaloProduction-Year2')
+								{
+									
+									when {
+				    				// case insensitive regular expression for truthy values
+										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps 
+									{												    		
+										script
+										{
+											runCheckTest('test-default-valgrind-CaloProduction-Year2')	
+										}						   				    
+									}				
+								}
+
 
 
 								//---------------------------
@@ -492,26 +431,7 @@ pipeline
 									{			    		
 										script
 										{
-											def built = build(job: 'test-default-TrackingProduction-TrkrHitSet_Unpacker',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'detector_name', value: "sPHENIX"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-default-TrackingProduction-TrkrHitSet_Unpacker', selector: specific("${built.number}"), filter: 'report/*.md');
-
-											if ("${built.result}" != 'SUCCESS')
-											{
-												error("test-default-TrackingProduction-TrkrHitSet_Unpacker  #${built.number} ${built.getResult()}")
-											}							
+											runCheckTest('test-default-TrackingProduction-TrkrHitSet_Unpacker')		
 										}// script
 									}				
 								} // stage('test-default-TrackingProduction-TrkrHitSet_Unpacker')
@@ -526,26 +446,7 @@ pipeline
 									{												    		
 										script
 										{
-											def built = build(job: 'test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker', selector: specific("${built.number}"));
-
-											if ("${built.getResult()}" == 'FAILURE')
-											{
-												currentBuild.result = "${built.getResult()}"
-												error("test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker #${built.number} ${built.getResult()}");
-											}
+											runCheckTest('test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker')	
 										}						   				    
 									}				
 								}
@@ -562,61 +463,11 @@ pipeline
 									{
 										script
 										{
-				   						def built = build(job: 'test-calo-single-qa',
-							    			parameters:
-							    			[
-								    			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-											string(name: 'build_src', value: "${build_root_path}"), 
-							    				string(name: 'build_type', value: "${build_type}"), 
-							    				string(name: 'system_config', value: "${system_config}"), 
-							    				string(name: 'sha_macros', value: "${sha_macros}"), 
-		    									string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-				    							string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-			    							],
-							    			wait: true, propagate: false)
-						   			
-						   				  copyArtifacts(projectName: 'test-calo-single-qa', selector: specific("${built.number}"));
-						   				  
-						   				if ("${built.result}" != 'SUCCESS')
-						   				{
-						   					error('test-calo-single-qa FAIL')
-    									}								
+											runCheckTest('test-calo-single-qa')	
 										}
-										// archiveArtifacts artifacts: 'qa_page.tar.gz'
-										
-						    		
-										sh('ls -lhv')
-						   			
-						   			//dir('macros/macros/g4simulations/')
-						   			//{
-						   			//	stash name: "test-calo-single-qa-stash", includes: "*"
-						   			//}
-						   			
-						   			//dir('test-calo-single-qa-output')
-						   			//{
-						   			//	unstash "test-calo-single-qa-stash"
-						   			//	archiveArtifacts artifacts: '*', onlyIfSuccessful: true	
-						   			//}    		   			
-						   			
-										//dir('qa_html')
-										//{
-						    		//	sh ("tar xzfv ../qa_page.tar.gz")
-										//}
-				
-									  //publishHTML (target: [
-								    //  allowMissing: false,
-								    //  alwaysLinkToLastBuild: false,
-								    //  keepAll: true,
-								    //  reportDir: 'qa_html',
-								    //  reportFiles: 'index.html',
-								    //  reportName: "Calorimeter QA Report"
-								    //])
-							   			
 									}				
 								}// 				stage('test-calo-single-qa')
 								
-								
-							
 								stage('test-tracking-low-occupancy-qa')
 								{
 									
@@ -629,25 +480,7 @@ pipeline
 									{
 										script
 										{
-				   						def built = build(job: 'test-tracking-low-occupancy-qa',
-											parameters:
-											[
-												string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-												string(name: 'build_src', value: "${build_root_path}"), 
-												string(name: 'build_type', value: "${build_type}"), 
-												string(name: 'system_config', value: "${system_config}"), 
-												string(name: 'sha_macros', value: "${sha_macros}"), 
-												string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-												string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-											],
-											wait: true, propagate: false)
-						   			
-						   				  	copyArtifacts(projectName: 'test-tracking-low-occupancy-qa', selector: specific("${built.number}"));
-						   				  
-						   					if ("${built.result}" != 'SUCCESS')
-						   					{
-						   						error('test-tracking-low-occupancy-qa FAIL')
-    											}								
+											runCheckTest('test-tracking-low-occupancy-qa')	
 										} // script
 									
 						    		
@@ -669,25 +502,7 @@ pipeline
 									{
 										script
 										{
-				   						def built = build(job: 'test-tracking-distortions-qa',
-											parameters:
-											[
-												string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-												string(name: 'build_src', value: "${build_root_path}"), 
-												string(name: 'build_type', value: "${build_type}"), 
-												string(name: 'system_config', value: "${system_config}"), 
-												string(name: 'sha_macros', value: "${sha_macros}"), 
-												string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-												string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-											],
-											wait: true, propagate: false)
-						   			
-						   				  	copyArtifacts(projectName: 'test-tracking-distortions-qa', selector: specific("${built.number}"));
-						   				  
-						   					if ("${built.result}" != 'SUCCESS')
-						   					{
-						   						error('test-tracking-distortions-qa FAIL')
-    											}								
+											runCheckTest('test-tracking-distortions-qa')	
 										} // script
 									
 						    		
@@ -708,32 +523,11 @@ pipeline
 									{
 										script
 										{
-											def built = build(job: 'test-tracking-pythiajet-qa',
-												parameters:
-												[
-													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
-													string(name: 'build_src', value: "${build_root_path}"), 
-													string(name: 'build_type', value: "${build_type}"), 
-													string(name: 'system_config', value: "${system_config}"), 
-													string(name: 'sha_macros', value: "${sha_macros}"), 
-													string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-													string(name: 'upstream_build_description', value: "${upstream_build_description} / <a href=\"${env.JOB_URL}\">${env.JOB_NAME}</a>.<a href=\"${env.BUILD_URL}\">#${env.BUILD_NUMBER}</a>")
-												],
-												wait: true, propagate: false)
-
-											copyArtifacts(projectName: 'test-tracking-pythiajet-qa', selector: specific("${built.number}"));
-
-											if ("${built.result}" != 'SUCCESS')
-											{
-												error('test-tracking-pythiajet-qa FAIL')
-											}								
+											runCheckTest('test-tracking-pythiajet-qa')	
 										}
 										sh('ls -lhv')
 									}				
 								}// 				stage('test-tracking-pythiajet-qa')
-							
-								
-								
 							}// parallel			
 						}// stage - Test
 		
@@ -894,4 +688,6 @@ def runCheckTest(String jobname)
 	{
 		error(jobname + ': FAIL')
 	}					
+
+	return build
 }
