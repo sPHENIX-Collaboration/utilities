@@ -722,7 +722,5 @@ def runCheckTest(String jobname)
 	if ("${built.result}" != 'SUCCESS')
 	{
 		error(jobname + ': FAIL')
-	}					
-
-	return build
+	} 
 }
