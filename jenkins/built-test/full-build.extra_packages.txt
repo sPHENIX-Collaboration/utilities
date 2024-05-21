@@ -1,3 +1,4 @@
 # tutorials
 tutorials/myjetanalysis/src|jhuang@bnl.gov
 tutorials/AnaTutorial/src/|jhuang@bnl.gov
+tutorials/CaloDataAnaRun24pp/src|ahodges4@illinois.edu
