@@ -132,9 +132,7 @@ pipeline
 									steps 
 									{
 										archiveArtifacts artifacts: 'cppcheck-result.xml'
-										// 	def buildana = scanForIssues tool: gcc4(pattern: 'build/${build_type}/rebuild.log')
-        						//	publishIssues issues: [buildana]
-        						recordIssues enabledForFailure: true, failedNewHigh: 1, failedNewNormal: 1, tool: cppCheck(pattern: 'cppcheck-result.xml')
+						        			recordIssues qualityGates: [[threshold: 1, type: 'NEW', unstable: false], [threshold: 1, type: 'NEW_HIGH', unstable: false]], tools: [cppCheck(pattern: 'cppcheck-result.xml')]
 									}										
 								} // 				stage('sPHENIX-Build')
 	}//stages
