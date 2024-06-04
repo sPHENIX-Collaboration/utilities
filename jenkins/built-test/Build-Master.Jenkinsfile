@@ -630,7 +630,7 @@ pipeline
 							report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
 
 							// update build description
-							currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+							// currentBuild.description = "${currentBuild.description}\n${fileContent}"		
 						}
 						
 	
@@ -661,42 +661,6 @@ pipeline
 			archiveArtifacts artifacts: "build/${build_type}/rebuild.log"
 		} // always
 	
-		// success {
-		
-		// 	// build(job: 'github-comment-label',
-		// 	//   parameters:
-		// 	//   [
-		// 	// 		string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-		// 	// 		string(name: 'LabelCategory', value: "build-${system_config}-${build_type}"),
-		// 	// 		string(name: 'LabelStatus', value: "PASS")
-		// 	// 	],
-		// 	// 	wait: false, propagate: false)
-		
-		// }
-		// failure {
-		
-		// 	build(job: 'github-comment-label',
-		// 	  parameters:
-		// 	  [
-		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-		// 			string(name: 'LabelCategory', value: "build-${system_config}-${build_type}"),
-		// 			string(name: 'LabelStatus', value: "FAIL")
-		// 		],
-		// 		wait: false, propagate: false)
-		
-		// }
-		// unstable {
-		
-		// 	build(job: 'github-comment-label',
-		// 	  parameters:
-		// 	  [
-		// 			string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
-		// 			string(name: 'LabelCategory', value: "build-${system_config}-${build_type}"),
-		// 			string(name: 'LabelStatus', value: "PASS")
-		// 		],
-		// 		wait: false, propagate: false)
-				
-		// }
 	}
 	
 }//pipeline 
