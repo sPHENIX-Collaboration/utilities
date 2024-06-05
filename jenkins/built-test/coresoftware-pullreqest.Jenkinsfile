@@ -370,7 +370,7 @@ Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualC
     				report_content = "${report_content}\n${fileContent}"		
     				
     				// update build description
-    				currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+    				// currentBuild.description = "${currentBuild.description}\n${fileContent}"		
     			}    			
     			
   				report_content = """${report_content}
