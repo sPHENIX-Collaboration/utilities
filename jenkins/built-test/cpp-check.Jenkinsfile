@@ -132,7 +132,7 @@ pipeline
 									steps 
 									{
 										archiveArtifacts artifacts: 'cppcheck-result.xml'
-						        			recordIssues qualityGates: [[threshold: 1, type: 'NEW', unstable: false], [threshold: 1, type: 'NEW_HIGH', unstable: false]], tools: [cppCheck(pattern: 'cppcheck-result.xml')]
+						        			recordIssues qualityGates: [[threshold: 0, type: 'NEW', unstable: false], [threshold: 0, type: 'NEW_HIGH', unstable: false]], tools: [cppCheck(pattern: 'cppcheck-result.xml')]
 									}										
 								} // 				stage('sPHENIX-Build')
 	}//stages
