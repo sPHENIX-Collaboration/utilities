@@ -19,6 +19,7 @@ coresoftware/offline/packages/QAUtils|josborn1@bnl.gov
 coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
 coresoftware/calibrations/framework/oncal|pinkenburg@bnl.gov
+coresoftware/generators/sphstarlight|stacyann.nelson@morgan.edu
 coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
 coresoftware/generators/hijing|dave@bnl.gov
 coresoftware/generators/sHijing|dave@bnl.gov
