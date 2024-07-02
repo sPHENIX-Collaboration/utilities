@@ -41,6 +41,11 @@ pipeline
 							deleteDir()
 						}
 						sh('rm -fv clang-tidy-result.txt')
+
+						dir('build') {
+							sh('chmod -R +w ./')
+							deleteDir()
+						}
 					
 						sh('hostname')
 						sh('pwd')
