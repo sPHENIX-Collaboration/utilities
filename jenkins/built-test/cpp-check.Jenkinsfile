@@ -109,6 +109,11 @@ pipeline
 			}
 		}//stage('SCM Checkout')
 		
+	    stage ('Git mining') {
+		discoverGitReferenceBuild requiredResult: SUCCESS
+		mineRepository()
+		gitDiffStat()
+	    }
 		// hold this until jenkins supports nested parallel
 		//stage('Build')
 		//{
@@ -132,7 +137,6 @@ pipeline
 									steps 
 									{
 										archiveArtifacts artifacts: 'cppcheck-result.xml'
-										discoverGitReferenceBuild()
 						        			recordIssues qualityGates: [[threshold: 0.5, type: 'NEW', unstable: false], [threshold: 0.5, type: 'NEW_HIGH', unstable: false]], tools: [cppCheck(pattern: 'cppcheck-result.xml')]
 									}										
 								} // 				stage('sPHENIX-Build')
