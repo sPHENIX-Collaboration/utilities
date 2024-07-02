@@ -131,26 +131,32 @@ pipeline
 			}
 		}//stage('SCM Checkout')
 		
+	    stage ('Git mining') {
+		steps {
+			discoverGitReferenceBuild (requiredResult: hudson.model.Result.SUCCESS)
+			mineRepository()
+			gitDiffStat()
+			}
+	    }
 			
-    stage('clang-tidy')
-    {
-      steps 
-      {
-        
-        sh ('$singularity_exec_sphenix /bin/bash -v utilities/jenkins/built-test/clang-tidy.sh')
-
-      }
-    }// Stage - cpp check
-
-    stage('clang-tidy-analysis')
-    {
-      
-      steps 
-      {
-        archiveArtifacts artifacts: 'clang-tidy-result.txt'
-        recordIssues qualityGates: [[threshold: 0, type: 'NEW', unstable: true], [threshold: 0, type: 'NEW_HIGH', unstable: true], [threshold: 200, type: 'NEW', unstable: false], [threshold: 5, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]
-      }										
-    } // 				stage('sPHENIX-Build')
+	    stage('clang-tidy')
+	    {
+	      steps 
+	      {
+	        
+	        sh ('$singularity_exec_sphenix /bin/bash -v utilities/jenkins/built-test/clang-tidy.sh')
+	
+	      }
+	    }// Stage - cpp check
+	
+	    stage('clang-tidy-analysis')
+	    {	      
+	      steps 
+	      {
+	        archiveArtifacts artifacts: 'clang-tidy-result.txt'
+	        recordIssues qualityGates: [[threshold: 0.5, type: 'NEW', unstable: true], [threshold: 0.5, type: 'NEW_HIGH', unstable: true], [threshold: 200, type: 'NEW', unstable: false], [threshold: 5, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]
+	      }										
+	    } // 				stage('sPHENIX-Build')
 
 	}//stages
 		
