@@ -215,7 +215,15 @@ pipeline
 				}
 			}
 		}//stage('SCM Checkout')
-		
+
+		    stage ('Git mining') {
+			steps {
+				discoverGitReferenceBuild (requiredResult: hudson.model.Result.SUCCESS)
+				mineRepository()
+				gitDiffStat()
+				}
+		    }
+
 		// hold this until jenkins supports nested parallel
 		//stage('Build')
 		//{
