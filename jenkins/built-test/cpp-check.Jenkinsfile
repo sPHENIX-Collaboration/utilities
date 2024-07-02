@@ -110,9 +110,11 @@ pipeline
 		}//stage('SCM Checkout')
 		
 	    stage ('Git mining') {
-		discoverGitReferenceBuild requiredResult: SUCCESS
-		mineRepository()
-		gitDiffStat()
+		steps {
+			discoverGitReferenceBuild requiredResult: SUCCESS
+			mineRepository()
+			gitDiffStat()
+			}
 	    }
 		// hold this until jenkins supports nested parallel
 		//stage('Build')
