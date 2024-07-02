@@ -111,7 +111,7 @@ pipeline
 		
 	    stage ('Git mining') {
 		steps {
-			discoverGitReferenceBuild (requiredResult: "SUCCESS")
+			discoverGitReferenceBuild (defaultBranch: "master")
 			mineRepository()
 			gitDiffStat()
 			}
