@@ -95,7 +95,7 @@ ${macro_full_path}(${function_parameters})"""
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh("$singularity_exec_sphenix_farm  tcsh -f singularity-check.sh ${build_type}")
+							sh("$singularity_exec_sphenix_farm3  tcsh -f singularity-check.sh ${build_type}")
 						
 						}
 					}
@@ -153,7 +153,7 @@ ${macro_full_path}(${function_parameters})"""
 			steps 
 			{					
 				dir('macros') {
-					sh("$singularity_exec_sphenix_farm sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} '${function_parameters}' ${run_valgrind}")
+					sh("$singularity_exec_sphenix_farm3 sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} '${function_parameters}' ${run_valgrind}")
 				}						
 			}				
 					
