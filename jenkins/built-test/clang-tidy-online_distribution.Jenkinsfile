@@ -130,7 +130,7 @@ pipeline
                 fi
 
                 shopt -s globstar
-                clang-tidy ./online_distribution/**/*.cc ./online_distribution/**/*.cpp ./online_distribution/**/*.cxx -- -Wall -Werror -Wshadow -std=c++17 -Wno-dangling -i./online_distribution/newbasic -i./online_distribution/pmonitor -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DHomogeneousField -DEVTGEN_HEPMC3 -DRAVE -DRaveDllExport= > clang-tidy-result.txt
+                clang-tidy ./online_distribution/**/*.cc ./online_distribution/**/*.cpp ./online_distribution/**/*.cxx -- -Wall -Werror -Wshadow -std=c++17 -Wno-dangling -i${WORKSPACE}/online_distribution/newbasic -i${WORKSPACE}/online_distribution/pmonitor -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DHomogeneousField -DEVTGEN_HEPMC3 -DRAVE -DRaveDllExport= > clang-tidy-result.txt
 
                 ls -hvl $PWD/clang-tidy-result.txt
                 wc -l clang-tidy-result.txt
@@ -139,7 +139,7 @@ pipeline
                 ''';//  writeFile file: "build.sh", 
 
             sh('chmod +x build.sh');
-            sh('$singularity_exec_sphenix bash build.sh')
+            sh('$singularity_exec_sphenix bash -v build.sh')
 
 
 	
