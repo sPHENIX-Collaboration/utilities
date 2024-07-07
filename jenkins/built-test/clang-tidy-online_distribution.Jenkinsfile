@@ -121,6 +121,14 @@ pipeline
                 which clang-tidy; 
                 env;
 
+                cd online_distribution/newbasic
+                echo "// *** this is a generated file. Do not commit, do not edit" > ioselect.h
+                echo "#ifndef __IOSELECT_H__" >> ioselect.h
+                echo "#define __IOSELECT_H__" >> ioselect.h
+                echo "#define STREAMBUF_NEW_IOSTREAM" >> ioselect.h
+                echo  >> ioselect.h
+                echo "#endif" >> ioselect.h
+
                 cd ${WORKSPACE}
                 pwd
                 ls -lhcv
