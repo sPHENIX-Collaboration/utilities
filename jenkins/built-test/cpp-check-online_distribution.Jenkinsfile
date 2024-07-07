@@ -127,7 +127,7 @@ pipeline
 					{
                         writeFile file: "build.sh", text:'''#!/usr/bin/env tcsh
                         
-                            source /opt/sphenix/core/bin/sphenix_setup.csh -n; 
+                            source /opt/sphenix/core/bin/sphenix_setup.csh -n new; 
 
                             which cppcheck; 
 
@@ -144,7 +144,7 @@ pipeline
                             ''';//  writeFile file: "build.sh", text:'''#!/usr/bin/env tcsh
 
                         sh('chmod +x build.sh');
-                        sh('$singularity_exec_sphenix bash build.sh')
+                        sh('$singularity_exec_sphenix tcsh build.sh')
 		   		    }
 				}// Stage - cpp check
 				 

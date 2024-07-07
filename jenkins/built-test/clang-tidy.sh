@@ -6,7 +6,7 @@ echo "-----------------------------------"
 echo " Start header installation "
 echo "-----------------------------------"
 
-source /opt/sphenix/core/bin/sphenix_setup.sh -n;
+source /opt/sphenix/core/bin/sphenix_setup.sh -n new;
 mkdir -v ${WORKSPACE}/build;
 
 cd ${WORKSPACE}/utilities/utils/rebuild/
