@@ -172,10 +172,42 @@ pipeline
 						{
 						   error('Build New FAIL by cppcheck')
     						}
+                        }
+                    }
+				}// Stage - cpp check
+
+				stage('clang-tidy')
+				{
+					when {
+    			 	// case insensitive regular expression for truthy values
+						expression { return run_cppcheck ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+					}
+					steps 
+					{
+						echo ("starting clang-tidy with run_cppcheck = ${run_cppcheck}")
+		
+						script
+						{
+				   		def built = build(job: 'clang-tidy-online_distribution',
+			    			parameters:
+			    			[
+							string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+							string(name: 'sha_online_distribution', value: "${sha1}"), 
+							string(name: 'git_url_online_distribution', value: "https://github.com/${ghprbGhRepository}.git"), 
+				    			string(name: 'upstream_build_description', value: "${currentBuild.description}"),
+					    		string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
+				    		],
+			    			wait: true, propagate: false)
+			    			
+						copyArtifacts(projectName: 'clang-tidy-online_distribution', filter: 'report/*', selector: specific("${built.number}"));
+		    		
+						if ("${built.getResult()}" == 'FAILURE')
+						{
+						   error('Build New FAIL by clang-tidy')
+    						}
 					}
 		   		}
 				}// Stage - cpp check
-
 			} // parallel {
 		}//stage('Build')
 		
