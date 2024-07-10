@@ -132,6 +132,7 @@ coresoftware/offline/QA/Mvtx|josborn1@bnl.gov
 coresoftware/offline/QA/Intt|josborn1@bnl.gov
 coresoftware/offline/QA/Tracking|josborn1@bnl.gov
 coresoftware/offline/QA/EventDisplay|josborn1@bnl.gov
+coresoftware/offline/QA/Global|ejironaomiumaka@gmail.com
 coresoftware/offline/QA/Calorimeters|bs3402@columbia.edu
 coresoftware/offline/QA/Trigger|Daniel.Lis@colorado.edu
 coresoftware/offline/QA/Tpc|josborn1@bnl.gov
