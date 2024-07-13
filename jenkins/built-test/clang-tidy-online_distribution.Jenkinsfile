@@ -138,7 +138,7 @@ pipeline
                 fi
 
                 shopt -s globstar
-                clang-tidy ./online_distribution/**/*.cc  ./online_distribution/**/*.cxx -- -Wall -Werror -Wshadow -std=c++17 -Wno-dangling -isystem${WORKSPACE}/online_distribution/newbasic -isystem${WORKSPACE}/online_distribution/pmonitor -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DLinux= > clang-tidy-result.txt
+                clang-tidy ./online_distribution/**/*.cc  ./online_distribution/**/*.cxx -- -Wall -Werror -Wshadow -std=c++17 -Wno-dangling -isystem${WORKSPACE}/online_distribution/newbasic -isystem${WORKSPACE}/online_distribution/pmonitor -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DLinux= -DHAVE_GETOPT_H= > clang-tidy-result.txt
 
                 ls -hvl $PWD/clang-tidy-result.txt
                 wc -l clang-tidy-result.txt
