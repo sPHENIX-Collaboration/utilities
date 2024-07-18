@@ -119,7 +119,7 @@ pipeline
     				
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('$singularity_exec_sphenix_farm3  tcsh singularity-check.sh ${build_type}')
+							sh('$singularity_exec_sphenix_farm  tcsh singularity-check.sh ${build_type}')
 						
 						}
 						
@@ -233,7 +233,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 10')
+				sh('$singularity_exec_sphenix_farm sh utilities/jenkins/built-test/test-calo-single-qa.sh e- 4 10')
 														
 			}				
 					
@@ -245,7 +245,7 @@ pipeline
 			steps 
 			{
 					
-				sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 10')
+				sh('$singularity_exec_sphenix_farm sh utilities/jenkins/built-test/test-calo-single-qa.sh pi+ 30 10')
 				
 				// archiveArtifacts artifacts: 'macros/macros/QA/calorimeter/G4sPHENIX_*_Sum*_qa.root*'										
 			}				
