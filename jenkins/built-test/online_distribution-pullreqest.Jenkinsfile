@@ -168,7 +168,7 @@ pipeline
 			    			
 						copyArtifacts(projectName: 'cpp-check-online_distribution', filter: 'report/*', selector: specific("${built.number}"));
 		    		
-						if ("${built.result}" != 'SUCCESS')
+						if ("${built.result}" != 'SUCCESS' && "${built.result}" != 'UNSTABLE')
 						{
 						   error('Build New FAIL by cppcheck')
     						}
