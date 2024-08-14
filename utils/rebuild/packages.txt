@@ -148,6 +148,7 @@ coresoftware/calibrations/intt/inttcalib|jbertau@purdue.edu
 coresoftware/calibrations/tpc/generator|ross.corliss@stonybrook.edu
 coresoftware/calibrations/tpc/fillSpaceChargeMaps|mohaas33@gmail.com
 coresoftware/calibrations/tpc/fillDigitalCurrentMaps|ross.corliss@stonybrook.edu
+coresoftware/calibrations/tpc/TpcDVCalib|yuxd@stu.pku.edu.cn
 coresoftware/calibrations/xingshift|dloom@umich.edu
 coresoftware/calibrations/localpol/monitoring|dloom@umich.edu
 # the dumping needs all objects and comes last
