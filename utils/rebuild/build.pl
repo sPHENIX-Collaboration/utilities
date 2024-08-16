@@ -1731,7 +1731,8 @@ CONNECTAGAIN2:
     my $insertbuild = $dbh->prepare("insert into buildtags (build, date, unixdate, reponame, tag) values (?, ?, ?, ?, ?)");
     my $unixdate = `date +%s`;
     chomp $unixdate;
-    my $humandate = `date`;
+    my $humandate = `date '+%F %T'`;
+    chomp $humandate;
 
     foreach my $key (keys %repotags)
     {
