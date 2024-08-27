@@ -49,6 +49,7 @@ umask 002;
 
 my %externalPackages = (
     "boost" => "boost",
+    "bzip2" => "bzip2",
     "CGAL" => "CGAL",
     "CLHEP" => "CLHEP",
     "Eigen" => "Eigen",
