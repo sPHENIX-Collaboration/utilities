@@ -124,6 +124,8 @@ prototype/offline/packages/Prototype3|jhuang@bnl.gov
 prototype/offline/packages/Prototype4|jhuang@bnl.gov
 # Jet tagging module
 coresoftware/offline/packages/ResonanceJetTagging|antonio.sphenix@gmail.com
+#DST Skimmers
+coresoftware/offline/packages/Skimmers/Jets|sli7@bnl.gov
 # QA modules that use both simulation and offline libs
 #coresoftware/offline/QA/modules|jhuang@bnl.gov
 coresoftware/offline/QA/Global|josborn1@bnl.gov
