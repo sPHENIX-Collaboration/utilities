@@ -46,7 +46,7 @@ echo "Build step - build - start at " `pwd`;
 build_ret=0;
 
 
-if [[ ${system_config} == "alam9"* ]]; then
+if [[ ${system_config} =~ 'alma9' ]]; then
 	# alam9 builds
 
 	echo "./build.pl --stage 1 --version='alma9'  --source=${WORKSPACE} --sysname=${system_config} --workdir=${WORKSPACE}/build;"
