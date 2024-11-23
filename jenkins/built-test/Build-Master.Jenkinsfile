@@ -91,7 +91,7 @@ pipeline
 
 						dir('utilities/jenkins/built-test/') {
 							
-							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh ${build_type}')
+							sh('$singularity_exec tcsh -f singularity-check.sh ${build_type}')
 						
 						}
 					}
@@ -269,7 +269,7 @@ pipeline
 								sh('env')
 								sh('ls -lvhc')
 										
-								sh('$singularity_exec_sphenix  sh utilities/jenkins/built-test/full-build.sh')
+								sh('$singularity_exec  sh utilities/jenkins/built-test/full-build.sh')
 							
 							 	script {
 							  	build_root_path = pwd();
