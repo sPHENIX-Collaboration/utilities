@@ -49,8 +49,8 @@ build_ret=0;
 if [[ ${system_config} == "alam9"* ]]; then
 	# alam9 builds
 
-	echo "./build.pl --stage 1 --version='alma9'  --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;"
-	./build.pl --stage 1 --version='alma9'  --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;
+	echo "./build.pl --stage 1 --version='alma9'  --source=${WORKSPACE} --sysname=${system_config} --workdir=${WORKSPACE}/build;"
+	./build.pl --stage 1 --version='alma9'  --source=${WORKSPACE} --sysname=${system_config} --workdir=${WORKSPACE}/build;
 	build_ret=$?;
 
 else
