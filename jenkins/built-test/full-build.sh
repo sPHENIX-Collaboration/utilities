@@ -45,32 +45,20 @@ echo "Build step - build - start at " `pwd`;
 
 build_ret=0;
 
-
-if [[ ${system_config} =~ 'alma9' ]]; then
-	# alam9 builds
-
-	echo "./build.pl --stage 1 --version='alma9'  --source=${WORKSPACE} --sysname=${system_config} --workdir=${WORKSPACE}/build;"
-	./build.pl --stage 1 --version='alma9'  --source=${WORKSPACE} --sysname=${system_config} --workdir=${WORKSPACE}/build;
+if [[ ${build_type} == 'clang' ]]; then
+	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;"
+	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;
 	build_ret=$?;
-
+elif [[ ${build_type} == 'scan' ]]; then
+	echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --scanbuild --workdir=${WORKSPACE}/build;"
+	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --scanbuild --workdir=${WORKSPACE}/build;
+	build_ret=$?;
 else
-	# default builds
-
-	if [[ ${build_type} == 'clang' ]]; then
-		echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;"
-		./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --${build_type} --workdir=${WORKSPACE}/build;
-		build_ret=$?;
-	elif [[ ${build_type} == 'scan' ]]; then
-		echo  	"./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --scanbuild --workdir=${WORKSPACE}/build;"
-		./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --scanbuild --workdir=${WORKSPACE}/build;
-		build_ret=$?;
-	else
-		echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;"
-		./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;
-		build_ret=$?;
-	fi
-
+	echo "./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;"
+	./build.pl --stage 1 --source=${WORKSPACE} --version="${build_type}" --sysname=${system_config} --workdir=${WORKSPACE}/build;
+	build_ret=$?;
 fi
+
 
 echo "Build step - build - done";
 
