@@ -1,4 +1,4 @@
-#! /usr/bin/perl
+#! /usr/bin/env perl
 
 # This script rebuilds the sPHENIX/EIC code base.  It checks out code from git,
 # compiles it, and installs it in the appropriate directories in cvmfs (or AFS).
@@ -58,6 +58,7 @@ my %externalPackages = (
     "hdf5" => "hdf5",
     "HepMC" => "HepMC",
     "Herwig" => "Herwig",
+    "json" => "json",
     "LHAPDF" => "LHAPDF",
     "nopayloadclient" => "nopayloadclient",
     "onnxruntime" => "onnxruntime",
@@ -1758,7 +1759,11 @@ sub CreateCmakeCommand
 	{
 	    $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_CXX_STANDARD=17 -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev",$externalPackages{"tbb"});
 	}
-        if ($opt_version =~ /debug/)
+	if ($opt_version eq "alma9")
+	{
+	    $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES=ON -DACTS_BUILD_EXAMPLES_BINARIES=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DACTS_BUILD_PLUGIN_DD4HEP=ON -DACTS_BUILD_EXAMPLES_DD4HEP=ON -DCMAKE_CXX_STANDARD=17 -DACTS_BUILD_EXAMPLES_GEANT4=ON -DDD4hep_DIR=${OFFLINE_MAIN}/cmake -DGeant4_DIR=${G4_MAIN}/lib64/Geant4-$g4version -Dnlohmann_json_DIR=${OFFLINE_MAIN}/share/cmake -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev",$externalPackages{"tbb"});
+	}
+	if ($opt_version =~ /debug/)
         {
             $cmakecmd = sprintf("%s -DCMAKE_BUILD_TYPE=Debug",$cmakecmd);
         }
