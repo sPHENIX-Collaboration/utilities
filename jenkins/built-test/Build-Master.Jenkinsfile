@@ -680,6 +680,7 @@ def runCheckTest(String jobname)
 		parameters:
 		[
 			string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+			string(name: 'singularity_cmd', value: "${singularity_cmd}"), 
 			string(name: 'build_src', value: "${build_root_path}"), 
 			string(name: 'build_type', value: "${build_type}"), 
 			string(name: 'system_config', value: "${system_config}"), 
