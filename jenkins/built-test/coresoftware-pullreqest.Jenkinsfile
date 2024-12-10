@@ -292,8 +292,39 @@ pipeline
 										}//script						   			
 							   				    
 									}				// steps
-				}//stage('Build-Test-Scanbuild')
-							
+				}//stage('Build-Test-Scanbuild')			
+				 
+				// hold this until jenkins supports nested parallel 
+				stage('Build-Master-gcc14') {			
+					steps 
+					{
+						script
+						{
+							def built = build(job: 'Build-Master-gcc14',
+							parameters:
+							[
+								string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
+								string(name: 'sha_coresoftware', value: "${sha1}"), 
+								string(name: 'git_url_coresoftware', value: "https://github.com/${ghprbGhRepository}.git"), 
+								booleanParam(name: 'run_valgrind_test', value: false), 
+								booleanParam(name: 'run_default_test', value: true), 
+								booleanParam(name: 'run_DST_readback', value: true), 
+								booleanParam(name: 'run_calo_qa', value: false), 
+								string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
+								string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
+							],
+							wait: true, propagate: false)						    									 
+								copyArtifacts(projectName: 'Build-Master-gcc14', filter: 'report/*', selector: specific("${built.number}"));  		
+
+							if ("${built.result}" != 'SUCCESS')
+							{
+								error('Build-Master-gcc14 FAIL')
+							}										
+
+						}//script						   			
+								
+					} // steps
+				}//stage('Build-Test-Clang')				
 							
 			} // parallel {
 		}//stage('Build')
