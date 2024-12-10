@@ -70,24 +70,6 @@ pipeline
 			}
 		}
 		
-		stage('ContainerCheck') 
-		{
-			
-            
-			steps {
-				timestamps {
-					ansiColor('xterm') {
-						
-						dir('utilities/jenkins/built-test/') {
-							
-							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh')
-						
-						}
-					}
-				}
-			}
-		}
-
 		stage('Git Checkout')
 		{
 			
