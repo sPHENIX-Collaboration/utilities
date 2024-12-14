@@ -1764,7 +1764,7 @@ sub CreateCmakeCommand
 	    $cmakecmd = sprintf("cmake -DBOOST_ROOT=${OFFLINE_MAIN} -DTBB_ROOT_DIR=${OFFLINE_MAIN} -DEigen3_DIR=${OFFLINE_MAIN}/share/eigen3/cmake -DROOT_DIR=${ROOTSYS}/cmake -DACTS_BUILD_TGEO_PLUGIN=ON -DACTS_BUILD_EXAMPLES=ON -DACTS_BUILD_EXAMPLES_BINARIES=ON -DACTS_BUILD_EXAMPLES_PYTHIA8=ON -DPythia8_INCLUDE_DIR=${OFFLINE_MAIN}/include/Pythia8 -DPythia8_LIBRARY=${OFFLINE_MAIN}/lib/libpythia8.so -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_VERBOSE_MAKEFILE=ON -DACTS_BUILD_PLUGIN_DD4HEP=ON -DACTS_BUILD_EXAMPLES_DD4HEP=ON -DCMAKE_CXX_STANDARD=20 -DACTS_BUILD_EXAMPLES_GEANT4=ON -DDD4hep_DIR=${OFFLINE_MAIN}/cmake -DGeant4_DIR=${G4_MAIN}/lib64/Geant4-$g4version -Dnlohmann_json_DIR=${OFFLINE_MAIN}/share/cmake/nlohman -DCLHEP_DIR=${OFFLINE_MAIN}/lib/$clhep_version -DCMAKE_INSTALL_PREFIX=$installDir -Wno-dev");
 	    if ($opt_version =~ /clang/)
 	    {
-		$cmakecmd = sprintf("%s -DCMAKE_CXX_FLAGS=-Wno-missing-template-arg-list-after-template-kw -DCMAKE_EXE_LINKER_FLAGS='-L/cvmfs/sphenix.sdcc.bnl.gov/alma9.2-gcc-14.2.0/opt/sphenix/core/gcc/14.2.0-2f0a0/x86_64-el9/lib64 -lstdc++'",$cmakecmd);
+		$cmakecmd = sprintf("%s -DCMAKE_CXX_FLAGS=-Wno-missing-template-arg-list-after-template-kw",$cmakecmd);
 	    }
 	}
 	if ($opt_version =~ /debug/)
