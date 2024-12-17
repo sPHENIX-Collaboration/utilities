@@ -353,41 +353,6 @@ pipeline
 								}
 
 								//---------------------------
-								// Calo Production Year 1
-								//---------------------------
-								
-								stage('test-default-CaloProduction-Year1')
-								{
-									
-									when {
-				    				// case insensitive regular expression for truthy values
-										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-									}
-									steps 
-									{			    		
-										script
-										{
-											runCheckTest('test-default-CaloProduction-Year1')		
-										}// script
-									}				
-								} // stage('test-default-CaloProduction-Year1')
-								stage('test-default-valgrind-CaloProduction-Year1')
-								{
-									
-									when {
-				    				// case insensitive regular expression for truthy values
-										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-									}
-									steps 
-									{												    		
-										script
-										{
-											runCheckTest('test-default-valgrind-CaloProduction-Year1')	
-										}						   				    
-									}				
-								}
-
-								//---------------------------
 								// Calo Production Year 2
 								//---------------------------
 								
