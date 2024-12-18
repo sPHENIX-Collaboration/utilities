@@ -209,7 +209,7 @@ pipeline
 												booleanParam(name: 'run_valgrind_test', value: true), 
 												booleanParam(name: 'run_default_test', value: true), 
 												booleanParam(name: 'run_DST_readback', value: true), 
-												booleanParam(name: 'run_calo_qa', value: true), 
+												booleanParam(name: 'run_calo_qa', value: false), 
 												string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 												string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 											],
@@ -260,14 +260,14 @@ pipeline
 									} // steps
 				}//stage('Build-Test-Clang')
 
-				stage('Build-Test-Scanbuild-gcc12') {
+				stage('Build-Test-Scanbuild-gcc14') {
 			
 									steps 
 									{
 												    		
 										script
 										{
-				   							def built = build(job: 'Build-ScanBuild-gcc12',
+				   							def built = build(job: 'Build-ScanBuild-gcc14',
 												parameters:
 												[
 													string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
@@ -282,11 +282,11 @@ pipeline
 												],
 												wait: true, propagate: false)						    									 
 											
-											copyArtifacts(projectName: 'Build-ScanBuild-gcc12', filter: 'report/*', selector: specific("${built.number}"));  		
+											copyArtifacts(projectName: 'Build-ScanBuild-gcc14', filter: 'report/*', selector: specific("${built.number}"));  		
 
 											if ("${built.result}" != 'SUCCESS')
 											{
-												 error('Build-ScanBuild-gcc12 FAIL')
+												 error('Build-ScanBuild-gcc14 FAIL')
 											}										
 			
 										}//script						   			
@@ -309,7 +309,7 @@ pipeline
 								booleanParam(name: 'run_valgrind_test', value: false), 
 								booleanParam(name: 'run_default_test', value: true), 
 								booleanParam(name: 'run_DST_readback', value: true), 
-								booleanParam(name: 'run_calo_qa', value: false), 
+								booleanParam(name: 'run_calo_qa', value: true), 
 								string(name: 'upstream_build_description', value: "${currentBuild.description}"), 
 								string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 							],
