@@ -755,6 +755,10 @@ print LOG "===========================================\n";
 		my $runscript = "run_gpp.sh";
 		open(F2,">$runscript");
 		my $runcmd = sprintf("%s g++ -g -L%s/lib -linsure_mt \$*",$insurecompiler,$PARASOFT);
+		if ($opt_sysname =~ "alma9")
+		{
+		    $runcmd = sprintf("%s g++ -g -L%s/lib -linsurert_mt \$*",$insurecompiler,$PARASOFT);
+		}
 		print F2 "$runcmd\n";
 		close(F2);
 		chmod 0755, $runscript;
@@ -1785,7 +1789,14 @@ sub CreateCmakeCommand
 	    close(F2);
 	    chmod 0755, $runscript;
 	    print LOG "using insure $insurecompiler\n";
-	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsure_mt -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
+	    if ($opt_sysname =~ "alma9")
+	    {
+		$cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsurert_mt -ltql_pthread_gcc -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
+	    }
+	    else
+	    {
+		$cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsure_mt -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
+	    }
 	}
 	elsif ($opt_clang)
 	{
