@@ -166,6 +166,12 @@ if ($opt_qa && $opt_eic ||
     print "--qa and --eic and --ecce are mutually exclusive\n";
     die;
 }
+# the no debug compilation for insure results in unresolved jsaon symbol
+# when linking against the optimized nopayloadclient lib
+if ($opt_insure && $opt_sysname =~ "alma9")
+{
+    $externalPackages{"nopayloadclient"} = "nopayloadclient-debug";
+}
 
 die unless open(IN,$repositoryfile);
 while (<IN>)
@@ -561,19 +567,26 @@ make_path($buildDir, {mode=> 0775}) unless -e $buildDir;
 # accessible area - if you want to put the reports on the web, copy
 # them there after the build has succeeded.
 if ($opt_insure)
-  {
+{
     $insureDir = $workdir.'/reports';
     if ($opt_stage == 0)
-      {
+    {
         remove_tree($insureDir);
         make_path($insureDir, {mode => 0775});
         $gusDir = $workdir.'/gus';
         remove_tree($gusDir);
         make_path($gusDir, {mode => 0775});
         $ENV{GUSDIR} = $gusDir;
-      }
-   $insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
-  }
+    }
+    if ($opt_sysname =~ "alma9")
+    {
+	$insureCompileFlags = sprintf(" CC=\"insure gcc -g\" CXX=\"insure g++\" CXXLD=\"insure g++ -L%s/lib -ltql_pthread_gcc\"",$PARASOFT);
+    }
+    else
+    {
+	$insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
+    }
+}
 
 # switch OFFLINE_MAIN to new install area and create it
 $oldOfflineMain = $OFFLINE_MAIN;
@@ -757,7 +770,7 @@ print LOG "===========================================\n";
 		my $runcmd = sprintf("%s g++ -g -L%s/lib -linsure_mt \$*",$insurecompiler,$PARASOFT);
 		if ($opt_sysname =~ "alma9")
 		{
-		    $runcmd = sprintf("%s g++ -g -L%s/lib -linsurert_mt \$*",$insurecompiler,$PARASOFT);
+		    $runcmd = sprintf("%s g++ -g -L%s/lib -linsurert_mt -ltql_pthread_gcc \$*",$insurecompiler,$PARASOFT);
 		}
 		print F2 "$runcmd\n";
 		close(F2);
