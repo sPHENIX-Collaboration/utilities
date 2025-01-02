@@ -166,6 +166,12 @@ if ($opt_qa && $opt_eic ||
     print "--qa and --eic and --ecce are mutually exclusive\n";
     die;
 }
+# the no debug compilation for insure results in unresolved jsaon symbol
+# when linking against the optimized nopayloadclient lib
+if ($opt_insure && $opt_sysname =~ "alma9")
+{
+    $externalPackages{"nopayloadclient"} = "nopayloadclient-debug";
+}
 
 die unless open(IN,$repositoryfile);
 while (<IN>)
@@ -561,19 +567,26 @@ make_path($buildDir, {mode=> 0775}) unless -e $buildDir;
 # accessible area - if you want to put the reports on the web, copy
 # them there after the build has succeeded.
 if ($opt_insure)
-  {
+{
     $insureDir = $workdir.'/reports';
     if ($opt_stage == 0)
-      {
+    {
         remove_tree($insureDir);
         make_path($insureDir, {mode => 0775});
         $gusDir = $workdir.'/gus';
         remove_tree($gusDir);
         make_path($gusDir, {mode => 0775});
         $ENV{GUSDIR} = $gusDir;
-      }
-   $insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
-  }
+    }
+    if ($opt_sysname =~ "alma9")
+    {
+	$insureCompileFlags = sprintf(" CC=\"insure gcc -g\" CXX=\"insure g++\" CXXLD=\"insure g++ -L%s/lib -ltql_pthread_gcc\"",$PARASOFT);
+    }
+    else
+    {
+	$insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
+    }
+}
 
 # switch OFFLINE_MAIN to new install area and create it
 $oldOfflineMain = $OFFLINE_MAIN;
@@ -755,6 +768,10 @@ print LOG "===========================================\n";
 		my $runscript = "run_gpp.sh";
 		open(F2,">$runscript");
 		my $runcmd = sprintf("%s g++ -g -L%s/lib -linsure_mt \$*",$insurecompiler,$PARASOFT);
+		if ($opt_sysname =~ "alma9")
+		{
+		    $runcmd = sprintf("%s g++ -g -L%s/lib -linsurert_mt -ltql_pthread_gcc \$*",$insurecompiler,$PARASOFT);
+		}
 		print F2 "$runcmd\n";
 		close(F2);
 		chmod 0755, $runscript;
@@ -1785,7 +1802,14 @@ sub CreateCmakeCommand
 	    close(F2);
 	    chmod 0755, $runscript;
 	    print LOG "using insure $insurecompiler\n";
-	    $cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsure_mt -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
+	    if ($opt_sysname =~ "alma9")
+	    {
+		$cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsurert_mt -ltql_pthread_gcc -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
+	    }
+	    else
+	    {
+		$cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsure_mt -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
+	    }
 	}
 	elsif ($opt_clang)
 	{
