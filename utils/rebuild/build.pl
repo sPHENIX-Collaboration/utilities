@@ -166,12 +166,6 @@ if ($opt_qa && $opt_eic ||
     print "--qa and --eic and --ecce are mutually exclusive\n";
     die;
 }
-# the no debug compilation for insure results in unresolved jsaon symbol
-# when linking against the optimized nopayloadclient lib
-if ($opt_insure && $opt_sysname =~ "alma9")
-{
-    $externalPackages{"nopayloadclient"} = "nopayloadclient-debug";
-}
 
 die unless open(IN,$repositoryfile);
 while (<IN>)
