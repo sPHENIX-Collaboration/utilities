@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import time
 
 from github import Github, GithubIntegration
+from github import Auth
 
 # print('Disable GitHub tagging!')
 # exit(0)
@@ -48,13 +49,15 @@ with open(os.environ['HOME'] + "/.ssh/github.app.sphenix-jenkins-ci.private-key.
 
 print(f"Authentication with private key for app {APPID} installation {INSTALLATIONID} ...")
 
-integration = GithubIntegration(APPID, signing_key)
-jwt_token = integration.create_jwt()
-access_obj = integration.get_access_token(INSTALLATIONID)
+# integration = GithubIntegration(APPID, signing_key)
+# jwt_token = integration.create_jwt()
+# access_obj = integration.get_access_token(INSTALLATIONID)
 
-pprint.pprint(access_obj.__dict__);
+# pprint.pprint(access_obj.__dict__);
 
-token = access_obj.token
+# token = access_obj.token
+
+auth = Auth.AppAuth(APPID, signing_key).get_installation_auth(INSTALLATIONID)
 
 #########################
 # Label definitions
@@ -85,7 +88,8 @@ if os.getenv("githubComment") is not None:
 # Talk to GitHub
 #########################
 
-gh = Github(token)
+# gh = Github(token)
+gh = Github(auth=auth)
 
 org = gh.get_organization(organizationName)
 repo = org.get_repo(repoName)
