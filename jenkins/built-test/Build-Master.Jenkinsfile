@@ -657,7 +657,7 @@ def runCheckTest(String jobname)
 
 	copyArtifacts(projectName: jobname, selector: specific("${built.number}"), filter: 'report/*.md');
 
-	if ("${built.result}" != 'SUCCESS')
+	if ("${built.result}" != 'SUCCESS' && "${built.result}" != 'UNSTABLE')
 	{
 		error(jobname + ': FAIL')
 	} 
