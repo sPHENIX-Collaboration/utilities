@@ -226,7 +226,7 @@ pipeline
 									} // steps
 				}//stage('Build-Test-Clang')
 				
-			stage('Build-Test-Clang-gcc12') {
+			stage('Build-Test-Clang-gcc14') {
 			
 									steps 
 									{
@@ -234,7 +234,7 @@ pipeline
 												    		
 										script
 										{
-											def built = build(job: 'Build-Clang-gcc12',
+											def built = build(job: 'Build-Clang-gcc14',
 											parameters:
 											[
 												string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
@@ -248,11 +248,11 @@ pipeline
 												string(name: 'ghprbPullLink', value: "${ghprbPullLink}")
 											],
 											wait: true, propagate: false)						    									 
-												copyArtifacts(projectName: 'Build-Clang-gcc12', filter: 'report/*', selector: specific("${built.number}"));  		
+												copyArtifacts(projectName: 'Build-Clang-gcc14', filter: 'report/*', selector: specific("${built.number}"));  		
 
 											if ("${built.result}" != 'SUCCESS')
 											{
-												error('Build-Clang-gcc12 FAIL')
+												error('Build-Clang-gcc14 FAIL')
 											}										
 			
 										}//script						   			
