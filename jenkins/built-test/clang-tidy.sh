@@ -38,15 +38,15 @@ if test -f clang-tidy-result.txt; then
 fi
 
 shopt -s globstar
-# clang-tidy ./coresoftware/**/*.cc ./coresoftware/**/*.cpp -- -Wall -Werror -Wshadow -std=c++20 -Wno-dangling -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DHomogeneousField -DEVTGEN_HEPMC3 -DRAVE -DRaveDllExport= > clang-tidy-result.txt
-find ./coresoftware -type f \( -name '*.cc' -o -name '*.cpp' \) -print0 | \
-  xargs -0 -n 1 -P 32 \
-  clang-tidy -- -Wall -Werror -Wshadow -std=c++20 -Wno-dangling \
-    -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include \
-    -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4 \
-    -isystem$OPT_SPHENIX/include -DHomogeneousField \
-    -DEVTGEN_HEPMC3 -DRAVE -DRaveDllExport= \
-    > clang-tidy-result.txt
+clang-tidy ./coresoftware/**/*.cc ./coresoftware/**/*.cpp -- -Wall -Werror -Wshadow -std=c++20 -Wno-dangling -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4  -isystem$OPT_SPHENIX/include -DHomogeneousField -DEVTGEN_HEPMC3 -DRAVE -DRaveDllExport= > clang-tidy-result.txt
+# find ./coresoftware -type f \( -name '*.cc' -o -name '*.cpp' \) -print0 | \
+#   xargs -0 -n 1 -P 32 \
+#   clang-tidy -- -Wall -Werror -Wshadow -std=c++20 -Wno-dangling \
+#     -isystem$OFFLINE_MAIN/include -isystem$ROOTSYS/include \
+#     -isystem$G4_MAIN/include -isystem$G4_MAIN/include/Geant4 \
+#     -isystem$OPT_SPHENIX/include -DHomogeneousField \
+#     -DEVTGEN_HEPMC3 -DRAVE -DRaveDllExport= \
+#     > clang-tidy-result.txt
 
 ls -hvl $PWD/clang-tidy-result.txt
 wc -l clang-tidy-result.txt
