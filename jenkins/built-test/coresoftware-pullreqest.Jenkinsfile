@@ -171,7 +171,7 @@ pipeline
 		
 						script
 						{
-				   		def built = build(job: 'clang-tidy-pipeline',
+				   		def built = build(job: 'clang-tidy-pipeline-gcc14',
 			    			parameters:
 			    			[
 							string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
@@ -182,7 +182,7 @@ pipeline
 				    		],
 			    			wait: true, propagate: false)
 			    			
-						copyArtifacts(projectName: 'clang-tidy-pipeline', filter: 'report/*', selector: specific("${built.number}"));
+						copyArtifacts(projectName: 'clang-tidy-pipeline-gcc14', filter: 'report/*', selector: specific("${built.number}"));
 		    		
 						if ("${built.getResult()}" == 'FAILURE')
 						{
