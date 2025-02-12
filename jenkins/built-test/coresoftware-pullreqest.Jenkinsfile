@@ -137,7 +137,7 @@ pipeline
 		
 						script
 						{
-				   		def built = build(job: 'cpp-check-pipeline',
+				   		def built = build(job: 'cpp-check-pipeline-gcc14',
 			    			parameters:
 			    			[
 							string(name: 'checkrun_repo_commit', value: "${checkrun_repo_commit}"), 
@@ -148,7 +148,7 @@ pipeline
 				    		],
 			    			wait: true, propagate: false)
 			    			
-						copyArtifacts(projectName: 'cpp-check-pipeline', filter: 'report/*', selector: specific("${built.number}"));
+						copyArtifacts(projectName: 'cpp-check-pipeline-gcc14', filter: 'report/*', selector: specific("${built.number}"));
 		    		
 						if ("${built.result}" != 'SUCCESS')
 						{
