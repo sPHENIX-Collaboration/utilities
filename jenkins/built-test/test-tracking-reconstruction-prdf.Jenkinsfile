@@ -156,12 +156,12 @@ ${macro_full_path}(${function_parameters})"""
 					sh("$singularity_exec_sphenix_farm sh ../utilities/jenkins/built-test/test-default-generic.sh ${macro_full_path} '${function_parameters}' ${run_valgrind}")
 				}	
 				
-				archiveArtifacts artifacts: 'macros/detectors/sPHENIX/*prdf_reconstruction*.root*'			
+				archiveArtifacts artifacts: '*prdf_reconstruction*.root*'			
 									
 			}				
 					
 		}
-
+		
 		stage('valgrind_report')
 		{
 			when {
