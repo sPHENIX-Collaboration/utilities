@@ -475,7 +475,20 @@ pipeline
 										}
 									}				
 								}// 				stage('test-calo-single-qa')
-								
+								stage('test-tracking-reconstruction-prdf')
+								{
+									when
+									{
+										expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps
+									{
+										script
+										{
+											runCheckTest('test-tracking-reconstruction-prdf')
+										}
+									}
+								} // stage('test-tracking-reconstruction-prdf')
 								stage('test-tracking-low-occupancy-qa')
 								{
 									
