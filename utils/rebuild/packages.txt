@@ -92,8 +92,6 @@ coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
 coresoftware/offline/packages/decayfinder|cdean@bnl.gov
 # HFTrackEfficiency needs DecayFinder
 coresoftware/offline/packages/HFTrackEfficiency|cdean@bnl.gov
-# KFFParticle needs libeval
-coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # Offline tracking software
 coresoftware/offline/packages/trackreco|josborn1@bnl.gov
 coresoftware/offline/packages/TrackerMillepedeAlignment|afrawley@fsu.edu
@@ -103,6 +101,8 @@ coresoftware/offline/packages/tpccalib|hugo.pereira-da-costa@cea.fr
 coresoftware/offline/packages/CaloReco|jhuang@bnl.gov
 # trigger needs CaloReco
 coresoftware/offline/packages/trigger|dvp@bnl.gov
+# KFFParticle needs libeval
+coresoftware/offline/packages/KFParticle_sPHENIX|cdean@bnl.gov
 # centrality needs trackbase_historic and calotrigger_io
 coresoftware/offline/packages/centrality|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4centrality|dvp@bnl.gov
