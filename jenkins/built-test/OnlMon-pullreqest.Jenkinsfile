@@ -166,7 +166,7 @@ pipeline
 					echo "Env setup"
 					echo '---------------------------------'
 					# source /opt/sphenix/core/bin/sphenix_setup.sh -n; 
-					source /cvmfs/sphenix.sdcc.bnl.gov/online/Debian/bin/sphenix_setup.sh
+					source /cvmfs/sphenix.sdcc.bnl.gov/online/alma9.2/opt/sphenix/core/bin/sphenix_setup.sh
 					env;
 					
 					echo install at install_dir=$install_dir
@@ -221,7 +221,7 @@ pipeline
 					echo '---------------------------------'
 					which cppcheck
 					
-					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++11 ./OnlMon  > cppcheck-result.xml 2>&1 
+					cppcheck -q --inline-suppr  --enable=warning --enable=performance --platform=unix64 --inconclusive --xml --xml-version=2 -j 10 --std=c++17 ./OnlMon  > cppcheck-result.xml 2>&1
 					status=${PIPESTATUS[0]}
 					
 					ls -hvl cppcheck-result.xml
