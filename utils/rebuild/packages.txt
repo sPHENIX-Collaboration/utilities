@@ -34,6 +34,8 @@ coresoftware/generators/HIJINGFlipAfterburner|sl4859@columbia.edu
 coresoftware/generators/ReactionPlaneAfterburner|sl4859@columbia.edu
 #PHPythia8 needs phhepmc
 coresoftware/generators/PHPythia8|dvp@bnl.gov
+#Herwig needs phhepmc
+coresoftware/generators/Herwig|sgrossberndt@gradcenter.cuny.edu
 # ffamodules need sphenixnpc
 coresoftware/offline/database/sphenixnpc|pinkenburg@bnl.gov
 # we want generator values in the event header

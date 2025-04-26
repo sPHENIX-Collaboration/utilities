@@ -49,7 +49,6 @@ umask 002;
 
 my %externalPackages = (
     "boost" => "boost",
-    "bzip2" => "bzip2",
     "CGAL" => "CGAL",
     "CLHEP" => "CLHEP",
     "Eigen" => "Eigen",
@@ -77,7 +76,6 @@ my %externalRootPackages = (
     "KFParticle" => "KFParticle",
     "PHOTOS" => "PHOTOS",
     "pythia8" => "pythia8",
-    "pythiaeRHIC" => "pythiaeRHIC",
     "TAUOLA" => "TAUOLA"
     );
 my $rootversion = `root-config --version`;
