@@ -16,6 +16,7 @@ coresoftware/offline/packages/QAUtils|josborn1@bnl.gov
 coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
 coresoftware/offline/framework/rawbcolumi|zhiwanxu@lanl.gov
 coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
+coresoftware/offline/packages/TpcLineLaserDiode|luke.legnosky@stonybrook.edu
 coresoftware/calibrations/framework/oncal|pinkenburg@bnl.gov
 coresoftware/generators/sphstarlight|stacyann.nelson@morgan.edu
 coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
