@@ -149,7 +149,7 @@ pipeline
 	      steps 
 	      {
 	        
-	        sh ('$singularity_exec_sphenix /bin/bash -v utilities/jenkins/built-test/clang-tidy.sh')
+	        sh ('$singularity_exec_sphenix_farm3  /bin/bash -v utilities/jenkins/built-test/clang-tidy.sh')
 	
 	      }
 	    }// Stage - cpp check
