@@ -264,7 +264,7 @@ pipeline
 								sh('env')
 								sh('ls -lvhc')
 										
-								sh('$singularity_exec_sphenix  sh utilities/jenkins/built-test/full-build.sh')
+								sh('$singularity_exec_sphenix_farm3 sh utilities/jenkins/built-test/full-build.sh')
 							
 							 	script {
 							  	build_root_path = pwd();
