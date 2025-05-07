@@ -89,11 +89,6 @@ pipeline
 						sh('env')
 						sh('ls -lvhc')
 
-						dir('utilities/jenkins/built-test/') {
-							
-							sh('$singularity_exec_sphenix3 tcsh -f singularity-check.sh ${build_type}')
-						
-						}
 					}
 				}
 			}
