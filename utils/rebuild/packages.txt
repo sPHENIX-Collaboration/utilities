@@ -157,6 +157,7 @@ coresoftware/calibrations/tpc/fillDigitalCurrentMaps|ross.corliss@stonybrook.edu
 coresoftware/calibrations/tpc/TpcDVCalib|yuxd@stu.pku.edu.cn
 coresoftware/calibrations/xingshift|dloom@umich.edu
 coresoftware/calibrations/localpol/monitoring|dloom@umich.edu
+coresoftware/calibrations/mvtx/MvtxHotPixel|tmengel@bnl.gov
 # the dumping needs all objects and comes last
 coresoftware/offline/packages/NodeDump|pinkenburg@bnl.gov
 # this is the convenience library which loads all libraries needed for reading
