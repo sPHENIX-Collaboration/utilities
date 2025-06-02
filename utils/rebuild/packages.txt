@@ -86,7 +86,6 @@ coresoftware/offline/packages/PHGenFitPkg/PHGenFit|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4vertex|pinkenburg@bnl.gov
 coresoftware/offline/packages/jetbase|0ds.johnny@gmail.com
 coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
-coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 # simulations/Geant4/ evals
 coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
@@ -112,6 +111,8 @@ coresoftware/simulation/g4simulation/g4centrality|dvp@bnl.gov
 #coresoftware/validation/CaloValid|bs3402@columbia.edu
 # event plane needs centrality
 coresoftware/offline/packages/eventplaneinfo|ejironaomiumaka@gmail.com
+# jet background needs event plane
+coresoftware/offline/packages/jetbackground|dvp@bnl.gov
 # CaloEmbedding needs trigger
 coresoftware/offline/packages/CaloEmbedding|benjamin.kimelman@vanderbilt.edu
 coresoftware/simulation/g4simulation/g4waveformsim|sl4859@columbia.edu
