@@ -200,7 +200,7 @@ do
 	# nbname=QA-calorimeter.ipynb 
 	filename=`basename ${nbname} .ipynb`
 	
-	summary="* [:bar_chart: ${filename}](https://nbviewer.jupyter.org/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})"
+	summary="* [:bar_chart: ${filename}](https://nbviewer.sphenix.bnl.gov/github/sPHENIX-Collaboration/QA-gallery/blob/${git_tag}/${nbname})"
 	
 	if [ -f "${filename}.txt" ]; then
 		
