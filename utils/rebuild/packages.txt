@@ -151,6 +151,7 @@ coresoftware/offline/packages/TPCHitTrackDisplay|rosstom@g.ucla.edu
 coresoftware/calibrations/calorimeter/calo_tower_slope|frantz@ohio.edu
 coresoftware/calibrations/calorimeter/calo_emc_pi0_tbt|frantz@ohio.edu
 coresoftware/calibrations/calorimeter/calo_emc_noisy_tower|ahodges4@illinois.edu
+coresoftware/calibrations/calorimeter/calo_cdb|narde2@illinois.edu
 coresoftware/calibrations/intt/inttcalib|jbertau@purdue.edu
 coresoftware/calibrations/tpc/generator|ross.corliss@stonybrook.edu
 coresoftware/calibrations/tpc/fillSpaceChargeMaps|mohaas33@gmail.com
