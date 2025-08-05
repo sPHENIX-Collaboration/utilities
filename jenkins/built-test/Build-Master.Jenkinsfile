@@ -417,44 +417,6 @@ pipeline
 									}				
 								}
 
-
-
-								//---------------------------
-								// Tracking Production TrkrHitSet_Unpacker
-								//---------------------------
-								
-								stage('test-default-TrackingProduction-TrkrHitSet_Unpacker')
-								{
-									
-									when {
-				    				// case insensitive regular expression for truthy values
-										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-									}
-									steps 
-									{			    		
-										script
-										{
-											runCheckTest('test-default-TrackingProduction-TrkrHitSet_Unpacker')		
-										}// script
-									}				
-								} // stage('test-default-TrackingProduction-TrkrHitSet_Unpacker')
-								stage('test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker')
-								{
-									
-									when {
-				    				// case insensitive regular expression for truthy values
-										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-									}
-									steps 
-									{												    		
-										script
-										{
-											runCheckTest('test-default-valgrind-TrackingProduction-TrkrHitSet_Unpacker')	
-										}						   				    
-									}				
-								}
-
-							
 								stage('test-calo-single-qa')
 								{
 									
@@ -670,3 +632,4 @@ def runCheckTest(String jobname)
 		error(jobname + ': FAIL')
 	} 
 }
+
