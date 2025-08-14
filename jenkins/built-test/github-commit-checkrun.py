@@ -79,10 +79,8 @@ print(f"Processing commit {checkrun_organziation} / {checkrun_repo} / {checkrun_
 # Authentification
 #########################
 
-import os, time, requests, jwt
-from github import Github, Auth
 
-# === Read IDs and PEM ===
+
 with open(os.path.expanduser("~/.ssh/github.app.sphenix-jenkins-ci.appid")) as f:
     APPID = int(f.read().strip())
 with open(os.path.expanduser("~/.ssh/github.app.sphenix-jenkins-ci.installationid")) as f:
@@ -92,37 +90,18 @@ with open(os.path.expanduser("~/.ssh/github.app.sphenix-jenkins-ci.private-key.p
 
 print(f"Authentication with private key for app {APPID} installation {INSTALLATIONID} ...")
 
-# === Build JWT with NumericDate claims ===
-now = int(time.time())
-payload = {
-    "iat": now - 60,     # backdate for minor clock skew
-    "exp": now + 540,    # <= 10 minutes; 9 minutes is safe
-    "iss": APPID         # app id; keep as int
-}
-jwt_token = jwt.encode(payload, signing_key, algorithm="RS256")
-if isinstance(jwt_token, bytes):
-    jwt_token = jwt_token.decode("utf-8")
-
-# === Exchange JWT -> installation access token ===
-resp = requests.post(
-    f"https://api.github.com/app/installations/{INSTALLATIONID}/access_tokens",
-    headers={
-        "Authorization": f"Bearer {jwt_token}",
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "sphenix-jenkins-ci"
-    },
-    timeout=30,
-)
-resp.raise_for_status()
-access_token = resp.json()["token"]
-
-# === Give PyGithub a plain token (no internal JWT needed) ===
-gh = Github(auth=Auth.Token(access_token))
+# Create App auth, then get a Github client bound to the installation.
+app_auth = Auth.AppAuth(APPID, signing_key)
+gi = GithubIntegration(auth=app_auth)
+gh = gi.get_github_for_installation(INSTALLATIONID)  # Access token handled & refreshed for you
 
 #########################
 # Talk to GitHub
 #########################
+
+gh = Github(login_or_token=access_obj.token)
+
+# pprint.pprint(gh.__dict__);
 
 org = gh.get_organization(checkrun_organziation)
 repo = org.get_repo(checkrun_repo)
