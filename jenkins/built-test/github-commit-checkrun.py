@@ -99,10 +99,6 @@ gh = gi.get_github_for_installation(INSTALLATIONID)  # Access token handled & re
 # Talk to GitHub
 #########################
 
-gh = Github(login_or_token=access_obj.token)
-
-# pprint.pprint(gh.__dict__);
-
 org = gh.get_organization(checkrun_organziation)
 repo = org.get_repo(checkrun_repo)
 commitObj = repo.get_commit(checkrun_commit)
