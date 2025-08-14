@@ -7,7 +7,7 @@ import json
 from datetime import datetime, timedelta
 import time
 
-from github import Github, GithubIntegration
+from github import Auth, GithubIntegration, Github
 
 #########################
 # Input and checks
@@ -81,20 +81,19 @@ print(f"Processing commit {checkrun_organziation} / {checkrun_repo} / {checkrun_
 
 
 
-with open (os.environ['HOME'] + "/.ssh/github.app.sphenix-jenkins-ci.appid", "r") as myfile:
-    APPID=myfile.read().strip()
-with open (os.environ['HOME'] + "/.ssh/github.app.sphenix-jenkins-ci.installationid", "r") as myfile:
-    INSTALLATIONID=myfile.read().strip()
-with open(os.environ['HOME'] + "/.ssh/github.app.sphenix-jenkins-ci.private-key.pem", 'rb') as fh:
-    signing_key = fh.read().decode()
+with open(os.path.expanduser("~/.ssh/github.app.sphenix-jenkins-ci.appid")) as f:
+    APPID = int(f.read().strip())
+with open(os.path.expanduser("~/.ssh/github.app.sphenix-jenkins-ci.installationid")) as f:
+    INSTALLATIONID = int(f.read().strip())
+with open(os.path.expanduser("~/.ssh/github.app.sphenix-jenkins-ci.private-key.pem"), "r") as f:
+    signing_key = f.read()
 
 print(f"Authentication with private key for app {APPID} installation {INSTALLATIONID} ...")
 
-integration = GithubIntegration(APPID, signing_key)
-jwt_token = integration.create_jwt()
-access_obj = integration.get_access_token(INSTALLATIONID)
-
-# pprint.pprint(access_obj.__dict__);
+# Create App auth, then get a Github client bound to the installation.
+app_auth = Auth.AppAuth(APPID, signing_key)
+gi = GithubIntegration(auth=app_auth)
+gh = gi.get_github_for_installation(INSTALLATIONID)  # Access token handled & refreshed for you
 
 #########################
 # Talk to GitHub
