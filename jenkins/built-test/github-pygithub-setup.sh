@@ -14,7 +14,7 @@ else
     echo "Continue to setup virtual env"
 fi
 
-~/anaconda3/bin/virtualenv env
+~/anaconda3/bin/python -m venv env
 source env/bin/activate
 
 which python
