@@ -92,8 +92,10 @@ print(f"Authentication with private key for app {APPID} installation {INSTALLATI
 
 # Create App auth, then get a Github client bound to the installation.
 app_auth = Auth.AppAuth(APPID, signing_key)
-gi = GithubIntegration(auth=app_auth)
-gh = gi.get_github_for_installation(INSTALLATIONID)  # Access token handled & refreshed for you
+installation_auth = app_auth.get_installation_auth(INSTALLATIONID)
+gh = Github(auth=installation_auth)
+# gi = GithubIntegration(auth=app_auth)
+# gh = gi.get_github_for_installation(INSTALLATIONID)  # Access token handled & refreshed for you
 
 #########################
 # Talk to GitHub
