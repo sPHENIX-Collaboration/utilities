@@ -1,7 +1,6 @@
 # This list gives the packages we build in the order in which they are build
 acts|josborn1@bnl.gov
 coresoftware/offline/packages/compressor|cer@mit.edu
-coresoftware/offline/packages/uspin|dloom@umich.edu
 online_distribution/newbasic|purschke@bnl.gov
 online_distribution/pmonitor|purschke@bnl.gov
 coresoftware/offline/framework/phool|pinkenburg@bnl.gov
@@ -11,6 +10,8 @@ coresoftware/offline/framework/frog|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffarawobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
+# uspin needs phool
+coresoftware/offline/packages/uspin|dloom@umich.edu
 # qa utils for data based qa modules
 coresoftware/offline/packages/QAUtils|josborn1@bnl.gov
 coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
