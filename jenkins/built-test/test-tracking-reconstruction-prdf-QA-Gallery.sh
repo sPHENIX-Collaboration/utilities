@@ -35,7 +35,8 @@ export git_tag="$BUILD_TAG-${name}"
 
 git checkout -b update_${name}
 git status
-
+pwd
+ls -lrt
 source setup.sh 
 
 echo "======================================================="
