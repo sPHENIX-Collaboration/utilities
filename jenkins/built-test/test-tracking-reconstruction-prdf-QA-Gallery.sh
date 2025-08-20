@@ -33,6 +33,8 @@ echo "======================================================="
 
 export git_tag="$BUILD_TAG-${name}"
 
+env | sort
+
 git checkout -b update_${name}
 git status
 pwd

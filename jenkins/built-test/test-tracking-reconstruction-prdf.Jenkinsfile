@@ -202,7 +202,7 @@ ${macro_full_path}(${function_parameters})"""
 		{
 			steps 
 			{					 
-				sh("$singularity_exec_sphenix_farm sh utilities/jenkins/built-test/test-tracking-reconstruction-prdf-QA-Gallery.sh")	
+				sh("$singularity_exec_sphenix_farm bash utilities/jenkins/built-test/test-tracking-reconstruction-prdf-QA-Gallery.sh")	
 			}				
 					
 		}
