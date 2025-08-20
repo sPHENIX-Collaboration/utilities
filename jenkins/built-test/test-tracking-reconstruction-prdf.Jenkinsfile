@@ -73,6 +73,17 @@ ${macro_full_path}(${function_parameters})"""
 						{
 							deleteDir()
     					}
+						
+						dir('QA-gallery')
+						{
+							deleteDir()
+    					}
+    					
+						dir('qa_html')
+						{
+							deleteDir()
+    					}
+    					
 						sh('ls -lvhc')
 					}
 				}
@@ -140,8 +151,33 @@ ${macro_full_path}(${function_parameters})"""
 								] //checkout
 							)//checkout
 							
-    				}	
+    					}	
     				
+				
+						dir('QA-gallery')
+						{			
+							
+							checkout(
+								[
+						 			$class: 'GitSCM',
+						   		extensions: [               
+							   		[$class: 'CleanCheckout'],  
+									[$class: 'CloneOption', timeout: 60, shallow: true, noTags: true]
+						   		],
+							  	branches: [
+							    		[name: "${sha_QA_gallery}"]
+							    	], 
+							  	userRemoteConfigs: 
+							  	[[
+							     	credentialsId: 'sPHENIX-bot', 
+							     	url: '${git_url_QA_gallery}',
+							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main'), 
+							    	branch: ('*')
+							  	]]
+								] //checkout
+							)//checkout
+							
+    					}	
 						
 					}
 				}
@@ -158,6 +194,15 @@ ${macro_full_path}(${function_parameters})"""
 				
 				archiveArtifacts artifacts: 'macros/TrackingProduction/*prdf_reconstruction*.root*'			
 									
+			}				
+					
+		}
+		
+		stage('QA')
+		{
+			steps 
+			{					 
+				sh("$singularity_exec_sphenix_farm sh utilities/jenkins/built-test/test-tracking-reconstruction-prdf-QA-Gallery.sh")	
 			}				
 					
 		}
