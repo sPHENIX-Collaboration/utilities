@@ -350,6 +350,7 @@ ${macro_full_path}(${function_parameters})"""
 			) // build(job: 'github-commit-checkrun',
 			
 			archiveArtifacts artifacts: 'macros/**/*.log'
+			script{
 			def buildUrl = env.BUILD_URL
 			def reportUrl = "${buildUrl}HTML_Report/test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=somehistograms.root&newFile=prdf_reconstruction53877_qashort.root"
 			publishHTML(target: [
@@ -360,6 +361,8 @@ ${macro_full_path}(${function_parameters})"""
 				reportFiles: "test-tracking-reconstruction-prdf-trackfittingqa.html",
 				reportName: 'QA-histograms-53877'
 			])
-            currentBuild.description = "<a href='${reportUrl}'>View Histograms for this build</a>"		}
+            currentBuild.description = "<a href='${reportUrl}'>View Histograms for this build</a>"		
+			}
+		}
 	}
 }//pipeline 
