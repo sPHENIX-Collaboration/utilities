@@ -352,7 +352,7 @@ ${macro_full_path}(${function_parameters})"""
 			archiveArtifacts artifacts: 'macros/**/*.log'
 			script{
 			def buildUrl = env.BUILD_URL
-			def reportUrl = "${buildUrl}QA_histograms_trackfittingqa/test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=somehistograms.root&newFile=prdf_reconstruction53877_qashort.root"
+			def reportUrl = "${buildUrl}QA_histograms_trackfittingqa/test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=prdf_reconstruction53877_qa.root&newFile=prdf_reconstruction53877_qa.root"
 			publishHTML(target: [
 				allowMissing: false,
 				alwaysLinkToLastBuild: true,
