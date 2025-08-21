@@ -350,6 +350,14 @@ ${macro_full_path}(${function_parameters})"""
 			) // build(job: 'github-commit-checkrun',
 			
 			archiveArtifacts artifacts: 'macros/**/*.log'
+			publishHTML(target: [
+				allowMissing: false,
+				alwaysLinkeToLastBuild: true,
+				keepAll: true,
+				reportDir: "/var/lib/jenkins/workspace/sPHENIX/test-tracking-reconstruction-prdf/QA-gallery/",
+				reportFiles: "test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=prdf_reconstruction53877_qa.root&newFile=prdf_reconstruction53877_qa.root",
+				reportName: '53877 QA histograms'
+			])
 		}
 	}
 }//pipeline 
