@@ -350,14 +350,16 @@ ${macro_full_path}(${function_parameters})"""
 			) // build(job: 'github-commit-checkrun',
 			
 			archiveArtifacts artifacts: 'macros/**/*.log'
+			def buildUrl = env.BUILD_URL
+			def reportUrl = "${buildUrl}HTML_Report/test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=somehistograms.root&newFile=prdf_reconstruction53877_qashort.root"
 			publishHTML(target: [
 				allowMissing: false,
 				alwaysLinkToLastBuild: true,
 				keepAll: true,
 				reportDir: "/var/lib/jenkins/workspace/sPHENIX/test-tracking-reconstruction-prdf/QA-gallery/",
-				reportFiles: "test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=prdf_reconstruction53877_qa.root&newFile=prdf_reconstruction53877_qa.root",
+				reportFiles: "test-tracking-reconstruction-prdf-trackfittingqa.html",
 				reportName: 'QA-histograms-53877'
 			])
-		}
+            currentBuild.description = "<a href='${reportUrl}'>View Histograms for this build</a>"		}
 	}
 }//pipeline 
