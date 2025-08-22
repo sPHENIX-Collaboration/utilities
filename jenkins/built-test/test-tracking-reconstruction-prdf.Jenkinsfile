@@ -352,14 +352,14 @@ ${macro_full_path}(${function_parameters})"""
 			archiveArtifacts artifacts: 'macros/**/*.log'
 			script{
 			def buildUrl = env.BUILD_URL
-			def reportUrl = "${buildUrl}QA_histograms_trackfittingqa/test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=prdf_reconstruction53877_qa.root&newFile=prdf_reconstruction53877_qa.root"
+			def reportUrl = "${buildUrl}QAHistogramsTrackfitting/test-tracking-reconstruction-prdf-trackfittingqa.html?refFile=prdf_reconstruction53877_qa.root&newFile=prdf_reconstruction53877_qa.root"
 			publishHTML(target: [
 				allowMissing: false,
 				alwaysLinkToLastBuild: true,
 				keepAll: true,
 				reportDir: "/var/lib/jenkins/workspace/sPHENIX/test-tracking-reconstruction-prdf/QA-gallery/",
 				reportFiles: "test-tracking-reconstruction-prdf-trackfittingqa.html",
-				reportName: 'QA_histograms_trackfittingqa'
+				reportName: 'QAHistogramsTrackfitting'
 			])
             currentBuild.description = "<a href='${reportUrl}'>View Histograms for this build</a>"		
 			}
