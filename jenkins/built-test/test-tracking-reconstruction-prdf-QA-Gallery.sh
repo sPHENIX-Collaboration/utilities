@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z "${build_type}" ]; then
+	echo "Fatal error: Miss env build_type"
+	exit 1;
+fi
+
 name=test-tracking-reconstruction-prdf-QA-Gallery
 
 
@@ -10,7 +15,8 @@ cp -fv $WORKSPACE/macros/TrackingProduction/*prdf_reconstruction*.root* ./
 
 ls -lhv
 
-
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 echo "======================================================="
 echo "${name}: Reference";
 echo "======================================================="
@@ -42,7 +48,7 @@ ls -lrt
 source setup.sh 
 
 echo "======================================================="
-echo "${name}: Drawing G4sPHENIX_${name}_qa.root";
+echo "${name}: Drawing ${name} QA";
 echo "================================================"
 
 notebooks=`/bin/ls -1 *.ipynb`

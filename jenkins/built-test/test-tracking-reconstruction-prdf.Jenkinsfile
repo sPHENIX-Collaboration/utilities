@@ -329,6 +329,8 @@ ${macro_full_path}(${function_parameters})"""
 
 			dir('report')
 			{
+				echo("start report building to ....");
+				sh ('pwd');
 			  writeFile file: "test-default-generic-${system_config}-${build_type}-valgrind${run_valgrind}-${macro_full_path}.md".replaceAll('/','_'), text: "${build_result_description}"
 			}
 		  		  
