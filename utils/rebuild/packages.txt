@@ -56,18 +56,18 @@ coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
 # rundb needs calo_io
 coresoftware/offline/database/rundb|egm2153@columbia.edu
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
-coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
-coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
-coresoftware/offline/packages/mbd|chiu@bnl.gov
 #coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
-coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 # tracking needs g4 detectors for geometry classes
 # mvtx needs trackbase, tracking also needs trackbase_historic for now
 coresoftware/offline/packages/mvtx|ycmorales@rcf.rhic.bnl.gov
-coresoftware/offline/packages/intt|afrawley@fsu.edu
 coresoftware/offline/packages/micromegas|hugo.pereira-da-costa@cea.fr
-coresoftware/offline/packages/TpcLineLaserDiode|luke.legnosky@stonybrook.edu
 coresoftware/offline/packages/tpc|afrawley@fsu.edu
+coresoftware/offline/packages/trackbase_historic|afrawley@fsu.edu
+coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
+coresoftware/offline/packages/mbd|chiu@bnl.gov
+coresoftware/offline/packages/intt|afrawley@fsu.edu
+coresoftware/offline/packages/TpcLineLaserDiode|luke.legnosky@stonybrook.edu
+coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 #zdcinfo needs trackbase_historic?
 coresoftware/offline/packages/zdcinfo|ejironaomiumaka@gmail.com
 # g4tpc, g4mvtx and g4intt need tpc, mvtx and intt
