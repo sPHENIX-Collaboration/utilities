@@ -26,11 +26,6 @@ pipeline
 						
 						sh('ls -lvhc')
     				
-						dir('utilities/jenkins/built-test/') {
-							
-							sh('$singularity_exec_sphenix  tcsh -f singularity-check.sh ${build_type}')
-						
-						}
 						
 					}
 				}
@@ -44,7 +39,7 @@ pipeline
 			steps 
 			{
 					
-				sh("$singularity_exec_sphenix_farm bash utilities/jenkins/built-test/test-cdb-readback.sh")
+				sh("$singularity_exec_sphenix bash utilities/jenkins/built-test/test-cdb-readback.sh")
 														
 			}				
 					
