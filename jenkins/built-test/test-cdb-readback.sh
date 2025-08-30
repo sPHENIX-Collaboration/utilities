@@ -2,9 +2,9 @@
 
 
 
-output_file="test_cdb-readback.C"
+test_cdb_file="test-cdb-readback.C"
 
-cat >"$output_file" <<'EOF'
+cat >"$test_cdb_file" <<'EOF'
 #include <CDBUtils.C>
 
 void test_cdb_readback() {
@@ -135,6 +135,7 @@ void test_cdb_readback() {
 
 EOF
 
+ls -lhcv $test_cdb_file
 
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
@@ -152,7 +153,7 @@ echo "======================================================="
 
 which root.exe
 
-root.exe -b -q 'test_cdb_readback.C' | tee test_cdb_readback.log
+root.exe -b -q $test_cdb_file | tee test_cdb_readback.log
 
 root_status=${PIPESTATUS[0]}
 if [ ${root_status} -ne 0 ]; then
