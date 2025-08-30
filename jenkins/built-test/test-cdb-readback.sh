@@ -153,7 +153,7 @@ echo "======================================================="
 
 which root.exe
 
-root.exe -b -q $test_cdb_file | tee test_cdb_readback.log
+root.exe -b -q "$test_cdb_file" 2>&1 | tee test_cdb_readback.log
 
 root_status=${PIPESTATUS[0]}
 if [ ${root_status} -ne 0 ]; then
