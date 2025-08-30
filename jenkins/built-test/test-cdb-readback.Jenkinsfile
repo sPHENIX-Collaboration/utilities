@@ -1,7 +1,6 @@
 pipeline 
 {
 	agent any
- 	options { timestamps () }
 
 //    environment { 
 //        JenkinsBase = 'jenkins/test/'
