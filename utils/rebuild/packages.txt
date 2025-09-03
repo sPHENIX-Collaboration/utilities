@@ -91,6 +91,8 @@ coresoftware/simulation/g4simulation/g4jets|dvp@bnl.gov
 coresoftware/simulation/g4simulation/g4eval|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4trackfastsim|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4histos|pinkenburg@bnl.gov
+# TruthNeutralMesonFinder needs g4main and hepMC IO objects
+coresoftware/offline/packages/TruthNeutralMesonFinder
 #DecayFinder needs libg4hit in g4main
 coresoftware/offline/packages/decayfinder|cdean@bnl.gov
 # HFTrackEfficiency needs DecayFinder
