@@ -45,7 +45,7 @@ git checkout -b update_${name}
 git status
 pwd
 ls -lrt
-bash setup.sh 
+source setup.sh 
 
 echo "======================================================="
 echo "${name}: Drawing ${name} QA";
@@ -58,7 +58,7 @@ do
 	echo "Processing $nbname ..."; 
 	
 	# nbname=QA-calorimeter.ipynb 
-	sh run.sh ${nbname}
+	bash run.sh ${nbname}
 	
 	build_ret=$?
 	if [ $build_ret -ne 0 ]; then
