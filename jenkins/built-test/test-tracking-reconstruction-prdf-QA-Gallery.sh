@@ -15,6 +15,8 @@ cp -fv $WORKSPACE/macros/TrackingProduction/*prdf_reconstruction*.root* ./
 
 ls -lhv
 
+echo "environment before "
+env | sort
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 echo "======================================================="
