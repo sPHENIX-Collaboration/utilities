@@ -333,7 +333,33 @@ ${macro_full_path}(${function_parameters})"""
 				sh ('pwd');
 			  writeFile file: "test-default-generic-${system_config}-${build_type}-valgrind${run_valgrind}-${macro_full_path}.md".replaceAll('/','_'), text: "${build_result_description}"
 			}
-		  		  
+		  	script
+			{								
+				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
+				
+				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
+
+				def files = findFiles(glob: 'QA-gallery/report*.md')
+				echo("all reports: $files");
+				// def testFileNames = files.split('\n')
+				for (def fileEntry : files) 
+				{    			
+					String file = fileEntry.path;    				
+
+					String fileContent = readFile(file).trim();
+
+					echo("$file  -> ${fileContent}");
+
+					// update report summary
+					report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
+
+					// update build description
+					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+				}    			
+
+				writeFile file: "report/QA-tracking-low-occupancy-qa.md", text: "${report_content}"	
+
+			}//script
 			archiveArtifacts artifacts: 'report/*.md'
 						
 			build(job: 'github-commit-checkrun',
