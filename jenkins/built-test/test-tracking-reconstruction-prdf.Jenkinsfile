@@ -206,7 +206,33 @@ ${macro_full_path}(${function_parameters})"""
 			}				
 					
 		}
-		
+		stage('html-report')
+		{
+			steps 
+			{	
+			
+				dir('qa_html')
+				{					
+					sh('ls -lhv')
+				}
+			
+				sh("cp -fv QA-gallery/*.html qa_html/");
+				
+				script {
+					def html_files = findFiles(glob: 'qa_html/*.html').join(',')
+					echo("all html_files: $html_files");
+					publishHTML (target: [
+					      allowMissing: false,
+					      alwaysLinkToLastBuild: false,
+					      keepAll: true,
+					      reportDir: 'qa_html',
+					      reportFiles: "$html_files",
+					      reportName: "QA Report"
+					    ])
+				}
+			}			// steps	
+					
+		}
 		stage('valgrind_report')
 		{
 			when {
@@ -337,7 +363,7 @@ ${macro_full_path}(${function_parameters})"""
 			{								
 				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
 				
-				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA at low occupancy: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
+				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA from run2pp 53877: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
 
 				def files = findFiles(glob: 'QA-gallery/report*.md')
 				echo("all reports: $files");
