@@ -423,5 +423,32 @@ ${macro_full_path}(${function_parameters})"""
 			
 			archiveArtifacts artifacts: 'macros/**/*.log'
 		}
+		success {
+			script {
+				currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-tracking-reconstruction-prdf-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
+			}
+			
+			// build(job: 'github-comment-label',
+			//   parameters:
+			//   [
+			// 		string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+			// 		string(name: 'LabelCategory', value: "track-low-occ-QA"),
+			// 		string(name: 'LabelStatus', value: "AVAILABLE")
+			// 	],
+			// 	wait: false, propagate: false)
+				
+		}
+		failure {
+			// build(job: 'github-comment-label',
+			//   parameters:
+			//   [
+			// 		string(name: 'ghprbPullLink', value: "${ghprbPullLink}"), 
+			// 		string(name: 'LabelCategory', value: "track-low-occ-QA"),
+			// 		string(name: 'LabelStatus', value: "FAIL")
+			// 	],
+			// 	wait: false, propagate: false)
+			
+			archiveArtifacts artifacts: 'macros/**/*.log'
+		}
 	}
 }//pipeline 
