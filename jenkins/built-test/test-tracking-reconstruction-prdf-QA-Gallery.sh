@@ -12,7 +12,7 @@ cd $WORKSPACE/QA-gallery
 pwd
 
 cp -fv $WORKSPACE/macros/TrackingProduction/*prdf_reconstruction*.root* ./
-
+export qa_file_name_new=$WORKSPACE/macros/TrackingProduction/*prdf_reconstruction*.root
 ls -lhv
 
 echo "environment before "

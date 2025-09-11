@@ -183,7 +183,29 @@ ${macro_full_path}(${function_parameters})"""
 				}
 			}
 		}//stage('SCM Checkout')
-		
+		stage('Copy reference')
+		{
+			
+			when {
+    			// case insensitive regular expression for truthy values
+					expression { return use_reference ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+			}
+			steps 
+			{
+				timestamps { 
+					ansiColor('xterm') {
+						
+						dir('reference')
+						{
+    					copyArtifacts(projectName: "test-tracking-reconstruction-prdf-reference", selector: lastSuccessful());
+
+							sh('ls -lvhc')
+    				}
+						
+					}
+				}
+			}
+		}
 		stage('Test')
 		{
 			steps 
