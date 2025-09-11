@@ -186,10 +186,6 @@ ${macro_full_path}(${function_parameters})"""
 		stage('Copy reference')
 		{
 			
-			when {
-    			// case insensitive regular expression for truthy values
-					expression { return use_reference ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-			}
 			steps 
 			{
 				timestamps { 
