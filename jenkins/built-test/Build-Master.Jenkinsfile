@@ -141,7 +141,7 @@ pipeline
 						 			$class: 'GitSCM',
 									extensions: [               
 										[$class: 'SubmoduleOption',
-										    disableSubmodules: false,
+										    disableSubmodules: true,
 										    parentCredentials: true,
 										    recursiveSubmodules: true,
 										    reference: '',
