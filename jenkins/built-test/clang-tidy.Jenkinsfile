@@ -138,7 +138,13 @@ pipeline
 		
 	    stage ('Git mining') {
 		steps {
-			discoverGitReferenceBuild (requiredResult: hudson.model.Result.SUCCESS)
+
+		    discoverGitReferenceBuild(
+		      targetBranch: 'master',
+		      requiredResult: 'SUCCESS'   // was: hudson.model.Result.SUCCESS
+		    )
+			// discoverGitReferenceBuild (requiredResult: hudson.model.Result.SUCCESS)
+			
 			mineRepository()
 			gitDiffStat()
 			}
