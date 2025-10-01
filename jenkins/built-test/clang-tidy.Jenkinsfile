@@ -141,7 +141,7 @@ pipeline
 
 		    discoverGitReferenceBuild(
 		      targetBranch: 'master',
-		      requiredResult: 'SUCCESS'   // was: hudson.model.Result.SUCCESS
+		      requiredResult: hudson.model.Result.SUCCESS
 		    )
 			// discoverGitReferenceBuild (requiredResult: hudson.model.Result.SUCCESS)
 			
