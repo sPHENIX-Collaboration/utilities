@@ -98,6 +98,7 @@ $opt_stage = 0;
 $opt_db = 0;
 $opt_scanbuild = 0;
 $opt_coverity = 0;
+$opt_coreowner = $default_repoowner;
 $opt_lafiles = 0;
 $opt_help = 0;
 $opt_afs = 0;
@@ -111,7 +112,7 @@ $opt_manager = 'pinkenburg\@bnl.gov';
 my $to_stage = 5;
 
 GetOptions('help', '64', 'actsbranch:s', 'actsrepoowner:s' ,'afs', 'clang',
-           'coverity', 'covpasswd:s', 'cvmfsvol:s' , 'db:i', 'ecce', 'eic',
+           'coverity', 'coreowner:s', 'covpasswd:s', 'cvmfsvol:s' , 'db:i', 'ecce', 'eic',
            'gitbranch:s', 'gittag:s', 'includecheck', 'insure', 'lafiles',
            'manager:s', 'notify', 'phenixinstall', 'qa', 'repoowner:s',
            'scanbuild', 'source:s', 'stage=i', 'sysname:s', 'tinderbox', 'to_stage:i' => \$to_stage,
@@ -442,6 +443,10 @@ else
     foreach my $repo (@gitrepos)
     {
 	$repoowner{$repo} =  $opt_repoowner;
+	if ($repo eq "coresoftware")
+	{
+	  $repoowner{$repo} =  $opt_coreowner;
+	}
 	if ($repo eq "acts")
 	{
 	    $repoowner{$repo} =  $opt_actsrepoowner;
@@ -1656,6 +1661,7 @@ sub printhelp
     print "--afs              install in afs (cvmfs is default)\n";
     print "--clang            use clang instead of gcc\n";
     print "--coverity         Making a coverity build\n";
+    print "--coreowner='string'  coresoftware repository owner\n";
     print "--covpasswd='string'  the coverity password for the integrity manager\n";
     print "--cvmfsvol='string'  the target cvmfs volume";
     print "--db=[0,1]         Disable/enable access to phnxbld db (default is enable).\n";
