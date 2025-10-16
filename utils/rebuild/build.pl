@@ -128,6 +128,11 @@ if (! defined $opt_actsrepoowner)
     $opt_actsrepoowner = $opt_repoowner;
 }
 
+if (! defined $opt_coreowner)
+{
+    $opt_coreowner  = $opt_repoowner;
+}
+
 if ($opt_help)
 {
     printhelp();
