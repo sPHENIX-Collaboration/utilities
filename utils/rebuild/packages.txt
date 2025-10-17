@@ -14,9 +14,6 @@ coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
 coresoftware/offline/packages/uspin|dloom@umich.edu
 # qa utils for data based qa modules
 coresoftware/offline/packages/QAUtils|josborn1@bnl.gov
-coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
-coresoftware/offline/framework/rawbcolumi|zhiwanxu@lanl.gov
-coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
 coresoftware/calibrations/framework/oncal|pinkenburg@bnl.gov
 coresoftware/generators/sphstarlight|stacyann.nelson@morgan.edu
 coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
@@ -41,6 +38,10 @@ coresoftware/generators/Herwig/HepMCTrigger|sgrossberndt@gradcenter.cuny.edu
 coresoftware/offline/database/sphenixnpc|pinkenburg@bnl.gov
 # we want generator values in the event header
 coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
+# fun4allraw needs ffamodules
+coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
+coresoftware/offline/framework/rawbcolumi|zhiwanxu@lanl.gov
+coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
 coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
 coresoftware/offline/database/cdbobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4allutils|pinkenburg@bnl.gov
