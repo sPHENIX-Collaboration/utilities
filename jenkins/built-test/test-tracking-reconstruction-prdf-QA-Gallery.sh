@@ -43,7 +43,7 @@ git checkout -b update_${name}
 git status
 pwd
 ls -lrt
-source setup.sh 
+source $(pwd)/setup.sh 
 
 echo "======================================================="
 echo "${name}: Drawing ${name} QA";
