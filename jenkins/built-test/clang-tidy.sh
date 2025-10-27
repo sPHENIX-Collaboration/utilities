@@ -39,8 +39,8 @@ fi
 
 
 
-# Concurrency: set NPROC=50 by default; override by exporting NPROC in Jenkins
-NPROC="${NPROC:-50}"
+# Concurrency: set NPROC=90 by default; override by exporting NPROC in Jenkins
+NPROC="${NPROC:-90}"
 
 # Directories to scan for source files. Add/remove as needed.
 TARGET_DIRS=(
