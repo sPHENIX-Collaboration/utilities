@@ -102,34 +102,6 @@ pipeline
 						}
 
 
-						dir('acts') {
-
-							checkout(
-								[
-						 			$class: 'GitSCM',
-									extensions: [               
-										[$class: 'SubmoduleOption',
-										    disableSubmodules: false,
-										    parentCredentials: true,
-										    recursiveSubmodules: true,
-										    reference: '',
-										    trackingSubmodules: false],
-										[$class: 'CleanBeforeCheckout'], 
-										[$class: 'CleanCheckout'] 
-									],
-									branches: [
-									[name: "sPHENIX"]
-							        	], 
-									userRemoteConfigs: 
-									[[
-									credentialsId: 'sPHENIX-bot', 
-									url: 'https://github.com/sPHENIX-Collaboration/acts.git',
-									refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master')
-									]]
-								] //checkout
-							)//checkout						
-						}//	dir('acts') 
-
 
 					}
 				}
@@ -149,7 +121,7 @@ pipeline
 	      steps 
 	      {
 	        
-	        sh ('$singularity_exec_sphenix_farm3  /bin/bash -v utilities/jenkins/built-test/clang-tidy.sh')
+	        sh ('$singularity_exec_sphenix_farm3  /bin/bash -v utilities/jenkins/built-test/clang-tidy-macros.sh')
 	
 	      }
 	    }// Stage - cpp check
