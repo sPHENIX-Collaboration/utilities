@@ -131,8 +131,8 @@ pipeline
 	      steps 
 	      {
 	        archiveArtifacts artifacts: 'clang-tidy-result.txt'
-		// recordIssues qualityGates: [[threshold: 0.5, type: 'NEW', unstable: true], [threshold: 0.5, type: 'NEW_HIGH', unstable: true], [threshold: 200, type: 'NEW', unstable: false], [threshold: 5, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]	      
-		recordIssues qualityGates: [[threshold: 500000, type: 'NEW', unstable: true], [threshold: 500000, type: 'NEW_HIGH', unstable: true], [threshold: 500000, type: 'NEW', unstable: false], [threshold: 500000, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]	      
+			recordIssues qualityGates: [[threshold: 0.5, type: 'NEW', unstable: true], [threshold: 0.5, type: 'NEW_HIGH', unstable: true], [threshold: 2000, type: 'NEW', unstable: false], [threshold: 50, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]	      
+			// recordIssues qualityGates: [[threshold: 500000, type: 'NEW', unstable: true], [threshold: 500000, type: 'NEW_HIGH', unstable: true], [threshold: 500000, type: 'NEW', unstable: false], [threshold: 500000, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]	      
 	      }										
 	    } // 				stage('sPHENIX-Build')
 
