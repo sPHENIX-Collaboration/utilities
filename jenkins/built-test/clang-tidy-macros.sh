@@ -61,7 +61,6 @@ mkdir -p "$OUTDIR"
 # (same flags you were passing after the --)
 COMPILE_ARGS_STR="
   -Wall -Werror -Wshadow -std=c++20 -Wno-dangling
-  -I./
   -isystem$WORKSPACE/macros/common
   -isystem$OFFLINE_MAIN/include
   -isystem$ROOTSYS/include
