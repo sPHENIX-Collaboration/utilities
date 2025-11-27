@@ -76,23 +76,23 @@ pipeline
 			}
 		}
 		
-##		stage('ContainerCheck') 
-##		{
-##			
-##            
-##			steps {
-##				timestamps {
-##					ansiColor('xterm') {
-##						
-##						dir('utilities/jenkins/built-test/') {
-##							
-##							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh')
-##						
-##						}
-##					}
-##				}
-##			}
-##		}
+  		stage('ContainerCheck') 
+  		{
+  			
+              
+  			steps {
+  				timestamps {
+  					ansiColor('xterm') {
+  						
+  						dir('utilities/jenkins/built-test/') {
+  							
+  							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh')
+  						
+  						}
+  					}
+  				}
+  			}
+  		}
 
 		stage('Git Checkout')
 		{
@@ -268,7 +268,7 @@ pipeline
     			sh ('pwd');
 				
 			def report_content = """
-## Build & test report 
+   Build & test report 
 Report for [commit ${ghprbActualCommit}](${ghprbPullLink}/commits/${ghprbActualCommit}):"""
 				
 			if ("${currentBuild.currentResult}" == "FAILURE")
