@@ -6,6 +6,7 @@ online_distribution/pmonitor|purschke@bnl.gov
 coresoftware/offline/framework/phool|pinkenburg@bnl.gov
 coresoftware/offline/framework/phoolraw|pinkenburg@bnl.gov
 coresoftware/offline/database/pdbcal/base|pinkenburg@bnl.gov
+coresoftware/offline/database/sphenixodbc|pinkenburg@bnl.gov
 coresoftware/offline/framework/frog|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffarawobjects|pinkenburg@bnl.gov
