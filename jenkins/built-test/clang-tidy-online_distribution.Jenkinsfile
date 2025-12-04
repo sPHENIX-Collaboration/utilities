@@ -159,7 +159,7 @@ pipeline
 	      steps 
 	      {
 	        archiveArtifacts artifacts: 'clang-tidy-result.txt'
-	        recordIssues qualityGates: [[threshold: 10, type: 'NEW', unstable: true], [threshold: 10, type: 'NEW_HIGH', unstable: true], [threshold: 400, type: 'NEW', unstable: false], [threshold: 10, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]
+	        recordIssues qualityGates: [[threshold: 1, type: 'NEW', unstable: true], [threshold: 1, type: 'NEW_HIGH', unstable: true], [threshold: 40, type: 'NEW', unstable: false], [threshold: 1, type: 'NEW_HIGH', unstable: false]], tools: [clangTidy(pattern: 'clang-tidy-result.txt')]
 	      }										
 	    } // 				stage('sPHENIX-Build')
 
