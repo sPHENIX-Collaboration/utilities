@@ -37,7 +37,7 @@ pipeline
             
 			steps {
 				timestamps {
-					ansiColor('xterm') {
+					 {
 						
 						dir('OnlMon') {
 							deleteDir()
@@ -82,7 +82,7 @@ pipeline
               
   			steps {
   				timestamps {
-  					ansiColor('xterm') {
+  					 {
   						
   						dir('utilities/jenkins/built-test/') {
   							
@@ -100,7 +100,7 @@ pipeline
 			steps 
 			{
 				timestamps { 
-					ansiColor('xterm') {
+					 {
 						
 						dir('OnlMon') {
 							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/OnlMon.git'
@@ -136,7 +136,7 @@ pipeline
 						}//						dir('OnlMon') {
 						
 
-					}//					ansiColor('xterm') {
+					}//					 {
 					
 				}//				timestamps { 
 				
