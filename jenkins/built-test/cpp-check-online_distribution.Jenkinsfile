@@ -29,7 +29,7 @@ pipeline
             
 			steps {
 				timestamps {
-					ansiColor('xterm') {
+					 {
 																
 						// build(job: 'github-comment-label',
 		    			// parameters:
@@ -71,7 +71,7 @@ pipeline
 			steps 
 			{
 				timestamps { 
-					ansiColor('xterm') {
+					 {
 						
 						dir('online_distribution') {
 							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/online_distribution.git'
