@@ -37,6 +37,7 @@ pipeline
             
 			steps {
 				timestamps {
+					ansiColor('xterm') {
 						
 						dir('OnlMon') {
 							deleteDir()
@@ -70,6 +71,7 @@ pipeline
     						currentBuild.description = "${upstream_build_description}"
 							}
 						}
+					}
 				}
 			}
 		}
@@ -80,12 +82,14 @@ pipeline
               
   			steps {
   				timestamps {
+  					ansiColor('xterm') {
   						
   						dir('utilities/jenkins/built-test/') {
   							
   							sh('$singularity_exec_sphenix tcsh -f singularity-check.sh')
   						
   						}
+  					}
   				}
   			}
   		}
@@ -96,6 +100,7 @@ pipeline
 			steps 
 			{
 				timestamps { 
+					ansiColor('xterm') {
 						
 						dir('OnlMon') {
 							// git credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/OnlMon.git'
@@ -131,6 +136,7 @@ pipeline
 						}//						dir('OnlMon') {
 						
 
+					}//					ansiColor('xterm') {
 					
 				}//				timestamps { 
 				
