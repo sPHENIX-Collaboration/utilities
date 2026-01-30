@@ -167,6 +167,7 @@ coresoftware/calibrations/tpc/TpcDVCalib|yuxd@stu.pku.edu.cn
 coresoftware/calibrations/xingshift|dloom@umich.edu
 coresoftware/calibrations/localpol/monitoring|dloom@umich.edu
 coresoftware/calibrations/mvtx/MvtxHotPixel|tmengel@bnl.gov
+coresoftware/calibrations/sepd/sepd_eventplanecalib|narde2@illinois.edu
 coresoftware/calibrations/tpc/tpcchannelmasking|rosstom@g.ucla.edu
 coresoftware/calibrations/tpc/dEdx|mjpeters@mit.edu
 # the dumping needs all objects and comes last
