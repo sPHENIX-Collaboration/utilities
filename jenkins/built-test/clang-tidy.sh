@@ -22,8 +22,8 @@ echo " Clang Tidy Check "
 echo "-----------------------------------"
 
 export OFFLINE_MAIN=$WORKSPACE/install
-echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n new;
-source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n new;
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh new;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh new;
 
 
 which clang-tidy; 
