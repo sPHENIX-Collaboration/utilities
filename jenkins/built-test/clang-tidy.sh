@@ -7,23 +7,23 @@ echo "-----------------------------------"
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n new;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n new;
 
-mkdir -v ${WORKSPACE}/build;
+# mkdir -v ${WORKSPACE}/build;
 
-cd ${WORKSPACE}/utilities/utils/rebuild/
-# cat ${WORKSPACE}/utilities/jenkins/built-test/full-build.extra_packages.txt >> packages.txt
-./build.pl --stage 1 --to_stage=2 --source=${WORKSPACE} --workdir=${WORKSPACE}/build;
+# cd ${WORKSPACE}/utilities/utils/rebuild/
+# # cat ${WORKSPACE}/utilities/jenkins/built-test/full-build.extra_packages.txt >> packages.txt
+# ./build.pl --stage 1 --to_stage=2 --source=${WORKSPACE} --workdir=${WORKSPACE}/build;
 
-cd ${WORKSPACE}
-ln -sbfv build/new/install.1 ./install
-ls -lhcv
+# cd ${WORKSPACE}
+# ln -sbfv build/new/install.1 ./install
+# ls -lhcv
 
-echo "-----------------------------------"
-echo " Clang Tidy Check "
-echo "-----------------------------------"
+# echo "-----------------------------------"
+# echo " Clang Tidy Check "
+# echo "-----------------------------------"
 
-export OFFLINE_MAIN=$WORKSPACE/install
-echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh new;
-source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh new;
+# export OFFLINE_MAIN=$WORKSPACE/install
+# echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh new;
+# source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh new;
 
 
 which clang-tidy; 
