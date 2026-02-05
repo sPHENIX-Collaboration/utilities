@@ -16,6 +16,7 @@ coresoftware/offline/packages/uspin|dloom@umich.edu
 # qa utils for data based qa modules
 coresoftware/offline/packages/QAUtils|josborn1@bnl.gov
 coresoftware/calibrations/framework/oncal|pinkenburg@bnl.gov
+coresoftware/calibrations/framework/fun4cal|pinkenburg@bnl.gov
 coresoftware/generators/sphstarlight|stacyann.nelson@morgan.edu
 coresoftware/generators/JEWEL|kunnawalkamraghav@gmail.com
 coresoftware/generators/hijing|dave@bnl.gov
