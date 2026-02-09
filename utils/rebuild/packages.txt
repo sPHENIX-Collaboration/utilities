@@ -136,6 +136,7 @@ coresoftware/offline/packages/ResonanceJetTagging|antonio.sphenix@gmail.com
 #DST Skimmers
 coresoftware/offline/packages/Skimmers/Jets|sli7@bnl.gov
 coresoftware/offline/packages/Skimmers/CaloPacket|sli7@bnl.gov
+coresoftware/offline/packages/Skimmers/Trigger|bs3402@columbia.edu
 # trees for users to get started
 coresoftware/offline/packages/caloTreeGen|ahodges4@illinois.edu
 # QA modules that use both simulation and offline libs
