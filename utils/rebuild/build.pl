@@ -128,7 +128,7 @@ if (! defined $opt_actsrepoowner)
     $opt_actsrepoowner = $opt_repoowner;
 }
 
-if (! defined $opt_coreowner)
+if (defined $opt_repoowner)
 {
     $opt_coreowner  = $opt_repoowner;
 }
