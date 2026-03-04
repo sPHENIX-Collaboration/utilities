@@ -20,6 +20,7 @@ use POSIX;
 
 sub SaveGitTagsToDB;
 sub check_git_branch;
+sub create_info_file;
 sub printhelp;
 sub install_scanbuild_reports;
 sub create_afs_taxi_dir;
@@ -91,6 +92,7 @@ my $buildSucceeded = 0;
 
 # Set up some defaults for script options
 my $default_repoowner = "sPHENIX-Collaboration";
+my $actsrepoowner;
 $opt_gittag = '';
 $opt_gitbranch = '';
 $opt_version = 'new';
@@ -98,11 +100,11 @@ $opt_stage = 0;
 $opt_db = 0;
 $opt_scanbuild = 0;
 $opt_coverity = 0;
-$opt_coreowner = $default_repoowner;
+my $coreowner;
 $opt_lafiles = 0;
 $opt_help = 0;
 $opt_afs = 0;
-$opt_repoowner = $default_repoowner;
+my $optrepoowner;
 $opt_includecheck = 0;
 $opt_clang = 0;
 $opt_sysname = 'default';
@@ -111,10 +113,10 @@ $opt_actsbranch = 'sPHENIX';
 $opt_manager = 'pinkenburg\@bnl.gov';
 my $to_stage = 5;
 
-GetOptions('help', '64', 'actsbranch:s', 'actsrepoowner:s' ,'afs', 'clang',
-           'coverity', 'coreowner:s', 'covpasswd:s', 'cvmfsvol:s' , 'db:i', 'ecce', 'eic',
+GetOptions('help', '64', 'actsbranch:s', 'actsrepoowner:s' => \$actsrepoowner, 'afs', 'clang',
+           'coverity', 'coreowner:s' => \$coreowner, 'covpasswd:s', 'cvmfsvol:s' , 'db:i', 'ecce', 'eic',
            'gitbranch:s', 'gittag:s', 'includecheck', 'insure', 'lafiles',
-           'manager:s', 'notify', 'phenixinstall', 'qa', 'repoowner:s',
+           'manager:s', 'notify', 'phenixinstall', 'qa', 'repoowner:s' => \$optrepoowner,
            'scanbuild', 'source:s', 'stage=i', 'sysname:s', 'tinderbox', 'to_stage:i' => \$to_stage,
            'version:s', 'workdir:s',);
 
@@ -122,15 +124,25 @@ $MAIL = '/bin/mail';
 my $SENDMAIL = "/usr/sbin/sendmail -t";
 my $CC = $opt_manager;
 
-# if a different actsrepoowner is not set, use the current repo owner
-if (! defined $opt_actsrepoowner)
+# if repooowner is set it overrides the other ownership settings
+if (defined $optrepoowner)
 {
-    $opt_actsrepoowner = $opt_repoowner;
+    $coreowner  = $optrepoowner;
+    $actsrepoowner = $optrepoowner;
+}
+else
+{
+    $optrepoowner = $default_repoowner;
 }
 
-if (defined $opt_repoowner)
+if (! defined $actsrepoowner)
 {
-    $opt_coreowner  = $opt_repoowner;
+    $actsrepoowner = $default_repoowner;
+}
+
+if (! defined $coreowner)
+{
+    $coreowner = $default_repoowner;
 }
 
 if ($opt_help)
@@ -447,14 +459,14 @@ else
     my %repoowner = ();
     foreach my $repo (@gitrepos)
     {
-	$repoowner{$repo} =  $opt_repoowner;
+	$repoowner{$repo} =  $optrepoowner;
 	if ($repo eq "coresoftware")
 	{
-	  $repoowner{$repo} =  $opt_coreowner;
+	  $repoowner{$repo} =  $coreowner;
 	}
 	if ($repo eq "acts")
 	{
-	    $repoowner{$repo} =  $opt_actsrepoowner;
+	    $repoowner{$repo} =  $actsrepoowner;
 	}
         $gitcommand = sprintf("git ls-remote https://github.com/%s/%s.git > /dev/null 2>&1",$repoowner{$repo}, $repo);
         my $iret = system($gitcommand);
@@ -517,7 +529,7 @@ else
         {
             my $repodir = sprintf("%s/%s",$sourceDir,$repo);
             chdir $repodir;
-            my $gittagcmd = sprintf("git checkout -b %s.%d %s",$opt_version,$newnumber,$opt_gittag);
+	    my $gittagcmd = sprintf("git switch --detach %s",$opt_gittag);
             print LOG $gittagcmd, "\n";
             goto END if &doSystemFail($gittagcmd);
         }
@@ -1078,47 +1090,25 @@ foreach my $repo (@gitrepos)
     if (-d $repodir)
     {
         chdir $repodir;
-        $fullrepo = sprintf("%s/%s.git",$opt_repoowner, $repo);
-        my $gittag = `git show | head -1 | awk '{print \$2}'`;
+        $fullrepo = sprintf("%s/%s.git",$optrepoowner, $repo);
+	my $gittag;
+	if ($opt_gittag eq "")
+	{
+	    $gittag = `git show | head -1 | awk '{print \$2}'`;
+	}
+	else
+	{
+	    $gittag = `git describe --tags --exact-match`; # fails for non tagged builds
+	    my $exit_code = $? >> 8;
+	    if ($exit_code != 0) # catch failure and find the git commit id
+	    {
+		$gittag = `git show | head -1 | awk '{print \$2}'`;
+	    }
+	}
         chomp $gittag;
         $repotags{$fullrepo} = $gittag;
     }
 }
-
-# creating and writing rebuild.info
-$rebuildInfo=$OFFLINE_MAIN.'/rebuild.info';
-$sysInfo=`uname -a`;
-$endtime = time;
-$elapsedtime = $endtime - $starttime;
-open (INFO, "> $rebuildInfo");
-print INFO "\n";
-print INFO " tree: default\n";
-#print INFO " status: ".$buildStatus."\n";
-print INFO " build: ".$sysname."\n";
-print INFO " at system: ".$sysInfo."\n";
-print INFO " elapsed time: ".$elapsedtime." seconds\n";
-print INFO " source dir:".$sourceDir."\n ";
-print INFO " build dir:".$buildDir."\n ";
-print INFO " install dir:".$installDir."\n ";
-print INFO " for build logfile see: ".$logfile." or \n ";
-print INFO " https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
-if ($opt_gittag ne '')
-{
-  print INFO " git tag: ".$opt_gittag."\n";
-}
-if ($opt_gitbranch ne '')
-{
- print INFO " git branch: ".$opt_gitbranch."\n";
-}
-else
-{
-    print INFO " git branch: master\n";
-}
-foreach my $key (keys %repotags)
-{
-    print INFO " git repo $key, tag: $repotags{$key}\n";
-}
-close(INFO);
 
 # OK, installation done; move symlink over
 print LOG "removing old installation symlink $inst\n";
@@ -1200,6 +1190,7 @@ NORELEASEFILE:
     print LOG "copying build log to install area before releasing\n";
     print LOG "this is the last line you will see\n";
     close LOG;
+    create_info_file();
     system("cp $logfile $installDir");
     open(LOG, ">>$logfile");
     print LOG "$date initiating release, touching $releasefile\n";
@@ -1241,12 +1232,10 @@ else
     print LOG "$date build success for local install\n";
 }
 
-
-END:{
+ END:{
   $buildSucceeded==1 && ($buildStatus='success', last END);
   $buildSucceeded==0 && ($buildStatus='busted', POSIX::_exit(-1), last END);
 }
-
 
 if ($opt_tinderbox) 
 {
@@ -1261,39 +1250,33 @@ if ($opt_tinderbox)
     system($cmd);
 }
 
-$rebuildInfo=$OFFLINE_MAIN.'/rebuild.info';
-$sysInfo=`uname -a`;
-$endtime = time;
-$elapsedtime = $endtime - $starttime;
-open (INFO, "> $rebuildInfo");
-print INFO "\n";
-print INFO " tree: default\n";
-print INFO " status: ".$buildStatus."\n";
-print INFO " build: ".$sysname."\n";
-print INFO " at system: ".$sysInfo."\n";
-print INFO " elapsed time: ".$elapsedtime." seconds\n";
-print INFO " source dir:".$sourceDir."\n ";
-print INFO " build dir:".$buildDir."\n ";
-print INFO " install dir:".$installDir."\n ";
-print INFO " for build logfile see: ".$logfile." or \n ";
-print INFO " https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
-if ($opt_gittag ne '')
+if ($opt_insure && $buildSucceeded==1)
 {
-  print INFO " git tag: ".$opt_gittag."\n";
+    &check_insure_reports();
 }
-if ($opt_gitbranch ne '')
+# save the git tags in DB only for the build account
+
+my $username = getlogin || "jenkins";
+if ($username eq "phnxbld")
 {
- print INFO " git branch: ".$opt_gitbranch."\n";
+    if ($optrepoowner eq "sPHENIX-Collaboration")
+    {
+        SaveGitTagsToDB();
+    }
 }
-else
+
+
+# only expire modules if the ana build was successful
+#if ($buildSucceeded==1 && $opt_version =~ /ana/ && $opt_version =~ /insure/)
+if ($buildSucceeded==1 && $opt_version =~ /ana/)
 {
-    print INFO " git branch: master\n";
+#  check_expiration_date();
+#  create_afs_taxi_dir();
 }
-foreach my $key (keys %repotags)
-{
-    print INFO " git repo $key, tag: $repotags{$key}\n";
-}
-#print INFO " git command used: \n".$gitcommand."\n";
+
+if ( defined($dbh)) { $dbh->disconnect; }
+
+# read logfile and fill info file
 %month=('Jan',0,'Feb',1,'Mar',2,'Apr',3,'May',4,'Jun',5,'Jul',6,'Aug',7,'Sep',8,'Oct',9,'Nov',10,'Dec',11);
 close (LOG);
 open(LOG,"$logfile");
@@ -1317,34 +1300,8 @@ while (<LOG>)
         $time=$newtime;
       }
   }
-
-close(LOG);
 #close(INFO);
-
-if ($opt_insure && $buildSucceeded==1)
-{
-    &check_insure_reports();
-}
-# save the git tags in DB only for the build account
-my $username = getlogin || "jenkins";
-if ($username eq "phnxbld")
-{
-    if ($opt_repoowner eq "sPHENIX-Collaboration")
-    {
-        SaveGitTagsToDB();
-    }
-}
-
-
-# only expire modules if the ana build was successful
-#if ($buildSucceeded==1 && $opt_version =~ /ana/ && $opt_version =~ /insure/)
-if ($buildSucceeded==1 && $opt_version =~ /ana/)
-{
-#  check_expiration_date();
-#  create_afs_taxi_dir();
-}
-
-if ( defined($dbh)) { $dbh->disconnect; }
+close(LOG);
 
 sub doSystemFail
 {
@@ -1725,7 +1682,7 @@ sub SaveGitTagsToDB()
 CONNECTAGAIN2:
     if ($attempts > 0)
     {
-	print "connection attempt failed, sleeping and trying again\n";
+	print LOG "connection attempt failed, sleeping and trying again\n";
 	sleep(int(rand(21) + 10)); # sleep 10-30 seconds before retrying
     }
     $attempts++;
@@ -1844,4 +1801,44 @@ sub CreateCmakeCommand
     }
     print LOG "CreateCmakeCommand not implemented for $packagename\n";
     die;
+}
+
+sub create_info_file
+{
+    # creating and writing rebuild.info
+    $rebuildInfo=$OFFLINE_MAIN.'/rebuild.info';
+    $sysInfo=`uname -a`;
+    $endtime = time;
+    $elapsedtime = $endtime - $starttime;
+    open (INFO, "> $rebuildInfo");
+    print INFO "\n";
+    print INFO " tree: default\n";
+    #print INFO " status: ".$buildStatus."\n";
+    print INFO " build: ".$sysname."\n";
+    print INFO " at system: ".$sysInfo."\n";
+    print INFO " elapsed time: ".$elapsedtime." seconds\n";
+    print INFO " source dir:".$sourceDir."\n ";
+    print INFO " build dir:".$buildDir."\n ";
+    print INFO " install dir:".$installDir."\n ";
+    print INFO " for build logfile see: ".$logfile." or \n ";
+    print INFO " https://phenix-intra.sdcc.bnl.gov/software/",$collaboration,"/tinderbox/showbuilds.cgi?tree=default&nocrap=1&maxdate=".$startTime."\n";
+    if ($opt_gittag ne '')
+    {
+	print INFO " git tag: ".$opt_gittag."\n";
+    }
+    else
+    {
+	if ($opt_gitbranch ne '')
+	{
+	    print INFO " git branch: ".$opt_gitbranch."\n";
+	}
+	else
+	{
+	    print INFO " git branch: master\n";
+	}
+    }
+    foreach my $key (sort keys %repotags)
+    {
+	print INFO " git repo $key, tag: $repotags{$key}\n";
+    }
 }
