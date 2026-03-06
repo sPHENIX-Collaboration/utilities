@@ -432,10 +432,13 @@ else
 
 my $newnumber = ($number % $MAXDEPTH) + 1;
 my $releasenumber = $newnumber;
-$installDir = $inst.".".$newnumber;
-
-my $linkTarget = $linktg.".".$newnumber;
-
+my $installDir = sprintf("%s.%d",$inst,$newnumber);
+my $linkTarget = sprintf("%s.%d",$linktg,$newnumber);
+if ($opt_version =~ /pro/)
+{
+    $installDir = sprintf("%s.%03d",$inst,$newnumber);
+    $linkTarget = sprintf("%s.%03d",$linktg,$newnumber);
+}
 # Make the source directory and (maybe) populate it from git.
 $sourceDir = $opt_source ? $opt_source : $workdir."/source";
 if ($opt_stage == 5)
@@ -1144,6 +1147,11 @@ if ($opt_phenixinstall && !$opt_scanbuild && !$opt_coverity)
         {
             my $symlinksource = sprintf("release_%s/%s.%d",$opt_version,$opt_version,$releasenumber);
             my $symlinktarget = sprintf("%s/%s.%d",$releasedir,$opt_version,$releasenumber);
+	    if ($opt_version =~ /pro/)
+	    {
+		$symlinksource = sprintf("release_%s/%s.%03d",$opt_version,$opt_version,$releasenumber);
+		$symlinktarget = sprintf("%s/%s.%03d",$releasedir,$opt_version,$releasenumber);
+	    }
             symlink $symlinksource, $symlinktarget;
             print LOG "creating symlink source: $symlinksource target: $symlinktarget\n";
         }
@@ -1699,6 +1707,10 @@ CONNECTAGAIN2:
     my $chkbuild = $dbh->prepare("select build from buildtags where build=?");
     my $delbuild = $dbh->prepare("delete from buildtags where build=?");
     my $buildname = sprintf("%s.%d",$opt_version,$releasenumber);
+    if ($opt_version =~ /pro/)
+    {
+	$buildname = sprintf("%s.%03d",$opt_version,$releasenumber);
+    }
     $chkbuild->execute($buildname);
     if ($chkbuild->rows > 0)
     {
