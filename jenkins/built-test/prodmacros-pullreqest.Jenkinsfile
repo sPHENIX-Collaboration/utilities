@@ -96,7 +96,7 @@ pipeline
 				                $class: 'PreBuildMerge',
 				                options: [
 				                    mergeRemote: 'origin',
-				                    mergeTarget: 'master'
+				                    mergeTarget: 'main'
 				                    ]
 				                ],
 				            ],
@@ -107,7 +107,7 @@ pipeline
 				            [[
 				                credentialsId: 'sPHENIX-bot', 
 				                url: 'https://github.com/${ghprbGhRepository}.git',
-				                refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
+				                refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main'), 
 				                branch: ('*')
 				            ]]
 				        ] //checkout
