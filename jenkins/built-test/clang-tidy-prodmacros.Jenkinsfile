@@ -89,7 +89,7 @@ pipeline
 							    	//credentialsId: 'sPHENIX-bot', url: 'https://github.com/sPHENIX-Collaboration/prodmacros.git'
 							     	credentialsId: 'sPHENIX-bot', 
 							     	url: '${git_url_prodmacros}',
-							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/master:refs/remotes/origin/master'), 
+							     	refspec: ('+refs/pull/*:refs/remotes/origin/pr/* +refs/heads/main:refs/remotes/origin/main'), 
 							    	branch: ('*')
 							  	]]
 								] //checkout
