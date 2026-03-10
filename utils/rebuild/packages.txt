@@ -11,6 +11,7 @@ coresoftware/offline/framework/frog|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffarawobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
+coresoftware/offline/packages/bcolumicount|pinkenburg@bnl.gov
 # uspin needs phool
 coresoftware/offline/packages/uspin|dloom@umich.edu
 # qa utils for data based qa modules
