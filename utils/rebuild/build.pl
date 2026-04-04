@@ -253,7 +253,7 @@ if ($opt_version =~ m/new/ && !$opt_insure)
 }
 $opt_version .= '+insure' if $opt_insure;
 # number of parallel builds with insure
-if ($numcores > 25) {$numcores=25;} # we have 50 insure licenses, only use 1/2 maximum
+if ($numcores > 1) {$numcores=1;} # we have 50 insure licenses, only use 1/2 maximum
 $JOBS = sprintf("-j %d",$numcores) if $opt_insure;
 $MAXDEPTH = 4 if $opt_insure;
 
@@ -263,7 +263,8 @@ chomp $myhost;
 $startTime = time;
 $sysname = $USER.'@'.$myhost.'#'.$Config{osname}.':'.$opt_version;
 $compileFlags = ($sysname =~ m/linux/) ? ' INSTALL="/usr/bin/install -D -p" install_sh="/usr/bin/install -D -p"' : "";
-$insureCompileFlags = " ";
+my $insureCompileFlags = " ";
+my $insureCompileFlagsActs = " ";
 
 $workdir .= "/$opt_version";
 
@@ -595,14 +596,8 @@ if ($opt_insure)
         make_path($gusDir, {mode => 0775});
         $ENV{GUSDIR} = $gusDir;
     }
-    if ($opt_sysname =~ "alma9")
-    {
-	$insureCompileFlags = sprintf(" CC=\"insure gcc -g\" CXX=\"insure g++\" CXXLD=\"insure g++ -L%s/lib -ltql_pthread_gcc\"",$PARASOFT);
-    }
-    else
-    {
-	$insureCompileFlags = ' CC="insure gcc -g" CXX="insure g++" CCLD="insure g++"';
-    }
+    $insureCompileFlags = sprintf(" CC=\"insure gcc -g\" CXX=\"insure g++\" CXXLD=\"insure g++ -L%s/lib -ltql_pthread_gcc\"",$PARASOFT);
+    $insureCompileFlagsActs = ' CC="insure gcc -g" CXX="insure g++"'
 }
 
 # switch OFFLINE_MAIN to new install area and create it
@@ -780,19 +775,6 @@ print LOG "===========================================\n";
 	    # that Insure++ will know where to send its output.
 	    if ($opt_insure)
 	    {
-		my $insurecompiler = `which insure`;
-		chomp $insurecompiler;
-		my $runscript = "run_gpp.sh";
-		open(F2,">$runscript");
-		my $runcmd = sprintf("%s g++ -g -L%s/lib -linsure_mt \$*",$insurecompiler,$PARASOFT);
-		if ($opt_sysname =~ "alma9")
-		{
-		    $runcmd = sprintf("%s g++ -g -L%s/lib -linsurert_mt -ltql_pthread_gcc \$*",$insurecompiler,$PARASOFT);
-		}
-		print F2 "$runcmd\n";
-		close(F2);
-		chmod 0755, $runscript;
-
 		find sub { -d &&
 			       !(realpath($File::Find::name) eq realpath($bdir)) &&
 			       copy($bdir."/.psrc", $File::Find::name)}, $bdir;
@@ -831,10 +813,10 @@ if ($opt_stage < 3)
 	    print LOG "installing $m                                        \n";
 	    print LOG "at $date                                               \n";
 	    print LOG "=======================================================\n";
-            $arg = "$covbuild make $insureCompileFlags $JOBS install ";
+            $arg = "$covbuild make $insureCompileFlagsActs $JOBS install ";
 	    if ( $opt_scanbuild)
 	    {
-		$arg = "$scanbuild make $insureCompileFlags $JOBS install ";
+		$arg = "$scanbuild make $insureCompileFlagsActs $JOBS install ";
 	    }
 	    else
 	    {
@@ -1762,26 +1744,8 @@ sub CreateCmakeCommand
         }
         if ($opt_insure)
 	{
-# cmake is not able to digest 'insure g++' as compiler, so we create a little
-# shell script with insure g++ -g and use it as compiler
-# the shell script ends up in the acts build dir so we just leave it there
-	    my $insurecompiler = `which insure`;
-	    chomp $insurecompiler;
-	    my $runscript = "run_gpp.sh";
-	    open(F2,">$runscript");
-            my $runcmd = sprintf("%s g++ -g \$*",$insurecompiler);
-            print F2 "$runcmd\n";
-	    close(F2);
-	    chmod 0755, $runscript;
-	    print LOG "using insure $insurecompiler\n";
-	    if ($opt_sysname =~ "alma9")
-	    {
-		$cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsurert_mt -ltql_pthread_gcc -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
-	    }
-	    else
-	    {
-		$cmakecmd = sprintf("%s -DCMAKE_CXX_COMPILER=%s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsure_mt -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$runscript,$PARASOFT);
-	    }
+# cmake uses CMAKE_CXX_COMPILER_LAUNCHER to put "insure" ahead of g++
+	    $cmakecmd = sprintf("%s --debug-trycompile -DCMAKE_CXX_COMPILER_LAUNCHER=insure -DCMAKE_BUILD_TYPE=Debug -DCMAKE_SHARED_LINKER_FLAGS='-L%s/lib -linsurert_mt -ltql_pthread_gcc -L${OFFLINE_MAIN}/lib64'",$cmakecmd,$PARASOFT);
 	}
 	elsif ($opt_clang)
 	{
