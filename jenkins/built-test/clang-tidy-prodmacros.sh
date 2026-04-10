@@ -35,7 +35,7 @@ NPROC="${NPROC:-90}"
 
 # Directories to scan for source files. Add/remove as needed.
 TARGET_DIRS=(
-  "$WORKSPACE/macros"
+  "$WORKSPACE/prodmacros"
 )
 
 # Build a null-delimited file list to be safe with spaces and avoid ARG_MAX.
@@ -62,7 +62,6 @@ mkdir -p "$OUTDIR"
 COMPILE_ARGS_STR="
   -Wall -Werror -Wshadow -std=c++20 -Wno-dangling
   -I./
-  -isystem$WORKSPACE/macros/common
   -isystem$OFFLINE_MAIN/include
   -isystem$ROOTSYS/include
   -isystem$G4_MAIN/include
