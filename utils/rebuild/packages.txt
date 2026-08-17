@@ -43,6 +43,8 @@ coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
 # fun4allraw needs ffamodules
 coresoftware/offline/database/cdbobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
+# PHGarfield needs cdbobjects
+coresoftware/offline/packages/PHGarfield|tkhemmick@gmail.com
 coresoftware/offline/framework/rawbcolumi|zhiwanxu@lanl.gov
 coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
 coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
@@ -70,7 +72,6 @@ coresoftware/offline/packages/globalvertex|josborn1@bnl.gov
 coresoftware/offline/packages/mbd|chiu@bnl.gov
 coresoftware/offline/packages/intt|afrawley@fsu.edu
 coresoftware/offline/packages/TpcLineLaserDiode|luke.legnosky@stonybrook.edu
-coresoftware/offline/packages/PHGarfield|tkhemmick@gmail.com
 coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 #zdcinfo needs trackbase_historic?
 coresoftware/offline/packages/zdcinfo|ejironaomiumaka@gmail.com
