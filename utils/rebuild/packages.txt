@@ -44,6 +44,7 @@ coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
 coresoftware/offline/database/cdbobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
 # PHGarfield needs cdbobjects
+coresoftware/offline/packages/TpcConditions|tkhemmick@gmail.com
 coresoftware/offline/packages/PHGarfield|tkhemmick@gmail.com
 coresoftware/offline/framework/rawbcolumi|zhiwanxu@lanl.gov
 coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
