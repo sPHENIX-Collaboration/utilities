@@ -193,7 +193,16 @@ ${macro_full_path}(${function_parameters})"""
 						
 						dir('reference')
 						{
-    					copyArtifacts(projectName: "test-tracking-reconstruction-prdf-reference", selector: lastSuccessful());
+    					script {
+								def reference_job = params.reference_job?.trim()
+								if (!reference_job)
+								{
+									reference_job = 'test-tracking-reconstruction-prdf-reference'
+								}
+
+								echo("Copying reference artifacts from ${reference_job}")
+								copyArtifacts(projectName: reference_job, selector: lastSuccessful())
+							}
 
 							sh('ls -lvhc')
     				}
@@ -416,7 +425,13 @@ ${macro_full_path}(${function_parameters})"""
 		}
 		success {
 			script {
-				currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/test-tracking-reconstruction-prdf-reference/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
+				def reference_job = params.reference_job?.trim()
+				if (!reference_job)
+				{
+					reference_job = 'test-tracking-reconstruction-prdf-reference'
+				}
+
+				currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/${reference_job}/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
 			}
 			
 			// build(job: 'github-comment-label',
