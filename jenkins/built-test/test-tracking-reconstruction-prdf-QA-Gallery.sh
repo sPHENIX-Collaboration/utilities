@@ -12,8 +12,9 @@ cd $WORKSPACE/QA-gallery
 pwd
 
 cp -fv $WORKSPACE/macros/TrackingProduction/*prdf_reconstruction*.root* ./
-export qa_file_name_new=$WORKSPACE/macros/TrackingProduction/prdf_reconstruction53877_qa.root
+export qa_file_name_new=$(find "$WORKSPACE/macros/TrackingProduction" -maxdepth 1 -type f -name '*prdf_reconstruction*.root')
 ls -lhv
+echo "New file : with $qa_file_name_new"
 
 echo "environment before "
 env | sort
