@@ -194,6 +194,7 @@ ${macro_full_path}(${function_parameters})"""
 						dir('reference')
 						{
 							script {
+								echo("copy artifacts from ${reference_job} to reference");
 								copyArtifacts(projectName: ${reference_job}, selector: lastSuccessful())
 							}
 
