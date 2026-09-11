@@ -50,6 +50,10 @@ echo "======================================================="
 echo "cd ${macro_path}";
 echo "======================================================="
 cd ${macro_path}
+export reference_job='test-tracking-reconstruction-prdf-reference'
+if [[ "$macro_path" == *run3pp* ]]; then
+    reference_job='test-tracking-reconstruction-prdf-run3pp-reference'
+fi
 
 pwd;
 ls -lhc
