@@ -50,6 +50,7 @@ echo "======================================================="
 echo "cd ${macro_path}";
 echo "======================================================="
 cd ${macro_path}
+export reference_job='test-tracking-reconstruction-prdf-reference'
 
 pwd;
 ls -lhc
