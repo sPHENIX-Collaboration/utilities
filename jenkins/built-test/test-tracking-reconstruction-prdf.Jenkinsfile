@@ -205,6 +205,7 @@ ${macro_full_path}(${function_parameters})"""
 							}
 
 							sh('ls -lvhc')
+							sh('pwd')
 						}
 						
 					}
@@ -374,34 +375,34 @@ ${macro_full_path}(${function_parameters})"""
 			}
 		  	script
 			{		
-				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
+				//currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
 				
-				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA from run2pp 53877: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
+				//def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA from run2pp 53877: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
 
-				if (params.run_valgrind == "1")
-				{
-					report_content = "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: Valgrind test of [${macro_full_path}](https://github.com/sPHENIX-Collaboration/macros/tree/master/${macro_full_path}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/), [trends :bar_chart:](${env.JOB_URL}/plot/) "
-				}							
+				//if (params.run_valgrind == "1")
+				//{
+				//	report_content = "* [![Build Status](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) system `${system_config}`, build `${build_type}`: Valgrind test of [${macro_full_path}](https://github.com/sPHENIX-Collaboration/macros/tree/master/${macro_full_path}): [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart:valgrind report](${env.BUILD_URL}/valgrindResult/), [trends :bar_chart:](${env.JOB_URL}/plot/) "
+				//}							
 
-				def files = findFiles(glob: 'QA-gallery/report*.md')
-				echo("all reports: $files");
+				//def files = findFiles(glob: 'QA-gallery/report*.md')
+				//echo("all reports: $files");
 				// def testFileNames = files.split('\n')
-				for (def fileEntry : files) 
-				{    			
-					String file = fileEntry.path;    				
+				//for (def fileEntry : files) 
+				//{    			
+				//	String file = fileEntry.path;    				
 
-					String fileContent = readFile(file).trim();
+				//	String fileContent = readFile(file).trim();
 
-					echo("$file  -> ${fileContent}");
+				//	echo("$file  -> ${fileContent}");
 
 					// update report summary
-					report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
+				//	report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
 
 					// update build description
-					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
-				}    			
+				//	currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+				//}    			
 
-				writeFile file: "report/QA-tracking-reconstruction-prdf.md", text: "${report_content}"	
+				//writeFile file: "report/QA-tracking-reconstruction-prdf.md", text: "${report_content}"	
 
 			}//script
 			archiveArtifacts artifacts: 'report/*.md'
