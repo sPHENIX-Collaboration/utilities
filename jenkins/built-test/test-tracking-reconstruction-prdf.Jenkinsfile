@@ -374,7 +374,7 @@ ${macro_full_path}(${function_parameters})"""
 			}
 		  	script
 			{		
-				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
+				// currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
 				
 				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA from run2pp 53877: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
 
@@ -398,7 +398,7 @@ ${macro_full_path}(${function_parameters})"""
 					report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
 
 					// update build description
-					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+					// currentBuild.description = "${currentBuild.description}\n${fileContent}"		
 				}    			
 
 				writeFile file: "report/QA-tracking-reconstruction-prdf.md", text: "${report_content}"	
