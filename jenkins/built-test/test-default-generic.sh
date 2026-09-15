@@ -34,8 +34,8 @@ env;
 
 # export CALIBRATIONROOT=$WORKSPACE/calibrations # handle via OFFLINE_MAIN
 # note this is not using -n parameter to overwrite OFFLINE_MAIN
-echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
-source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
+echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
+source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh -n $build_type;
 
 echo "Setting offline main to $OFFLINE_MAIN" 
 
