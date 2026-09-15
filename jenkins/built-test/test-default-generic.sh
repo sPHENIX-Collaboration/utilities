@@ -37,6 +37,8 @@ env;
 echo source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 source /cvmfs/sphenix.sdcc.bnl.gov/${system_config}/opt/sphenix/core/bin/sphenix_setup.sh $build_type;
 
+echo "Setting offline main to $OFFLINE_MAIN" 
+
 export ROOT_INCLUDE_PATH=${WORKSPACE}/macros/common:${ROOT_INCLUDE_PATH}
 export NOPAYLOADCLIENT_CONF=${OPT_SPHENIX}/etc/sPHENIX_newcdb_debug.json
 
@@ -50,7 +52,6 @@ echo "======================================================="
 echo "cd ${macro_path}";
 echo "======================================================="
 cd ${macro_path}
-export reference_job='test-tracking-reconstruction-prdf-reference'
 
 pwd;
 ls -lhc
