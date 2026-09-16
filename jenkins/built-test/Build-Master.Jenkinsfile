@@ -401,36 +401,6 @@ pipeline
 								// Tracking Production StreamingProduction
 								//---------------------------
 								
-								stage('test-default-StreamingProduction')
-								{
-									
-									when {
-				    				// case insensitive regular expression for truthy values
-										expression { return run_default_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-									}
-									steps 
-									{			    		
-										script
-										{
-											runCheckTest('test-default-StreamingProduction')		
-										}// script
-									}				
-								} // stage('test-default-StreamingProduction')
-								stage('test-default-valgrind-StreamingProduction')
-								{
-									
-									when {
-				    				// case insensitive regular expression for truthy values
-										expression { return run_valgrind_test ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
-									}
-									steps 
-									{												    		
-										script
-										{
-											runCheckTest('test-default-valgrind-StreamingProduction')	
-										}						   				    
-									}				
-								}
 
 								stage('test-calo-single-qa')
 								{
@@ -458,6 +428,20 @@ pipeline
 										script
 										{
 											runCheckTest('test-tracking-reconstruction-prdf')
+										}
+									}
+								} // stage('test-tracking-reconstruction-prdf')
+								stage('test-tracking-reconstruction-prdf-run3pp')
+								{
+									when
+									{
+										expression { return run_calo_qa ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/ }
+									}
+									steps
+									{
+										script
+										{
+											runCheckTest('test-tracking-reconstruction-prdf-run3pp')
 										}
 									}
 								} // stage('test-tracking-reconstruction-prdf')
