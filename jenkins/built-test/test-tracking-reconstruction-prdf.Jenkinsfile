@@ -34,11 +34,7 @@ pipeline
 					ansiColor('xterm') {
 					
 						script {
-							currentBuild.displayName = "${env.BUILD_NUMBER} - ${system_config} - ${build_type} - ${macro_full_path}"
-							currentBuild.description = """\
-${upstream_build_description} - ${system_config} - ${build_type}\
-${macro_full_path}(${function_parameters})"""
-							
+							currentBuild.displayName = "${env.BUILD_NUMBER} - ${system_config} - ${build_type} - ${macro_full_path}"							
 						
 							if (fileExists('./install'))
 							{
@@ -431,7 +427,7 @@ ${macro_full_path}(${function_parameters})"""
 					reference_job = 'test-tracking-reconstruction-prdf-reference'
 				}
 
-				currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/${reference_job}/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
+				// currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/${reference_job}/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
 			}
 			
 			// build(job: 'github-comment-label',
