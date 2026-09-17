@@ -406,7 +406,7 @@ pipeline
 					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
 				}    			
 
-				writeFile file: "report/QA-tracking-reconstruction-prdf.md", text: "${report_content}"	
+				writeFile file: "report/QA-tracking-reconstruction-prdf-${env.BUILD_NUMBER}.md", text: "${report_content}"	
 
 			}//script
 			archiveArtifacts artifacts: 'report/*.md'
