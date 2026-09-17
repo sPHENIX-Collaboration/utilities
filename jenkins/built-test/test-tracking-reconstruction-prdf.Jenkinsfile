@@ -369,10 +369,19 @@ pipeline
 				sh ('pwd');
 			}
 		  	script
-			{		
-				// currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
+			{	
+				def data_qa_tag = params.reference_job?.trim()
+				if (!data_qa_tag)
+				{
+					data_qa_tag = 'Tracking QA runnumber 53877'
+				}
+				else
+				{
+					data_qa_tag = "Tracking QA runnumber 79513"
+				}	
+				currentBuild.description = "${currentBuild.description}\n## Result QA reports:"
 				
-				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) Tracking QA from run2pp 53877: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
+				def report_content = "* [![Build Status ](${env.JENKINS_URL}/buildStatus/icon?job=${env.JOB_NAME}&build=${env.BUILD_NUMBER})](${env.BUILD_URL}) ${data_qa_tag}: [build is ${currentBuild.currentResult}](${env.BUILD_URL}), [:bar_chart: trends](${env.JOB_URL}/plot/)";	        
 
 				if (params.run_valgrind == "1")
 				{
@@ -394,7 +403,7 @@ pipeline
 					report_content = "${report_content}\n  ${fileContent}"		//nested list for child reports
 
 					// update build description
-					// currentBuild.description = "${currentBuild.description}\n${fileContent}"		
+					currentBuild.description = "${currentBuild.description}\n${fileContent}"		
 				}    			
 
 				writeFile file: "report/QA-tracking-reconstruction-prdf.md", text: "${report_content}"	
@@ -427,7 +436,7 @@ pipeline
 					reference_job = 'test-tracking-reconstruction-prdf-reference'
 				}
 
-				// currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/${reference_job}/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
+				currentBuild.description = "${currentBuild.description}<br><button onclick=\"window.location.href='${JENKINS_URL}/job/sPHENIX/job/${reference_job}/parambuild/?ref_build_id=${BUILD_ID}';\">Use as QA reference</button>" 
 			}
 			
 			// build(job: 'github-comment-label',
