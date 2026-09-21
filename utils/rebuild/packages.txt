@@ -44,8 +44,6 @@ coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
 coresoftware/offline/database/cdbobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
 # PHGarfield needs cdbobjects
-coresoftware/offline/packages/TpcConditions|tkhemmick@gmail.com
-coresoftware/offline/packages/PHGarfield|tkhemmick@gmail.com
 coresoftware/offline/framework/rawbcolumi|zhiwanxu@lanl.gov
 coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
 coresoftware/offline/database/PHParameter|pinkenburg@bnl.gov
@@ -60,6 +58,8 @@ coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
 coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
 # rundb needs calo_io
+coresoftware/offline/packages/TpcConditions|tkhemmick@gmail.com
+coresoftware/offline/packages/PHGarfield|tkhemmick@gmail.com
 coresoftware/offline/database/rundb|egm2153@columbia.edu
 coresoftware/offline/packages/trackbase|afrawley@fsu.edu
 #coresoftware/offline/packages/rawtodst|afrawley@fsu.edu
