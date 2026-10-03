@@ -36,6 +36,7 @@ coresoftware/generators/ReactionPlaneAfterburner|sl4859@columbia.edu
 coresoftware/generators/PHPythia8|dvp@bnl.gov
 #Herwig needs phhepmc
 coresoftware/generators/Herwig/HepMCTrigger|sgrossberndt@gradcenter.cuny.edu
+coresoftware/generators/PHHerwig7|hrjheng@mit.edu
 # ffamodules need sphenixnpc
 coresoftware/offline/database/sphenixnpc|pinkenburg@bnl.gov
 # we want generator values in the event header
