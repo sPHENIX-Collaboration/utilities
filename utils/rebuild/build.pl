@@ -66,6 +66,7 @@ my %externalPackages = (
     "rave" => "rave",
     "starlight" => "starlight",
     "tbb" => "tbb",
+   "ThePEG" => "ThePEG",
     "Vc" => "Vc"
     );
 my $externalPackagesDir = "$OPT_SPHENIX";
