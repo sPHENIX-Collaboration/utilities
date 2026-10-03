@@ -692,6 +692,14 @@ print LOG "===========================================\n";
 	    system("mv Herwig/* .");
 	    system("rmdir Herwig");
 	}
+        #ThePG move libraries from lib/ThePEG to lib
+        if (-d $installDir."/lib/ThePEG")
+	{
+	    chdir $installDir;
+	    chdir "lib";
+	    system("mv ThePEG/* .");
+	    system("rmdir ThePEG");
+	}
         # remove the la files - we do not need them
 	my $rmlacmd = sprintf("rm %s/lib/*.la",$OFFLINE_MAIN);
 	system($rmlacmd);
