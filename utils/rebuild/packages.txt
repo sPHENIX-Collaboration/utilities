@@ -11,6 +11,7 @@ coresoftware/offline/framework/frog|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffarawobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
+coresoftware/offline/framework/userinfo|Daniel.Lis@colorado.edu
 coresoftware/offline/packages/bcolumicount|pinkenburg@bnl.gov
 # uspin needs phool
 coresoftware/offline/packages/uspin|dloom@umich.edu
@@ -77,7 +78,9 @@ coresoftware/offline/packages/intt|afrawley@fsu.edu
 coresoftware/offline/packages/TpcLineLaserDiode|luke.legnosky@stonybrook.edu
 coresoftware/simulation/g4simulation/g4tracking|0ds.johnny@gmail.com
 #zdcinfo needs trackbase_historic?
-coresoftware/offline/packages/zdcinfo|ejironaomiumaka@gmail.com
+coresoftware/offline/packages/zdcinfo|Daniel.Lis@colorado.edu
+#centrality calib needs zdcinfo
+coresoftware/calibrations/centrality|Samuel.Liechty@colorado.edu
 # g4tpc, g4mvtx and g4intt need tpc, mvtx and intt
 coresoftware/simulation/g4simulation/g4tpc|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4mvtx|afrawley@fsu.edu
