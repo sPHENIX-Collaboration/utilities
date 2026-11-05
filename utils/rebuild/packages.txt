@@ -60,6 +60,7 @@ coresoftware/offline/packages/CaloBase|jhuang@bnl.gov
 coresoftware/simulation/g4simulation/g4detectors|pinkenburg@bnl.gov
 coresoftware/simulation/g4simulation/g4ihcal|msar@gsu.edu
 coresoftware/simulation/g4simulation/g4ohcal|msar@gsu.edu
+coresoftware/simulation/g4simulation/g4chimney|Daniel.Lis@colorado.edu
 # rundb needs calo_io
 coresoftware/offline/packages/TpcConditions|tkhemmick@gmail.com
 coresoftware/offline/packages/PHGarfield|tkhemmick@gmail.com
