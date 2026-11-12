@@ -11,7 +11,6 @@ coresoftware/offline/framework/frog|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffaobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/ffarawobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4all|pinkenburg@bnl.gov
-coresoftware/offline/framework/userinfo|Daniel.Lis@colorado.edu
 coresoftware/offline/packages/bcolumicount|pinkenburg@bnl.gov
 # uspin needs phool
 coresoftware/offline/packages/uspin|dloom@umich.edu
@@ -46,6 +45,8 @@ coresoftware/offline/framework/ffamodules|pinkenburg@bnl.gov
 # fun4allraw needs ffamodules
 coresoftware/offline/database/cdbobjects|pinkenburg@bnl.gov
 coresoftware/offline/framework/fun4allraw|pinkenburg@bnl.gov
+# metadata needs ffamodules
+coresoftware/offline/packages/metadata|Daniel.Lis@colorado.edu
 # PHGarfield needs cdbobjects
 coresoftware/offline/framework/rawbcolumi|zhiwanxu@lanl.gov
 coresoftware/offline/framework/ffarawmodules|pinkenburg@bnl.gov
