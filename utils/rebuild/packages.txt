@@ -163,6 +163,7 @@ coresoftware/offline/QA/EventDisplay|josborn1@bnl.gov
 coresoftware/offline/QA/Calorimeters|bs3402@columbia.edu
 coresoftware/offline/QA/Trigger|Daniel.Lis@colorado.edu
 coresoftware/offline/QA/Tpc|josborn1@bnl.gov
+coresoftware/offline/QA/TpcCalibrationQA|iurii.mitrankov@stonybrook.edu
 coresoftware/offline/QA/Jet|vbailey13@gsu.edu
 coresoftware/offline/QA/KFParticle|cdean@bnl.gov
 coresoftware/offline/QA/KFParticle_Track2Calo|viw321@lehigh.edu
